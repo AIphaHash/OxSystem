@@ -1,0 +1,334 @@
+﻿<UserControl x:Name="addaccount" x:Class="OxSystem.Addacount"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OxSystem"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             mc:Ignorable="d" 
+             d:DesignHeight="1080" d:DesignWidth="1920" Background="#FFCCD6DF" Loaded="addaccount_Loaded" >
+
+    <UserControl.Resources>
+
+        <Storyboard x:Key="ClickEffectStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleX"
+                             From="1" To="0.9"
+                             Duration="0:0:0.1"
+                             AutoReverse="True"/>
+            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleY"
+                             From="1" To="0.9"
+                             Duration="0:0:0.1"
+                             AutoReverse="True"/>
+        </Storyboard>
+
+        <Storyboard x:Key="GlowAnimation" AutoReverse="True" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetName="glowingBorder"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1.0" To="0.1" Duration="0:0:2"/>
+        </Storyboard>
+        <Storyboard x:Key="MoveDownStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
+                From="0" To="1200" Duration="0:0:0.3" />
+        </Storyboard>
+        <Storyboard x:Key="MoveupStoryboard">
+            <DoubleAnimation
+        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
+        From="1200" To="0" Duration="0:0:0.3" />
+        </Storyboard>
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation
+Storyboard.TargetName="report"
+Storyboard.TargetProperty="Opacity"
+From="0"
+To="1"
+Duration="0:0:1" />
+        </Storyboard>
+        <Storyboard x:Key="FadeOutStoryboard1">
+            <DoubleAnimation
+Storyboard.TargetName="gsetting"
+Storyboard.TargetProperty="Opacity"
+From="0"
+To="1"
+Duration="0:0:1" />
+        </Storyboard>
+    </UserControl.Resources>
+    <Grid Loaded="Grid_Loaded_1" Width="1920" Height="1080">
+        <Grid Margin="0,0,16,0" Width="1920">
+            <local:info x:Name="info" Visibility="Collapsed"/>
+        </Grid>
+        <Grid x:Name="animatedgrid">
+            <Border x:Name="AnimatedBorder" RenderTransformOrigin="0.5,0.5" Margin="-11,0,-11,0" >
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="179.999"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+                <Border.Background>
+                    <ImageBrush ImageSource="/images/26q.jpg"/>
+                </Border.Background>
+                <Grid>
+                    <Border x:Name="pharm_Copy" Background="White" CornerRadius="10" BorderThickness="3" Margin="772,341,768,340"
+                MouseLeftButtonDown="pharm_Copy_MouseLeftButtonDown"
+                RenderTransformOrigin="0.5,0.5" MouseEnter="pharm_MouseEnter1" MouseLeave="pharm_MouseLeave1">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="ScaleTransform"/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="540.002"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Grid>
+                            <Border x:Name="P1" CornerRadius="10" Background="#FF63676B" Margin="5,5,5,149"/>
+                            <Image x:Name="accountentimage" RenderTransformOrigin="0.527,0.502" Margin="157,25,157,265" Cursor="Hand"/>
+                            <TextBlock x:Name="pharmnum1" TextAlignment="Center" Text="5" Margin="158,248,158,0" FontSize="40" Foreground="#FF63676B" Height="64" VerticalAlignment="Top"/>
+                            <TextBlock TextAlignment="Right" Text=" Num of Pharmacist" Margin="128,304,128,0" FontSize="18" Foreground="#FF63676B" Height="64" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <TextBlock TextAlignment="Right" Text="Managing and having an eye on the income and   &#xA; outcome of the Whole Pharmacy" Margin="24,154,24,0" FontSize="16" Foreground="White" Height="64" VerticalAlignment="Top"/>
+                            <TextBlock TextAlignment="Center" Text="Accountant" Margin="82,117,82,0" FontSize="22" Foreground="White" Height="35" VerticalAlignment="Top"/>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="admin" Background="White" CornerRadius="10" BorderThickness="3" Margin="285,341,1249,339" MouseLeftButtonDown="admin_MouseLeftButtonDown" RenderTransformOrigin="0.5,0.5" MouseEnter="admin_MouseEnter" MouseLeave="admin_MouseLeave">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="180"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Grid>
+                            <Border x:Name="a" CornerRadius="10" Background="#FF63676B" Margin="8,5,2,149">
+                                <Image x:Name="adminimage" 
+                                    RenderTransformOrigin="0.527,0.502" Margin="152,24,152,112" Cursor="Hand"/>
+                            </Border>
+                            <TextBlock  TextAlignment="Right" Text="Num of Admins" Margin="135,303,134,0" FontSize="18" Foreground="#FF63676B" Height="33" VerticalAlignment="Top" FontWeight="Bold" Loaded="TextBlock_Loaded"/>
+
+                            <TextBlock x:Name="adminnum"  TextAlignment="Center" Text="4" Margin="155,246,154,0" FontSize="40" Foreground="#FF63676B" Height="53" VerticalAlignment="Top"/>
+                            <TextBlock  TextAlignment="Center" Text="Admin" Margin="82,119,82,0" FontSize="22" Foreground="White" Height="36" VerticalAlignment="Top"/>
+                            <TextBlock VerticalAlignment="Top" Text="Admin can Manage the Pharmacy Flow and have the  &#xA; abbility to get access to everything within the App    " TextAlignment="Right" Margin="24,153,23,0" Height="64" FontSize="14" Foreground="White" RenderTransformOrigin="0.5,0.5">
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                    <TextBlock x:Name="jobtitle" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Choose a card to create an account" VerticalAlignment="Top" FontSize="36" Margin="688,881,0,0" RenderTransformOrigin="0.5,0.5" Foreground="Black">
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="180"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <Border x:Name="pharm" Background="White" CornerRadius="10" BorderThickness="3" Margin="1253,342,281,333" MouseLeftButtonDown="pharm_MouseLeftButtonDown" RenderTransformOrigin="0.5,0.5" MouseEnter="pharm_MouseEnter" MouseLeave="pharm_MouseLeave">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="180"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Grid>
+                            <Border x:Name="P" CornerRadius="10" Background="#FF63676B" Margin="5,5,5,149"/>
+                            <Image x:Name="pharmimage" RenderTransformOrigin="0.527,0.502" Margin="157,25,157,265" Cursor="Hand"/>
+                            <TextBlock x:Name="pharmnum" TextAlignment="Center" Text="5" Margin="158,248,158,0" FontSize="40" Foreground="#FF63676B" Height="64" VerticalAlignment="Top"/>
+                            <TextBlock TextAlignment="Right" Text=" Num of Pharmacist" Margin="115,306,115,0" FontSize="18" Foreground="#FF63676B" Height="64" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <TextBlock TextAlignment="Right" Text="Buying Selling medics and managing the Storages  &#xA; Full Access or Limited access                    " Margin="24,154,24,0" FontSize="16" Foreground="White" Height="64" VerticalAlignment="Top"/>
+                            <TextBlock TextAlignment="Center" Text="Pharmciest" Margin="82,113,82,0" FontSize="22" Foreground="White" Height="35" VerticalAlignment="Top"/>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="glowingBorder" CornerRadius="100" Margin="710,863,718,206" RenderTransformOrigin="0.5,0.5">
+                        <Border.Background>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#FF0F6C61"/>
+                                <GradientStop Color="#FFF6F9F8" Offset="1"/>
+                            </RadialGradientBrush>
+                        </Border.Background>
+                    </Border>
+                </Grid>
+            </Border>
+            <Grid x:Name="navbar">
+                <Border Background="White" Margin="-11,0,-11,1025"  Height="55"/>
+                <Label Content="Admin :" FontSize="20" Margin="37,10,1761,1011" FontWeight="Bold"/>
+                <Label x:Name="fullnameLabel" Content="" FontSize="20" Margin="131,10,1511,1011"/>
+                <Button x:Name="add_Copy1" Padding="0,0,0,0" BorderThickness="0" Content="📄 Reports" 
+    Margin="1684,0,116,1036" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" 
+    Foreground="#FF6D6D6D" Height="38" VerticalAlignment="Bottom" FontSize="18" Click="Button_Clickr">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0.5,0">
+                            <GradientStop Color="#FF0BA9A4"/>
+                            <GradientStop Color="#FF418C8C" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1" ScaleX="1" />
+                            <SkewTransform />
+                            <RotateTransform />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="5" Background="{x:Null}">
+                                    <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <Border x:Name="overlayBorder" Background="White" Opacity="0" CornerRadius="5" IsHitTestVisible="False" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="contentPresenter"
+                                Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
+                                To="#FF27908E" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="contentPresenter"
+                                Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
+                                To="#FF6D6D6D" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button x:Name="add_Copy" Padding="0,0,0,0" BorderThickness="0" Content="⚙️ Setting" 
+        Margin="1788,0,12,1036" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" 
+        Foreground="#FF6D6D6D" Height="38" VerticalAlignment="Bottom" FontSize="18" Click="Button_Clicks">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0.5,0">
+                            <GradientStop Color="#FF0BA9A4"/>
+                            <GradientStop Color="#FF418C8C" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1" ScaleX="1" />
+                            <SkewTransform />
+                            <RotateTransform />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="5" Background="{x:Null}">
+                                    <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <Border x:Name="overlayBorder" Background="White" Opacity="0" CornerRadius="5" IsHitTestVisible="False" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="contentPresenter"
+                                            Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
+                                            To="#FF27908E" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="contentPresenter"
+                                            Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
+                                            To="#FF6D6D6D" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <TextBlock TextAlignment="Center" Text="{Binding CurrentTime}" FontSize="18" Foreground="Black" Margin="814,25,814,1002"/>
+                <Image x:Name="back"
+RenderTransformOrigin="0.527,0.502"
+Margin="1057,3,0,1025"
+Cursor="Hand"
+MouseLeftButtonDown="back_MouseLeftButtonDown"
+HorizontalAlignment="Left"
+Width="50">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform x:Name="scaleTransform"/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="359.992"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                                <SkewTransform/>
+                                                <RotateTransform Angle="359.992"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="False">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                <SkewTransform/>
+                                                <RotateTransform Angle="359.992"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+                <Label Content="👤" FontSize="24" Margin="1,6,1865,1015"/>
+            </Grid>
+            <Grid>
+            </Grid>
+            <Grid x:Name="add" >
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="53*"/>
+                        <RowDefinition Height="67*"/>
+                    </Grid.RowDefinitions>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Width="1926" Height="1029" Margin="5,51,-11,0">
+            <local:report x:Name="report" Visibility="Collapsed"/>
+        </Grid>
+        <Grid x:Name="gsetting" Margin="-11,0,-11,0">
+            <local:setting x:Name="setting" Visibility="Collapsed"/>
+        </Grid>
+    </Grid>
+</UserControl>

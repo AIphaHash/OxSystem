@@ -1,0 +1,227 @@
+﻿<UserControl x:Name="showg" x:Class="OxSystem.showreport"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OxSystem"
+             mc:Ignorable="d" 
+             d:DesignHeight="981" d:DesignWidth="1829" Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:1" />
+        </Storyboard>
+
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:1" />
+        </Storyboard>
+
+
+
+
+    </UserControl.Resources>
+
+
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="Black" Opacity="0.49"/>
+        </Grid.Background>
+        <Border CornerRadius="20" Background="White" Margin="458,73,459,73" Width="912" Height="835">
+            <Grid>
+                <Grid x:Name="show" Visibility="Collapsed">
+                    <TextBlock Text="From :" FontSize="24" Margin="10,28,822,760"/>
+                    <TextBlock x:Name="fullname" Text="" FontSize="24" Margin="95,28,369,760"/>
+                    <TextBlock TextWrapping="Wrap" x:Name="headerreport" Text="" FontSize="36" Margin="10,164,10,590" FontWeight="Bold"/>
+                    <TextBlock TextWrapping="Wrap" x:Name="bodyreport" Text="" FontSize="24" Margin="10,250,10,10" FontWeight="Medium"/>
+                    <Button Margin="736,28,52,764" Click="Button_Click_2"></Button>
+                </Grid>
+
+                <Grid x:Name="history" Margin="494,111,494,111" Visibility="Visible" >
+                    <Button Margin="-454,-52,404,633" Click="Button_Click_1" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                    </Button>
+                    <Label Content="Report History" FontSize="36" Margin="-183,-88,-65,642"/>
+                    <TextBox  IsReadOnly="False" x:Name="reportfilter" Margin="-451,36,20,553" RenderTransformOrigin="0.5,0.5" TextChanged="reportfilter_TextChanged">
+                        <TextBox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBox.RenderTransform>
+                    </TextBox>
+                    <DataGrid 
+                    IsReadOnly="True"
+                    x:Name="DataGrid" 
+MouseDoubleClick="DataGrid_MouseDoubleClick"
+AlternatingRowBackground="AliceBlue"
+RowBackground="Gray"
+AutoGenerateColumns="False" 
+CanUserAddRows="False" 
+SelectionMode="Extended" 
+HeadersVisibility="Column"
+HorizontalGridLinesBrush="White"
+VerticalGridLinesBrush="#FF63676B"
+ColumnHeaderHeight="60"
+RowHeight="35" 
+GridLinesVisibility="None"
+ScrollViewer.CanContentScroll="True" 
+Background="White" 
+SelectedCellsChanged="DataGrid_SelectedCellsChanged" 
+BorderBrush="White" 
+                
+Margin="-429,129,-352,-40">
+
+                        <DataGrid.Resources>
+                            <!-- Custom ScrollBar Style -->
+                            <Style TargetType="ScrollBar">
+                                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ScrollBar">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="0.00001*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="0.00001*"/>
+                                                </Grid.RowDefinitions>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+
+                            <!-- Custom ScrollBar Button Style -->
+                            <Style x:Key="ScrollBarButtonStyle" TargetType="RepeatButton">
+                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                <Setter Property="IsTabStop" Value="False"/>
+                                <Setter Property="Focusable" Value="False"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="RepeatButton">
+                                            <Border Background="Gray" Width="16" Height="16" CornerRadius="8"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+
+                            <!-- Custom ScrollBar Thumb Style -->
+                            <Style x:Key="ScrollBarThumbStyle" TargetType="Thumb">
+                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                <Setter Property="IsTabStop" Value="False"/>
+                                <Setter Property="Focusable" Value="False"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Thumb">
+                                            <Border Background="Gray" Width="16" CornerRadius="8"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <DataGrid.Columns>
+
+
+
+
+
+
+                            <DataGridTextColumn Header="id"
+      MinWidth="150"
+      Width="10"
+      Binding="{Binding rid}"/>
+
+                            <DataGridTextColumn Header="Report Header"
+      MinWidth="150"
+      Width="*"
+      Binding="{Binding report_header}"/>
+
+                            <DataGridTextColumn Header="From"
+      MinWidth="150"
+      Width="Auto"
+      Binding="{Binding report_from}"/>
+
+                            <DataGridTextColumn Header="Report Date"
+      MinWidth="150"
+      Width="*"
+      Binding="{Binding report_date}"/>
+                        </DataGrid.Columns>
+
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF0BA9A4"/>
+                                            <GradientStop Color="#FF2A807E" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,4"/>
+                                <Setter Property="BorderBrush" Value="#FFDEDEDE"/>
+                                <Setter Property="FontSize" Value="19"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                <Setter Property="Padding" Value="20,0"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="FontSize" Value="20"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Style.Triggers>
+                                    <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#FF6CA4A2"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+
+                        <DataGrid.RowHeaderStyle>
+                            <Style TargetType="{x:Type DataGridRowHeader}">
+                                <Setter Property="FontSize" Value="20" />
+                            </Style>
+                        </DataGrid.RowHeaderStyle>
+
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Margin" Value="10"/>
+                                <Setter Property="BorderBrush" Value="#FFE2E2E2"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
+
+                </Grid>
+
+
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

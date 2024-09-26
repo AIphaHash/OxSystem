@@ -1,0 +1,151 @@
+﻿<UserControl x:Class="OxSystem.supplieradd"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OxSystem"
+             mc:Ignorable="d" 
+             d:DesignHeight="496" d:DesignWidth="494">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation 
+                Storyboard.TargetProperty="Opacity"
+                From="1.0" To="0.0" 
+                Duration="0:0:1"/>
+        </Storyboard>
+    </UserControl.Resources>
+    <Grid x:Name="FadingBorder" Width="494" Height="496">
+        <Border  CornerRadius="0,0,140,140" Background="White" Margin="48,197,383,3" RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="21.998"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Border.RenderTransform>
+        </Border>
+
+        <Border CornerRadius="20" Background="White" Margin="0,0,0,53">
+
+        </Border>
+
+        <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Supplier Add" Margin="174,10,174,395" FontSize="22" FontWeight="Bold"/>
+        <Label Content="Supplier Name" Margin="44,101,274,362" FontSize="16" FontWeight="DemiBold"/>
+        <Label Content="Supplier Number" Margin="44,188,274,275" FontSize="16" FontWeight="DemiBold"/>
+        <Label Content="Supplier Location" Margin="44,273,274,190" FontSize="16" FontWeight="DemiBold"/>
+        <TextBox Padding="10,14,0,0" Text="Supplier Name..." x:Name="supname" Background="{x:Null}" Margin="0,134,0,0" HorizontalAlignment="Center" Width="406" BorderBrush="Gray" Height="47" VerticalAlignment="Top" GotFocus="mname_GotFocus" LostFocus="mname_LostFocus" MouseEnter="mname_MouseEnter" MouseLeave="mname_MouseLeave" TextChanged="mname_TextChanged" FontSize="14" Foreground="Gray">
+            <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                <Border 
+                Background="{TemplateBinding Background}" 
+                BorderBrush="{TemplateBinding BorderBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}" 
+                CornerRadius="5">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="50" ShadowDepth="5" Opacity="0"/>
+                                    </Border.Effect>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox Padding="10,14,0,0" Text="Supplier Number..." x:Name="supnum" Background="{x:Null}" Margin="0,222,0,0" HorizontalAlignment="Center" Width="406" BorderBrush="Gray" Height="46" VerticalAlignment="Top" GotFocus="mname_GotFocus1" LostFocus="mname_LostFocus1" MouseEnter="mname_MouseEnter1" MouseLeave="mname_MouseLeave1" TextChanged="mname_TextChanged1" FontSize="14" Foreground="Gray">
+            <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                <Border 
+                Background="{TemplateBinding Background}" 
+                BorderBrush="{TemplateBinding BorderBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}" 
+                CornerRadius="5">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="50" ShadowDepth="5" Opacity="0"/>
+                                    </Border.Effect>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Button x:Name="mybutton" Content=" Add" Foreground="White" BorderBrush="{x:Null}" BorderThickness="2,2,2,2" FontWeight="UltraBold" Margin="0,382,0,79" FontSize="14"  Cursor="Hand" HorizontalAlignment="Center" Width="58" Click="mybutton_Click" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="buttonBorder" BorderBrush="{x:Null}" BorderThickness="2" CornerRadius="5">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF149C99" Offset="0"/>
+                                <GradientStop Color="#FF258784" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="10" Direction="0" Opacity="0" BlurRadius="30"/>
+                        </Border.Effect>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" To="#FF80BFF5" Duration="0:0:0.1"/>
+                                        <ColorAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" To="#FF80BFF5" Duration="0:0:0.1"/>
+                                        <ColorAnimation Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" To="Black" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ContentPresenter.Effect>
+                                <DropShadowEffect ShadowDepth="0" Direction="0" Opacity="0"/>
+                            </ContentPresenter.Effect>
+                        </ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBox Padding="10,14,0,0" Text="Supplier Location..." x:Name="suplocation" Background="{x:Null}" Margin="0,306,0,0" HorizontalAlignment="Center" Width="406" BorderBrush="Gray" Height="46" VerticalAlignment="Top" GotFocus="mname_GotFocus2" LostFocus="mname_LostFocus2" MouseEnter="mname_MouseEnter2" MouseLeave="mname_MouseLeave2" TextChanged="mname_TextChanged2" FontSize="14" Foreground="Gray">
+            <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                <Border 
+                Background="{TemplateBinding Background}" 
+                BorderBrush="{TemplateBinding BorderBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}" 
+                CornerRadius="5">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="50" ShadowDepth="5" Opacity="0"/>
+                                    </Border.Effect>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+    </Grid>
+
+</UserControl>

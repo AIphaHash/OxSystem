@@ -1,0 +1,626 @@
+﻿<UserControl x:Class="OxSystem.noteficatinoP"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OxSystem"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+mc:Ignorable="d" 
+d:DesignHeight="1057" d:DesignWidth="1900" Background="#FFE6F3F3" Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Scroll.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <!-- Blue Fill Animation -->
+            <Storyboard x:Key="BlueFillAnimation">
+                <ColorAnimation To="#FF538F94" Duration="0:0:0.3" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" />
+            </Storyboard>
+
+            <!-- Grey Fill Animation -->
+            <Storyboard x:Key="GreyFillAnimation">
+                <ColorAnimation To="#FFE0E0E0" Duration="0:0:0.3" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" />
+            </Storyboard>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Viewbox Width="1900" Height="1057">
+        <Grid Loaded="Grid_Loaded" Width="1900" Height="1057">
+
+            <Border CornerRadius="20" Background="White" Margin="28,169,105,59">
+                <Grid>
+                    <Border Background="White" Margin="1223,-103,0,0" CornerRadius="20" Height="87" VerticalAlignment="Top">
+                        <Grid>
+                            <Border Background="#FFE2EDED" Margin="5,6,430,6" CornerRadius="15,5,5,15"/>
+                            <Label Content="The storage with the most medicines " Margin="119,0,5,43" Height="32" VerticalAlignment="Bottom" Foreground="#FF949494" FontWeight="Bold" FontSize="14"/>
+
+                            <Label x:Name="mosts" Content="" Margin="119,44,5,10" FontSize="18" FontWeight="Bold"/>
+                            <Image x:Name="salesgif1" 
+RenderTransformOrigin="0.527,0.502" Margin="17,7,435,7" Cursor="Hand"/>
+                        </Grid>
+                    </Border>
+                    <Border CornerRadius="100" Margin="51,-37,1392,0" RenderTransformOrigin="0.5,0.5" Height="15" VerticalAlignment="Top">
+                        <Border.Background>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#FF58A296"/>
+                                <GradientStop Color="#FFE6F3F3" Offset="1"/>
+                            </RadialGradientBrush>
+                        </Border.Background>
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                    </Border>
+
+
+
+                    <Border Background="White" Margin="526,-102,561,0" CornerRadius="20" Height="86" VerticalAlignment="Top">
+                        <Grid>
+
+                            <Border Background="#FFE2EDED" Margin="5,6,461,6" CornerRadius="15,5,5,15"/>
+                            <Label Content="The supplier who made the most sales" Margin="224,0,10,38" Height="32" VerticalAlignment="Bottom" Foreground="#FF949494" FontWeight="Bold" FontSize="14"/>
+                            <Label x:Name="mostsup" Content="" Margin="224,43,10,10" FontSize="18" FontWeight="Bold"/>
+
+                            <Image x:Name="salesgif2" 
+RenderTransformOrigin="0.527,0.502" Margin="8,7,473,6" Cursor="Hand"/>
+                        </Grid>
+                    </Border>
+                    <Border Background="White" Margin="336,92,1274,902" CornerRadius="20" Loaded="Border_Loaded_1">
+                        <Grid>
+                            <Border Background="#FFE2EDED" Margin="5,6,201,6" CornerRadius="15,5,5,15"/>
+                            <Label Content="Total Medics " Margin="89,0,10,38" Height="32" VerticalAlignment="Bottom" Foreground="#FF949494" FontWeight="Bold" FontSize="14"/>
+                            <Label x:Name="totalmedic" Content="" Margin="89,31,15,10" FontSize="18" FontWeight="Bold"/>
+                            <Image x:Name="salesgif3" 
+RenderTransformOrigin="0.527,0.502" Margin="10,10,204,12" Cursor="Hand"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+            <Grid>
+                <Grid>
+                    <DataGrid
+                    IsReadOnly="True"
+                    BorderThickness="0,0,0,0"
+                    x:Name="DataGrid" 
+MouseDoubleClick="DataGrid_MouseDoubleClick"
+AlternatingRowBackground="White"
+RowBackground="White"
+AutoGenerateColumns="False" 
+ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+CanUserAddRows="False" 
+SelectionMode="Extended" 
+HeadersVisibility="Column"
+HorizontalGridLinesBrush="White"
+VerticalGridLinesBrush="#FF63676B"
+ColumnHeaderHeight="60"
+RowHeight="35" 
+GridLinesVisibility="None"
+ScrollViewer.CanContentScroll="False" 
+Background="#FFF7F8FC" 
+SelectedCellsChanged="DataGrid_SelectedCellsChanged" 
+BorderBrush="#FFDEDEDE" 
+                
+Margin="28,333,105,109" Loaded="DataGrid_Loaded_1">
+
+
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+      MinWidth="150"
+      Width="Auto"
+      Binding="{Binding mid}"/>
+
+                            <DataGridTextColumn Header="Medic Name"
+      MinWidth="150"
+      Width="*"
+      Binding="{Binding mname}"/>
+
+                            <DataGridTextColumn Header="Buy price"
+      MinWidth="150"
+      Width="*"
+      Binding="{Binding bprice}"/>
+
+                            <DataGridTextColumn Header="Sell price"
+      MinWidth="150"
+      Width="Auto"
+      Binding="{Binding sprice}"/>
+
+                            <DataGridTextColumn Header="Expire Date"
+      MinWidth="150"
+      Width="*"
+      Binding="{Binding exdate}"/>
+
+                            <DataGridTextColumn Header="Manufacture Date"
+      MinWidth="150"
+      Width="*"
+      Binding="{Binding madate}"/>
+
+                            <DataGridTextColumn Header="Medic Num"
+      MinWidth="150"
+      Width="Auto"
+      Binding="{Binding nummedic}"/>
+
+                            <DataGridTextColumn Header="Storage name"
+      MinWidth="150"
+      Width="*"
+      Binding="{Binding sname}"/>
+                        </DataGrid.Columns>
+
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0.001">
+                                            <GradientStop Color="#FF69A99F" Offset="1"/>
+                                            <GradientStop Color="#FF2B7E84" Offset="0"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,4"/>
+                                <Setter Property="BorderBrush" Value="#FFDEDEDE"/>
+                                <Setter Property="FontSize" Value="19"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                <Setter Property="Padding" Value="20,0"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Style.Triggers>
+                                    <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#FF6CA4A2"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+
+                        <DataGrid.RowHeaderStyle>
+                            <Style TargetType="{x:Type DataGridRowHeader}">
+                                <Setter Property="FontSize" Value="20" />
+                            </Style>
+                        </DataGrid.RowHeaderStyle>
+
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Margin" Value="20,10,15,0"/>
+                                <Setter Property="Height" Value="50"/>
+                                <Setter Property="Margin" Value="2"/>
+                                <Setter Property="BorderBrush" Value="#FFE2E2E2"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
+                    <Border CornerRadius="0,0,20,20" Margin="28,948,105,0" Height="50" VerticalAlignment="Top">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="White"/>
+                                <GradientStop Color="#FF116D6A" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                </Grid>
+
+
+
+
+
+
+            </Grid>
+            <Label Content="Expired Medicine" HorizontalAlignment="Left" Margin="78,72,0,0" VerticalAlignment="Top" FontSize="40" FontWeight="Bold" Foreground="#FF984E4E"/>
+            <TextBox Padding="10,12,0,0" Text="Search Medic Name..." x:Name="bprice" Background="{x:Null}" Margin="308,189,0,822"  HorizontalAlignment="Left" Width="464" BorderBrush="Gray" MouseEnter="bprice_MouseEnter" MouseLeave="bprice_MouseLeave" LostFocus="bprice_LostFocus" GotFocus="bprice_GotFocus" TextChanged="bprice_TextChanged" FontSize="16" Foreground="Gray"  >
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border 
+    Background="{TemplateBinding Background}" 
+    BorderBrush="{TemplateBinding BorderBrush}" 
+    BorderThickness="{TemplateBinding BorderThickness}" 
+    CornerRadius="5">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="Black" BlurRadius="50" ShadowDepth="5" Opacity="0"/>
+                                        </Border.Effect>
+                                        <ScrollViewer x:Name="PART_ContentHost"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <Border Background="#FFEDEDED" Margin="28,271,105,783"/>
+            <Border Background="#FFEDEDED" Margin="28,313,105,740"/>
+            <Label x:Name="label1" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="1254,282,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="SemiBold" Foreground="Black" MouseLeftButtonDown="Label_MouseLeftButtonDown" Width="139"/>
+            <Label x:Name="label4" Content="Already Expired" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="517,282,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="SemiBold" Foreground="Black" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
+            <Label x:Name="label3" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="736,279,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="SemiBold" Foreground="Black" MouseLeftButtonDown="Label_MouseLeftButtonDown" Width="138"/>
+            <Label x:Name="label2" Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="985,282,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="SemiBold" Foreground="Black" MouseLeftButtonDown="Label_MouseLeftButtonDown" Width="138"/>
+            <Button x:Name="pdf_Copy" VerticalContentAlignment="Top" Padding="0,0,0,0" BorderThickness="0" Content="  Print , Pdf  " 
+    Margin="1687,0,117,796" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"  
+    Height="74" VerticalAlignment="Bottom" FontSize="16" Click="pdf_Click">
+
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0.5,0">
+                        <GradientStop Color="#FF318885"/>
+                        <GradientStop Color="#FF0B9292" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1" ScaleX="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+
+                <!-- Apply the saved ControlTemplate with EventTriggers -->
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <!-- This is the original button border -->
+                            <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="10" Background="#FF2C6765">
+                                <ContentPresenter x:Name="contentPresenter" Content="Pdf,Print" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="62" Margin="19,10,0,0" />
+                            </Border>
+
+                            <!-- Overlay border for the animation -->
+                            <Border x:Name="overlayBorder" Background="White" Opacity="0" CornerRadius="10" IsHitTestVisible="False" />
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <!-- Mouse Enter and Leave animations for the background color -->
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <!-- Darken the background color slightly -->
+                                        <ColorAnimation Storyboard.TargetName="buttonBorder"
+                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                To="#FF1A4241" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <!-- Revert the background color to original -->
+                                        <ColorAnimation Storyboard.TargetName="buttonBorder"
+                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                To="#FF2C6765" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Click animation to show the overlay and fade it out -->
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="overlayBorder"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.4" To="0" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+
+            </Button>
+            <Image x:Name="accountentimage7" 
+    RenderTransformOrigin="0.527,0.502" Margin="1712,221,142,802" Cursor="Hand" MouseLeftButtonDown="accountentimage7_MouseLeftButtonDown"/>
+
+            <Button x:Name="delete_Copy" BorderThickness="0" Content="           Delete Selected" Padding="0,0,20,0"
+    Margin="774,0,927,826" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"
+    Click="Button_Click" Height="39" VerticalAlignment="Bottom" FontSize="18" FontWeight="Bold">
+
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF9E4D4D"/>
+                        <GradientStop Color="#FFDC7272" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1" ScaleX="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+
+                <!-- Apply the saved ControlTemplate with EventTriggers -->
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <!-- Original button border -->
+                            <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="5" Background="#FF804747">
+                                <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+
+                            <!-- Overlay border for the click animation -->
+                            <Border x:Name="overlayBorder" Background="White" Opacity="0" CornerRadius="5" IsHitTestVisible="False" />
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <!-- Mouse Enter animation to darken the background color -->
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="buttonBorder"
+                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                To="#FF562222" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Mouse Leave animation to revert to the original background color -->
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="buttonBorder"
+                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                To="#FF804747" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Click animation to show the overlay and fade it out -->
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="overlayBorder"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.4" To="0" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Image x:Name="accountentimage6" 
+    RenderTransformOrigin="0.527,0.502" Margin="785,195,1071,829" Cursor="Hand" MouseLeftButtonDown="accountentimage6_MouseLeftButtonDown"/>
+
+            <Border x:Name="border4" Background="#FFE0E0E0" Margin="494,313,1236,739"/>
+            <Border x:Name="border1" Background="#FFE0E0E0" Margin="1238,313,492,739"/>
+            <Border x:Name="border3" Background="#FFE0E0E0" Margin="719,313,1011,739"/>
+            <Border x:Name="border2" Background="#FFE0E0E0" Margin="969,313,761,739"/>
+            <Grid Visibility="Visible" x:Name="navbar" Margin="0,-10,0,10">
+
+                <Border Background="White" Margin="-13,0,-13,1002" Loaded="Border_Loaded" Height="55"/>
+                <Label Content="Admin :" FontSize="20" Margin="36,16,1763,1005" FontWeight="Bold"/>
+                <Label x:Name="fullnameLabel" Content="" FontSize="20" Margin="121,16,1520,1005"/>
+                <Button x:Name="add_Copy3" Padding="0,0,0,0" BorderThickness="0" Content="📄 Reports" 
+    Margin="1694,0,106,1013" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" 
+    Foreground="#FF6D6D6D" Height="38" VerticalAlignment="Bottom" FontSize="18" Click="Button_Clickr">
+
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0.5,0">
+                            <GradientStop Color="#FF0BA9A4"/>
+                            <GradientStop Color="#FF418C8C" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1" ScaleX="1" />
+                            <SkewTransform />
+                            <RotateTransform />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </Button.RenderTransform>
+
+                    <!-- Apply the ControlTemplate with EventTriggers -->
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <!-- Original button border -->
+                                <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="5" Background="{x:Null}">
+                                    <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+
+                                <!-- Overlay border for the click animation -->
+                                <Border x:Name="overlayBorder" Background="White" Opacity="0" CornerRadius="5" IsHitTestVisible="False" />
+                            </Grid>
+
+                            <ControlTemplate.Triggers>
+
+                                <!-- Click animation to grow the button and then shrink back -->
+
+                                <!-- Mouse Enter animation to change Foreground color -->
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="contentPresenter"
+                                Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
+                                To="#FF27908E" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <!-- Mouse Leave animation to revert Foreground color -->
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="contentPresenter"
+                                Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
+                                To="#FF6D6D6D" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button x:Name="add_Copy2" Padding="0,0,0,0" BorderThickness="0" Content="⚙️ Setting" 
+        Margin="1794,0,6,1013" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" 
+        Foreground="#FF6D6D6D" Height="38" VerticalAlignment="Bottom" FontSize="18" Click="Button_Clicks">
+
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0.5,0">
+                            <GradientStop Color="#FF0BA9A4"/>
+                            <GradientStop Color="#FF418C8C" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1" ScaleX="1" />
+                            <SkewTransform />
+                            <RotateTransform />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </Button.RenderTransform>
+
+                    <!-- Apply the ControlTemplate with EventTriggers -->
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <!-- Original button border -->
+                                <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="5" Background="{x:Null}">
+                                    <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+
+                                <!-- Overlay border for the click animation -->
+                                <Border x:Name="overlayBorder" Background="White" Opacity="0" CornerRadius="5" IsHitTestVisible="False" />
+                            </Grid>
+
+                            <ControlTemplate.Triggers>
+                                <!-- Mouse Enter animation to change Foreground color -->
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="contentPresenter"
+                                            Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
+                                            To="#FF27908E" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <!-- Mouse Leave animation to revert Foreground color -->
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="contentPresenter"
+                                            Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
+                                            To="#FF6D6D6D" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <!-- Click animation to grow the button and then shrink back -->
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Label Content="0 selected medics , 0 filter result" HorizontalAlignment="Left" Margin="510,245,0,0" VerticalAlignment="Top" FontWeight="SemiBold" Foreground="Black"/>
+                <Label Content="|  Clear All" HorizontalAlignment="Left" Margin="700,245,0,0" VerticalAlignment="Top" FontWeight="SemiBold" Foreground="#FF3596B7"/>
+
+                <TextBlock TextAlignment="Center" Text="{Binding CurrentTime}" FontSize="18" Foreground="Black" Margin="814,19,814,1008"/>
+                <Image x:Name="back"
+
+RenderTransformOrigin="0.527,0.502"
+Margin="1057,3,0,1009"
+Cursor="Hand"
+MouseLeftButtonDown="back_MouseLeftButtonDown"
+HorizontalAlignment="Left"
+Width="50">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform x:Name="scaleTransform"/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="359.992"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                                <SkewTransform/>
+                                                <RotateTransform Angle="359.992"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="False">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                <SkewTransform/>
+                                                <RotateTransform Angle="359.992"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+                <Label Content="👤" FontSize="24" Margin="3,14,1860,1007"/>
+            </Grid>
+            <Grid Visibility="Visible" x:Name="gsetting" Margin="-11,-40,0,0">
+                <local:setting x:Name="setting" Visibility="Collapsed"/>
+            </Grid>
+
+
+            <Grid Visibility="Visible" Margin="0,49,0,0">
+                <local:report x:Name="report" Visibility="Collapsed"/>
+            </Grid>
+
+        </Grid>
+    </Viewbox>
+</UserControl>

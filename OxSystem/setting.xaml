@@ -1,0 +1,723 @@
+﻿<UserControl  x:Class="OxSystem.setting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OxSystem"
+          
+                                xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             mc:Ignorable="d" Loaded="UserControl_Loaded" Width="1926" Height="1084">
+    <UserControl.Resources>
+
+        <Storyboard x:Key="FadeInStoryboard3">
+            <DoubleAnimation
+            Storyboard.TargetProperty="Opacity"
+            From="0"
+            To="1"
+            Duration="0:0:0.1" />
+        </Storyboard>
+
+        <!-- Fade Out Animation -->
+        <Storyboard x:Key="FadeOutStoryboard3">
+            <DoubleAnimation
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To="0"
+            Duration="0:0:0.1" />
+        </Storyboard>
+
+
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation
+        Storyboard.TargetProperty="Opacity"
+        From="1"
+        To="0"
+        Duration="0:0:0.1" />
+        </Storyboard>
+
+
+
+        <Style x:Key="HoverableLabelStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="#FF9FABC5"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="59,0,0,0"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="140"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Label">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#FF8897B7" Opacity="0.5"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Border x:Name="mainsetting" Opacity="1" CornerRadius="0" Margin="0,55,0,0">
+        <Border.Background>
+            <SolidColorBrush Color="Black" Opacity="0.5"/>
+        </Border.Background>
+        <Grid HorizontalAlignment="Center" Width="1900" Height="975" VerticalAlignment="Top">
+
+            <Border Opacity="0" Margin="-13,-55,-13,975" Background="White"></Border>
+            
+            <Grid Margin="225,0,0,0" Height="760" VerticalAlignment="Center" HorizontalAlignment="Left" Width="1476">
+                <Border CornerRadius="20" Background="White" Margin="0,0,0,40" HorizontalAlignment="Center" Width="1064" Height="680" VerticalAlignment="Bottom">
+                    <Grid>
+                        <Label Content="Settings" FontSize="24" FontWeight="Bold" Margin="59,46,903,592"/>
+                        <Label Visibility="Collapsed" x:Name="currency_Copy" Content="$" Margin="940,221,104,425" FontSize="18"/>
+
+                        <Border Background="#FF9FABC5" Margin="59,124,79,555"/>
+
+                        <!-- Labels with click events -->
+                        <Label Content="General" Style="{StaticResource HoverableLabelStyle}" Margin="59,144,0,0"
+                           MouseDown="Label_MouseDown" Tag="General"/>
+                        <Label Content="Charts" Style="{StaticResource HoverableLabelStyle}" Margin="59,174,0,0"
+                           MouseDown="Label_MouseDown" Tag="Charts"/>
+                        <Label Content="Currency" Style="{StaticResource HoverableLabelStyle}" Margin="59,204,0,0"
+                           MouseDown="Label_MouseDown" Tag="Currency"/>
+                        <Label Content="Shortcuts" Style="{StaticResource HoverableLabelStyle}" Margin="59,234,0,0"
+                           MouseDown="Label_MouseDown" Tag="Shortcuts"/>
+                        <Label Content="Notifications" Style="{StaticResource HoverableLabelStyle}" Margin="59,264,0,0"
+                           MouseDown="Label_MouseDown" Tag="Notifications"/>
+                        <Label Content="Chat" Style="{StaticResource HoverableLabelStyle}" Margin="59,294,0,0"
+                           MouseDown="Label_MouseDown" Tag="Chat"/>
+                        <Label Content="Account" Style="{StaticResource HoverableLabelStyle}" Margin="59,0,0,0" VerticalAlignment="Center"
+                           MouseDown="Label_MouseDown" Tag="Personal"/>
+                    </Grid>
+                </Border>
+
+                <!-- Panel where content will be displayed -->
+                <Grid x:Name="settingpanel" Margin="461,173,268,60">
+                    <!-- Grids for each category -->
+                    <Grid x:Name="GeneralGrid" Visibility="Visible">
+                        <TextBlock Text="General Settings" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                        <TextBlock Text="Theme" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,81,0,0"/>
+                        <TextBlock Text="Language" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="9,146,0,0"/>
+                        <TextBlock Text="Change General Settings in the App" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,37,0,0" FontWeight="Medium" Foreground="#FF6F6F6F"/>
+                        <TextBlock Text="Change the Theme and Appearence of the App" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,111,0,0" FontWeight="Medium" Foreground="#FF6F6F6F"/>
+                        <TextBlock Text="Chagne the Language of the App" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,178,0,0" FontWeight="Medium" Foreground="#FF6F6F6F"/>
+
+
+                        <syncfusion:ComboBoxAdv Background="{x:Null}" Margin="623,94,18,408">
+                            <syncfusion:ComboBoxItemAdv Content="Light"/>
+                            <syncfusion:ComboBoxItemAdv Content="Dark"/>
+                            <syncfusion:ComboBoxItemAdv Content="Space"/>
+                        </syncfusion:ComboBoxAdv>
+                        <syncfusion:ComboBoxAdv Background="{x:Null}" Margin="623,159,18,343">
+                            <syncfusion:ComboBoxItemAdv Content="English"/>
+                            <syncfusion:ComboBoxItemAdv Content="Arabic"/>
+
+                        </syncfusion:ComboBoxAdv>
+
+
+
+                        <Border Background="#FF9FABC5" Margin="9,140,18,386" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
+
+                        <Border Background="#FF9FABC5" Margin="9,75,18,451" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
+                        <Button Content="Reset" Margin="569,5,123,491" Background="White">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}" 
+CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button BorderThickness="0" Content="Save Changes" Margin="633,5,18,491" Background="#FF15909F" Foreground="White" BorderBrush="{x:Null}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}" 
+CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+
+
+                    </Grid>
+
+                    <Grid x:Name="ChartsGrid" Visibility="Collapsed">
+
+
+                        <TextBlock Text="Charts Settings" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold"/>
+                        <TextBlock Text="Charts Currency" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,81,0,0" FontWeight="Bold" Loaded="TextBlock_Loaded_2"/>
+                        <TextBlock Text="View Charts and Edit and Set Charts" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,36,0,0" FontWeight="Medium" Foreground="#FF6F6F6F"/>
+                        <Label Visibility="Collapsed" x:Name="currency_Copy1" Content="$" Margin="940,221,104,425" FontSize="18"/>
+
+
+                        <Label x:Name="currency1" Content="IQD" Margin="573,87,126,404" FontSize="18"/>
+                        <TextBlock Text="View and Change Charts Currency" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,107,0,0" FontWeight="Medium" Foreground="#FF6F6F6F"/>
+                        <ToggleButton x:Name="SwitchButton_Copy1" Width="60" Height="30"
+HorizontalAlignment="Left" VerticalAlignment="Top" Margin="621,90,0,0"
+Checked="SwitchButton_Checked11" Unchecked="SwitchButton_Unchecked11">
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                <Grid>
+                                                    <Border x:Name="SwitchBorder" Width="60" Height="30" CornerRadius="15" Background="Gray">
+                                                        <Grid>
+                                                            <Ellipse x:Name="SwitchKnob" Width="28" Height="28" Fill="White" HorizontalAlignment="Left" Margin="1,1,0,1"/>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter TargetName="SwitchBorder" Property="Background" Value="LightGreen"/>
+                                                        <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Right"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsChecked" Value="False">
+                                                        <Setter TargetName="SwitchBorder" Property="Background" Value="Gray"/>
+                                                        <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Left"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                        <Button Content="Reset" Margin="569,5,123,491" Background="White">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}" 
+CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button BorderThickness="0" Content="Save Changes" Margin="633,5,18,491" Background="#FF15909F" Foreground="White" BorderBrush="{x:Null}" Click="Button_Click_4">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}" 
+CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+
+
+                        <Border Background="#FF9FABC5" Margin="9,75,18,451" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
+
+                    </Grid>
+
+                    <Grid x:Name="CurrencyGrid" Visibility="Collapsed">
+
+
+
+                        <Border Background="#FF9FABC5" Margin="9,75,18,451" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
+                        <Border Background="#FF9FABC5" Margin="9,140,18,386" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
+                        <TextBlock Text="Currency Settings" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold"/>
+                        <TextBlock Text="Change Currency" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,81,0,0" FontWeight="Bold"/>
+                        <TextBlock Text="Set Currency" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="9,146,0,0" FontWeight="Bold" Loaded="TextBlock_Loaded_1"/>
+                        <TextBlock Text="View Currency and Edit and Set Currency" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,36,0,0" FontWeight="Medium" Foreground="#FF6F6F6F"/>
+                        <TextBlock Text="Choose what Currecny You Want to Store Medics" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,107,0,0" FontWeight="Medium" Foreground="#FF6F6F6F"/>
+                        <TextBlock Text="Set the Tranfare Amount Between the Currencies" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,172,0,0" FontWeight="Medium" Foreground="#FF6F6F6F"/>
+                        <Label x:Name="currency" Content="IQD" Margin="573,87,126,404" FontSize="18"/>
+                        <TextBox MaxLength="7" IsReadOnly="False"   IsEnabled="True"  x:Name="ExchangeRateLabel" Margin="520,157,104,342" Background="{x:Null}" TextChanged="ExchangeRateLabel_TextChanged" RenderTransformOrigin="0.5,0.5" BorderBrush="#FF0040FF" PreviewTextInput="ExchangeRateLabel_PreviewTextInput">
+                            <TextBox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </TextBox.RenderTransform>
+                        </TextBox>
+                        <Button Content="Reset" x:Name="setcurrecny" Margin="691,157,18,342" Click="Button_Clic" RenderTransformOrigin="0.5,0.5" >
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                        </Button>
+
+                        <ToggleButton x:Name="SwitchButton_Copy" Width="60" Height="30"
+HorizontalAlignment="Left" VerticalAlignment="Top" Margin="621,90,0,0"
+Checked="SwitchButton_Checked1" Unchecked="SwitchButton_Unchecked1">
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                <Grid>
+                                                    <Border x:Name="SwitchBorder" Width="60" Height="30" CornerRadius="15" Background="Gray">
+                                                        <Grid>
+                                                            <Ellipse x:Name="SwitchKnob" Width="28" Height="28" Fill="White" HorizontalAlignment="Left" Margin="1,1,0,1"/>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter TargetName="SwitchBorder" Property="Background" Value="LightGreen"/>
+                                                        <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Right"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsChecked" Value="False">
+                                                        <Setter TargetName="SwitchBorder" Property="Background" Value="Gray"/>
+                                                        <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Left"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                        <Button Content="Reset" Margin="569,5,123,491" Background="White">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button BorderThickness="0" Content="Save Changes" Margin="633,5,18,491" Background="#FF15909F" Foreground="White" BorderBrush="{x:Null}" Click="Button_Click_5">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+
+                    </Grid>
+
+                    <Grid x:Name="ShortcutsGrid" Visibility="Collapsed">
+                        <TextBlock Text="Shortcuts Settings" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid x:Name="NotificationsGrid" Visibility="Collapsed">
+                        <Button Content="Reset" Margin="569,5,123,491" Background="White">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}" 
+CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button BorderThickness="0" Content="Save Changes" Margin="633,5,18,491" Background="#FF15909F" Foreground="White" BorderBrush="{x:Null}" Click="Button_Click_1">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}" 
+CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <TextBlock Text="Notifications Settings" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="9,225,0,0" FontWeight="Bold"/>
+                        <TextBlock Text="Notifications Settings" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold"/>
+                        <TextBlock Text="Edit Stock Notefication" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,81,0,0" FontWeight="Bold"/>
+                        <TextBlock Text="Enabel or Disabel or Set a Warining Notefication" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,36,0,0" Foreground="#FFA5ABC5"/>
+                        <TextBlock Text="Enabel or Disabel or Set a Warining Notefication for Stock" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,107,0,0" Foreground="#FFA5ABC5"/>
+                        <TextBlock Text="Enabel or Disabel or Set a Warining Notefication for Stock" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFA5ABC5" Margin="9,0,0,0"/>
+
+                        <TextBox   x:Name="Username"  TextAlignment="Left" FontSize="14" Background="White" Margin="10,162,629,343" BorderBrush="#FF9C9C9C" Foreground="#FFA0A0A0">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="BorderBrush">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFC0FEFF"/>
+                                                <GradientStop Color="#FFA2FDB5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                                <Border 
+                         Background="{TemplateBinding Background}" 
+                         BorderBrush="{TemplateBinding BorderBrush}" 
+                         BorderThickness="{TemplateBinding BorderThickness}" 
+                         CornerRadius="5">
+
+                                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBox   x:Name="Username1"  TextAlignment="Left" FontSize="14" Background="White" Margin="156,162,483,343" BorderBrush="#FF9C9C9C" Foreground="#FFA0A0A0">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="BorderBrush">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFC0FEFF"/>
+                                                <GradientStop Color="#FFA2FDB5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                                <Border 
+                         Background="{TemplateBinding Background}" 
+                         BorderBrush="{TemplateBinding BorderBrush}" 
+                         BorderThickness="{TemplateBinding BorderThickness}" 
+                         CornerRadius="5">
+
+                                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBox   x:Name="Username2"  TextAlignment="Left" FontSize="14" Background="White" Margin="298,162,341,343" BorderBrush="#FF9C9C9C" Foreground="#FFA0A0A0">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="BorderBrush">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFC0FEFF"/>
+                                                <GradientStop Color="#FFA2FDB5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                                <Border 
+                         Background="{TemplateBinding Background}" 
+                         BorderBrush="{TemplateBinding BorderBrush}" 
+                         BorderThickness="{TemplateBinding BorderThickness}" 
+                         CornerRadius="5">
+
+                                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBox   x:Name="Username3"  TextAlignment="Left" FontSize="14" Background="White" Margin="452,162,187,343" BorderBrush="#FF9C9C9C" Foreground="#FFA0A0A0">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="BorderBrush">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFC0FEFF"/>
+                                                <GradientStop Color="#FFA2FDB5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                                <Border 
+                         Background="{TemplateBinding Background}" 
+                         BorderBrush="{TemplateBinding BorderBrush}" 
+                         BorderThickness="{TemplateBinding BorderThickness}" 
+                         CornerRadius="5">
+
+                                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBox   x:Name="Username5"  TextAlignment="Left" FontSize="14" Background="White" Margin="10,301,629,204" BorderBrush="#FF9C9C9C" Foreground="#FFA0A0A0">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="BorderBrush">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFC0FEFF"/>
+                                                <GradientStop Color="#FFA2FDB5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                                <Border 
+                         Background="{TemplateBinding Background}" 
+                         BorderBrush="{TemplateBinding BorderBrush}" 
+                         BorderThickness="{TemplateBinding BorderThickness}" 
+                         CornerRadius="5">
+
+                                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBox   x:Name="Username6"  TextAlignment="Left" FontSize="14" Background="White" Margin="156,301,483,204" BorderBrush="#FF9C9C9C" Foreground="#FFA0A0A0">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="BorderBrush">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFC0FEFF"/>
+                                                <GradientStop Color="#FFA2FDB5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                                <Border 
+                         Background="{TemplateBinding Background}" 
+                         BorderBrush="{TemplateBinding BorderBrush}" 
+                         BorderThickness="{TemplateBinding BorderThickness}" 
+                         CornerRadius="5">
+
+                                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBox   x:Name="Username7"  TextAlignment="Left" FontSize="14" Background="White" Margin="298,301,341,204" BorderBrush="#FF9C9C9C" Foreground="#FFA0A0A0">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="BorderBrush">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFC0FEFF"/>
+                                                <GradientStop Color="#FFA2FDB5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                                <Border 
+                         Background="{TemplateBinding Background}" 
+                         BorderBrush="{TemplateBinding BorderBrush}" 
+                         BorderThickness="{TemplateBinding BorderThickness}" 
+                         CornerRadius="5">
+
+                                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBox   x:Name="Username8"  TextAlignment="Left" FontSize="14" Background="White" Margin="452,301,187,204" BorderBrush="#FF9C9C9C" Foreground="#FFA0A0A0">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="BorderBrush">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFC0FEFF"/>
+                                                <GradientStop Color="#FFA2FDB5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                                <Border 
+                         Background="{TemplateBinding Background}" 
+                         BorderBrush="{TemplateBinding BorderBrush}" 
+                         BorderThickness="{TemplateBinding BorderThickness}" 
+                         CornerRadius="5">
+
+                                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+
+                        <Border Background="#FF9FABC5" Margin="9,75,18,451" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
+                        <Border Background="#FF9FABC5" Margin="10,219,17,307" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
+
+
+                    </Grid>
+
+                    <Grid x:Name="ChatGrid" Visibility="Collapsed">
+                        <TextBlock Text="Chat Settings" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid x:Name="PersonalGrid" Visibility="Collapsed">
+                        <TextBlock Text="Account Settings" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontWeight="Bold"/>
+                        <TextBlock Text="Control Your Account by Editing or Delteing the Account" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,36,0,0" Foreground="#FFA5ABC5"/>
+
+                        <Button Content="Edit" Margin="602,5,90,491" Background="#FF15909F" BorderBrush="{x:Null}" Foreground="White" Click="Button_Click_3">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}" 
+CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button BorderThickness="0" Content="Delete" Margin="662,5,18,491" Background="#FFBB614D" Foreground="White" BorderBrush="{x:Null}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}" 
+CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Button Margin="1420,156,432,785" Click="Button_Click"/>
+
+            <Grid Width="1926" Height="1084">
+                <local:editaccounts4 x:Name="editaccount" Visibility="Collapsed"/>
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>

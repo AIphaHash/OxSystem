@@ -1,0 +1,338 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OxSystem"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" x:Class="OxSystem.Accountent"
+        mc:Ignorable="d"
+            xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+
+xmlns:Effects="clr-namespace:System.Windows.Media.Effects;assembly=PresentationCore"
+
+        Title="Accountent" Height="1440" Width="2560"
+                WindowStyle="None" AllowsTransparency="True" WindowState="Maximized"
+ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="Transparent" Loaded="Window_Loaded">
+
+    <Window.Resources>
+
+        <Storyboard x:Key="FadeInStoryboard1">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.1" />
+           
+        </Storyboard>
+
+        <!-- Fade-Out Animation -->
+        <Storyboard x:Key="FadeOutStoryboard2">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1" />
+            
+        </Storyboard>
+
+        <Storyboard x:Key="ExpandNavbar">
+            <DoubleAnimation Storyboard.TargetName="nav"
+                             Storyboard.TargetProperty="Height"
+                             From="0" To="73" Duration="0:0:0.3"/>
+        </Storyboard>
+
+        <!-- Storyboard for collapsing navbar -->
+        <Storyboard x:Key="CollapseNavbar">
+            <DoubleAnimation Storyboard.TargetName="nav"
+                             Storyboard.TargetProperty="Height"
+                             From="73" To="0" Duration="0:0:0.3"/>
+        </Storyboard>
+
+      
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation
+Storyboard.TargetName="showreport"
+Storyboard.TargetProperty="Opacity"
+From="0"
+To="1"
+Duration="0:0:1" ></DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="FadeOutStoryboard1">
+            <DoubleAnimation
+Storyboard.TargetName="gsetting"
+Storyboard.TargetProperty="Opacity"
+From="0"
+To="1"
+Duration="0:0:1" >
+
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="ExpandBorderStoryboard">
+            <DoubleAnimation 
+ Storyboard.TargetName="ExpandableBorder"
+ Storyboard.TargetProperty="Height"
+ From="45" To="350" 
+ Duration="0:0:0.5" 
+ AutoReverse="False"/>
+        </Storyboard>
+        <Storyboard x:Key="CollapseBorderStoryboard">
+            <DoubleAnimation 
+ Storyboard.TargetName="ExpandableBorder"
+ Storyboard.TargetProperty="Height"
+ From="350" To="45" 
+ Duration="0:0:0.5" 
+ AutoReverse="False"/>
+        </Storyboard>
+    </Window.Resources>
+    <Viewbox Width="2560">
+        <Grid Height="1069">
+            
+
+
+            <Grid Width="1900" Height="1057">
+
+            <Border CornerRadius="0,0,0,0" BorderBrush="White" Background="#FFE9F0FF" Loaded="Border_Loaded" Margin="0,-6,0,-6">
+                <Grid x:Name="syncdate" Loaded="syncdate_Loaded" >
+                        <Grid x:Name="accdashboard" Visibility="Visible">
+                            <local:accountentdashboard x:Name="accountentdashboard" Visibility="Collapsed"/>
+
+                            <local:discount x:Name="disc" Visibility="Collapsed"/>
+                        </Grid>
+                        <Grid x:Name="navbarhover" Margin="0,0,0,948"  MouseEnter="navbarhover_MouseEnter" MouseLeave="navbarhover_MouseLeave" Background="Transparent">
+                    
+                            <Grid x:Name="nav" Background="#FFC8ACAC" Height="0" Margin="0,0,0,48" >
+                        <Border CornerRadius="0,0,0,0" BorderBrush="#FFC1C1C1" BorderThickness="0,0,0,2" Background="White"/>
+
+                        <Border BorderThickness="1" CornerRadius="20" Margin="1086,26,699,30" Background="White" BorderBrush="#FF888888">
+
+                            <Label HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard1"
+                                     MouseLeftButtonDown="Dashboard1_MouseLeftButtonDown"/>
+                        </Border>
+                        <Border BorderThickness="1" CornerRadius="20" Margin="1239,26,546,32" Background="White" BorderBrush="#FF888888">
+
+
+                                    <Label  HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard2"    MouseLeftButtonDown="Dashboard2_MouseLeftButtonDown"/>
+                        </Border>
+                        <Border BorderThickness="1" CornerRadius="20" Margin="773,26,1012,32" Background="White" BorderBrush="#FF888888">
+
+                            <Label x:Name="f" HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard3"/>
+                        </Border>
+                        <Border BorderThickness="1" CornerRadius="20" Margin="927,26,858,32" Background="White" BorderBrush="#FF888888">
+
+                            <Label HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard"/>
+                        </Border>
+
+
+
+                        <Image Source="images/flow.png" Margin="16,10,1800,-1" Stretch="Fill"/>
+                        <Label Content="PharmaFlow" HorizontalAlignment="Left" Margin="68,28,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Foreground="#FF43A1A4"/>
+                        <Label Content="👤" FontSize="30" Margin="1725,2,131,18"/>
+                        <Label x:Name="name" Content="Ameer Basim" Margin="1775,6,38,39" FontWeight="Bold"/>
+                        <Label x:Name="role" Content="Accountent" Margin="1775,24,61,27" FontSize="10"/>
+                        <Button x:Name="admindash" Content="admindash" Margin="1460,20,348,27" Click="admindash_Click"></Button>
+                        <Button x:Name="reset_Copy" BorderThickness="4" Content="Logout➡️" Margin="1778,0,30,5" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Click="Button_Clickg" Height="26" VerticalAlignment="Bottom" FontSize="9">
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
+                            <Button.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFDA8080"/>
+                                    <GradientStop Color="#FF562C2C" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Effect>
+                                <DropShadowEffect Color="Black" Direction="270" ShadowDepth="1" Opacity="0"/>
+                            </Button.Effect>
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="1" ScaleX="1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                        </Button>
+                        <Button Margin="1679,22,194,18" Click="Button_Click_1"/>
+
+                        <Button x:Name="reset_Copy1" BorderThickness="4" Content="⚙" Margin="1747,0,127,5" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Click="Button_Clicks" Height="26" VerticalAlignment="Bottom" FontSize="9">
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="14"/>
+                                </Style>
+                            </Button.Resources>
+                            <Button.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFDADADA"/>
+                                    <GradientStop Color="#FF8A8A8A" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Effect>
+                                <DropShadowEffect Color="Black" Direction="270" ShadowDepth="1" Opacity="0"/>
+                            </Button.Effect>
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="1" ScaleX="1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                        </Button>
+                        <Button x:Name="reset_Copy2" BorderThickness="4" Content="🔔" Margin="1720,0,155,5" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Click="Button_Click" Height="26" VerticalAlignment="Bottom" FontSize="9">
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="14"/>
+                                </Style>
+                            </Button.Resources>
+                            <Button.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF238076"/>
+                                    <GradientStop Color="#FF6CBDB4" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Effect>
+                                <DropShadowEffect Color="Black" Direction="270" ShadowDepth="1" Opacity="0"/>
+                            </Button.Effect>
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="1" ScaleX="1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                        </Button>
+                            
+                        </Grid>
+                    </Grid>
+                     <Border Height="45" x:Name="ExpandableBorder" BorderThickness="3,3,3,0" CornerRadius="20,20,0,0" Background="White" VerticalAlignment="Bottom" BorderBrush="#FF85AEAF" Width="442" Margin="1406,0,0,0" HorizontalAlignment="Left">
+                        <Grid Margin="5,6,0,0">
+                            <Border Margin="-3,2,2,302" Padding="10" Background="White" CornerRadius="10">
+                                <Border.Effect>
+                                    <DropShadowEffect 
+            Color="Black" 
+            Direction="270" 
+            ShadowDepth="5" 
+            BlurRadius="10" 
+            Opacity="0.1"/>
+                                </Border.Effect>
+                            </Border>
+
+
+                            <Border Height="45" CornerRadius="20,20,0,0" Background="White" Margin="-5,-6,0,0" VerticalAlignment="Top" ></Border>
+                            <Label HorizontalContentAlignment="Center" Content="Chat" Margin="-1,-4,301,0" FontSize="24" FontWeight="Bold" Height="38" VerticalAlignment="Top"></Label>
+                            <TextBox IsReadOnly="False" x:Name="searchBox1" Padding="5,10,0,0" BorderThickness="1" Text="🔍  Search"  Margin="22,58,18,0" BorderBrush="{x:Null}" Background="#FFE3EBF3" TextChanged="searchBox_TextChanged1" GotFocus="searchBox1_GotFocus" LostFocus="searchBox1_LostFocus" Height="38" VerticalAlignment="Top" >
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </TextBox.Resources>
+                                <TextBox.Foreground>
+                                    <SolidColorBrush Color="#FFB7B7B7" Opacity="1"/>
+                                </TextBox.Foreground>
+                            </TextBox>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="22,125,24,0">
+                                <StackPanel x:Name="ChatStackPanel" VerticalAlignment="Top">
+                                    <!-- Dynamically load admin cards here -->
+                                </StackPanel>
+                            </ScrollViewer>
+
+
+                            <!-- Chat area (initially hidden) -->
+                            <Label Content="🔔" Margin="343,2,65,0" Height="26" VerticalAlignment="Top"/>
+                            <Label Content="⚙️" Margin="369,2,37,0" Height="26" VerticalAlignment="Top"></Label>
+                            <Label x:Name="ToggleLabel" HorizontalContentAlignment="Center" Padding="0,0,0,0" Content="▲" Margin="0,7,10,0" 
+               MouseLeftButtonDown="ToggleLabel_MouseLeftButtonDown" 
+               HorizontalAlignment="Right" Width="27" Height="19" VerticalAlignment="Top"/>
+                            <Grid x:Name="ChatPanel" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Border Margin="3,2,2,305" Padding="10" Background="White" CornerRadius="0" RenderTransformOrigin="0.5,0.5">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="179.998"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                    <Border.Effect>
+                                        <DropShadowEffect 
+Color="Black" 
+Direction="0" 
+ShadowDepth="2" 
+BlurRadius="10" 
+Opacity="0.7"/>
+                                    </Border.Effect>
+                                </Border>
+                                <Border CornerRadius="20,0,0,0" Background="White" Margin="-5,-6,0,302"/>
+                                <TextBlock x:Name="ChatTitle" 
+               FontSize="16" 
+               FontWeight="Bold" 
+               Margin="10,10,10,0" 
+               VerticalAlignment="Top" 
+               HorizontalAlignment="Center" />
+                                <Label x:Name="ToggleLabel_Copy" HorizontalContentAlignment="Center" Padding="0,0,0,0" Content="▲" Margin="0,8,408,0" 
+    MouseLeftButtonDown="ToggleLabel_MouseLeftButtonDown1" 
+    HorizontalAlignment="Right" Width="27" Height="19" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                                    <Label.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="-89.952"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Label.RenderTransform>
+                                </Label>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="White" Margin="0,44,5,47">
+                                    <StackPanel x:Name="ChatDisplay"/>
+                                </ScrollViewer>
+
+                                <Border Margin="0,297,5,10" Padding="10" Background="White" CornerRadius="0">
+                                    <Border.Effect>
+                                        <DropShadowEffect 
+            Color="Black" 
+            Direction="0" 
+            ShadowDepth="2" 
+            BlurRadius="10" 
+            Opacity="0.3"/>
+                                    </Border.Effect>
+                                </Border>
+
+                                <TextBox IsReadOnly="False" x:Name="MessageInput" Padding="10,13,0,0" BorderThickness="0" Text="Type a message" Margin="-5,297,0,0" 
+         BorderBrush="{x:Null}" Background="White" TextChanged="searchBox_TextChanged11" GotFocus="searchBox1_GotFocus1" 
+         LostFocus="searchBox1_LostFocus1" KeyDown="MessageInput_KeyDown">
+
+                                    <!-- Add a DropShadowEffect for the shadow -->
+                                    <TextBox.Effect>
+                                        <DropShadowEffect  BlurRadius="10" ShadowDepth="2" Color="Black" Opacity="0"/>
+                                    </TextBox.Effect>
+
+                                    <TextBox.Resources>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius" Value="0"/>
+                                        </Style>
+                                    </TextBox.Resources>
+
+                                    <TextBox.Foreground>
+                                        <SolidColorBrush Color="#FFB7B7B7" Opacity="1"/>
+                                    </TextBox.Foreground>
+                                </TextBox>
+
+                                <Image Source="images/send.gif" Margin="399,297,0,0" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Grid x:Name="report"  Margin="0,-6,0,-6">
+                <local:showreport x:Name="showreport" Opacity="0" Visibility="Collapsed"/>
+            </Grid>
+
+            <Grid x:Name="gsetting" Margin="0,-6,0,-6">
+                <local:setting x:Name="setting" Visibility="Collapsed"/>
+            </Grid>
+        </Grid>
+            
+        </Grid>
+        
+    </Viewbox>
+</Window>

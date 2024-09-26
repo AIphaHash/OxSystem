@@ -1,0 +1,244 @@
+﻿<UserControl x:Class="OxSystem.editStorage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OxSystem"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             mc:Ignorable="d" 
+             d:DesignHeight="1080" d:DesignWidth="1920">
+    <UserControl.Resources>
+        <Storyboard x:Key="MoveDownStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="editborder"
+        Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
+        From="0" To="1000" Duration="0:0:0.5" />
+        </Storyboard>
+        <Storyboard x:Key="MoveUpStoryboard">
+            <DoubleAnimation
+        Storyboard.TargetName="editborder"
+Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
+From="1000" To="0" Duration="0:0:0.5" />
+        </Storyboard>
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation Storyboard.TargetName="blackborder"
+                             Storyboard.TargetProperty="(Grid.Opacity)"
+                             From="0.0"
+                             To="0.50"
+                             Duration="0:0:0.3" />
+        </Storyboard>
+
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation Storyboard.TargetName="blackborder"
+                     Storyboard.TargetProperty="(Grid.Opacity)"
+                     From="0.50"
+                     To="0.0"
+                     Duration="0:0:0.3" />
+        </Storyboard>
+
+    </UserControl.Resources>
+    <Grid RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform Angle="180"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
+        <Grid x:Name="blackborder" Height="1059" Width="1904.3">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity="1"/>
+            </Grid.Background>
+            <Grid Margin="412,194,348,286">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="198*"/>
+                    <RowDefinition Height="389*"/>
+                    <RowDefinition Height="14*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="564*"/>
+                    <ColumnDefinition Width="457*"/>
+                    <ColumnDefinition Width="140*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </Grid>
+        <Border x:Name="editborder" Margin="1916,-32,-1916,32" Loaded="editborder_Loaded">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="179.999"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Border.RenderTransform>
+            <Grid  Grid.ColumnSpan="2" Margin="0,0,10,11" Grid.RowSpan="2" Width="1920" Height="1019.5">
+                <Border x:Name="panel" Opacity="1" BorderThickness="10"  CornerRadius="60" Margin="568,92,567,360" BorderBrush="White">
+                    <Border.Background>
+                        <SolidColorBrush Color="#FF2F2F2F" Opacity="1"/>
+                    </Border.Background>
+                    <Label Content="Account info edit" Margin="230,31,230,0" FontSize="36" FontWeight="Bold" Foreground="White" Height="73" VerticalAlignment="Top"/>
+                    
+                </Border>
+                <Border CornerRadius="100" Margin="832,185,836,824" RenderTransformOrigin="0.5,0.5">
+                    <Border.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#FF11B6B5"/>
+                            <GradientStop Color="#FF63676B" Offset="1"/>
+                        </RadialGradientBrush>
+                    </Border.Background>
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                </Border>
+                <Image x:Name="back" gif:ImageBehavior.RepeatBehavior="Forever" gif:ImageBehavior.AnimatedSource="/images/cross.gif"
+    RenderTransformOrigin="0.527,0.502" Margin="1239,130,0,824" Cursor="Hand" MouseLeftButtonDown="back_MouseLeftButtonDown" HorizontalAlignment="Left" Width="64">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="180.17"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                        </Setter.Value>
+                                    </Setter>
+
+                                </Trigger>
+
+                                <Trigger Property="IsMouseOver" Value="False">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                    
+                </Image>
+                <Button  x:Name="mybutton" Content=" Done!" Foreground="White" BorderBrush="{x:Null}" BorderThickness="2,2,2,2" FontWeight="UltraBold" Margin="832,575,0,402" FontSize="14"  Cursor="Hand" HorizontalAlignment="Left" Width="246" Click="mybutton_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="buttonBorder" BorderBrush="{x:Null}" BorderThickness="2" CornerRadius="15" Margin="0,0,4,0">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="1,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF21BFB4" Offset="0"/>
+                                        <GradientStop Color="#FF13A095" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" To="#FF80BFF5" Duration="0:0:0.1"/>
+                                                <ColorAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" To="#FF80BFF5" Duration="0:0:0.1"/>
+                                                <ColorAnimation Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" To="Black" Duration="0:0:0.1"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                </ContentPresenter>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <TextBox Text="Storage Location..." Padding="10,10,0,0"  x:Name="slocation" Background="White" Margin="986,0,0,634"  HorizontalAlignment="Left" Width="315" BorderBrush="#FF94A6B3" Height="44" VerticalAlignment="Bottom" FontSize="16" Foreground="Black" MouseEnter="Password_MouseEnter" MouseLeave="Password_MouseLeave" TextChanged="Password_TextChanged" LostFocus="Password_LostFocus" GotFocus="Password_GotFocus"  >
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}">
+
+                            <Setter Property="BorderThickness" Value="2"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Border 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="10">
+
+                                            <ScrollViewer x:Name="PART_ContentHost"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox IsReadOnly="False" Padding="10,10,0,0" Text="Storage Name..." x:Name="sname" Background="White" Margin="614,341,0,634"  HorizontalAlignment="Left" Width="317" BorderBrush="#FF94A6B3" FontSize="16" Foreground="Black" MouseEnter="Username_MouseEnter" MouseLeave="Username_MouseLeave" GotFocus="sname_GotFocus" LostFocus="sname_LostFocus" TextChanged="sname_TextChanged"  >
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}">
+
+                            <Setter Property="BorderThickness" Value="2"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Border 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="10">
+
+                                            <ScrollViewer x:Name="PART_ContentHost"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <TextBox Text="9999" Padding="10,10,0,0"  x:Name="size" Background="White" Margin="800,451,0,524"  HorizontalAlignment="Left" Width="317" BorderBrush="#FF94A6B3" FontSize="16" Foreground="Black" MouseEnter="full_MouseEnter" MouseLeave="full_MouseLeave" GotFocus="full_GotFocus" LostFocus="full_LostFocus" TextChanged="full_TextChanged"  >
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}">
+
+                            <Setter Property="BorderThickness" Value="2"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Border 
+            Background="{TemplateBinding Background}" 
+            BorderBrush="{TemplateBinding BorderBrush}" 
+            BorderThickness="{TemplateBinding BorderThickness}" 
+            CornerRadius="10">
+
+                                            <ScrollViewer x:Name="PART_ContentHost"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <Label HorizontalAlignment="Left" Margin="991,302,0,0" Content="Storage Location" VerticalAlignment="Top" Width="163" BorderBrush="{x:Null}" FontSize="20" Foreground="White"/>
+
+                <Label HorizontalAlignment="Left" Margin="623,297,0,0"  Content="Storage Name" VerticalAlignment="Top" Width="140" BorderBrush="{x:Null}" Foreground="White" FontSize="20"/>
+                <TextBlock
+Margin="881,165,907,827" Text=" " x:Name="rolee" FontSize="36"/>
+                <Label HorizontalAlignment="Left" Margin="679,455,0,0"  Content="Storage Size" VerticalAlignment="Top" Width="145" BorderBrush="{x:Null}" FontSize="20" Foreground="White" RenderTransformOrigin="0.555,0.49"/>
+
+            </Grid>
+        </Border>
+
+    </Grid>
+</UserControl>
