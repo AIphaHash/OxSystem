@@ -65,35 +65,7 @@
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock Grid.Row="0" Text="Mon" FontSize="20" VerticalAlignment="Center">
-                                        <TextBlock.LayoutTransform>
-                                            <RotateTransform Angle="-90"/>
-                                        </TextBlock.LayoutTransform>
-                                    </TextBlock>
 
-                                    <TextBlock Grid.Row="1" Text="Tue" FontSize="20" VerticalAlignment="Center">
-                                        <TextBlock.LayoutTransform>
-                                            <RotateTransform Angle="-90"/>
-                                        </TextBlock.LayoutTransform>
-                                    </TextBlock>
-
-                                    <TextBlock Grid.Row="2" Text="Wed" FontSize="20" VerticalAlignment="Center">
-                                        <TextBlock.LayoutTransform>
-                                            <RotateTransform Angle="-90"/>
-                                        </TextBlock.LayoutTransform>
-                                    </TextBlock>
-
-                                    <TextBlock Grid.Row="3" Text="Thu" FontSize="20" VerticalAlignment="Center">
-                                        <TextBlock.LayoutTransform>
-                                            <RotateTransform Angle="-90"/>
-                                        </TextBlock.LayoutTransform>
-                                    </TextBlock>
-
-                                    <TextBlock Grid.Row="4" Text="Fri" FontSize="20" VerticalAlignment="Center" >
-                                        <TextBlock.LayoutTransform>
-                                            <RotateTransform Angle="-90"/>
-                                        </TextBlock.LayoutTransform>
-                                    </TextBlock>
 
                                 </Grid>
 
@@ -102,11 +74,12 @@
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-
-                                    <ScrollViewer HorizontalAlignment="Left" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Height="1000" Margin="0,83,0,7" Width="1585">
+                                    <DatePicker x:Name="selectedmonth" DisplayDateStart="2000-01-01" DisplayDateEnd="2100-12-31" SelectedDateChanged="selectedmonth_SelectedDateChanged" Margin="1152,-73,252,1134" />
+                                    <Label x:Name="monthname" Content="" Foreground="#DDFFFFFF" FontSize="35" Margin="200,-73,749,1105"></Label>
+                                    <ScrollViewer HorizontalAlignment="Left" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,50,0,7" Width="1585">
                                         <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="usergrid" Grid.Row="0" Margin="0 5 0 5" Columns="9" Rows="1" Width="200"/>
                                     </ScrollViewer>
-                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="1090" Margin="220,0,0,0" Width="1300">
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="1090" Margin="200,0,43,0">
                                         <UniformGrid VerticalAlignment="Top" x:Name="dayGrid" Grid.Row="0" Margin="0 5 0 5" Columns="{Binding NumberOfDays}" Rows="{Binding NumberOfUsers}"/>
                                     </ScrollViewer>
 
@@ -254,7 +227,7 @@ Margin="0,76,0,20">
                                         <DataGridTextColumn Header="End  ↕️"
                         MinWidth="120"
                         Width="120"
-                        Binding="{Binding shift_end}"/>
+                        Binding="{Binding sht_end}"/>
                                         <DataGridTextColumn Header="Too Employes  ↕️"
                         MinWidth="150"
                         Width="Auto"

@@ -34,7 +34,12 @@ namespace OxSystem
         public discount()
         {
             InitializeComponent();
-            PopulateDaysInMonth();
+            DateTime currentDate = DateTime.Now;
+            int currentYear = currentDate.Year;
+            int currentMonth = currentDate.Month;
+
+            // Populate the days in the current month by default
+            PopulateDaysInMonth(currentYear, currentMonth);
             LoadUserStates();
             PopulateUserCards();
 
@@ -49,203 +54,202 @@ namespace OxSystem
 
 
 
-
-        private void PopulateDaysInMonth()
+        private void selectedmonth_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Clear any previous content in the dayGrid UniformGrid
+            if (selectedmonth.SelectedDate.HasValue)
+            {
+                // Get the selected date's month and year
+                DateTime selectedDate = selectedmonth.SelectedDate.Value;
+
+                // Call the method to populate days using the selected month and year
+                PopulateDaysInMonth(selectedDate.Year, selectedDate.Month);
+            }
+        }
+
+        private void PopulateDaysInMonth(int year, int month)
+        {
+            // Clear previous content in the dayGrid UniformGrid
             dayGrid.Children.Clear();
 
             // Query to get the full names and user IDs from the users_info table
-            string query = "SELECT fullname, id FROM users_info"; // Ensure you're selecting the correct column
+            string query = "SELECT fullname, id FROM users_info";
             DataSet userData = conn.getData(query);
 
-            // Get the number of users from the DataSet
-            int numberOfUsers = (userData.Tables.Count > 0 && userData.Tables[0].Rows.Count > 0)
-                ? userData.Tables[0].Rows.Count
-                : 0;
+            int numberOfUsers = userData.Tables[0].Rows.Count;
 
-            // Get the current month and number of days
-            DateTime currentDate = DateTime.Now;
-            int daysInMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
+            // Get the number of days in the selected month and year
+            int daysInMonth = DateTime.DaysInMonth(year, month);
 
             // Set the number of columns in the UniformGrid based on the number of days
             dayGrid.Columns = daysInMonth;
-            dayGrid.Rows = numberOfUsers + 1; // Set the number of rows to accommodate user cards below the days
+            dayGrid.Rows = numberOfUsers + 1;
 
-            // Add a Border for each day of the current month in the first row
+            // Add a Border for each day of the selected month in the first row
             for (int day = 1; day <= daysInMonth; day++)
             {
-                // Create a TextBlock for the day number
+                DateTime date = new DateTime(year, month, day);
+                string dayOfWeekAbbr = date.ToString("ddd").ToUpper();
+
                 TextBlock dayText = new TextBlock
                 {
-                    Text = day.ToString(),
-                    Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), // White text color
+                    Text = $"{dayOfWeekAbbr} {day}",
+                    Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
                     FontSize = 14,
                     TextAlignment = TextAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
 
-                // Create a Border to wrap the TextBlock for the day
                 Border dayBorder = new Border
                 {
                     Width = 100,
                     Height = 50,
-                    Background = new SolidColorBrush(Color.FromRgb(128, 128, 128)), // Gray background
-                    BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), // Optional: black border color
+                    Background = new SolidColorBrush(Color.FromRgb(128, 128, 128)),
+                    BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
                     BorderThickness = new Thickness(0),
                     Margin = new Thickness(0),
                     Child = dayText
                 };
 
-                // Add the day Border to the first row
                 dayGrid.Children.Add(dayBorder);
             }
 
-            // List to store state history records
             List<StateHistory> stateHistoryList = new List<StateHistory>();
 
-            // Query to get all state history records for the current month
-            query = $"SELECT userid, statedate, state FROM statehistroy WHERE MONTH(statedate) = {currentDate.Month} AND YEAR(statedate) = {currentDate.Year}";
+            query = $"SELECT userid, statedate, state FROM statehistroy WHERE MONTH(statedate) = {month} AND YEAR(statedate) = {year}";
             DataSet ds = conn.getData(query);
 
-            // Populate the stateHistoryList
-            if (ds.Tables.Count > 0)
+            foreach (DataRow row in ds.Tables[0].Rows)
             {
-                foreach (DataRow row in ds.Tables[0].Rows)
+                stateHistoryList.Add(new StateHistory
                 {
-                    stateHistoryList.Add(new StateHistory
-                    {
-                        UserId = row["userid"].ToString(),
-                        StateDate = Convert.ToDateTime(row["statedate"]),
-                        State = row["state"].ToString()
-                    });
-                }
+                    UserId = row["userid"].ToString(),
+                    StateDate = Convert.ToDateTime(row["statedate"]),
+                    State = row["state"].ToString()
+                });
             }
 
-            // Add user cards below each day for all users
             for (int userIndex = 0; userIndex < numberOfUsers; userIndex++)
             {
-                // Get the user ID from the userData DataSet
-                string userId = userData.Tables[0].Rows[userIndex]["id"].ToString(); // Corrected to "id"
+                string userId = userData.Tables[0].Rows[userIndex]["id"].ToString();
 
                 for (int day = 1; day <= daysInMonth; day++)
                 {
-                    // Check if there is a corresponding state history record for this user and day
-                    string displayText = "unseen"; // Default text
+                    string displayText = "unseen";
 
-                    var stateHistoryRecord = stateHistoryList.FirstOrDefault(sh => sh.UserId == userId && sh.StateDate.Date == new DateTime(currentDate.Year, currentDate.Month, day));
+                    var stateHistoryRecord = stateHistoryList.FirstOrDefault(sh => sh.UserId == userId && sh.StateDate.Date == new DateTime(year, month, day));
 
                     if (stateHistoryRecord != null)
                     {
-                        displayText = stateHistoryRecord.State; // Use the state if found
+                        displayText = stateHistoryRecord.State;
                     }
 
-                    // Create a TextBlock for the user-day card
                     TextBlock userDayTextBlock = new TextBlock
                     {
-                        Text = displayText, // Set the text to the state or "unseen"
-                        Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), // White text color
+                        Text = displayText,
+                        Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
                         FontSize = 12,
                         TextAlignment = TextAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
                         HorizontalAlignment = HorizontalAlignment.Center
                     };
 
-                    // Determine background color based on state
                     SolidColorBrush backgroundBrush = displayText == "unseen"
-                        ? new SolidColorBrush(Color.FromRgb(0, 255, 0)) // Green for unseen
-                        : new SolidColorBrush(Color.FromRgb(150, 150, 150)); // Default gray background for seen
+                        ? new SolidColorBrush(Color.FromRgb(128, 128, 128))
+                        : new SolidColorBrush(Color.FromRgb(0, 255, 0));
 
-                    // Create a Border for the user-day card
-                    // Create a Border for the user-day card
                     Border userDayCard = new Border
                     {
-                        Width = 100, // Width matching user card
-                        Height = 50, // Set desired height
-                        Background = displayText == "unseen"
-                            ? new SolidColorBrush(Color.FromRgb(128, 128, 128)) // Gray background for unseen
-                            : new SolidColorBrush(Color.FromRgb(0, 255, 0)), // Green background for seen
-                        BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), // Optional: black border color
+                        Width = 100,
+                        Height = 50,
+                        Background = backgroundBrush,
+                        BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
                         BorderThickness = new Thickness(1),
-                        Margin = new Thickness(0), // Margin to create space between cards
+                        Margin = new Thickness(0),
                         Child = userDayTextBlock
                     };
 
+                    int columnIndex = day - 1;
+                    int rowIndex = userIndex + 1;
 
-                    // Calculate the index for the user card's position
-                    int columnIndex = day - 1; // Column index based on the day (0 to daysInMonth-1)
-                    int rowIndex = userIndex + 1; // Row index starts from 1 to accommodate the days row
-
-                    // Add the user-day card to the day grid at the calculated position
                     dayGrid.Children.Add(userDayCard);
                     Grid.SetRow(userDayCard, rowIndex);
                     Grid.SetColumn(userDayCard, columnIndex);
                 }
             }
+
+            string monthName = new DateTime(year, month, 1).ToString("MMMM");
+            int firstDay = 1;
+            int lastDay = DateTime.DaysInMonth(year, month);
+
+            monthname.Content = $"{monthName} {firstDay} - {monthName} {lastDay}";
         }
+
+
 
 
 
 
         private void PopulateUserCards()
-{
-    // Clear any existing cards in the UniformGrid
-    usergrid.Children.Clear();
-
-    // Query to get the full names from the users_info table
-    string query = "SELECT fullname FROM users_info";
-    DataSet userData = conn.getData(query);
-
-    // Check if the DataSet contains any tables and rows
-    if (userData.Tables.Count > 0 && userData.Tables[0].Rows.Count > 0)
-    {
-        int numberOfUsers = userData.Tables[0].Rows.Count;
-
-        // Set the number of rows in the user grid based on user count
-        usergrid.Columns = 1; // Set this to 1 for vertical stacking
-        usergrid.Rows = numberOfUsers; // Set rows based on user count
-
-        // Populate user cards
-        foreach (DataRow row in userData.Tables[0].Rows)
         {
-            string fullName = row["fullname"].ToString();
+            // Clear any existing cards in the UniformGrid
+            usergrid.Children.Clear();
 
-            // Create a TextBlock for the user's full name
-            TextBlock nameTextBlock = new TextBlock
+            // Query to get the full names from the users_info table
+            string query = "SELECT fullname FROM users_info";
+            DataSet userData = conn.getData(query);
+
+            // Check if the DataSet contains any tables and rows
+            if (userData.Tables.Count > 0 && userData.Tables[0].Rows.Count > 0)
             {
-                Text = fullName,
-                Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), // White text color
-                FontSize = 14,
-                TextAlignment = TextAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
+                int numberOfUsers = userData.Tables[0].Rows.Count;
 
-            // Create a Border to act as a card
-            Border userCard = new Border
+                // Set the number of rows in the user grid based on user count
+                usergrid.Columns = 1; // Set this to 1 for vertical stacking
+                usergrid.Rows = numberOfUsers; // Set rows based on user count
+
+                // Populate user cards
+                foreach (DataRow row in userData.Tables[0].Rows)
+                {
+                    string fullName = row["fullname"].ToString();
+
+                    // Create a TextBlock for the user's full name
+                    TextBlock nameTextBlock = new TextBlock
+                    {
+                        Text = fullName,
+                        Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), // White text color
+                        FontSize = 14,
+                        TextAlignment = TextAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Center
+                    };
+
+                    // Create a Border to act as a card
+                    Border userCard = new Border
+                    {
+                        Width = 200, // Set your desired width
+                        Height = 50, // Set your desired height
+                        Background = new SolidColorBrush(Color.FromRgb(100, 100, 100)), // Gray background
+                        BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), // Optional: black border color
+                        BorderThickness = new Thickness(1),
+                        Margin = new Thickness(0, 0, 0, 0), // Adjust the margin for spacing between cards
+                        Child = nameTextBlock
+                    };
+
+                    // Add the card to the user grid
+                    usergrid.Children.Add(userCard);
+                }
+
+                // Optional: If PopulateDaysInMonth should be called after user cards are populated
+                // DateTime selectedDate = selectedmonth.SelectedDate ?? DateTime.Now; // Get selected date or default to current date
+                // PopulateDaysInMonth(selectedDate.Year, selectedDate.Month); // Call with selected year and month
+            }
+            else
             {
-                Width = 200, // Set your desired width
-                Height = 50, // Set your desired height
-                Background = new SolidColorBrush(Color.FromRgb(100, 100, 100)), // Gray background
-                BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), // Optional: black border color
-                BorderThickness = new Thickness(1),
-                Margin = new Thickness(0, 0, 0, 0), // Margin to create space between cards
-                Child = nameTextBlock
-            };
-
-            // Add the card to the user grid
-            usergrid.Children.Add(userCard);
+                MessageBox.Show("No user data found.", "Data Retrieval", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
-        // Populate day grid for each day based on user count
-        PopulateDaysInMonth();
-    }
-    else
-    {
-        MessageBox.Show("No user data found.", "Data Retrieval", MessageBoxButton.OK, MessageBoxImage.Information);
-    }
-}
 
 
 
