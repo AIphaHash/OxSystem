@@ -628,7 +628,7 @@ namespace OxSystem
             l.Show();
             this.Close();
         }
-        private void ShowUserControl(UIElement controlToShow, UIElement controlToHide)
+        private void ShowUserControl(UIElement controlToShow, params UIElement[] controlsToHide)
         {
             // If the controlToShow is already visible, we do nothing
             if (controlToShow.Visibility == Visibility.Visible)
@@ -636,42 +636,66 @@ namespace OxSystem
                 return; // Exit if the control is already open
             }
 
-            // If the control to hide is visible, trigger the fade-out animation
-            if (controlToHide.Visibility == Visibility.Visible)
-            {
-                Storyboard fadeOutStoryboard = (Storyboard)this.Resources["FadeOutStoryboard2"];
-                fadeOutStoryboard.Completed += (s, e) =>
-                {
-                    controlToHide.Visibility = Visibility.Collapsed;
-                    controlToHide.Opacity = 0;  // Reset the opacity
+            // Create a list of tasks to manage the completion of each hide operation
+            var hideTasks = new List<Task>();
 
-                    // Fade-in the new control after the fade-out is completed
+            // Iterate through all controls that need to be hidden
+            foreach (var control in controlsToHide)
+            {
+                if (control.Visibility == Visibility.Visible)
+                {
+                    var tcs = new TaskCompletionSource<bool>();
+                    bool animationCompleted = false; // Track if the animation is already completed
+
+                    // Create a fade-out storyboard and set its completion action
+                    Storyboard fadeOutStoryboard = (Storyboard)this.Resources["FadeOutStoryboard2"];
+                    fadeOutStoryboard.Completed += (s, e) =>
+                    {
+                        if (!animationCompleted) // Ensure this block runs only once
+                        {
+                            control.Visibility = Visibility.Collapsed;
+                            control.Opacity = 0;  // Reset the opacity
+                            animationCompleted = true; // Mark animation as completed
+                            tcs.SetResult(true);  // Mark the task as completed
+                        }
+                    };
+
+                    // Begin the fade-out animation
+                    fadeOutStoryboard.Begin((FrameworkElement)control);
+
+                    // Add the task for this control's animation
+                    hideTasks.Add(tcs.Task);
+                }
+            }
+
+            // Wait for all hide animations to complete before starting the fade-in animation
+            Task.WhenAll(hideTasks).ContinueWith(t =>
+            {
+                controlToShow.Dispatcher.Invoke(() =>
+                {
                     controlToShow.Visibility = Visibility.Visible;
                     Storyboard fadeInStoryboard = (Storyboard)this.Resources["FadeInStoryboard1"];
-                    fadeInStoryboard.Begin((FrameworkElement)controlToShow); // Cast to FrameworkElement
-                };
-
-                fadeOutStoryboard.Begin((FrameworkElement)controlToHide); // Cast to FrameworkElement
-            }
-            else
-            {
-                // If no control is currently visible, directly fade in the new control
-                controlToShow.Visibility = Visibility.Visible;
-                Storyboard fadeInStoryboard = (Storyboard)this.Resources["FadeInStoryboard1"];
-                fadeInStoryboard.Begin((FrameworkElement)controlToShow); // Cast to FrameworkElement
-            }
+                    fadeInStoryboard.Begin((FrameworkElement)controlToShow); // Start fade-in after all fade-out animations are done
+                });
+            });
         }
+
 
 
 
         private void Dashboard1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ShowUserControl(accountentdashboard, disc);
+            ShowUserControl(accountentdashboard, stateNshift ,discount);
         }
 
         private void Dashboard2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ShowUserControl(disc, accountentdashboard);
+            ShowUserControl(stateNshift, accountentdashboard ,discount);
+        }
+
+        private void f_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ShowUserControl(discount, accountentdashboard, stateNshift);
         }
     }
 }

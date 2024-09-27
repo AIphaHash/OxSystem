@@ -339,6 +339,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="stateNshift.xaml.cs">
+      <DependentUpon>stateNshift.xaml</DependentUpon>
+    </Compile>
     <Compile Include="storageadd.xaml.cs">
       <DependentUpon>storageadd.xaml</DependentUpon>
     </Compile>
@@ -478,6 +481,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="splashscreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="stateNshift.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

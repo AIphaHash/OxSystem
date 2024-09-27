@@ -88,7 +88,9 @@ Duration="0:0:1" >
                         <Grid x:Name="accdashboard" Visibility="Visible">
                             <local:accountentdashboard x:Name="accountentdashboard" Visibility="Collapsed"/>
 
-                            <local:discount x:Name="disc" Visibility="Collapsed"/>
+                            <local:stateNshift x:Name="stateNshift" Visibility="Collapsed"/>
+
+                            <local:discount x:Name="discount" Visibility="Collapsed"/>
                         </Grid>
                         <Grid x:Name="navbarhover" Margin="0,0,0,948"  MouseEnter="navbarhover_MouseEnter" MouseLeave="navbarhover_MouseLeave" Background="Transparent">
                     
@@ -107,7 +109,7 @@ Duration="0:0:1" >
                         </Border>
                         <Border BorderThickness="1" CornerRadius="20" Margin="773,26,1012,32" Background="White" BorderBrush="#FF888888">
 
-                            <Label x:Name="f" HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard3"/>
+                            <Label x:Name="f" HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard3" MouseLeftButtonDown="f_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="1" CornerRadius="20" Margin="927,26,858,32" Background="White" BorderBrush="#FF888888">
 
