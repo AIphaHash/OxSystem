@@ -18,10 +18,10 @@ ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="Transpare
 
         <Storyboard x:Key="FadeInStoryboard1">
             <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.1" />
-           
+
         </Storyboard>
 
-    
+
         <Storyboard x:Key="FadeOutStoryboard2">
             <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1" />
             
