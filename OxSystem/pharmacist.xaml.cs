@@ -639,6 +639,7 @@ namespace OxSystem
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine(Login_.iduser);
             query = "select fullname,address from users_info where id = '"+Login_.iduser+"'";
             ds = conn.getData(query);
             Pname.Text = ds.Tables[0].Rows[0][0].ToString();

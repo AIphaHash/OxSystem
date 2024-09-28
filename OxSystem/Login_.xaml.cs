@@ -290,10 +290,10 @@ namespace OxSystem
             else
             {
 
-                /*query = "select fullname,id from users_info where user_name = '" + Username.Text + "'";
+                query = "select fullname,id from users_info where user_name = '" + Username.Text + "'";
                 ds = conn_.getData(query);
                 fullName = ds.Tables[0].Rows[0][0].ToString();
-                iduser = ds.Tables[0].Rows[0][1].ToString();*/
+                iduser = ds.Tables[0].Rows[0][1].ToString();
                 bool usernameExists = false;
                 bool passwordCorrect = false;
 

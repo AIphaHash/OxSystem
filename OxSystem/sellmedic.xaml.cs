@@ -1,13 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-using iText.Forms.Form.Element;
+﻿using iText.Forms.Form.Element;
 using Org.BouncyCastle.Math;
 using System;
 using System.Collections;
@@ -42,10 +33,7 @@ using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace OxSystem
 {
-    /// <summary>
-    /// Interaction logic for sellmedic.xaml
-    /// </summary>
-    /// 
+
     public partial class sellmedic : UserControl
 
     {
@@ -1347,45 +1335,48 @@ namespace OxSystem
 
         private void ItemsCards_Loaded(object sender, RoutedEventArgs e)
         {
-            
-                DataGrid1.ItemsSource = null;
+            DataGrid1.ItemsSource = null;
 
-                // Clear existing items in CardContainer to prevent duplication
-                CardContainer.Children.Clear();
-                cardBorders.Clear();
-                cardQuantities.Clear();
+            // Clear existing items in CardContainer to prevent duplication
+            CardContainer.Children.Clear();
+            cardBorders.Clear();
+            cardQuantities.Clear();
 
-                query = @"
-SELECT mname, bprice, sprice, exdate, nummedic 
-FROM medicinfo 
-WHERE nummedic > 0;";
+            query = @"
+    SELECT d.medicid, d.discamount, d.disc_start, d.disc_end, m.mname, m.bprice, m.sprice, m.exdate, m.nummedic
+    FROM medicinfo m
+    LEFT JOIN discount d ON CHARINDEX(',' + CAST(m.mid AS VARCHAR) + ',', ',' + d.medicid + ',') > 0
+    WHERE m.nummedic > 0
+    AND (d.disc_start IS NULL OR d.disc_end IS NULL OR GETDATE() BETWEEN d.disc_start AND d.disc_end);";
 
-                ds = conn.getData(query); // Fetch the data from the database
+            ds = conn.getData(query); // Fetch the data from the database
 
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    foreach (DataRow row in ds.Tables[0].Rows)
+                    // Get the values from the row
+                    int nummedic = Convert.ToInt32(row["nummedic"]);
+                    string itemName = row["mname"].ToString();
+                    double originalSellPrice = Convert.ToDouble(row["sprice"]);
+
+                    // Determine color for the number of medics border based on nummedic value
+                    SolidColorBrush numMedicBackground;
+                    if (nummedic > 10)
                     {
-                        // Get the value of nummedic
-                        int nummedic = Convert.ToInt32(row["nummedic"]);
-                        string itemName = row["mname"].ToString();
+                        numMedicBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF39A08B")); // More than 10
+                    }
+                    else if (nummedic > 5)
+                    {
+                        numMedicBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFBFB25F")); // Between 6 and 10
+                    }
+                    else
+                    {
+                        numMedicBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA04949")); // 5 or less
+                    }
 
-                        // Determine color for the number of medics border based on nummedic value
-                        if (nummedic > 10)
-                        {
-                            numMedicBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF39A08B")); // More than 10
-                        }
-                        else if (nummedic > 5)
-                        {
-                            numMedicBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFBFB25F")); // Between 6 and 10
-                        }
-                        else
-                        {
-                            numMedicBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA04949")); // 5 or less
-                        }
-
-                        // Create a Border for each card (with white background)
-                        Border mainBorder = new Border
+                    // Create a Border for each card (with white background)
+                    Border mainBorder = new Border
                     {
                         Width = 260,
                         Height = 180,
@@ -1399,11 +1390,12 @@ WHERE nummedic > 0;";
                         RenderTransform = new TransformGroup
                         {
                             Children = new TransformCollection
-                {
-                    new ScaleTransform() // Add a ScaleTransform to be animated
-                }
+                    {
+                        new ScaleTransform() // Add a ScaleTransform to be animated
+                    }
                         }
                     };
+
                     // Add mouse event handlers for hover effect and click animation
                     mainBorder.MouseEnter += (s, args) =>
                     {
@@ -1432,7 +1424,6 @@ WHERE nummedic > 0;";
                         }
                     };
 
-
                     // Create a StackPanel to hold the card content
                     StackPanel stackPanel = new StackPanel
                     {
@@ -1451,7 +1442,7 @@ WHERE nummedic > 0;";
                         Margin = new Thickness(0, 0, 0, 10) // Add margin at the bottom
                     };
 
-                    // Create a Grid for bprice and sprice
+                    // Create a Grid for buy price and sell price
                     Grid priceGrid = new Grid();
                     priceGrid.ColumnDefinitions.Add(new ColumnDefinition());
                     priceGrid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -1469,10 +1460,10 @@ WHERE nummedic > 0;";
                     };
                     Grid.SetColumn(buyPrice, 0);
 
-                    // Sell price
+                    // Sell price (original)
                     TextBlock sellPrice = new TextBlock
                     {
-                        Text = "Sell: " + row["sprice"].ToString(),
+                        Text = "Sell: " + originalSellPrice.ToString("F2"),
                         Foreground = Brushes.Black,
                         VerticalAlignment = VerticalAlignment.Center,
                         FontSize = 13,
@@ -1481,9 +1472,42 @@ WHERE nummedic > 0;";
                     };
                     Grid.SetColumn(sellPrice, 1);
 
-                    // Add bprice and sprice to the price grid
+                    // Add buy and sell prices to the price grid
                     priceGrid.Children.Add(buyPrice);
                     priceGrid.Children.Add(sellPrice);
+
+                    // Check if discount exists and if the current date is within the discount period
+                    if (row["disc_start"] != DBNull.Value && row["disc_end"] != DBNull.Value)
+                    {
+                        DateTime discountStart = Convert.ToDateTime(row["disc_start"]);
+                        DateTime discountEnd = Convert.ToDateTime(row["disc_end"]);
+                        DateTime today = DateTime.Now;
+
+                        // Apply discount only if today is within the discount period
+                        if (today >= discountStart && today <= discountEnd)
+                        {
+                            double discountAmount = Convert.ToDouble(row["discamount"]);
+                            double discountedPrice = originalSellPrice - ((originalSellPrice * discountAmount) / 100);
+
+                            // Set original price with overline and reduced opacity
+                            sellPrice.TextDecorations = TextDecorations.Strikethrough;
+                            sellPrice.Opacity = 0.4;
+
+                            // Create new label for discounted price
+                            TextBlock discountedPriceLabel = new TextBlock
+                            {
+                                Text = "Discounted Price: " + discountedPrice.ToString("F2"),
+                                Foreground = Brushes.Black,
+                                FontSize = 13,
+                                FontWeight = FontWeights.Medium,
+                                TextAlignment = TextAlignment.Center,
+                                Margin = new Thickness(0, 0, 5, 0) // Add margin for spacing
+                            };
+
+                            // Add discounted price label below the original price
+                            stackPanel.Children.Add(discountedPriceLabel);
+                        }
+                    }
 
                     // Expiration date
                     TextBlock exDate = new TextBlock
@@ -1524,20 +1548,18 @@ WHERE nummedic > 0;";
                     stackPanel.Children.Add(medicName);   // Top element (mname)
                     stackPanel.Children.Add(priceGrid);   // Price grid
                     stackPanel.Children.Add(exDate);      // Expiration date
-                    stackPanel.Children.Add(numMedicBorder); // Number of medics within its colored border
+                    stackPanel.Children.Add(numMedicBorder); // Nummedic border at the bottom
 
-                    // Add StackPanel to the main Border
+                    // Add the StackPanel inside the Border (mainBorder)
                     mainBorder.Child = stackPanel;
 
-                    // Store references to update later
-                    cardBorders[itemName] = mainBorder;
-                    cardQuantities[itemName] = numMedic;
-
-                    // Add the main Border (card) to the WrapPanel (CardContainer)
+                    // Add the mainBorder to the CardContainer StackPanel
                     CardContainer.Children.Add(mainBorder);
                 }
             }
         }
+
+
         private void UpdateNumMedicColor(string itemName, int nummedic)
         {
             // Determine the background color based on the nummedic value
