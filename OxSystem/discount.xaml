@@ -39,20 +39,282 @@
     <Viewbox>
         <Grid Background="White" Width="2560" Height="1440">
             <Grid>
-                <Border CornerRadius="0,20,20,0" Background="#FFDEDEDE" Margin="855,0,79,69" Width="1630" Height="1370">
-                    <Grid/>
+                <Border CornerRadius="0,0,0,0" Background="#FFAFAFAF" Margin="0,0,71,69">
 
                 </Border>
-                <Border CornerRadius="0,0,0,0" Background="#FFAFAFAF" Margin="0,0,1705,69">
+                <Border ClipToBounds="True" x:Name="shift" CornerRadius="20" Background="#FF949494" Margin="36,60,96,101"/>
+                <Border x:Name="suggestion"  CornerRadius="20" Background="#FFDEDEDE" Margin="67,88,1824,609">
+                    <Grid>
+                        <Border CornerRadius="20" Background="White" Margin="34,58,30,576"></Border>
+                        <Border CornerRadius="20" Background="White" Margin="32,198,32,436"></Border>
+                        <Border CornerRadius="20" Background="White" Margin="32,484,32,150"></Border>
+                        <Border CornerRadius="20" Background="White" Margin="32,340,32,294"></Border>
+                    </Grid>
+                </Border>
+                <Border x:Name="discounts"  CornerRadius="20" Background="#FFDEDEDE" Margin="67,857,909,126">
+                    <Grid>
+                        <TextBox Background="White" Margin="10,28,757,380"></TextBox>
+                        <DataGrid Margin="10,82,10,18"></DataGrid>
+                    </Grid>
+                </Border>
+                <Border x:Name="adddiscount"  CornerRadius="20,0,0,20" Background="#FFDEDEDE" Margin="774,88,888,609" Loaded="adddiscount_Loaded">
+                    <Grid>
+                        <TextBox IsReadOnly="False" x:Name="searchBox1" Padding="20,13,0,0" BorderThickness="2" Text="🔍  Type to search "  Margin="41,50,321,637" Background="White" FontSize="18" TextChanged="searchBox_TextChanged" GotFocus="searchBox1_GotFocus" LostFocus="searchBox1_LostFocus" BorderBrush="#FFABADB3" >
+                            <TextBox.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="20,0,0,0"/>
+                                </Style>
+                            </TextBox.Resources>
+                            <TextBox.Foreground>
+                                <SolidColorBrush Color="#FF969696" Opacity="1"/>
+                            </TextBox.Foreground>
+                        </TextBox>
+                        <DataGrid 
+IsReadOnly="True"
+x:Name="DataGrid" 
+MouseDoubleClick="DataGrid_MouseDoubleClick"
+AlternatingRowBackground="White"
+RowBackground="White"
+AutoGenerateColumns="False" 
+CanUserAddRows="False" 
+SelectionMode="Extended" 
+ScrollViewer.VerticalScrollBarVisibility="Auto"
+ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+HeadersVisibility="Column"
+HorizontalGridLinesBrush="White"
+VerticalGridLinesBrush="#FF63676B"
+ColumnHeaderHeight="60"
+RowHeight="35" 
+GridLinesVisibility="None"
+ScrollViewer.CanContentScroll="True" 
+Background="White" 
+SelectedCellsChanged="DataGrid_SelectedCellsChanged" 
+BorderBrush="White" 
+BorderThickness="0,0,0,0" 
+                    
+Margin="10,130,48,32">
 
+                            <!-- Define the columns of the DataGrid -->
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID  ↕️"
+ MinWidth="150"
+ Width="Auto"
+ Binding="{Binding mid}"/>
+
+                                <DataGridTextColumn Header="Medic Name  ↕️"
+                        MinWidth="150"
+                        Width="150"
+                        Binding="{Binding mname}"/>
+
+                                <DataGridTextColumn Header="Buy price  ↕️"
+                        MinWidth="150"
+                        Width="150"
+                        Binding="{Binding bprice}"/>
+
+                                <DataGridTextColumn Header="Sell price  ↕️"
+                        MinWidth="150"
+                        Width="150"
+                        Binding="{Binding sprice}"/>
+
+                                <DataGridTextColumn Header="Expire Date  ↕️"
+                        MinWidth="150"
+                        Width="150"
+                        Binding="{Binding exdate}"/>
+
+                                <DataGridTextColumn Header="Manufacture Date  ↕️"
+                        MinWidth="150"
+                        Width="160"
+                        Binding="{Binding madate}"/>
+
+
+                            </DataGrid.Columns>
+
+                            <!-- DataGrid column header style -->
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FF0BA9A4"/>
+                                                <GradientStop Color="#FF2A807E" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,0"/>
+                                    <Setter Property="BorderBrush" Value="#FFF1F1F1"/>
+                                    <Setter Property="FontSize" Value="15"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                    <Setter Property="Padding" Value="20,0,0,0"/>
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
+
+                            <!-- DataGridCell Style for adding padding -->
+                            <DataGrid.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Setter Property="Padding" Value="20,0,20,0"/>
+                                    <Setter Property="FontSize" Value="16"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Background" Value="White"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#FF6CA4A2"/>
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
+
+                            <!-- DataGridRow Style for adding white space between row border and cell -->
+                            <DataGrid.RowStyle>
+                                <Style TargetType="{x:Type DataGridRow}">
+                                    <Setter Property="Margin" Value="20,10,15,0"/>
+                                    <Setter Property="Padding" Value="0,0,0,0"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#FFE6E6E6"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </DataGrid.RowStyle>
+                        </DataGrid>
+                    </Grid>
                 </Border>
-                <Border x:Name="emploeystate"  CornerRadius="20" Background="#FFDEDEDE" Margin="34,60,1744,691">
-                   
-                </Border>
-                <Border ClipToBounds="True" x:Name="shift" CornerRadius="20" Background="#FFDEDEDE" Margin="36,786,1742,101">
-                   
+                <Border x:Name="discountpanel"  CornerRadius="0,20,20,20" Background="#FFDEDEDE" Margin="1672,88,124,126">
+                    <Grid>
+                        <Grid Margin="0,0,0,582">
+                            <TextBox x:Name="discname" Margin="54,117,369,479" Background="White"></TextBox>
+
+                            <TextBox x:Name="discamount" Background="White" Margin="54,213,369,386"></TextBox>
+                            <DatePicker x:Name="discstart" Margin="54,300,596,300" Background="White"></DatePicker>
+                            <DatePicker x:Name="discend" Margin="281,300,369,300" Background="White"></DatePicker>
+                            <ComboBox x:Name="medicfiltercategaroy" Height="46" Margin="54,371,369,0" VerticalAlignment="Top"></ComboBox>
+                            <Button Margin="166,488,348,124" Background="White" BorderBrush="{x:Null}" Foreground="#DD000000" Click="Button_Click"></Button>
+                        </Grid>
+                        <Grid Margin="0,649,0,0">
+                            <DataGrid 
+     IsReadOnly="True"
+     x:Name="DataGrid_Copy"
+     AlternatingRowBackground="White"
+     RowBackground="White"
+     AutoGenerateColumns="False" 
+     CanUserAddRows="False" 
+     SelectionMode="Extended" 
+     ScrollViewer.VerticalScrollBarVisibility="Auto"
+     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+     HeadersVisibility="Column"
+     HorizontalGridLinesBrush="White"
+     VerticalGridLinesBrush="#FF63676B"
+     ColumnHeaderHeight="60"
+     RowHeight="35" 
+     GridLinesVisibility="None"
+     ScrollViewer.CanContentScroll="True" 
+     Background="White" 
+     BorderBrush="White" 
+     BorderThickness="0,0,0,0" 
+         
+     Margin="10,10,10,10" RenderTransformOrigin="0.5,0.5">
+                                <DataGrid.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1"/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </DataGrid.RenderTransform>
+
+                                <!-- Define the columns of the DataGrid -->
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="ID  ↕️"
+ MinWidth="150"
+ Width="Auto"
+ Binding="{Binding mid}"/>
+
+                                    <DataGridTextColumn Header="Medic Name  ↕️"
+             MinWidth="150"
+             Width="150"
+             Binding="{Binding mname}"/>
+
+                                    <DataGridTextColumn Header="Buy price  ↕️"
+             MinWidth="150"
+             Width="150"
+             Binding="{Binding bprice}"/>
+
+                                    <DataGridTextColumn Header="Sell price  ↕️"
+             MinWidth="150"
+             Width="150"
+             Binding="{Binding sprice}"/>
+
+                                    <DataGridTextColumn Header="Expire Date  ↕️"
+             MinWidth="150"
+             Width="150"
+             Binding="{Binding exdate}"/>
+
+                                    <DataGridTextColumn Header="Manufacture Date  ↕️"
+             MinWidth="150"
+             Width="160"
+             Binding="{Binding madate}"/>
+
+
+                                </DataGrid.Columns>
+
+                                <!-- DataGrid column header style -->
+                                <DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FF0BA9A4"/>
+                                                    <GradientStop Color="#FF2A807E" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="BorderThickness" Value="0,0,0,0"/>
+                                        <Setter Property="BorderBrush" Value="#FFF1F1F1"/>
+                                        <Setter Property="FontSize" Value="15"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                        <Setter Property="Padding" Value="20,0,0,0"/>
+                                    </Style>
+                                </DataGrid.ColumnHeaderStyle>
+
+                                <!-- DataGridCell Style for adding padding -->
+                                <DataGrid.CellStyle>
+                                    <Style TargetType="{x:Type DataGridCell}">
+                                        <Setter Property="Padding" Value="20,0,20,0"/>
+                                        <Setter Property="FontSize" Value="16"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="Background" Value="White"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="#FF6CA4A2"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.CellStyle>
+
+                                <!-- DataGridRow Style for adding white space between row border and cell -->
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="{x:Type DataGridRow}">
+                                        <Setter Property="Margin" Value="20,10,15,0"/>
+                                        <Setter Property="Padding" Value="0,0,0,0"/>
+                                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                        <Setter Property="BorderBrush" Value="#FFE6E6E6"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                            </DataGrid>
+                        </Grid>
+                    </Grid>
                 </Border>
             </Grid>
+
+
 
         </Grid>
 
