@@ -77,11 +77,11 @@ Duration="0:0:1" >
         </Storyboard>
     </Window.Resources>
     <Viewbox Width="2560">
-        <Grid Height="1069">
+        <Grid Height="1440" Width="2560">
             
 
 
-            <Grid Width="1900" Height="1057">
+            <Grid Width="2560" Height="1440">
 
             <Border CornerRadius="0,0,0,0" BorderBrush="White" Background="#FFE9F0FF" Loaded="Border_Loaded" Margin="0,-6,0,-6">
                 <Grid x:Name="syncdate" Loaded="syncdate_Loaded" >
@@ -91,40 +91,42 @@ Duration="0:0:1" >
                             <local:stateNshift x:Name="stateNshift" Visibility="Collapsed"/>
 
                             <local:discount x:Name="discount" Visibility="Collapsed"/>
+
+                            <local:salary x:Name="salary" Visibility="Collapsed"/>
                         </Grid>
-                        <Grid x:Name="navbarhover" Margin="0,0,0,948"  MouseEnter="navbarhover_MouseEnter" MouseLeave="navbarhover_MouseLeave" Background="Transparent">
+                        <Grid x:Name="navbarhover" Margin="0,0,0,1332"  MouseEnter="navbarhover_MouseEnter" MouseLeave="navbarhover_MouseLeave" Background="Transparent">
                     
                             <Grid x:Name="nav" Background="#FFC8ACAC" Height="0" Margin="0,0,0,48" >
                         <Border CornerRadius="0,0,0,0" BorderBrush="#FFC1C1C1" BorderThickness="0,0,0,2" Background="White"/>
 
-                        <Border BorderThickness="1" CornerRadius="20" Margin="1086,26,699,30" Background="White" BorderBrush="#FF888888">
+                        <Border BorderThickness="1" CornerRadius="20" Margin="1086,26,1280,-26" Background="White" BorderBrush="#FF888888">
 
                             <Label HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard1"
                                      MouseLeftButtonDown="Dashboard1_MouseLeftButtonDown"/>
                         </Border>
-                        <Border BorderThickness="1" CornerRadius="20" Margin="1239,26,546,32" Background="White" BorderBrush="#FF888888">
+                        <Border BorderThickness="1" CornerRadius="20" Margin="1836,26,546,-26" Background="White" BorderBrush="#FF888888">
 
 
                                     <Label  HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard2"    MouseLeftButtonDown="Dashboard2_MouseLeftButtonDown"/>
                         </Border>
-                        <Border BorderThickness="1" CornerRadius="20" Margin="773,26,1012,32" Background="White" BorderBrush="#FF888888">
+                        <Border BorderThickness="1" CornerRadius="20" Margin="773,26,1585,-26" Background="White" BorderBrush="#FF888888">
 
                             <Label x:Name="f" HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard3" MouseLeftButtonDown="f_MouseLeftButtonDown"/>
                         </Border>
-                        <Border BorderThickness="1" CornerRadius="20" Margin="927,26,858,32" Background="White" BorderBrush="#FF888888">
+                        <Border BorderThickness="1" CornerRadius="20" Margin="1488,26,858,-26" Background="White" BorderBrush="#FF888888">
 
-                            <Label HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard"/>
+                            <Label HorizontalContentAlignment="Right" Padding="0,0,10,0" VerticalContentAlignment="Center" Content="Dashboard" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
                         </Border>
 
 
 
-                        <Image Source="images/flow.png" Margin="16,10,1800,-1" Stretch="Fill"/>
+                        <Image Source="images/flow.png" Margin="16,10,2427,-10" Stretch="Fill"/>
                         <Label Content="PharmaFlow" HorizontalAlignment="Left" Margin="68,28,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Foreground="#FF43A1A4"/>
-                        <Label Content="👤" FontSize="30" Margin="1725,2,131,18"/>
-                        <Label x:Name="name" Content="Ameer Basim" Margin="1775,6,38,39" FontWeight="Bold"/>
-                        <Label x:Name="role" Content="Accountent" Margin="1775,24,61,27" FontSize="10"/>
-                        <Button x:Name="admindash" Content="admindash" Margin="1460,20,348,27" Click="admindash_Click"></Button>
-                        <Button x:Name="reset_Copy" BorderThickness="4" Content="Logout➡️" Margin="1778,0,30,5" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Click="Button_Clickg" Height="26" VerticalAlignment="Bottom" FontSize="9">
+                        <Label Content="👤" FontSize="30" Margin="2295,2,131,-2"/>
+                        <Label x:Name="name" Content="Ameer Basim" Margin="2444,6,38,-6" FontWeight="Bold"/>
+                        <Label x:Name="role" Content="Accountent" Margin="2444,24,61,-24" FontSize="10"/>
+                        <Button x:Name="admindash" Content="admindash" Margin="2154,20,348,-52" Click="admindash_Click"></Button>
+                        <Button x:Name="reset_Copy" BorderThickness="4" Content="Logout➡️" Margin="2483,0,30,5" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Click="Button_Clickg" Height="26" VerticalAlignment="Bottom" FontSize="9">
                             <Button.Resources>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="CornerRadius" Value="15"/>
@@ -148,9 +150,9 @@ Duration="0:0:1" >
                                 </TransformGroup>
                             </Button.RenderTransform>
                         </Button>
-                        <Button Margin="1679,22,194,18" Click="Button_Click_1"/>
+                        <Button Margin="2342,22,194,-54" Click="Button_Click_1"/>
 
-                        <Button x:Name="reset_Copy1" BorderThickness="4" Content="⚙" Margin="1747,0,127,5" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Click="Button_Clicks" Height="26" VerticalAlignment="Bottom" FontSize="9">
+                        <Button x:Name="reset_Copy1" BorderThickness="4" Content="⚙" Margin="2410,0,127,5" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Click="Button_Clicks" Height="26" VerticalAlignment="Bottom" FontSize="9">
                             <Button.Resources>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="CornerRadius" Value="14"/>

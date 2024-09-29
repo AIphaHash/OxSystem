@@ -685,17 +685,22 @@ namespace OxSystem
 
         private void Dashboard1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ShowUserControl(accountentdashboard, stateNshift ,discount);
+            ShowUserControl(accountentdashboard, stateNshift ,discount,salary);
         }
 
         private void Dashboard2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ShowUserControl(stateNshift, accountentdashboard ,discount);
+            ShowUserControl(stateNshift, accountentdashboard ,discount,salary);
         }
 
         private void f_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ShowUserControl(discount, accountentdashboard, stateNshift);
+            ShowUserControl(discount, accountentdashboard, stateNshift,salary);
+        }
+
+        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ShowUserControl(salary, discount, accountentdashboard, stateNshift);
         }
     }
 }

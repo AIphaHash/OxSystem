@@ -10,20 +10,20 @@ namespace OxSystem
         string _connectionString = Login_.finaldbname;
 
 
-         protected SqlConnection getConnection()
+        /* protected SqlConnection getConnection()
           {
               SqlConnection con = new SqlConnection();
               con.ConnectionString = "data source = DESKTOP-O3PSP7Q ; database = localpharmaflow ; integrated security = True";
               return con;
-          }
+          }*/
 
 
-        /*protected SqlConnection getConnection()
+        protected SqlConnection getConnection()
         {
             SqlConnection con = new SqlConnection();
             con.ConnectionString = "data source = AMEERPC\\SQLEXPRESS ; database = final_proj_db ; integrated security = True";
             return con;
-        }*/
+        }
         // Azure string connection
         /*public SqlConnection getConnection()
         {

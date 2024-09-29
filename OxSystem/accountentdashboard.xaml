@@ -23,9 +23,9 @@
 
         </Style>
     </UserControl.Resources>
-    <Viewbox>
-        <Grid Background="#FFCFD9FF">
-            <Grid x:Name="income" Margin="50,210,750,494">
+    <Viewbox Height="1440">
+        <Grid Background="#FFCFD9FF" Width="2560" Height="1440">
+            <Grid x:Name="income" Margin="50,210,750,494" Width="2560" Height="1440">
                 <Border BorderThickness="2" CornerRadius="20" Background="White"/>
                 <Border Background="White" CornerRadius="20">
                     <Border.Effect>
