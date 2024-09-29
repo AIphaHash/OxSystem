@@ -320,6 +320,9 @@
     <Compile Include="report.xaml.cs">
       <DependentUpon>report.xaml</DependentUpon>
     </Compile>
+    <Compile Include="salary.xaml.cs">
+      <DependentUpon>salary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="sellmedic.xaml.cs">
       <DependentUpon>sellmedic.xaml</DependentUpon>
     </Compile>
@@ -457,6 +460,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="report.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="salary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
