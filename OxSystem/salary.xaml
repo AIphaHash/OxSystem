@@ -15,6 +15,7 @@
             </Border>
             <Border x:Name="header" CornerRadius="0" Background="#FF9C9C9C" Margin="311,0,732,0" Loaded="header_Loaded">
                 <Grid>
+                    
                     <DataGrid IsReadOnly="True" x:Name="DataGrid" 
 MouseDoubleClick="DataGrid_MouseDoubleClick"
 AutoGenerateColumns="False" 
@@ -157,7 +158,7 @@ BorderThickness="0,0,0,0">
                             </TransformGroup>
                         </TextBox.RenderTransform>
                     </TextBox>
-                    <DatePicker Margin="466,48,101,606" Background="White" RenderTransformOrigin="0.5,0.5">
+                    <DatePicker x:Name="salarydate" Margin="466,48,101,606" Background="White" RenderTransformOrigin="0.5,0.5">
                         <DatePicker.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="1"/>
@@ -167,6 +168,7 @@ BorderThickness="0,0,0,0">
                             </TransformGroup>
                         </DatePicker.RenderTransform>
                     </DatePicker>
+                    <Button Margin="366,648,276,40" Click="Button_Click"></Button>
                     <DataGrid IsReadOnly="True" x:Name="DataGrid1"
 AutoGenerateColumns="False" 
 CanUserAddRows="False" 
