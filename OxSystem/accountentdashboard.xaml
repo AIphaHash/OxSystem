@@ -28,9 +28,7 @@
             <Grid x:Name="income" Margin="50,210,750,494" Width="2560" Height="1440">
                 <Border BorderThickness="2" CornerRadius="20" Background="White"/>
                 <Border Background="White" CornerRadius="20">
-                    <Border.Effect>
-                        <DropShadowEffect Color="Black" Direction="0" ShadowDepth="0" Opacity="0.4" BlurRadius="20"/>
-                    </Border.Effect>
+                    
 
                     <StackPanel Margin="4,10,10,-10">
                         <chart:SfChart Width="1089" Height="338">
@@ -64,9 +62,7 @@
             </Grid>
             <Grid x:Name="moneystate" Margin="1182,210,50,418">
                 <Border BorderThickness="2" CornerRadius="20" Background="White" Margin="0,0,0,27">
-                    <Border.Effect>
-                        <DropShadowEffect Color="Black" Direction="0" ShadowDepth="0" Opacity="0.4" BlurRadius="20"/>
-                    </Border.Effect>
+                    
                 </Border>
 
             </Grid>
@@ -76,9 +72,8 @@
                     <RowDefinition Height="203*"/>
                 </Grid.RowDefinitions>
                 <Border BorderThickness="2" CornerRadius="20" Background="White" Margin="0,0,0,-6" Grid.RowSpan="2">
-                    <Border.Effect>
-                        <DropShadowEffect Color="Black" Direction="0" ShadowDepth="0" Opacity="0.4" BlurRadius="20"/>
-                    </Border.Effect>
+                    
+                    
                     <DataGrid IsReadOnly="True" x:Name="DataGrid" 
 MouseDoubleClick="DataGrid_MouseDoubleClick"
 AlternatingRowBackground="AliceBlue"
@@ -265,13 +260,9 @@ Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
             </Grid>
             <Grid x:Name="billsSearch" Margin="1182,665,50,32">
                 <Border BorderThickness="2" CornerRadius="20" Background="White" Margin="0,-35,0,16">
-                    <Border.Effect>
-                        <DropShadowEffect Color="Black" Direction="0" ShadowDepth="0" Opacity="0.4" BlurRadius="20"/>
-                    </Border.Effect>
+                   
                     <Border BorderThickness="5" CornerRadius="20" Background="White" Margin="332,-5,-5,-5">
-                        <Border.Effect>
-                            <DropShadowEffect Opacity="0.4" Color="Black" Direction="0" ShadowDepth="0" BlurRadius="20"/>
-                        </Border.Effect>
+                        
                         <Grid Margin="22,55,22,33" Loaded="Grid_Loaded">
                             <StackPanel>
                                 <chart:SfChart Header="Number of Buy and Sell Bills" Height="300" Width="280" x:Name="pieChart" FontSize="22" FontWeight="SemiBold">
