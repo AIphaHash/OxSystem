@@ -258,45 +258,62 @@ namespace OxSystem
 
 
 
-
         private Border CreateUserCard(string userName, string state, string shiftStart, string shiftEnd)
         {
             // Create a Border for the user card
             Border card = new Border
             {
                 Width = 710,
-                Height = 150, // Increased height to accommodate shift label
+                Height = 130,
                 CornerRadius = new CornerRadius(0),
                 Background = Brushes.White,
-                Margin = new Thickness(5),
-                Padding = new Thickness(10),
+                Margin = new Thickness(0, 0, 0, 0),
+                Padding = new Thickness(10, 5, 10, 10), // Add padding for spacing
                 BorderBrush = Brushes.Gray,
                 BorderThickness = new Thickness(0, 0, 0, 1.5) // Border only at the bottom
             };
 
-            // Create a Grid to hold the image, text, and circle
-            Grid grid = new Grid();
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Row for the dot
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Row for the image and text
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Row for the shift label
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto }); // For the GIF image
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }); // For the text
-
-            // Add the GIF image
-            Image gifImage = new Image
+            // Create a Grid to hold the GIF and the text
+            Grid mainGrid = new Grid
             {
-                Width = 120,
-                Height = 120,
-                Margin = new Thickness(0, 0, 10, 0) // Add some spacing between the image and the text
+                ColumnDefinitions =
+        {
+            new ColumnDefinition { Width = new GridLength(130) }, // Space for the GIF image
+            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) } // Space for text and other content
+        }
             };
 
-            // Set the source of the image from the "images" folder in the project
-            gifImage.Source = new BitmapImage(new Uri("pack://application:,,,/images/circle.gif"));
-
-            // Create a StackPanel to hold the text
-            StackPanel stackPanel = new StackPanel
+            // Create a Grid for the GIF image
+            Grid gifGrid = new Grid
             {
-                Orientation = Orientation.Vertical
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            // Create the GIF image
+            Image gifImage = new Image
+            {
+                Source = new BitmapImage(new Uri("pack://application:,,,/images/wired-outline-1414-circle-hover-pinch (3).gif")),
+                Width = 120,
+                Height = 120,
+                Margin = new Thickness(0, 0, 10, 0) // Margin to push text away from the GIF
+            };
+
+            // Conditionally stop the GIF if the state is "unseen"
+            if (state != "unseen")
+            {
+                ImageBehavior.SetAnimatedSource(gifImage, gifImage.Source);
+                ImageBehavior.SetRepeatBehavior(gifImage, System.Windows.Media.Animation.RepeatBehavior.Forever);
+            }
+
+            // Add the GIF to the gifGrid
+            gifGrid.Children.Add(gifImage);
+
+            // Create a StackPanel for text content
+            StackPanel textPanel = new StackPanel
+            {
+                Orientation = Orientation.Vertical,
+                Margin = new Thickness(0, 0, 0, 0) // Adjust margin for proper alignment
             };
 
             // Add user name
@@ -304,6 +321,7 @@ namespace OxSystem
             {
                 Text = userName,
                 FontWeight = FontWeights.Bold,
+                Margin = new Thickness(0, 20, 0, 0),
                 FontSize = 22
             };
 
@@ -312,40 +330,44 @@ namespace OxSystem
             {
                 Text = state,
                 FontSize = 18,
+
                 Foreground = Brushes.Gray
             };
 
-            // Add the text blocks to the StackPanel
-            stackPanel.Children.Add(userNameTextBlock);
-            stackPanel.Children.Add(stateTextBlock);
+            // Add the text blocks to the text panel
+            textPanel.Children.Add(userNameTextBlock);
+            textPanel.Children.Add(stateTextBlock);
 
-            // Add a larger colored circle based on the state to the top right
+            // Add a colored circle to represent the state
             Ellipse stateCircle = new Ellipse
             {
-                Width = 20, // Increase the size
-                Height = 20, // Increase the size
-                HorizontalAlignment = HorizontalAlignment.Right, // Align to the right
-                VerticalAlignment = VerticalAlignment.Top, // Align to the top
-                Margin = new Thickness(0, 0, 10, 0) // Add some spacing
+                Width = 30,
+                Height = 30,
+                Margin = new Thickness(0, -110, 0, 0), // Adjust positioning of the circle
+                HorizontalAlignment = HorizontalAlignment.Right
+               
+                
             };
 
             // Create a RadialGradientBrush for the circle fill
-            RadialGradientBrush gradientBrush = new RadialGradientBrush();
-            gradientBrush.GradientOrigin = new Point(0.5, 0.5); // Center of the circle
-            gradientBrush.Center = new Point(0.5, 0.5);
-            gradientBrush.RadiusX = 0.5;
-            gradientBrush.RadiusY = 0.5;
+            RadialGradientBrush gradientBrush = new RadialGradientBrush
+            {
+                GradientOrigin = new Point(0.5, 0.5),
+                Center = new Point(0.5, 0.5),
+                RadiusX = 0.5,
+                RadiusY = 0.5
+            };
 
             // Change the circle gradient based on the state
             if (state == "unseen")
             {
-                gradientBrush.GradientStops.Add(new GradientStop(Colors.Gray, 0.0)); // Center gray
-                gradientBrush.GradientStops.Add(new GradientStop(Colors.White, 1.0)); // Outer white
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.Gray, 0.0));
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.White, 1.0));
             }
             else if (state == "upseen" || state == "active")
             {
-                gradientBrush.GradientStops.Add(new GradientStop(Colors.Green, 0.0)); // Center green
-                gradientBrush.GradientStops.Add(new GradientStop(Colors.White, 1.0)); // Outer white
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.Green, 0.0));
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.White, 1.0));
 
                 // Create a storyboard for glowing animation
                 DoubleAnimation opacityAnimation = new DoubleAnimation
@@ -353,8 +375,8 @@ namespace OxSystem
                     From = 0.0,
                     To = 1.0,
                     Duration = new Duration(TimeSpan.FromSeconds(1)),
-                    AutoReverse = true, // Reverse the animation from 1 back to 0
-                    RepeatBehavior = RepeatBehavior.Forever // Repeat forever
+                    AutoReverse = true,
+                    RepeatBehavior = RepeatBehavior.Forever
                 };
 
                 Storyboard storyboard = new Storyboard();
@@ -365,43 +387,45 @@ namespace OxSystem
             }
             else
             {
-                gradientBrush.GradientStops.Add(new GradientStop(Colors.Red, 0.0)); // Center red
-                gradientBrush.GradientStops.Add(new GradientStop(Colors.White, 1.0)); // Outer white
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.Red, 0.0));
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.White, 1.0));
             }
 
             // Apply the gradient brush to the ellipse fill
             stateCircle.Fill = gradientBrush;
 
-            // Add the shift information below the user details
+            // Add shift information at the bottom of the card
             TextBlock shiftTextBlock = new TextBlock
             {
-                Text = $"Shift: {shiftStart} - {shiftEnd}",
-                FontSize = 16,
+                Text = $"{shiftStart} - {shiftEnd}",
+                FontSize = 18,
+                TextWrapping = TextWrapping.Wrap,
+
                 Foreground = Brushes.DarkGray,
-                Margin = new Thickness(0, 5, 0, 0), // Add margin above the shift info
-                HorizontalAlignment = HorizontalAlignment.Center // Center the text
+                Margin = new Thickness(400, -10, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Center
             };
 
-            // Add the GIF image and StackPanel to the grid
-            Grid.SetRow(stateCircle, 0);
-            Grid.SetColumnSpan(stateCircle, 2); // Span across the whole width
-            Grid.SetRow(gifImage, 1);
-            Grid.SetColumn(gifImage, 0);
-            Grid.SetRow(stackPanel, 1);
-            Grid.SetColumn(stackPanel, 1);
-            Grid.SetRow(shiftTextBlock, 2);
-            Grid.SetColumnSpan(shiftTextBlock, 2); // Span across the whole width
+            // Add the shift info and state circle to the text panel
+            textPanel.Children.Add(shiftTextBlock);
+            textPanel.Children.Add(stateCircle);
 
-            grid.Children.Add(stateCircle);
-            grid.Children.Add(gifImage);
-            grid.Children.Add(stackPanel);
-            grid.Children.Add(shiftTextBlock);
+            // Place gifGrid and textPanel in the mainGrid
+            mainGrid.Children.Add(gifGrid);
+            Grid.SetColumn(gifGrid, 0); // Set the gifGrid in the first column
+            mainGrid.Children.Add(textPanel);
+            Grid.SetColumn(textPanel, 1);
+         
 
-            // Add the Grid to the card
-            card.Child = grid;
+            // Add the mainGrid to the card
+            card.Child = mainGrid;
 
             return card;
         }
+
+
+
+
 
         private void LoadUserStates()
         {
@@ -694,8 +718,30 @@ namespace OxSystem
             }
         }
 
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (search.Text == "" || search.Text == "Search Employe...")
+            {
+                search.Foreground = new SolidColorBrush(Colors.Black);
 
+                search.Text = "";
+            }
+           
+        }
 
+        private void search_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (search.Text == "" || search.Text == "Search Employe...")
+            {
+                search.Foreground = new SolidColorBrush(Colors.Gray);
+                search.Text = "Search Employe...";
+            }
+           
+        }
 
+        private void search_TextChanged(object sender, TextChangedEventArgs e)
+        {
+           
+        }
     }
 }

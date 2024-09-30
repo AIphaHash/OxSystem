@@ -48,9 +48,9 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Viewbox>
-        <Grid Background="White" Width="2560" Height="1440">
+        <Grid Background="#FFDCEAE5" Width="2560" Height="1440">
             <Grid>
-                <Border CornerRadius="0,20,20,0" Background="#FFDEDEDE" Margin="855,0,79,69" Width="1630" Height="1370">
+                <Border CornerRadius="0,20,20,0" Background="#FFDCEAE5" Margin="855,0,79,69" Width="1630" Height="1370">
                     <Grid>
                         <Grid x:Name="historyupbar" Background="Black" Margin="10,101,0,0">
                             <Grid Margin="0,176,10,0">
@@ -77,7 +77,7 @@
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <DatePicker x:Name="selectedmonth" DisplayDateStart="2000-01-01" DisplayDateEnd="2100-12-31" SelectedDateChanged="selectedmonth_SelectedDateChanged" Margin="1152,-73,252,1134" />
+                                    <DatePicker x:Name="selectedmonth" DisplayDateStart="2000-01-01" DisplayDateEnd="2100-12-31" SelectedDateChanged="selectedmonth_SelectedDateChanged" Margin="1152,-73,252,1119" />
                                     <Label x:Name="monthname" Content="" Foreground="#DDFFFFFF" FontSize="35" Margin="200,-73,749,1105"></Label>
                                     <ScrollViewer HorizontalAlignment="Left" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,50,0,7" Width="1585">
                                         <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="usergrid" Grid.Row="0" Margin="0 5 0 5" Columns="9" Rows="1" Width="200"/>
@@ -170,16 +170,29 @@
                     </Grid>
 
                 </Border>
-                <Border CornerRadius="0,0,0,0" Background="#FFAFAFAF" Margin="0,0,1705,69">
+                <Border CornerRadius="0,0,0,0" Background="#FFDCEAE5" Margin="0,0,1705,0">
 
                 </Border>
+                
                 <Border x:Name="emploeystate"  CornerRadius="20" Background="#FFFFFDFD" Margin="34,60,1744,691">
                     <Grid>
-                    <TextBox Margin="10,60,381,556" Background="White" BorderBrush="#89CC7777"></TextBox>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center" Width="782" Margin="0,162,0,0">
+                       
+                        <Label Content="Employes Status List" Margin="10,46,464,584" FontSize="30" FontWeight="Bold"></Label>
+                    <TextBox x:Name="search" Padding="10,0,0,0" VerticalContentAlignment="Center" Text="Search Employe..." BorderThickness="0,0,0,3" Margin="323,46,35,585" Background="White" BorderBrush="#89616161" CaretBrush="#FF97CEBB" Foreground="#FF9E9E9E" GotFocus="TextBox_GotFocus" LostFocus="search_LostFocus" TextChanged="search_TextChanged"></TextBox>
+                        
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center" Width="782" Margin="0,126,0,0">
                         <StackPanel x:Name="UserCardsPanel" Orientation="Vertical" Margin="10">
                         </StackPanel>
                     </ScrollViewer>
+                        <Border Opacity="1" Background="Black" Margin="0,126,0,562">
+                            <Border.Effect>
+                                <BlurEffect Radius="20"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border Opacity="1" Background="#FFFFFDFD" Margin="0,114,0,563">
+                      
+                        </Border> 
+                        
                     </Grid>
                 </Border>
                 <Border ClipToBounds="True" x:Name="shift" CornerRadius="20" Background="#FFDEDEDE" Margin="36,786,1742,101">
@@ -323,7 +336,11 @@ Margin="0,76,0,20">
 
 
 
-                                <materialDesign:TimePicker x:Name="supname1" Margin="256,207,372,307"></materialDesign:TimePicker>
+                                <materialDesign:TimePicker x:Name="supname1"
+  Width="100"
+  materialDesign:HintAssist.Hint="Custom hint"
+  Style="{StaticResource MaterialDesignFloatingHintTimePicker}" Margin="310,32,372,465"
+  />
                                 <materialDesign:TimePicker x:Name="supname2" Margin="256,276,372,237"></materialDesign:TimePicker>
                                 <Button x:Name="filter"
  Content="Perms"

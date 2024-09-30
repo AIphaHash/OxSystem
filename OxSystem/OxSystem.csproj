@@ -930,5 +930,14 @@
   <ItemGroup>
     <Resource Include="images\system-regular-11-arrow-up-hover-arrow-up-2 %281%29.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\32341.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\wired-outline-1414-circle-hover-pinch %282%29.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\wired-outline-1414-circle-hover-pinch %283%29.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
