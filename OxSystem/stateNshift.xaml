@@ -3,18 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-     TextElement.FontWeight="Regular"
-     TextElement.FontSize="13"
-     TextOptions.TextFormattingMode="Ideal"
-     TextOptions.TextRenderingMode="Auto"
-     Background="{DynamicResource MaterialDesignPaper}"
-     FontFamily="{DynamicResource MaterialDesignFont}"
-             xmlns:local="clr-namespace:OxSystem"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="20"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
              mc:Ignorable="d" 
-             d:DesignHeight="1440" d:DesignWidth="2560"
-             >
+             d:DesignHeight="1440" d:DesignWidth="2560">
+
+   
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -30,6 +30,9 @@
                                 Duration="0:0:0.5"
                                 To="0,0,0,0" />
             </Storyboard>
+
+            <SolidColorBrush x:Key="MaterialDesignTextFieldBoxUnderline" Color="#FF6200EA"/>
+            <SolidColorBrush x:Key="MaterialDesignTextFieldBoxUnderlineMouseOver" Color="#FF6200EA"/>
 
 
             <Storyboard x:Key="ShiftBack">
@@ -170,12 +173,14 @@
                 <Border CornerRadius="0,0,0,0" Background="#FFAFAFAF" Margin="0,0,1705,69">
 
                 </Border>
-                <Border x:Name="emploeystate"  CornerRadius="20" Background="#FFDEDEDE" Margin="34,60,1744,691">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <Border x:Name="emploeystate"  CornerRadius="20" Background="#FFFFFDFD" Margin="34,60,1744,691">
+                    <Grid>
+                    <TextBox Margin="10,60,381,556" Background="White" BorderBrush="#89CC7777"></TextBox>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center" Width="782" Margin="0,162,0,0">
                         <StackPanel x:Name="UserCardsPanel" Orientation="Vertical" Margin="10">
-                            <!-- User state cards will be added here -->
                         </StackPanel>
                     </ScrollViewer>
+                    </Grid>
                 </Border>
                 <Border ClipToBounds="True" x:Name="shift" CornerRadius="20" Background="#FFDEDEDE" Margin="36,786,1742,101">
                     <Grid>

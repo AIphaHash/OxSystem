@@ -17,6 +17,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfAnimatedGif;
 
 namespace OxSystem
 {
@@ -258,20 +259,39 @@ namespace OxSystem
 
 
 
-        private Border CreateUserCard(string userName, string state)
+        private Border CreateUserCard(string userName, string state, string shiftStart, string shiftEnd)
         {
             // Create a Border for the user card
             Border card = new Border
             {
                 Width = 710,
-                Height = 110,
-                CornerRadius = new CornerRadius(10),
+                Height = 150, // Increased height to accommodate shift label
+                CornerRadius = new CornerRadius(0),
                 Background = Brushes.White,
                 Margin = new Thickness(5),
                 Padding = new Thickness(10),
                 BorderBrush = Brushes.Gray,
-                BorderThickness = new Thickness(1)
+                BorderThickness = new Thickness(0, 0, 0, 1.5) // Border only at the bottom
             };
+
+            // Create a Grid to hold the image, text, and circle
+            Grid grid = new Grid();
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Row for the dot
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Row for the image and text
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Row for the shift label
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto }); // For the GIF image
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }); // For the text
+
+            // Add the GIF image
+            Image gifImage = new Image
+            {
+                Width = 120,
+                Height = 120,
+                Margin = new Thickness(0, 0, 10, 0) // Add some spacing between the image and the text
+            };
+
+            // Set the source of the image from the "images" folder in the project
+            gifImage.Source = new BitmapImage(new Uri("pack://application:,,,/images/circle.gif"));
 
             // Create a StackPanel to hold the text
             StackPanel stackPanel = new StackPanel
@@ -284,14 +304,14 @@ namespace OxSystem
             {
                 Text = userName,
                 FontWeight = FontWeights.Bold,
-                FontSize = 16
+                FontSize = 22
             };
 
             // Add state
             TextBlock stateTextBlock = new TextBlock
             {
                 Text = state,
-                FontSize = 14,
+                FontSize = 18,
                 Foreground = Brushes.Gray
             };
 
@@ -299,18 +319,98 @@ namespace OxSystem
             stackPanel.Children.Add(userNameTextBlock);
             stackPanel.Children.Add(stateTextBlock);
 
-            // Add the StackPanel to the card
-            card.Child = stackPanel;
+            // Add a larger colored circle based on the state to the top right
+            Ellipse stateCircle = new Ellipse
+            {
+                Width = 20, // Increase the size
+                Height = 20, // Increase the size
+                HorizontalAlignment = HorizontalAlignment.Right, // Align to the right
+                VerticalAlignment = VerticalAlignment.Top, // Align to the top
+                Margin = new Thickness(0, 0, 10, 0) // Add some spacing
+            };
+
+            // Create a RadialGradientBrush for the circle fill
+            RadialGradientBrush gradientBrush = new RadialGradientBrush();
+            gradientBrush.GradientOrigin = new Point(0.5, 0.5); // Center of the circle
+            gradientBrush.Center = new Point(0.5, 0.5);
+            gradientBrush.RadiusX = 0.5;
+            gradientBrush.RadiusY = 0.5;
+
+            // Change the circle gradient based on the state
+            if (state == "unseen")
+            {
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.Gray, 0.0)); // Center gray
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.White, 1.0)); // Outer white
+            }
+            else if (state == "upseen" || state == "active")
+            {
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.Green, 0.0)); // Center green
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.White, 1.0)); // Outer white
+
+                // Create a storyboard for glowing animation
+                DoubleAnimation opacityAnimation = new DoubleAnimation
+                {
+                    From = 0.0,
+                    To = 1.0,
+                    Duration = new Duration(TimeSpan.FromSeconds(1)),
+                    AutoReverse = true, // Reverse the animation from 1 back to 0
+                    RepeatBehavior = RepeatBehavior.Forever // Repeat forever
+                };
+
+                Storyboard storyboard = new Storyboard();
+                storyboard.Children.Add(opacityAnimation);
+                Storyboard.SetTarget(opacityAnimation, stateCircle);
+                Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath("Opacity"));
+                storyboard.Begin();
+            }
+            else
+            {
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.Red, 0.0)); // Center red
+                gradientBrush.GradientStops.Add(new GradientStop(Colors.White, 1.0)); // Outer white
+            }
+
+            // Apply the gradient brush to the ellipse fill
+            stateCircle.Fill = gradientBrush;
+
+            // Add the shift information below the user details
+            TextBlock shiftTextBlock = new TextBlock
+            {
+                Text = $"Shift: {shiftStart} - {shiftEnd}",
+                FontSize = 16,
+                Foreground = Brushes.DarkGray,
+                Margin = new Thickness(0, 5, 0, 0), // Add margin above the shift info
+                HorizontalAlignment = HorizontalAlignment.Center // Center the text
+            };
+
+            // Add the GIF image and StackPanel to the grid
+            Grid.SetRow(stateCircle, 0);
+            Grid.SetColumnSpan(stateCircle, 2); // Span across the whole width
+            Grid.SetRow(gifImage, 1);
+            Grid.SetColumn(gifImage, 0);
+            Grid.SetRow(stackPanel, 1);
+            Grid.SetColumn(stackPanel, 1);
+            Grid.SetRow(shiftTextBlock, 2);
+            Grid.SetColumnSpan(shiftTextBlock, 2); // Span across the whole width
+
+            grid.Children.Add(stateCircle);
+            grid.Children.Add(gifImage);
+            grid.Children.Add(stackPanel);
+            grid.Children.Add(shiftTextBlock);
+
+            // Add the Grid to the card
+            card.Child = grid;
 
             return card;
         }
+
         private void LoadUserStates()
         {
-            // Fetch user states
+            // Fetch user states including shift_start and shift_end from the shifts table
             string query = @"
-                SELECT u.fullname, s.state 
-                FROM state s 
-                JOIN users_info u ON s.userid = u.id";
+    SELECT u.fullname, s.state, sh.shift_start, sh.shfit_end 
+    FROM state s 
+    JOIN users_info u ON s.userid = u.id 
+    JOIN shifts sh ON s.shiftid = sh.shid"; // Using shid to join the shifts table
 
             DataSet ds = conn.getData(query);
 
@@ -320,9 +420,11 @@ namespace OxSystem
                 {
                     string userName = row["fullname"].ToString();
                     string state = row["state"].ToString();
+                    string shiftStart = row["shift_start"].ToString();
+                    string shiftEnd = row["shfit_end"].ToString();
 
-                    // Create a card for each user
-                    Border userCard = CreateUserCard(userName, state);
+                    // Create a card for each user with shift details
+                    Border userCard = CreateUserCard(userName, state, shiftStart, shiftEnd);
 
                     // Add the card to the panel
                     UserCardsPanel.Children.Add(userCard);
@@ -334,6 +436,10 @@ namespace OxSystem
                 MessageBox.Show("No user states found.");
             }
         }
+
+
+
+
 
 
         private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
