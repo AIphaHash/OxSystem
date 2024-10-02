@@ -95,17 +95,18 @@ namespace OxSystem
                 {
                     Text = $"{dayOfWeekAbbr} {day}",
                     Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
-                    FontSize = 14,
-                    TextAlignment = TextAlignment.Center,
+                    FontSize = 20,
+                    Padding = new Thickness(10,0,0,0) ,
+                    TextAlignment = TextAlignment.Left, // Align text to the left
                     VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalAlignment = HorizontalAlignment.Center
+                    HorizontalAlignment = HorizontalAlignment.Left // Align text to the left
                 };
 
                 Border dayBorder = new Border
                 {
-                    Width = 100,
-                    Height = 50,
-                    Background = new SolidColorBrush(Color.FromRgb(128, 128, 128)),
+                    Width = 200, // Increase the width
+                    Height = 70, // Increase the height
+                    Background = new SolidColorBrush(Color.FromRgb(169, 169, 169)), // Set background to gray
                     BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
                     BorderThickness = new Thickness(0),
                     Margin = new Thickness(0),
@@ -148,11 +149,11 @@ namespace OxSystem
                     TextBlock userDayTextBlock = new TextBlock
                     {
                         Text = displayText,
-                        Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
+                        Foreground = new SolidColorBrush(Colors.Black),
                         FontSize = 12,
-                        TextAlignment = TextAlignment.Center,
+                        TextAlignment = TextAlignment.Left, // Align text to the left
                         VerticalAlignment = VerticalAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Center
+                        HorizontalAlignment = HorizontalAlignment.Left // Align text to the left
                     };
 
                     SolidColorBrush backgroundBrush = displayText == "unseen"
@@ -161,8 +162,8 @@ namespace OxSystem
 
                     Border userDayCard = new Border
                     {
-                        Width = 100,
-                        Height = 50,
+                        Width = 200, // Increase the width
+                        Height = 70, // Increase the height
                         Background = backgroundBrush,
                         BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
                         BorderThickness = new Thickness(1),
@@ -185,7 +186,6 @@ namespace OxSystem
 
             monthname.Content = $"{monthName} {firstDay} - {monthName} {lastDay}";
         }
-
 
 
 
@@ -228,8 +228,8 @@ namespace OxSystem
                     // Create a Border to act as a card
                     Border userCard = new Border
                     {
-                        Width = 200, // Set your desired width
-                        Height = 50, // Set your desired height
+                        Width = 300, // Set your desired width
+                        Height = 70, // Set your desired height
                         Background = new SolidColorBrush(Color.FromRgb(100, 100, 100)), // Gray background
                         BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), // Optional: black border color
                         BorderThickness = new Thickness(1),

@@ -14,7 +14,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1440" d:DesignWidth="2560">
 
-   
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -50,9 +50,9 @@
     <Viewbox>
         <Grid Background="#FFDCEAE5" Width="2560" Height="1440">
             <Grid>
-                <Border CornerRadius="0,20,20,0" Background="#FFDCEAE5" Margin="855,0,79,69" Width="1630" Height="1370">
+                <Border CornerRadius="20" Background="White" Margin="855,60,75,101" Width="1630">
                     <Grid>
-                        <Grid x:Name="historyupbar" Background="Black" Margin="10,101,0,0">
+                        <Grid x:Name="historyupbar">
                             <Grid Margin="0,176,10,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -72,17 +72,15 @@
 
                                 </Grid>
 
-                                <Grid Grid.Column="1">
+                                <Grid Grid.Column="1" Margin="7,-84,0,-30">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="auto" MinHeight="1130"/>
+                                        <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <DatePicker x:Name="selectedmonth" DisplayDateStart="2000-01-01" DisplayDateEnd="2100-12-31" SelectedDateChanged="selectedmonth_SelectedDateChanged" Margin="1152,-73,252,1119" />
-                                    <Label x:Name="monthname" Content="" Foreground="#DDFFFFFF" FontSize="35" Margin="200,-73,749,1105"></Label>
-                                    <ScrollViewer HorizontalAlignment="Left" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,50,0,7" Width="1585">
-                                        <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="usergrid" Grid.Row="0" Margin="0 5 0 5" Columns="9" Rows="1" Width="200"/>
+                                    <ScrollViewer HorizontalAlignment="Left" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Width="1585" Grid.RowSpan="2">
+                                        <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="usergrid" Grid.Row="0" Margin="0 80 0 5" Columns="9" Rows="1" Width="300"/>
                                     </ScrollViewer>
-                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="1090" Margin="200,0,43,0">
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="300,4,43,4">
                                         <UniformGrid VerticalAlignment="Top" x:Name="dayGrid" Grid.Row="0" Margin="0 5 0 5" Columns="{Binding NumberOfDays}" Rows="{Binding NumberOfUsers}"/>
                                     </ScrollViewer>
 
@@ -173,33 +171,37 @@
                 <Border CornerRadius="0,0,0,0" Background="#FFDCEAE5" Margin="0,0,1705,0">
 
                 </Border>
-                
+
                 <Border x:Name="emploeystate"  CornerRadius="20" Background="#FFFFFDFD" Margin="34,60,1744,691">
                     <Grid>
-                       
+
                         <Label Content="Employes Status List" Margin="10,46,464,584" FontSize="30" FontWeight="Bold"></Label>
-                    <TextBox x:Name="search" Padding="10,0,0,0" VerticalContentAlignment="Center" Text="Search Employe..." BorderThickness="0,0,0,3" Margin="323,46,35,585" Background="White" BorderBrush="#89616161" CaretBrush="#FF97CEBB" Foreground="#FF9E9E9E" GotFocus="TextBox_GotFocus" LostFocus="search_LostFocus" TextChanged="search_TextChanged"></TextBox>
-                        
+                        <TextBox x:Name="search" Padding="10,0,0,0" VerticalContentAlignment="Center" Text="Search Employe..." BorderThickness="0,0,0,3" Margin="323,46,35,585" Background="White" BorderBrush="#89616161" CaretBrush="#FF97CEBB" Foreground="#FF9E9E9E" GotFocus="TextBox_GotFocus" LostFocus="search_LostFocus" TextChanged="search_TextChanged"></TextBox>
+
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center" Width="782" Margin="0,126,0,0">
-                        <StackPanel x:Name="UserCardsPanel" Orientation="Vertical" Margin="10">
-                        </StackPanel>
-                    </ScrollViewer>
+                            <StackPanel x:Name="UserCardsPanel" Orientation="Vertical" Margin="10">
+                            </StackPanel>
+                        </ScrollViewer>
                         <Border Opacity="1" Background="Black" Margin="0,126,0,562">
                             <Border.Effect>
                                 <BlurEffect Radius="20"/>
                             </Border.Effect>
                         </Border>
                         <Border Opacity="1" Background="#FFFFFDFD" Margin="0,114,0,563">
-                      
-                        </Border> 
-                        
+
+                        </Border>
+
                     </Grid>
                 </Border>
-                <Border ClipToBounds="True" x:Name="shift" CornerRadius="20" Background="#FFDEDEDE" Margin="36,786,1742,101">
+                <Border ClipToBounds="True" x:Name="shift" CornerRadius="20" Background="White" Margin="36,786,1742,101">
                     <Grid>
-                        <Border CornerRadius="20" x:Name="shifts" Background="White" Margin="876,-56,-876,55" Loaded="shifts_Loaded">
+                        <Border CornerRadius="20" x:Name="shifts" Background="White" Margin="0" Loaded="shifts_Loaded">
                             <Grid>
-                                <Button Margin="654,10,84,513" Click="Button_Click"></Button>
+                                <Button Margin="676,24,62,497" Click="Button_Click"></Button>
+
+                                <Label VerticalContentAlignment="Center" Content="Shift Table" Margin="46,6,544,478" FontSize="30" FontWeight="Bold"/>
+                                <Label VerticalContentAlignment="Center" Content="All Shifts and Details" Margin="46,48,420,435" FontSize="22" FontWeight="Bold" Foreground="#DD8A8A8A"/>
+
                                 <DataGrid 
 IsReadOnly="True"
 x:Name="DataGrid" 
@@ -223,7 +225,7 @@ SelectedCellsChanged="DataGrid_SelectedCellsChanged"
 BorderBrush="White" 
 BorderThickness="0,0,0,0" 
                     
-Margin="0,76,0,20">
+Margin="0,142,0,20" Foreground="#DD888484">
 
                                     <!-- Define the columns of the DataGrid -->
                                     <DataGrid.Columns>
@@ -255,15 +257,7 @@ Margin="0,76,0,20">
                                     <!-- DataGrid column header style -->
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Setter Property="Background">
-                                                <Setter.Value>
-                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                        <GradientStop Color="#FF429A97"/>
-                                                        <GradientStop Color="#FF2D7573" Offset="1"/>
-                                                    </LinearGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Setter Property="Foreground" Value="White"/>
+
                                             <Setter Property="BorderThickness" Value="0,0,0,0"/>
                                             <Setter Property="BorderBrush" Value="#FFF1F1F1"/>
                                             <Setter Property="FontSize" Value="19"/>
@@ -304,12 +298,19 @@ Margin="0,76,0,20">
                                 </DataGrid>
                             </Grid>
                         </Border>
-                        <Border CornerRadius="20" x:Name="addshifts" Background="White">
+                        <Border Visibility="Visible" Margin="-782,0,782,0" CornerRadius="0,0,20,20" x:Name="addshifts" Background="White">
                             <Grid>
-                                <Button Click="Button_Click_1" Margin="10,10,710,498"></Button>
 
-                                <Button Margin="94,435,628,67" Click="Button_Click_2"></Button>
-                                <TextBox Padding="10,14,0,0" Text="Supplier Name..." x:Name="supname" Background="{x:Null}" Margin="0,134,0,0" HorizontalAlignment="Center" Width="406" BorderBrush="Gray" Height="47" VerticalAlignment="Top" GotFocus="mname_GotFocus" LostFocus="mname_LostFocus" MouseEnter="mname_MouseEnter" MouseLeave="mname_MouseLeave" TextChanged="mname_TextChanged" FontSize="14" Foreground="Gray">
+                                <Label Content="Work Hours" Margin="42,468,602,49"/>
+                                <Border Background="#FFB3AFAF" Margin="-26,457,0,95"></Border>
+                                <Label VerticalContentAlignment="Center" Content="Create Shift" Margin="42,22,561,483" FontSize="30" FontWeight="Bold"/>
+                                <Label VerticalContentAlignment="Center" Content="11:00:00" Margin="64,492,539,13" FontSize="25" FontWeight="Bold"/>
+                                <Border CornerRadius="0" Background="#FF009688" Margin="0,0,0,547"/>
+                                <Button Click="Button_Click_1" Margin="673,30,47,491"></Button>
+
+                                <Button Content="Save" Margin="641,476,32,26" Click="Button_Click_2" FontSize="20" Height="50.8"/>
+                                <Button Content="Cancel" Margin="520,476,155,27" Click="Button_Click_2" Background="{x:Null}" Foreground="Black" BorderBrush="#FF838686" FontSize="20" Height="50"/>
+                                <TextBox Padding="10,16,0,0" Text="Shift Name..." x:Name="supname" Background="{x:Null}" Margin="43,115,0,0" HorizontalAlignment="Left" Width="593" BorderBrush="Gray" Height="56" VerticalAlignment="Top" GotFocus="mname_GotFocus" LostFocus="mname_LostFocus" MouseEnter="mname_MouseEnter" MouseLeave="mname_MouseLeave" TextChanged="mname_TextChanged" FontSize="19" Foreground="Gray">
                                     <TextBox.Style>
                                         <Style TargetType="{x:Type TextBox}">
                                             <Setter Property="BorderThickness" Value="1"/>
@@ -335,30 +336,31 @@ Margin="0,76,0,20">
 
 
 
-
+                                <Label Content="Time From - To" Margin="42,220,586,299"/>
+                                <Label Content="------------------" Margin="391,215,310,304"/>
                                 <materialDesign:TimePicker x:Name="supname1"
-  Width="100"
   materialDesign:HintAssist.Hint="Custom hint"
-  Style="{StaticResource MaterialDesignFloatingHintTimePicker}" Margin="310,32,372,465"
+  Style="{StaticResource MaterialDesignFloatingHintTimePicker}" Margin="233,215,405,299"
   />
-                                <materialDesign:TimePicker x:Name="supname2" Margin="256,276,372,237"></materialDesign:TimePicker>
+                                <materialDesign:TimePicker x:Name="supname2" Margin="492,214,146,299"></materialDesign:TimePicker>
+                                <TextBox BorderThickness="2" Margin="42,276,142,115"></TextBox>
                                 <Button x:Name="filter"
  Content="Perms"
- Width="188"
+ Width="95"
  Height="46"
  HorizontalAlignment="Left"
  VerticalAlignment="Top"
  Click="PermsButton_Click"
- Margin="378,412,0,0"
+ Margin="545,392,0,0"
  BorderBrush="#FFA5A5A5"
- BorderThickness="2"
+ BorderThickness="0,0,2,2"
  Background="{x:Null}"
  Foreground="#FF585858"
- FontSize="18"
+ FontSize="14"
  FontWeight="Bold">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
-                                            <Border CornerRadius="0,5,5,0" 
+                                            <Border CornerRadius="0,0,5,0" 
              Background="{TemplateBinding Background}"
              BorderBrush="{TemplateBinding BorderBrush}"
              BorderThickness="{TemplateBinding BorderThickness}">
@@ -437,6 +439,9 @@ StaysOpen="False">
                     </Grid>
                 </Border>
             </Grid>
+            <DatePicker x:Name="selectedmonth" DisplayDateStart="2000-01-01" DisplayDateEnd="2100-12-31" SelectedDateChanged="selectedmonth_SelectedDateChanged" Margin="2173,92,287,1308" Width="100" Height="40" />
+            <Label x:Name="monthname" Content="" Foreground="#DD020202" FontSize="35" Margin="911,92,1055,1278"></Label>
+
 
         </Grid>
 
