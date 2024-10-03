@@ -35,6 +35,7 @@ namespace OxSystem
         public stateNshift()
         {
             InitializeComponent();
+            selectedmonth.SelectedDate = DateTime.Now;
             DateTime currentDate = DateTime.Now;
             int currentYear = currentDate.Year;
             int currentMonth = currentDate.Month;
@@ -55,17 +56,7 @@ namespace OxSystem
 
 
 
-        private void selectedmonth_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (selectedmonth.SelectedDate.HasValue)
-            {
-                // Get the selected date's month and year
-                DateTime selectedDate = selectedmonth.SelectedDate.Value;
-
-                // Call the method to populate days using the selected month and year
-                PopulateDaysInMonth(selectedDate.Year, selectedDate.Month);
-            }
-        }
+       
 
         private void PopulateDaysInMonth(int year, int month)
         {
@@ -78,12 +69,16 @@ namespace OxSystem
 
             int numberOfUsers = userData.Tables[0].Rows.Count;
 
+            // Cap the rows to a maximum of 14 (1 row for days + 13 rows for users)
+            int maxUserRows = 15;
+            int displayedUsers = Math.Min(numberOfUsers, maxUserRows);
+
             // Get the number of days in the selected month and year
             int daysInMonth = DateTime.DaysInMonth(year, month);
 
             // Set the number of columns in the UniformGrid based on the number of days
             dayGrid.Columns = daysInMonth;
-            dayGrid.Rows = numberOfUsers + 1;
+            dayGrid.Rows = displayedUsers + 1; // Add 1 for the day row
 
             // Add a Border for each day of the selected month in the first row
             for (int day = 1; day <= daysInMonth; day++)
@@ -94,22 +89,23 @@ namespace OxSystem
                 TextBlock dayText = new TextBlock
                 {
                     Text = $"{dayOfWeekAbbr} {day}",
-                    Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
-                    FontSize = 20,
-                    Padding = new Thickness(10,0,0,0) ,
-                    TextAlignment = TextAlignment.Left, // Align text to the left
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4C4C4C")),
+                    FontSize = 18,
+                    FontWeight = FontWeights.Bold,
+                    Padding = new Thickness(20, 0, 0, 0),
+                    TextAlignment = TextAlignment.Left,
                     VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalAlignment = HorizontalAlignment.Left // Align text to the left
+                    HorizontalAlignment = HorizontalAlignment.Left
                 };
 
                 Border dayBorder = new Border
                 {
-                    Width = 200, // Increase the width
-                    Height = 70, // Increase the height
-                    Background = new SolidColorBrush(Color.FromRgb(169, 169, 169)), // Set background to gray
-                    BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
-                    BorderThickness = new Thickness(0),
-                    Margin = new Thickness(0),
+                    Width = 200,
+                    Height = 50,
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFEDEEF0")),
+                    BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB5B5B5")),
+                    BorderThickness = new Thickness(1),
+                    Margin = new Thickness(0, 0, 0, -20),
                     Child = dayText
                 };
 
@@ -131,7 +127,7 @@ namespace OxSystem
                 });
             }
 
-            for (int userIndex = 0; userIndex < numberOfUsers; userIndex++)
+            for (int userIndex = 0; userIndex < displayedUsers; userIndex++)
             {
                 string userId = userData.Tables[0].Rows[userIndex]["id"].ToString();
 
@@ -146,28 +142,34 @@ namespace OxSystem
                         displayText = stateHistoryRecord.State;
                     }
 
+                    SolidColorBrush textColor = displayText == "unseen"
+                        ? new SolidColorBrush(Colors.Black)
+                        : new SolidColorBrush(Colors.White);
+
                     TextBlock userDayTextBlock = new TextBlock
                     {
                         Text = displayText,
-                        Foreground = new SolidColorBrush(Colors.Black),
-                        FontSize = 12,
-                        TextAlignment = TextAlignment.Left, // Align text to the left
+                        Foreground = textColor,
+                        FontSize = 16,
+                        FontWeight = FontWeights.Bold,
+                        TextAlignment = TextAlignment.Left,
                         VerticalAlignment = VerticalAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Left // Align text to the left
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        Padding = new Thickness(15, 0, 0, 0)
                     };
 
                     SolidColorBrush backgroundBrush = displayText == "unseen"
-                        ? new SolidColorBrush(Color.FromRgb(128, 128, 128))
-                        : new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                        ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFCBCFD6"))
+                        : new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF12A590"));
 
                     Border userDayCard = new Border
                     {
-                        Width = 200, // Increase the width
-                        Height = 70, // Increase the height
+                        Width = 195,
+                        Height = 65,
                         Background = backgroundBrush,
                         BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
-                        BorderThickness = new Thickness(1),
-                        Margin = new Thickness(0),
+                        BorderThickness = new Thickness(0),
+                        Margin = new Thickness(0, 5, 0, 0),
                         Child = userDayTextBlock
                     };
 
@@ -190,7 +192,6 @@ namespace OxSystem
 
 
 
-
         private void PopulateUserCards()
         {
             // Clear any existing cards in the UniformGrid
@@ -205,24 +206,28 @@ namespace OxSystem
             {
                 int numberOfUsers = userData.Tables[0].Rows.Count;
 
-                // Set the number of rows in the user grid based on user count
-                usergrid.Columns = 1; // Set this to 1 for vertical stacking
-                usergrid.Rows = numberOfUsers; // Set rows based on user count
+                // Limit the maximum number of user cards to 15
+                int maxUsersToShow = Math.Min(numberOfUsers, 15);
+
+                // Set the number of rows in the user grid based on user count (up to a maximum of 15)
+                usergrid.Columns = 1; // Vertical stacking
+                usergrid.Rows = maxUsersToShow; // Set rows based on the smaller value between the number of users and 15
 
                 // Populate user cards
-                foreach (DataRow row in userData.Tables[0].Rows)
+                for (int i = 0; i < maxUsersToShow; i++)
                 {
-                    string fullName = row["fullname"].ToString();
+                    string fullName = userData.Tables[0].Rows[i]["fullname"].ToString();
 
                     // Create a TextBlock for the user's full name
                     TextBlock nameTextBlock = new TextBlock
                     {
                         Text = fullName,
-                        Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), // White text color
-                        FontSize = 14,
-                        TextAlignment = TextAlignment.Center,
+                        Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF5F5F5F")), // Gray text color
+                        FontSize = 18,
+                        FontWeight = FontWeights.Bold,
+                        Padding = new Thickness(20, 0, 0, 0),
                         VerticalAlignment = VerticalAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Center
+                        HorizontalAlignment = HorizontalAlignment.Left
                     };
 
                     // Create a Border to act as a card
@@ -230,9 +235,9 @@ namespace OxSystem
                     {
                         Width = 300, // Set your desired width
                         Height = 70, // Set your desired height
-                        Background = new SolidColorBrush(Color.FromRgb(100, 100, 100)), // Gray background
-                        BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), // Optional: black border color
-                        BorderThickness = new Thickness(1),
+                        Background = new SolidColorBrush(Colors.White), // White background
+                        BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB5B5B5")), // Optional: gray border color
+                        BorderThickness = new Thickness(0, 2, 2, 0),
                         Margin = new Thickness(0, 0, 0, 0), // Adjust the margin for spacing between cards
                         Child = nameTextBlock
                     };
@@ -240,16 +245,13 @@ namespace OxSystem
                     // Add the card to the user grid
                     usergrid.Children.Add(userCard);
                 }
-
-                // Optional: If PopulateDaysInMonth should be called after user cards are populated
-                // DateTime selectedDate = selectedmonth.SelectedDate ?? DateTime.Now; // Get selected date or default to current date
-                // PopulateDaysInMonth(selectedDate.Year, selectedDate.Month); // Call with selected year and month
             }
             else
             {
                 MessageBox.Show("No user data found.", "Data Retrieval", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
 
 
 
@@ -434,9 +436,12 @@ namespace OxSystem
     SELECT u.fullname, s.state, sh.shift_start, sh.shfit_end 
     FROM state s 
     JOIN users_info u ON s.userid = u.id 
-    JOIN shifts sh ON s.shiftid = sh.shid"; // Using shid to join the shifts table
+    JOIN shifts sh ON s.shiftid = sh.shid";
 
             DataSet ds = conn.getData(query);
+
+            // Clear existing user cards before loading new ones
+            UserCardsPanel.Children.Clear();
 
             if (ds.Tables[0].Rows.Count > 0)
             {
@@ -456,7 +461,6 @@ namespace OxSystem
             }
             else
             {
-                // Handle the case where no user states are found
                 MessageBox.Show("No user states found.");
             }
         }
@@ -743,5 +747,137 @@ namespace OxSystem
         {
            
         }
+
+        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Assume this label will show the next grid of users after the first 15
+            PopulateAdditionalUserCards();
+            
+        }
+
+        private void PopulateAdditionalUserCards()
+        {
+            // Clear any existing children from the additional user grid (assuming you have a second grid like usergrid2 for this purpose)
+            usergrid2.Children.Clear();
+
+            // Query to get the full names from the users_info table
+            string query = "SELECT fullname FROM users_info";
+            DataSet userData = conn.getData(query);
+
+            if (userData.Tables.Count > 0 && userData.Tables[0].Rows.Count > 0)
+            {
+                int numberOfUsers = userData.Tables[0].Rows.Count;
+
+                // Start populating from the 16th user onward
+                if (numberOfUsers > 15)
+                {
+                    // Calculate remaining users to show in the next grid
+                    int remainingUsers = numberOfUsers - 15;
+
+                    // Set rows in the usergrid2 based on the number of remaining users (limit to 15 again)
+                    int maxUsersToShow = Math.Min(remainingUsers, 15);
+
+                    // Set up a vertical grid for the additional users
+                    usergrid2.Columns = 1;
+                    usergrid2.Rows = maxUsersToShow;
+
+                    // Populate the additional user cards
+                    for (int i = 15; i < 15 + maxUsersToShow; i++)
+                    {
+                        string fullName = userData.Tables[0].Rows[i]["fullname"].ToString();
+
+                        // Create the TextBlock for the user's name
+                        TextBlock nameTextBlock = new TextBlock
+                        {
+                            Text = fullName,
+                            Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF5F5F5F")), // Gray text color
+                            FontSize = 18,
+                            FontWeight = FontWeights.Bold,
+                            Padding = new Thickness(20, 0, 0, 0),
+                            VerticalAlignment = VerticalAlignment.Center,
+                            HorizontalAlignment = HorizontalAlignment.Left
+                        };
+
+                        // Create a Border for the user card
+                        Border userCard = new Border
+                        {
+                            Width = 300,
+                            Height = 70,
+                            Background = new SolidColorBrush(Colors.White),
+                            BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB5B5B5")),
+                            BorderThickness = new Thickness(0, 2, 2, 0),
+                            Margin = new Thickness(0, 0, 0, 0),
+                            Child = nameTextBlock
+                        };
+
+                        // Add the card to the additional user grid
+                        usergrid2.Children.Add(userCard);
+                    }
+
+                    // Make the second grid visible (if hidden)
+                    usergrid2.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    MessageBox.Show("All users are already shown.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No user data found.", "Data Retrieval", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+
+        private void selectedmonth_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (selectedmonth.SelectedDate.HasValue)
+            {
+                // Get the selected date's month and year
+                DateTime selectedDate = selectedmonth.SelectedDate.Value;
+
+                // Call the method to populate days using the selected month and year
+                PopulateDaysInMonth(selectedDate.Year, selectedDate.Month);
+            }
+        }
+
+        private void PreviousMonth_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedmonth.SelectedDate.HasValue)
+            {
+                // Get the current selected date
+                DateTime currentSelectedDate = selectedmonth.SelectedDate.Value;
+
+                // Subtract one month
+                DateTime previousMonthDate = currentSelectedDate.AddMonths(-1);
+
+                // Set the new date to the DatePicker
+                selectedmonth.SelectedDate = previousMonthDate;
+
+                // Populate the grid with the new month
+                PopulateDaysInMonth(previousMonthDate.Year, previousMonthDate.Month);
+            }
+        }
+
+        // Method for the Next Month button click
+        private void NextMonth_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedmonth.SelectedDate.HasValue)
+            {
+                // Get the current selected date
+                DateTime currentSelectedDate = selectedmonth.SelectedDate.Value;
+
+                // Add one month
+                DateTime nextMonthDate = currentSelectedDate.AddMonths(1);
+
+                // Set the new date to the DatePicker
+                selectedmonth.SelectedDate = nextMonthDate;
+
+                // Populate the grid with the new month
+                PopulateDaysInMonth(nextMonthDate.Year, nextMonthDate.Month);
+            }
+        }
+
+
     }
 }

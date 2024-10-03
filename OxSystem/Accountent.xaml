@@ -94,7 +94,7 @@ Duration="0:0:1" >
 
                             <local:salary x:Name="salary" Visibility="Collapsed"/>
                         </Grid>
-                        <Grid x:Name="navbarhover" Margin="0,0,0,1332"  MouseEnter="navbarhover_MouseEnter" MouseLeave="navbarhover_MouseLeave" Background="Transparent">
+                        <Grid x:Name="navbarhover" Margin="0,0,0,1366"  MouseEnter="navbarhover_MouseEnter" MouseLeave="navbarhover_MouseLeave" Background="Transparent">
                     
                             <Grid x:Name="nav" Background="#FFC8ACAC" Height="0" Margin="0,0,0,48" >
                         <Border CornerRadius="0,0,0,0" BorderBrush="#FFC1C1C1" BorderThickness="0,0,0,2" Background="White"/>
@@ -126,7 +126,7 @@ Duration="0:0:1" >
                         <Label x:Name="name" Content="Ameer Basim" Margin="2444,6,38,-6" FontWeight="Bold"/>
                         <Label x:Name="role" Content="Accountent" Margin="2444,24,61,-24" FontSize="10"/>
                         <Button x:Name="admindash" Content="admindash" Margin="2154,20,348,-52" Click="admindash_Click"></Button>
-                        <Button x:Name="reset_Copy" BorderThickness="4" Content="Logout➡️" Margin="2483,0,30,5" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Click="Button_Clickg" Height="26" VerticalAlignment="Bottom" FontSize="9">
+                        <Button x:Name="reset_Copy" BorderThickness="4" Content="Logout➡️" Margin="2483,0,30,5" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Click="Button_Clickg" Height="120" VerticalAlignment="Bottom" FontSize="9">
                             <Button.Resources>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="CornerRadius" Value="15"/>

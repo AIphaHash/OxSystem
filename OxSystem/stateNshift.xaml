@@ -71,96 +71,26 @@
 
 
                                 </Grid>
+                                <Border Margin="7,-54,0,46" BorderBrush="#FFB5B5B5" BorderThickness="3,3,3,3" Grid.Column="1">
+                                    <Grid Grid.Column="1" Margin="0,-29,0,-1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" MinHeight="1130"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <ScrollViewer HorizontalAlignment="Left" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Width="1585" Grid.RowSpan="2">
+                                            <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="usergrid" Grid.Row="0" Margin="0 80 0 5" Columns="9" Rows="1" Width="300"/>
+                                        </ScrollViewer>
+                                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="300,4,0,4">
+                                            <UniformGrid VerticalAlignment="Top" x:Name="dayGrid" Grid.Row="0" Margin="0 5 0 5" Columns="{Binding NumberOfDays}" Rows="{Binding NumberOfUsers}"/>
+                                        </ScrollViewer>
 
-                                <Grid Grid.Column="1" Margin="7,-84,0,-30">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto" MinHeight="1130"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <ScrollViewer HorizontalAlignment="Left" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Width="1585" Grid.RowSpan="2">
-                                        <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="usergrid" Grid.Row="0" Margin="0 80 0 5" Columns="9" Rows="1" Width="300"/>
-                                    </ScrollViewer>
-                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="300,4,43,4">
-                                        <UniformGrid VerticalAlignment="Top" x:Name="dayGrid" Grid.Row="0" Margin="0 5 0 5" Columns="{Binding NumberOfDays}" Rows="{Binding NumberOfUsers}"/>
-                                    </ScrollViewer>
+                                        <!-- The second user grid for additional users -->
+                                        <ScrollViewer HorizontalAlignment="Left" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Width="1585" Grid.RowSpan="2" Visibility="Collapsed">
+                                            <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="usergrid2" Grid.Row="1" Margin="0 80 0 5" Columns="9" Rows="1" Width="300"/>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Border>
 
-
-
-
-
-                                    <ListBox BorderThickness="0" Grid.Row="1" SelectionMode="Single" ItemsSource="{Binding RepositoryService.Schedule.Slots}" Background="Transparent">
-                                        <ListBox.ItemContainerStyle>
-                                            <Style TargetType="ListBoxItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                                <Setter Property="Background" Value="White"/>
-                                                <Setter Property="Margin" Value="3"/>
-                                                <Setter Property="Effect">
-                                                    <Setter.Value>
-                                                        <DropShadowEffect BlurRadius="1.5" ShadowDepth="0.5" Direction="290" Opacity="0.2"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ListBoxItem">
-                                                            <Border CornerRadius="4" Background="{TemplateBinding Background}" >
-                                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-
-                                            </Style>
-                                        </ListBox.ItemContainerStyle>
-
-                                        <ListBox.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <UniformGrid Columns="9" Rows="5" />
-                                            </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <ListBox SelectionMode="Single" ItemsSource="{Binding ScheduledClasses}" Padding="0" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" >
-                                                        <ListBox.ItemContainerStyle>
-                                                            <Style TargetType="ListBoxItem">
-                                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                                            </Style>
-                                                        </ListBox.ItemContainerStyle>
-
-                                                        <ListBox.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <StackPanel />
-                                                            </ItemsPanelTemplate>
-                                                        </ListBox.ItemsPanel>
-
-                                                        <ListBox.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <Border BorderBrush="#6741d9" BorderThickness="0 0 0 2" CornerRadius="4" Padding="0">
-                                                                    <Border CornerRadius="4" Background="#F6F1FF" Opacity="1" Margin="0" Height="40" >
-                                                                        <StackPanel>
-                                                                            <TextBlock Text="{Binding Course.ClassCode}" HorizontalAlignment="Center" Margin="0 3 0 0" FontSize="15" />
-                                                                            <DockPanel>
-                                                                                <TextBlock DockPanel.Dock="Left" Text="{Binding RoomId}" HorizontalAlignment="Left" FontSize="12" Margin="4 2 0 3"/>
-                                                                                <TextBlock DockPanel.Dock="Right" Margin="0 2 4 3" HorizontalAlignment="Right"  FontSize="12" >
-                                                        <Run Text=" ("/><Run Text="{Binding Course.Teacher.Name}"/><Run Text=")"/>
-                                                                                </TextBlock>
-                                                                            </DockPanel>
-
-                                                                        </StackPanel>
-                                                                    </Border>
-                                                                </Border>
-
-
-                                                            </DataTemplate>
-                                                        </ListBox.ItemTemplate>
-                                                    </ListBox>
-
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                </Grid>
                             </Grid>
 
 
@@ -182,11 +112,20 @@
                             <StackPanel x:Name="UserCardsPanel" Orientation="Vertical" Margin="10">
                             </StackPanel>
                         </ScrollViewer>
+                        <Border Opacity="0.5" Background="Black" Margin="0,670,0,18">
+                            <Border.Effect>
+                                <BlurEffect Radius="20"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border CornerRadius="0,0,10,20" Opacity="1" Background="#FFFFFDFD" Margin="0,669,0,0">
+
+                        </Border>
                         <Border Opacity="1" Background="Black" Margin="0,126,0,562">
                             <Border.Effect>
                                 <BlurEffect Radius="20"/>
                             </Border.Effect>
                         </Border>
+
                         <Border Opacity="1" Background="#FFFFFDFD" Margin="0,114,0,563">
 
                         </Border>
@@ -195,12 +134,13 @@
                 </Border>
                 <Border ClipToBounds="True" x:Name="shift" CornerRadius="20" Background="White" Margin="36,786,1742,101">
                     <Grid>
-                        <Border CornerRadius="20" x:Name="shifts" Background="White" Margin="0" Loaded="shifts_Loaded">
+                        <Border Visibility="Visible" CornerRadius="20" x:Name="shifts" Background="White" Margin="0" Loaded="shifts_Loaded">
                             <Grid>
-                                <Button Margin="676,24,62,497" Click="Button_Click"></Button>
+                                <Button Margin="617,22,23,493" Click="Button_Click"></Button>
+                                <Button Margin="567,22,170,493" Click="Button_Click"></Button>
 
-                                <Label VerticalContentAlignment="Center" Content="Shift Table" Margin="46,6,544,478" FontSize="30" FontWeight="Bold"/>
-                                <Label VerticalContentAlignment="Center" Content="All Shifts and Details" Margin="46,48,420,435" FontSize="22" FontWeight="Bold" Foreground="#DD8A8A8A"/>
+                                <Label VerticalContentAlignment="Center" Content="Shift Table" Margin="17,16,573,493" FontSize="30" FontWeight="Bold"/>
+                                <Label VerticalContentAlignment="Center" Content="All Shifts and Details" Margin="17,60,449,455" FontSize="22" FontWeight="Bold" Foreground="#DD8A8A8A"/>
 
                                 <DataGrid 
 IsReadOnly="True"
@@ -296,16 +236,24 @@ Margin="0,142,0,20" Foreground="#DD888484">
                                         </Style>
                                     </DataGrid.RowStyle>
                                 </DataGrid>
+                                <Border Opacity="0.5" Background="Black" Margin="0,533,0,19">
+                                    <Border.Effect>
+                                        <BlurEffect Radius="20"/>
+                                    </Border.Effect>
+                                </Border>
+                                <Border CornerRadius="0,0,10,20" Opacity="1" Background="#FFFFFDFD" Margin="0,533,0,0">
+
+                                </Border>
                             </Grid>
                         </Border>
-                        <Border Visibility="Visible" Margin="-782,0,782,0" CornerRadius="0,0,20,20" x:Name="addshifts" Background="White">
+                        <Border Visibility="Visible" Margin="-782,0,782,0" CornerRadius="10" x:Name="addshifts" Background="White">
                             <Grid>
 
                                 <Label Content="Work Hours" Margin="42,468,602,49"/>
                                 <Border Background="#FFB3AFAF" Margin="-26,457,0,95"></Border>
                                 <Label VerticalContentAlignment="Center" Content="Create Shift" Margin="42,22,561,483" FontSize="30" FontWeight="Bold"/>
                                 <Label VerticalContentAlignment="Center" Content="11:00:00" Margin="64,492,539,13" FontSize="25" FontWeight="Bold"/>
-                                <Border CornerRadius="0" Background="#FF009688" Margin="0,0,0,547"/>
+                                <Border CornerRadius="10,10,0,0" Background="#FF009688" Margin="0,0,0,544"/>
                                 <Button Click="Button_Click_1" Margin="673,30,47,491"></Button>
 
                                 <Button Content="Save" Margin="641,476,32,26" Click="Button_Click_2" FontSize="20" Height="50.8"/>
@@ -351,7 +299,7 @@ Margin="0,142,0,20" Foreground="#DD888484">
  HorizontalAlignment="Left"
  VerticalAlignment="Top"
  Click="PermsButton_Click"
- Margin="545,392,0,0"
+ Margin="43,276,0,0"
  BorderBrush="#FFA5A5A5"
  BorderThickness="0,0,2,2"
  Background="{x:Null}"
@@ -439,9 +387,16 @@ StaysOpen="False">
                     </Grid>
                 </Border>
             </Grid>
-            <DatePicker x:Name="selectedmonth" DisplayDateStart="2000-01-01" DisplayDateEnd="2100-12-31" SelectedDateChanged="selectedmonth_SelectedDateChanged" Margin="2173,92,287,1308" Width="100" Height="40" />
+            <Button Content="Print" Margin="2330,110,157,1296"></Button>
+            <Button Content="Next Month" Click="NextMonth_Click" Margin="2176,110,310,1296"/>
+            <Button Content="Previous Month" Click="PreviousMonth_Click" Margin="1916,110,570,1296"/>
+            <DatePicker x:Name="selectedmonth" DisplayDateStart="2000-01-01" DisplayDateEnd="2100-12-31" SelectedDateChanged="selectedmonth_SelectedDateChanged" Margin="1990,110,384,1296" FontSize="20" BorderBrush="#FF888888" Background="White" />
             <Label x:Name="monthname" Content="" Foreground="#DD020202" FontSize="35" Margin="911,92,1055,1278"></Label>
-
+            <Border MouseLeftButtonDown="Label_MouseLeftButtonDown" Background="#FFEDEEF0" Margin="865,185,1384,1205" BorderBrush="#FFB5B5B5" BorderThickness="3,0,1,1">
+                <Grid>
+                    <Label Content="Employees                       ⏩" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="20" FontWeight="Bold" Foreground="#FF4C4C4C" BorderThickness="1,1,1,1"  />
+                </Grid>
+            </Border>
 
         </Grid>
 

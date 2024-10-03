@@ -174,5 +174,183 @@ namespace OxSystem
 
 
         }
+        public double CalculateWorkedHours(int userId, DateTime selectedMonth)
+        {
+            double totalWorkedHours = 0;
+            try
+            {
+                // Query to calculate the total worked hours for the selected user in the selected month
+                string query = $@"SELECT 
+            SUM(ABS(DATEDIFF(HOUR, shift.shift_start, shift.shfit_end))) AS totalHoursWorked
+        FROM shifts shift
+        INNER JOIN users_info userInfo ON CHARINDEX(userInfo.user_name, shift.shift_too) > 0
+        INNER JOIN statehistroy state ON state.userid = userInfo.id
+        WHERE userInfo.id = {userId}
+        AND MONTH(state.statedate) = {selectedMonth.Month}
+        AND YEAR(state.statedate) = {selectedMonth.Year}
+        AND state.state = 'upseen'";
+
+                // Assuming conn is your database connection object and getData is a method to retrieve data
+                DataSet ds = conn.getData(query);
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    // Check if the result is DBNull (i.e., no hours calculated)
+                    if (ds.Tables[0].Rows[0]["totalHoursWorked"] != DBNull.Value)
+                    {
+                        // Get the total worked hours from the query result
+                        totalWorkedHours = Convert.ToDouble(ds.Tables[0].Rows[0]["totalHoursWorked"]);
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+                else
+                {
+                    // Handle case when no rows are returned by the query (e.g., no matching data found)
+                    MessageBox.Show("No data found for this user in the selected month.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while calculating worked hours: {ex.Message}");
+            }
+
+            return totalWorkedHours;
+        }
+
+        public double CalculateExpectedHours(int userId, DateTime selectedMonth)
+        {
+            double totalExpectedHours = 0;
+            try
+            {
+                // Query to get the total expected hours for the selected user in the selected month
+                string query = $@"
+        SELECT shift.shift_start, shift.shfit_end
+        FROM shifts shift
+        INNER JOIN statehistroy state
+        ON shift.shid = state.sthid
+        WHERE state.userid = {userId}
+        AND MONTH(state.statedate) = {selectedMonth.Month}
+        AND YEAR(state.statedate) = {selectedMonth.Year}
+        AND state.state = 'upseen'";
+
+                // Assuming conn is your database connection object and getData is a method to retrieve data
+                DataSet ds = conn.getData(query);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        // Parse the shift start and end times
+                        DateTime shiftStart = DateTime.Parse(row["shift_start"].ToString());
+                        DateTime shiftEnd = DateTime.Parse(row["shfit_end"].ToString());
+
+                        // Calculate the hours worked for this shift
+                        double hoursWorked = (shiftEnd - shiftStart).TotalHours;
+
+                        // Add the hours worked for this shift to the total
+                        totalExpectedHours += hoursWorked;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while calculating expected hours: {ex.Message}");
+            }
+
+            return totalExpectedHours;
+        }
+
+        public void AddLabelsToSelectedAccount(int userId, DateTime selectedMonth)
+        {
+            // Clear existing children
+            Selectedaccount.Child = null;
+
+            // Calculate worked hours and expected hours
+            double workedHours = CalculateWorkedHours(userId, selectedMonth);
+            double expectedHours = CalculateExpectedHours(userId, selectedMonth);
+
+            // Create a Grid to hold the labels
+            Grid grid = new Grid();
+            grid.RowDefinitions.Add(new RowDefinition()); // For worked hours
+            grid.RowDefinitions.Add(new RowDefinition()); // For expected hours
+
+            // Create and configure the first label (worked hours)
+            Label workedHoursLabel = new Label();
+            workedHoursLabel.Content = $"Worked Hours: {workedHours:N2}";
+            workedHoursLabel.FontSize = 25;
+            workedHoursLabel.FontWeight = FontWeights.Bold;
+            workedHoursLabel.HorizontalAlignment = HorizontalAlignment.Center;
+            workedHoursLabel.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetRow(workedHoursLabel, 0);
+
+            // Create and configure the second label (expected hours)
+            Label expectedHoursLabel = new Label();
+            expectedHoursLabel.Content = $"Expected Hours: {expectedHours:N2}";
+            expectedHoursLabel.FontSize = 20;
+            expectedHoursLabel.HorizontalAlignment = HorizontalAlignment.Center;
+            expectedHoursLabel.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetRow(expectedHoursLabel, 1);
+
+            // Add labels to the grid
+            grid.Children.Add(workedHoursLabel);
+            grid.Children.Add(expectedHoursLabel);
+
+            // Add the grid to the Border
+            Selectedaccount.Child = grid;
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataGrid.SelectedItem != null)
+            {
+                // Assuming the DataGrid is bound to a DataTable and each row is a DataRowView
+                DataRowView selectedRow = DataGrid.SelectedItem as DataRowView;
+
+                if (selectedRow != null)
+                {
+                    // Clear previous labels from UsernameGrid
+                    UsernameGrid.Children.Clear();
+
+                    // Get the full name and role from the selected row
+                    string fullName = selectedRow["fullname"].ToString();
+                    string role = selectedRow["role"].ToString();
+                    int userId = Convert.ToInt32(selectedRow["id"]);
+
+                    // Create the first label for full name
+                    Label fullNameLabel = new Label
+                    {
+                        Content = fullName,
+                        FontSize = 25,
+                        FontWeight = FontWeights.Bold,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    // Create the second label for role
+                    Label roleLabel = new Label
+                    {
+                        Content = role,
+                        FontSize = 18, // Smaller font size
+                        FontWeight = FontWeights.Normal,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Margin = new Thickness(0, 30, 0, 0) // To position it below the first label
+                    };
+
+                    // Add both labels to the UsernameGrid
+                    UsernameGrid.Children.Add(fullNameLabel);
+                    UsernameGrid.Children.Add(roleLabel);
+
+                    // Calculate and display worked and expected hours in the Selectedaccount border
+                    DateTime currentMonth = DateTime.Now;
+                    AddLabelsToSelectedAccount(userId, currentMonth);
+                }
+            }
+        }
+
+
     }
 }

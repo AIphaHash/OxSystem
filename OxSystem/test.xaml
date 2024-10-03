@@ -15,7 +15,7 @@
         <TextBox x:Name="textBox8" Width="200" Height="30" />
         <Label x:Name="label10" Width="200" Height="30" />
         <ListBox x:Name="listBox2" Width="200" Height="200" />
-        <Button x:Name="pictureBox8" Content="Add" Click="pictureBox8_Click" Width="100" Height="30" Margin="201,69,499,351" />
+        <Button x:Name="pictureBox8" Content="Add" Click="pictureBox8_Click" Width="100" Height="30" Margin="201,69,499,351" Background="#FFDEDEDE" BorderBrush="#FFB5B5B5" Foreground="#FF4C4C4C" />
         <DataGrid x:Name="dataGridView1" AutoGenerateColumns="False" Width="700" Height="200">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Medic Name" Binding="{Binding MedicName}" />

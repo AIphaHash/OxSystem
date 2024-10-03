@@ -6,81 +6,68 @@
              xmlns:local="clr-namespace:OxSystem"
              mc:Ignorable="d" 
               Background="White" Width="2560" Height="1440">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Scroll.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Viewbox Width="2560" Height="1440">
         <Grid Width="2560" Height="1440">
 
 
-            <Border x:Name="Selectedaccount" CornerRadius="0" Background="Gainsboro" Margin="0,0,2249,0">
-                <Grid></Grid>
+            <Border x:Name="Selectedaccount" CornerRadius="0" Background="#FFF1F1F1" Margin="0,510,2149,0" BorderBrush="#FFA5A5A5" BorderThickness="2,2,2,2">
+                <Grid>
+                </Grid>
             </Border>
-            <Border x:Name="header" CornerRadius="0" Background="#FF9C9C9C" Margin="311,0,732,0" Loaded="header_Loaded">
+            <Border x:Name="username" Background="#FFF1F1F1" Margin="0,87,2149,930" BorderBrush="#FF969696" BorderThickness="2,0,2,0">
+                <Grid x:Name="UsernameGrid">
+                    <!-- Labels will be added here dynamically -->
+                </Grid>
+            </Border>
+            <Border x:Name="header" CornerRadius="0" Background="White" Margin="411,0,732,0" Loaded="header_Loaded">
                 <Grid>
                     
-                    <DataGrid IsReadOnly="True" x:Name="DataGrid" 
+                    <Border Margin="50,304,137,1121">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="1,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF39A296" Offset="0.797"/>
+                                <GradientStop Color="#FF6D2727" Offset="0.797"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Border Background="#FF39A296" Margin="963,245,435,1175"></Border>
+                    <Border Background="#FF6D2727" Margin="1121,245,277,1175"></Border>
+                    <Label Content="Hour breakdown     |" Margin="50,240,1178,1158" FontSize="20"/>
+                    <Label Content="Approved" Margin="987,234,322,1164" FontSize="20"/>
+                    <Label Content="Not Approved" Margin="1145,234,137,1164" FontSize="20"/>
+                    <Label Content="170.00 hrs" Margin="239,240,989,1158" FontSize="20" FontWeight="Bold"/>
+                    <DatePicker Margin="50,126,1028,1274"></DatePicker>
+                    <DataGrid 
+IsReadOnly="True"
+x:Name="DataGrid" 
 MouseDoubleClick="DataGrid_MouseDoubleClick"
+AlternatingRowBackground="White"
+RowBackground="White"
 AutoGenerateColumns="False" 
 CanUserAddRows="False" 
 SelectionMode="Extended" 
+ScrollViewer.VerticalScrollBarVisibility="Auto"
+ScrollViewer.HorizontalScrollBarVisibility="Auto"
 HeadersVisibility="Column"
 HorizontalGridLinesBrush="White"
 VerticalGridLinesBrush="#FF63676B"
 ColumnHeaderHeight="60"
-RowHeight="45"
-              GridLinesVisibility="None"
+RowHeight="35" 
+GridLinesVisibility="None"
 ScrollViewer.CanContentScroll="True" 
 Background="White" 
-BorderBrush="White" 
-Margin="126,495,156,47" 
-BorderThickness="0,0,0,0">
-
-                        <DataGrid.Resources>
-                            <!-- Custom ScrollBar Style -->
-                            <Style TargetType="{x:Type ScrollBar}">
-                                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                                <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ScrollBar}">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="0.00001*"/>
-                                                    <RowDefinition Height="*"/>
-                                                    <RowDefinition Height="0.00001*"/>
-                                                </Grid.RowDefinitions>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-
-                            <!-- Custom ScrollBar Button Style -->
-                            <Style x:Key="ScrollBarButtonStyle" TargetType="{x:Type RepeatButton}">
-                                <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                <Setter Property="IsTabStop" Value="False"/>
-                                <Setter Property="Focusable" Value="False"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type RepeatButton}">
-                                            <Border Background="Gray" Width="16" Height="16" CornerRadius="8"/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-
-                            <!-- Custom ScrollBar Thumb Style -->
-                            <Style x:Key="ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
-                                <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                <Setter Property="IsTabStop" Value="False"/>
-                                <Setter Property="Focusable" Value="False"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Thumb}">
-                                            <Border Background="Gray" Width="16" CornerRadius="8"/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </DataGrid.Resources>
+BorderBrush="#FFA5A5A5" 
+BorderThickness="0,2,2,2" 
+                    
+Margin="0,396,0,0" Foreground="#DD888484" SelectionChanged="DataGrid_SelectionChanged">
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID  ↕️" MinWidth="80" Width="100" Binding="{Binding id}"/>
@@ -88,19 +75,12 @@ BorderThickness="0,0,0,0">
                             <DataGridTextColumn Header="Role  ↕️" MinWidth="150" Width="120" Binding="{Binding role}"/>
                         </DataGrid.Columns>
 
+                        <!-- DataGrid column header style -->
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
-                                <Setter Property="Background">
-                                    <Setter.Value>
-                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <GradientStop Color="#FF0BA9A4"/>
-                                            <GradientStop Color="#FF2A807E" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="BorderThickness" Value="0,0,0,0"/>
-                                <Setter Property="BorderBrush" Value="#FFF1F1F1"/>
+
+                                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                                <Setter Property="BorderBrush" Value="#FFA5A5A5"/>
                                 <Setter Property="FontSize" Value="19"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
                                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -112,7 +92,6 @@ BorderThickness="0,0,0,0">
                         <DataGrid.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}">
                                 <Setter Property="Padding" Value="20,0,20,0"/>
-                                <!-- Increased padding for more space -->
                                 <Setter Property="FontSize" Value="16"/>
                                 <Setter Property="BorderThickness" Value="0"/>
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -130,16 +109,15 @@ BorderThickness="0,0,0,0">
                         <!-- DataGridRow Style for adding white space between row border and cell -->
                         <DataGrid.RowStyle>
                             <Style TargetType="{x:Type DataGridRow}">
-                                <Setter Property="Margin" Value="20,10,0,0"/>
-                                <!-- Increased margin for spacing between rows -->
+                                <Setter Property="Margin" Value="20,10,15,0"/>
                                 <Setter Property="Padding" Value="0,0,0,0"/>
                                 <Setter Property="BorderThickness" Value="0,0,0,1"/>
                                 <Setter Property="BorderBrush" Value="#FFE6E6E6"/>
                                 <Setter Property="Background" Value="Transparent"/>
                             </Style>
                         </DataGrid.RowStyle>
-
                     </DataGrid>
+
                 </Grid>
             </Border>
             <Border x:Name="suggestion" CornerRadius="0" Background="Gainsboro" Margin="1828,0,0,720">
@@ -249,7 +227,9 @@ BorderThickness="0,0,0,0">
             </Border>
 
 
+            <Border Background="White" Margin="0,0,0,1353" BorderBrush="#FF1CB9A0" BorderThickness="0,0,0,10">
 
+            </Border>
 
 
         </Grid>
