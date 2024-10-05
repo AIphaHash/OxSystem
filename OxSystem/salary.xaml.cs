@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,9 @@ namespace OxSystem
    
     public partial class salary : UserControl
     {
+        double totalShiftHours;
+        double totalExpectedHours;
+        int userid = int.Parse( Login_.iduser);
         string idsString;
         double salamount;
         string saldate;
@@ -30,10 +34,21 @@ namespace OxSystem
         public salary()
         {
             InitializeComponent();
+
         }
 
         private void header_Loaded(object sender, RoutedEventArgs e)
         {
+            query = " select top 1 id from users_info";
+            ds = conn.getData(query);
+
+            userid =int.Parse( ds.Tables[0].Rows[0][0].ToString());
+            UpdateBorders(userid);
+            if (DataGrid.Items.Count > 0)
+            {
+                // Select the first item
+                DataGrid.SelectedIndex = 0;
+            }
             try
             {
                 query = "select * from users_info";
@@ -220,87 +235,206 @@ namespace OxSystem
             return totalWorkedHours;
         }
 
-        public double CalculateExpectedHours(int userId, DateTime selectedMonth)
+        public double GetUserShiftHours(int userId, DateTime selectedMonth)
         {
-            double totalExpectedHours = 0;
+             totalShiftHours = 0;
+
             try
             {
-                // Query to get the total expected hours for the selected user in the selected month
+                // SQL query to get the shifts and shift_too from the shifts table for the selected month
                 string query = $@"
-        SELECT shift.shift_start, shift.shfit_end
+        SELECT shift.shift_hours, shift.shift_too
         FROM shifts shift
-        INNER JOIN statehistroy state
-        ON shift.shid = state.sthid
-        WHERE state.userid = {userId}
-        AND MONTH(state.statedate) = {selectedMonth.Month}
-        AND YEAR(state.statedate) = {selectedMonth.Year}
-        AND state.state = 'upseen'";
+        WHERE MONTH(shift.shift_start) = {selectedMonth.Month}
+        AND YEAR(shift.shift_start) = {selectedMonth.Year}";
 
                 // Assuming conn is your database connection object and getData is a method to retrieve data
                 DataSet ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
+                    // Loop through each shift row
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        // Parse the shift start and end times
-                        DateTime shiftStart = DateTime.Parse(row["shift_start"].ToString());
-                        DateTime shiftEnd = DateTime.Parse(row["shfit_end"].ToString());
+                        string[] shiftUsers = row["shift_too"].ToString().Split(',');
 
-                        // Calculate the hours worked for this shift
-                        double hoursWorked = (shiftEnd - shiftStart).TotalHours;
+                        // Loop through each username in shift_too
+                        foreach (string username in shiftUsers)
+                        {
+                            // SQL query to get the userId from users_info table based on the username
+                            string userQuery = $@"
+                    SELECT id FROM users_info WHERE user_name = '{username.Trim()}'";
+                            DataSet userDs = conn.getData(userQuery);
 
-                        // Add the hours worked for this shift to the total
-                        totalExpectedHours += hoursWorked;
+                            if (userDs != null && userDs.Tables.Count > 0 && userDs.Tables[0].Rows.Count > 0)
+                            {
+                                // Get the userId from users_info
+                                int dbUserId = Convert.ToInt32(userDs.Tables[0].Rows[0]["id"]);
+
+                                // Check if the current userId matches the dbUserId
+                                if (dbUserId == userId)
+                                {
+                                    // Get the shift hours for the specific shift
+                                    double shiftHours = Convert.ToDouble(row["shift_hours"]);
+
+                                    // Add to total shift hours for the user
+                                    totalShiftHours += shiftHours;
+                                }
+                            }
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while calculating expected hours: {ex.Message}");
+                MessageBox.Show($"An error occurred while calculating total shift hours: {ex.Message}");
+            }
+
+            return totalShiftHours;
+        }
+
+
+        public double GetTotalExpectedHours(int userId, DateTime selectedMonth)
+        {
+             totalExpectedHours = 0;
+
+            try
+            {
+                // SQL query to get the shifts and shift_too from the shifts table
+                string query = $@"
+        SELECT shift.shift_start, shift.shfit_end, shift.shift_too
+        FROM shifts shift
+        WHERE MONTH(shift.shift_start) = {selectedMonth.Month}
+        AND YEAR(shift.shift_start) = {selectedMonth.Year}";
+
+                // Assuming conn is your database connection object and getData is a method to retrieve data
+                DataSet ds = conn.getData(query);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    // Loop through each shift row
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        string[] shiftUsers = row["shift_too"].ToString().Split(',');
+
+                        // Loop through each username in shift_too
+                        foreach (string username in shiftUsers)
+                        {
+                            // SQL query to get the userId from users_info table based on the username
+                            string userQuery = $@"
+                    SELECT id FROM users_info WHERE user_name = '{username.Trim()}'";
+                            DataSet userDs = conn.getData(userQuery);
+
+                            if (userDs != null && userDs.Tables.Count > 0 && userDs.Tables[0].Rows.Count > 0)
+                            {
+                                // Get the userId from users_info
+                                int dbUserId = Convert.ToInt32(userDs.Tables[0].Rows[0]["id"]);
+
+                                // Check if the current userId matches the dbUserId
+                                if (dbUserId == userId)
+                                {
+                                    // Parse shift start and end times
+                                    DateTime shiftStart = DateTime.Parse(row["shift_start"].ToString());
+                                    DateTime shiftEnd = DateTime.Parse(row["shfit_end"].ToString());
+
+                                    // Handle overnight shifts
+                                    if (shiftEnd < shiftStart)
+                                    {
+                                        shiftEnd = shiftEnd.AddDays(1);
+                                    }
+
+                                    // Calculate the shift duration in hours
+                                    double shiftHours = (shiftEnd - shiftStart).TotalHours;
+
+                                    // Add to total expected hours
+                                    totalExpectedHours += shiftHours;
+                                }
+                            }
+                        }
+                    }
+
+                    // Get the number of days in the current month
+                    int daysInMonth = DateTime.DaysInMonth(selectedMonth.Year, selectedMonth.Month);
+
+                    // Calculate average daily hours worked
+                    
+
+                    // Multiply average daily hours by the number of days in the month to get total hours for the month
+                    totalExpectedHours = totalExpectedHours * daysInMonth;
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while calculating total expected hours: {ex.Message}");
             }
 
             return totalExpectedHours;
         }
 
+
+
+
+
+
+
         public void AddLabelsToSelectedAccount(int userId, DateTime selectedMonth)
         {
-            // Clear existing children
+            // Clear existing children in the Border
             Selectedaccount.Child = null;
 
-            // Calculate worked hours and expected hours
+            // Calculate worked hours, expected hours, and total expected hours
             double workedHours = CalculateWorkedHours(userId, selectedMonth);
-            double expectedHours = CalculateExpectedHours(userId, selectedMonth);
+            double totalExpectedHoursday = GetUserShiftHours(userId, selectedMonth);
+            double totalExpectedHours = GetTotalExpectedHours(userId, selectedMonth);
 
             // Create a Grid to hold the labels
             Grid grid = new Grid();
             grid.RowDefinitions.Add(new RowDefinition()); // For worked hours
             grid.RowDefinitions.Add(new RowDefinition()); // For expected hours
+            grid.RowDefinitions.Add(new RowDefinition()); // For total expected hours
 
-            // Create and configure the first label (worked hours)
-            Label workedHoursLabel = new Label();
-            workedHoursLabel.Content = $"Worked Hours: {workedHours:N2}";
-            workedHoursLabel.FontSize = 25;
-            workedHoursLabel.FontWeight = FontWeights.Bold;
-            workedHoursLabel.HorizontalAlignment = HorizontalAlignment.Center;
-            workedHoursLabel.VerticalAlignment = VerticalAlignment.Center;
+            // Worked Hours label
+            Label workedHoursLabel = new Label
+            {
+                Content = $"Worked Hours: {workedHours:N2}",
+                FontSize = 25,
+                FontWeight = FontWeights.Bold,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
             Grid.SetRow(workedHoursLabel, 0);
 
-            // Create and configure the second label (expected hours)
-            Label expectedHoursLabel = new Label();
-            expectedHoursLabel.Content = $"Expected Hours: {expectedHours:N2}";
-            expectedHoursLabel.FontSize = 20;
-            expectedHoursLabel.HorizontalAlignment = HorizontalAlignment.Center;
-            expectedHoursLabel.VerticalAlignment = VerticalAlignment.Center;
+            // Expected Hours label
+            Label expectedHoursLabel = new Label
+            {
+                Content = $"Expected Hours: {totalExpectedHoursday:N2}",
+                FontSize = 20,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
             Grid.SetRow(expectedHoursLabel, 1);
+
+            // Total Expected Hours label
+            Label totalExpectedHoursLabel = new Label
+            {
+                Content = $"Total Expected Hours: {totalExpectedHours:N2}",
+                FontSize = 18,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            Grid.SetRow(totalExpectedHoursLabel, 2);
 
             // Add labels to the grid
             grid.Children.Add(workedHoursLabel);
             grid.Children.Add(expectedHoursLabel);
+            grid.Children.Add(totalExpectedHoursLabel);
 
             // Add the grid to the Border
             Selectedaccount.Child = grid;
         }
+
+
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -314,12 +448,12 @@ namespace OxSystem
                     // Clear previous labels from UsernameGrid
                     UsernameGrid.Children.Clear();
 
-                    // Get the full name and role from the selected row
+                    // Get the full name, role, and user ID from the selected row
                     string fullName = selectedRow["fullname"].ToString();
                     string role = selectedRow["role"].ToString();
                     int userId = Convert.ToInt32(selectedRow["id"]);
 
-                    // Create the first label for full name
+                    // Create the label for full name
                     Label fullNameLabel = new Label
                     {
                         Content = fullName,
@@ -329,28 +463,138 @@ namespace OxSystem
                         VerticalAlignment = VerticalAlignment.Center
                     };
 
-                    // Create the second label for role
+                    // Create the label for role
                     Label roleLabel = new Label
                     {
                         Content = role,
-                        FontSize = 18, // Smaller font size
-                        FontWeight = FontWeights.Normal,
+                        FontSize = 18,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
-                        Margin = new Thickness(0, 30, 0, 0) // To position it below the first label
+                        Margin = new Thickness(0, 30, 0, 0)
                     };
 
                     // Add both labels to the UsernameGrid
                     UsernameGrid.Children.Add(fullNameLabel);
                     UsernameGrid.Children.Add(roleLabel);
 
-                    // Calculate and display worked and expected hours in the Selectedaccount border
+                    // Calculate and display worked and expected hours in the SelectedAccount border
                     DateTime currentMonth = DateTime.Now;
                     AddLabelsToSelectedAccount(userId, currentMonth);
+
+                    // Call UpdateBorders to update the bar based on selected user
+                    UpdateBorders(userId); // This will update the approved and notApproved border widths
                 }
             }
         }
 
 
+
+
+        private void UpdateBorders(int userId)
+        {
+            // Fetch login history for the current day
+            List<LoginHistory> loginHistoryRows = GetLoginHistoryForToday(userId);
+
+            // Calculate total logged-in time
+            TimeSpan totalLoggedInTime = CalculateLoggedInTime(loginHistoryRows);
+
+            // Print or display the total logged-in time
+            Console.WriteLine($"User has been logged in for: {totalLoggedInTime}");
+           
+            hourbreakdown.Content = totalLoggedInTime;
+            // Calculate green and red border widths
+            double totalHours = totalLoggedInTime.TotalHours;
+            double greenBorderWidth = (totalHours / totalShiftHours) * 1200; // 24-hour day mapped to 1200 max width
+
+            // Ensure widths are not negative
+            double redBorderWidth = Math.Max(0, 1200 - greenBorderWidth);
+            greenBorderWidth = Math.Max(0, greenBorderWidth);
+
+            // Update the borders
+            notApproved.Width = redBorderWidth;
+            approved.Width = greenBorderWidth;
+
+            // Force the UI to update
+            notApproved.InvalidateVisual();
+            approved.InvalidateVisual();
+        }
+
+
+
+
+        // Function to fetch login history for the current day
+        private List<LoginHistory> GetLoginHistoryForToday(int userId)
+        {
+            List<LoginHistory> loginHistory = new List<LoginHistory>();
+
+            // SQL query to get login history for the current day
+            string query = $@"
+                SELECT date_time, state
+                FROM loginhistory
+                WHERE userid = {userId}
+                AND CAST(date_time AS DATE) = CAST(GETDATE() AS DATE)";
+
+            // Use getData method to fetch results from the database
+            DataSet ds = conn.getData(query);
+
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    DateTime dateTime = Convert.ToDateTime(row["date_time"]);
+                    string state = row["state"].ToString();
+
+                    loginHistory.Add(new LoginHistory
+                    {
+                        DateTime = dateTime,
+                        State = state
+                    });
+                }
+            }
+
+            return loginHistory;
+        }
+
+        // Function to calculate the total logged-in time from login history rows
+        private TimeSpan CalculateLoggedInTime(List<LoginHistory> loginHistoryRows)
+        {
+            TimeSpan totalLoggedInTime = TimeSpan.Zero;
+
+            for (int i = 0; i < loginHistoryRows.Count; i++)
+            {
+                if (loginHistoryRows[i].State == "in")
+                {
+                    DateTime loginTime = loginHistoryRows[i].DateTime;
+                    DateTime? logoutTime = null;
+
+                    // Find the corresponding "out" state
+                    for (int j = i + 1; j < loginHistoryRows.Count; j++)
+                    {
+                        if (loginHistoryRows[j].State == "out")
+                        {
+                            logoutTime = loginHistoryRows[j].DateTime;
+                            break;
+                        }
+                    }
+
+                    if (logoutTime.HasValue)
+                    {
+                        totalLoggedInTime += logoutTime.Value - loginTime;
+                    }
+                }
+            }
+
+            return totalLoggedInTime;
+        }
     }
+
+    // Class to represent login history records
+    public class LoginHistory
+    {
+        public DateTime DateTime { get; set; }
+        public string State { get; set; }
+    }
+
+
 }
+

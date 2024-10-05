@@ -622,7 +622,10 @@ namespace OxSystem
 
         private void Button_Clickg(object sender, RoutedEventArgs e)
         {
+            DateTime currentDateOnly = DateTime.Now;
             query = "UPDATE state\r\nSET state.state = 'unseen'\r\nFROM state\r\nINNER JOIN users_info ON state.userid = users_info.id\r\nWHERE users_info.id = '" + Login_.iduser + "' ";
+            conn.setData(query);
+            query = "insert into loginhistory values ('" +Login_.iduser + "' , '" + currentDateOnly + "' , 'out')";
             conn.setData(query);
             Login_ l = new Login_();
             l.Show();

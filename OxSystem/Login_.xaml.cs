@@ -72,7 +72,8 @@ namespace OxSystem
         private async void mybutton_Click(object sender, RoutedEventArgs e)
         {
            string currentTime = DateTime.Now.ToString("h:mm tt");
-            DateTime currentDateOnly = DateTime.Today;
+            DateTime currentDateOnly = DateTime.Now;
+            Console.WriteLine(currentDateOnly);
 
             username = Username.Text;
             password_ = Password.Text;
@@ -139,6 +140,9 @@ namespace OxSystem
                                 conn_.setData(query);
                             }
 
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            conn_.setData(query);
+
                             pharmacist p = new pharmacist();
                             p.Show();
                             this.Close();
@@ -175,6 +179,8 @@ namespace OxSystem
                                 query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
                                 conn_.setData(query);
                             }
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            conn_.setData(query);
 
                             Accountent ac = new Accountent();
                             ac.Show();
@@ -231,6 +237,8 @@ namespace OxSystem
                                 query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
                                 conn_.setData(query);
                             }
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            conn_.setData(query);
 
                             pharmacist p = new pharmacist();
                             p.Show();
@@ -267,7 +275,8 @@ namespace OxSystem
                                 query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
                                 conn_.setData(query);
                             }
-
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            conn_.setData(query);
                             Accountent ac = new Accountent();
                             ac.Show();
                             this.Close();
@@ -344,6 +353,8 @@ namespace OxSystem
                                 query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
                                 conn_.setData(query);
                             }
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            conn_.setData(query);
 
                             query = "select fullname,id from users_info where user_name = '" + Username.Text + "'";
                             ds = conn_.getData(query);
@@ -390,7 +401,8 @@ namespace OxSystem
                                 query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
                                 conn_.setData(query);
                             }
-
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            conn_.setData(query);
                             pharmacist p = new pharmacist();
                             p.Show();
                             this.Close();
@@ -427,7 +439,9 @@ namespace OxSystem
                                 query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
                                 conn_.setData(query);
                             }
-                            
+
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            conn_.setData(query);
 
                             query = "select fullname,id from users_info where user_name = '" + Username.Text + "'";
                             ds = conn_.getData(query);

@@ -630,9 +630,25 @@ namespace OxSystem
             shstart = supname1.Text;
             shend = supname2.Text;
             string selectedRole = String.Join(",", checkedItems);
+            DateTime currentDate = DateTime.Now;
 
-            // Insert into shifts table
-            query = "INSERT INTO shifts (shift_name, shift_start, shfit_end, shift_too) VALUES ('" + shname + "', '" + shstart + "', '" + shend + "', '" + selectedRole + "')";
+            // Parse shift start and end times
+            DateTime shiftStart;
+            DateTime shiftEnd;
+
+            // Assuming the input is in a proper format (e.g., "hh:mm tt")
+            if (!DateTime.TryParse(shstart, out shiftStart) || !DateTime.TryParse(shend, out shiftEnd))
+            {
+                MessageBox.Show("Invalid shift start or end time format.");
+                return; // Exit the method if parsing fails
+            }
+
+            // Calculate total worked hours
+            double totalHours = CalculateTotalHours(shiftStart, shiftEnd);
+
+            // Insert into shifts table, including totalHours
+            query = "INSERT INTO shifts (shift_name, shift_start, shfit_end, shift_too , shift_date , shift_hours) " +
+                    $"VALUES ('{shname}', '{shiftStart}', '{shiftEnd}', '{selectedRole}', '{currentDate}', {totalHours})";
             conn.setData(query);
 
             // Retrieve the last inserted shift ID
@@ -720,6 +736,26 @@ namespace OxSystem
                     }
                 }
             }
+        }
+
+        // Method to calculate total hours from shift start and shift end
+        private double CalculateTotalHours(DateTime shiftStart, DateTime shiftEnd)
+        {
+            double totalHours = 0;
+
+            // Calculate the total worked hours, taking into account shifts that cross midnight
+            if (shiftEnd < shiftStart)
+            {
+                // If the shift ends before it starts, it means it crosses midnight
+                totalHours = (24 - shiftStart.TimeOfDay.TotalHours) + shiftEnd.TimeOfDay.TotalHours;
+            }
+            else
+            {
+                // Regular case
+                totalHours = (shiftEnd - shiftStart).TotalHours;
+            }
+
+            return totalHours;
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
