@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfAnimatedGif;
 
 namespace OxSystem
 {
@@ -46,7 +47,6 @@ namespace OxSystem
             UpdateBorders(userid);
             if (DataGrid.Items.Count > 0)
             {
-                // Select the first item
                 DataGrid.SelectedIndex = 0;
             }
             try
@@ -397,21 +397,40 @@ namespace OxSystem
             // Worked Hours label
             Label workedHoursLabel = new Label
             {
-                Content = $"Worked Hours: {workedHours:N2}",
+                Content = $"{workedHours:N2}",
                 FontSize = 25,
                 FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(20,0,150,200),
+            };
+            Label workedhour = new Label
+            {
+                Content = "Worked Hours This Month",
+                FontSize = 12,
+                FontWeight = FontWeights.SemiBold,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(200,0,0,190),
             };
             Grid.SetRow(workedHoursLabel, 0);
 
             // Expected Hours label
             Label expectedHoursLabel = new Label
             {
-                Content = $"Expected Hours: {totalExpectedHoursday:N2}",
+                Content = $" {totalExpectedHoursday:N2}",
                 FontSize = 20,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0,-350,0,250),
+            };
+            Label expectedHours = new Label
+            {
+                Content = "Expected Hours",
+                FontSize = 20,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0,-300,0,0),
             };
             Grid.SetRow(expectedHoursLabel, 1);
 
@@ -429,6 +448,7 @@ namespace OxSystem
             grid.Children.Add(workedHoursLabel);
             grid.Children.Add(expectedHoursLabel);
             grid.Children.Add(totalExpectedHoursLabel);
+            grid.Children.Add(workedhour);
 
             // Add the grid to the Border
             Selectedaccount.Child = grid;
@@ -445,7 +465,7 @@ namespace OxSystem
 
                 if (selectedRow != null)
                 {
-                    // Clear previous labels from UsernameGrid
+                    // Clear previous labels and images from UsernameGrid
                     UsernameGrid.Children.Clear();
 
                     // Get the full name, role, and user ID from the selected row
@@ -457,10 +477,11 @@ namespace OxSystem
                     Label fullNameLabel = new Label
                     {
                         Content = fullName,
-                        FontSize = 25,
+                        FontSize = 30,
                         FontWeight = FontWeights.Bold,
                         HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Margin = new Thickness(0, 120, 0, 0)
                     };
 
                     // Create the label for role
@@ -470,12 +491,36 @@ namespace OxSystem
                         FontSize = 18,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
-                        Margin = new Thickness(0, 30, 0, 0)
+                        Margin = new Thickness(0, 200, 0, 0)
                     };
 
                     // Add both labels to the UsernameGrid
                     UsernameGrid.Children.Add(fullNameLabel);
                     UsernameGrid.Children.Add(roleLabel);
+
+                    // Create an Image control for the GIF
+                    Image gifImage = new Image
+                    {
+                        Width = 220, // Set your desired width
+                        Height = 220, // Set your desired height
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Margin = new Thickness(0, 0, 0, 90) // Adjust the margin as necessary
+                    };
+
+                    // Load the GIF file
+                    var gifPath = new Uri("pack://application:,,,/images/circle.gif", UriKind.Absolute); // Adjust the path if needed
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = gifPath;
+                    bitmap.EndInit();
+
+                    // Set the Animated GIF source and configure repeat behavior
+                    ImageBehavior.SetAnimatedSource(gifImage, bitmap);
+                    ImageBehavior.SetRepeatBehavior(gifImage, System.Windows.Media.Animation.RepeatBehavior.Forever);
+
+                    // Add the GIF image to the UsernameGrid
+                    UsernameGrid.Children.Add(gifImage);
 
                     // Calculate and display worked and expected hours in the SelectedAccount border
                     DateTime currentMonth = DateTime.Now;
@@ -527,14 +572,12 @@ namespace OxSystem
         {
             List<LoginHistory> loginHistory = new List<LoginHistory>();
 
-            // SQL query to get login history for the current day
             string query = $@"
                 SELECT date_time, state
                 FROM loginhistory
                 WHERE userid = {userId}
                 AND CAST(date_time AS DATE) = CAST(GETDATE() AS DATE)";
 
-            // Use getData method to fetch results from the database
             DataSet ds = conn.getData(query);
 
             if (ds != null && ds.Tables.Count > 0)
@@ -588,7 +631,7 @@ namespace OxSystem
         }
     }
 
-    // Class to represent login history records
+   
     public class LoginHistory
     {
         public DateTime DateTime { get; set; }

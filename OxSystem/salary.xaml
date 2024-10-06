@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OxSystem"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
               Background="White" Width="2560" Height="1440">
 
@@ -56,7 +57,7 @@
             ScrollViewer.CanContentScroll="True" 
             Background="White" 
             BorderBrush="#FFA5A5A5" 
-            BorderThickness="0,2,2,2" Foreground="#DD888484" SelectionChanged="DataGrid_SelectionChanged" Canvas.Top="396" Width="1412" HorizontalAlignment="Center" Height="957" VerticalAlignment="Top">
+            BorderThickness="0,2,2,2" Foreground="#DD3E3E3E" SelectionChanged="DataGrid_SelectionChanged" Canvas.Top="396" Width="1412" HorizontalAlignment="Center" Height="957" VerticalAlignment="Top">
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID  ↕️" MinWidth="80" Width="100" Binding="{Binding id}"/>
@@ -122,9 +123,10 @@
             <Border x:Name="salaryadd" CornerRadius="0" Background="#FFF9F9F9" Margin="1828,720,0,0">
                 <Grid>
                     <Label Content="Add Salary" FontSize="30" FontWeight="Bold" Margin="41,20,525,648"></Label>
-                    <TextBox Text="" x:Name="salaryamount"  Margin="41,99,318,578" Background="#FFF9F9F9" RenderTransformOrigin="0.5,0.5" BorderBrush="DimGray" FontSize="22">
+                    <TextBox Padding="5,0,0,0" Text="Salary Amount" x:Name="salaryamount"  Margin="41,99,318,578" Background="#FFF9F9F9" RenderTransformOrigin="0.5,0.5" BorderBrush="DimGray" FontSize="22">
                        
                     </TextBox>
+                    
                     <DatePicker x:Name="salarydate" Margin="435,99,89,578" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" FontSize="22">
                         <DatePicker.RenderTransform>
                             <TransformGroup>
@@ -149,7 +151,7 @@ ScrollViewer.CanContentScroll="True"
 Background="#FFF9F9F9" 
 BorderBrush="{x:Null}" 
 Margin="0,202,0,77" 
-BorderThickness="0,0,0,0" Foreground="#FF3CB1AE">
+BorderThickness="0,0,0,0" Foreground="#FF5DABA9">
 
 
 
@@ -161,8 +163,8 @@ BorderThickness="0,0,0,0" Foreground="#FF3CB1AE">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
 
-                                <Setter Property="BorderThickness" Value="0,0,0,2"/>
-                                <Setter Property="BorderBrush" Value="#FFA5A5A5"/>
+                                <Setter Property="BorderThickness" Value="0,2,0,2"/>
+                                <Setter Property="BorderBrush" Value="#FF77ABA9"/>
                                 <Setter Property="FontSize" Value="22"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
                                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
