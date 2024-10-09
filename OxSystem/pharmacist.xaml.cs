@@ -231,6 +231,9 @@ namespace OxSystem
         {
             query = "UPDATE state\r\nSET state.state = 'unseen'\r\nFROM state\r\nINNER JOIN users_info ON state.userid = users_info.id\r\nWHERE users_info.id = '" + Login_.iduser + "' ";
             conn.setData(query);
+            DateTime currentDateOnly = DateTime.Now;
+            query = "insert into loginhistory values ('" + Login_.iduser + "' , '" + currentDateOnly + "' , 'out')";
+            conn.setData(query);
             Login_ l1 = new Login_();
             l1.Show();
             this.Close();

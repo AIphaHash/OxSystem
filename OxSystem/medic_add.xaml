@@ -170,7 +170,7 @@ RadiusX="20" RadiusY="20"
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <ComboBox Text="Supplier Name" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="supname" HorizontalAlignment="Left" Margin="878,842,0,0" VerticalAlignment="Top" Width="358" Height="54" SelectionChanged="sname_SelectionChanged2" Loaded="sname_Loaded2" BorderBrush="{x:Null}" FontSize="22" BorderThickness="3,3,3,3"/>
+            <ComboBox Text="Supplier Name" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="supname" HorizontalAlignment="Left" Margin="878,842,0,0" VerticalAlignment="Top" Width="358" Height="54" SelectionChanged="sname_SelectionChanged2" Loaded="sname_Loaded2" BorderBrush="#FF4C4C4C" FontSize="22" BorderThickness="3,3,3,3" Background="White"/>
 
             <TextBox Padding="10,15,0,0" Text="" x:Name="bprice" Background="{x:Null}" Margin="854,532,0,480"  HorizontalAlignment="Left" Width="405" BorderBrush="#FF4C4C4C" LostFocus="bprice_LostFocus" GotFocus="bprice_GotFocus" TextChanged="bprice_TextChanged" FontSize="18" Foreground="Black" PreviewTextInput="bprice_PreviewTextInput"  >
                 <TextBox.Style>
@@ -194,7 +194,7 @@ RadiusX="20" RadiusY="20"
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <ComboBox Text="Storage Name" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname" HorizontalAlignment="Left" Margin="1390,841,0,0" VerticalAlignment="Top" Width="374" Height="55" SelectionChanged="sname_SelectionChanged" Loaded="sname_Loaded" KeyUp="sname_KeyUp" BorderBrush="{x:Null}" FontSize="22" Background="{x:Null}" BorderThickness="3,3,3,3"/>
+            <ComboBox Text="Storage Name" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname" HorizontalAlignment="Left" Margin="1390,841,0,0" VerticalAlignment="Top" Width="374" Height="55" SelectionChanged="sname_SelectionChanged" Loaded="sname_Loaded" KeyUp="sname_KeyUp" BorderBrush="#FF4C4C4C" FontSize="22" Background="White" BorderThickness="3,3,3,3"/>
 
 
             <TextBox Padding="10,15,0,0" x:Name="sprice" Background="{x:Null}" Margin="1374,532,0,480" HorizontalAlignment="Left" Width="406" BorderBrush="#FF4C4C4C" GotFocus="sprice_GotFocus" LostFocus="sprice_LostFocus" TextChanged="sprice_TextChanged" PreviewTextInput="sprice_PreviewTextInput" FontSize="18" Foreground="Black" Height="58">
@@ -286,12 +286,12 @@ RadiusX="20" RadiusY="20"
                 </TransformGroup>
             </Border.RenderTransform>
         </Border>
-        <ComboBox IsEditable="True" x:Name="YearComboBox" Height="38" VerticalAlignment="Top" Margin="944,770,856,0" SelectionChanged="YearComboBox_SelectionChanged" BorderBrush="White" BorderThickness="3,3,1,3"/>
-        <ComboBox IsEditable="True" x:Name="MonthComboBox" Height="38" VerticalAlignment="Top" Margin="1044,770,796,0" SelectionChanged="MonthComboBox_SelectionChanged" BorderBrush="White" Background="{x:Null}" BorderThickness="1,3,1,3"/>
-        <ComboBox IsEditable="True" x:Name="DayComboBox" Height="38" VerticalAlignment="Top" Margin="1104,770,736,0" BorderThickness="1,3,3,3"/>
-        <ComboBox IsEditable="True" x:Name="YearComboBox1" Height="40" VerticalAlignment="Top" Margin="1454,768,346,0" SelectionChanged="YearComboBox_SelectionChanged1" BorderBrush="White" BorderThickness="3,3,1,3"/>
-        <ComboBox IsEditable="True" x:Name="MonthComboBox1" Height="40" VerticalAlignment="Top" Margin="1554,768,286,0" SelectionChanged="MonthComboBox_SelectionChanged1" BorderBrush="White" Background="{x:Null}" BorderThickness="1,3,1,3"/>
-        <ComboBox IsEditable="True" x:Name="DayComboBox1" Height="40" VerticalAlignment="Top" Margin="1614,768,226,0" BorderThickness="1,3,3,3"/>
+        <ComboBox IsEditable="True" x:Name="YearComboBox" Height="38" VerticalAlignment="Top" Margin="928,770,872,0" SelectionChanged="YearComboBox_SelectionChanged" BorderBrush="#FF4C4C4C" BorderThickness="3,3,1,3" Background="White"/>
+        <ComboBox IsEditable="True" x:Name="MonthComboBox" Height="38" VerticalAlignment="Top" Margin="1033,770,807,0" SelectionChanged="MonthComboBox_SelectionChanged" BorderBrush="#FF4C4C4C" Background="White" BorderThickness="1,3,1,3"/>
+        <ComboBox IsEditable="True" x:Name="DayComboBox" Height="38" VerticalAlignment="Top" Margin="1098,770,742,0" BorderThickness="1,3,3,3" BorderBrush="#FF4C4C4C" Background="White"/>
+        <ComboBox IsEditable="True" x:Name="YearComboBox1" Height="40" VerticalAlignment="Top" Margin="1449,768,351,0" SelectionChanged="YearComboBox_SelectionChanged1" BorderBrush="#FF4C4C4C" BorderThickness="3,3,1,3" Background="White"/>
+        <ComboBox IsEditable="True" x:Name="MonthComboBox1" Height="40" VerticalAlignment="Top" Margin="1554,768,286,0" SelectionChanged="MonthComboBox_SelectionChanged1" BorderBrush="#FF4C4C4C" Background="White" BorderThickness="1,3,1,3"/>
+        <ComboBox IsEditable="True" x:Name="DayComboBox1" Height="40" VerticalAlignment="Top" Margin="1619,768,221,0" BorderThickness="1,3,3,3" BorderBrush="#FF4C4C4C" Background="White"/>
 
 
 
@@ -563,7 +563,7 @@ RenderTransformOrigin="0.527,0.502" Margin="106,932,1758,108" Cursor="Hand"/>
 
         <Label Padding="0,0,0,0" HorizontalContentAlignment="Center" Content="BarCode⭫" Margin="1259,336,580,699" FontSize="14"></Label>
 
-        <Button VerticalContentAlignment="Center" HorizontalContentAlignment="Center" x:Name="mybutton_Copy2" Content="" Foreground="White" BorderBrush="{x:Null}" BorderThickness="0" FontWeight="UltraBold" Margin="1238,842,0,174" FontSize="36"  Cursor="Hand" HorizontalAlignment="Left" Width="44" Click="mybutton_Click12">
+        <Button VerticalContentAlignment="Center" HorizontalContentAlignment="Center" x:Name="mybutton_Copy2" Content="" Foreground="White" BorderBrush="{x:Null}" BorderThickness="0" FontWeight="UltraBold" Margin="1238,842,0,174" FontSize="36"  Cursor="Hand" HorizontalAlignment="Left" Height="54" Width="44" Click="mybutton_Click12">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border  Padding="0,0,0,10" x:Name="buttonBorder" BorderBrush="{x:Null}" BorderThickness="0" CornerRadius="0,5,5,0" Margin="-2,0,0,0">
@@ -594,7 +594,7 @@ RenderTransformOrigin="0.527,0.502" Margin="106,932,1758,108" Cursor="Hand"/>
             </Button.Template>
         </Button>
         <Image x:Name="accountentimage2" IsEnabled="True"
-RenderTransformOrigin="0.527,0.502" Margin="1236,841,618,174" Cursor="Hand" MouseLeftButtonDown="accountentimage2_MouseLeftButtonDown">
+RenderTransformOrigin="0.527,0.502" Margin="1236,841,618,173" Cursor="Hand" MouseLeftButtonDown="accountentimage2_MouseLeftButtonDown">
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
                     <Style.Triggers>

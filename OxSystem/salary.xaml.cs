@@ -35,8 +35,100 @@ namespace OxSystem
         public salary()
         {
             InitializeComponent();
+            LoadUserStatistics();
 
         }
+        private void LoadUserStatistics()
+        {
+            // Most Worked User
+            string mostWorkedQuery = @"
+    
+	   WITH WorkSessions AS (
+    SELECT userid,
+           MIN(date_time) AS in_time,
+           MAX(date_time) AS out_time
+    FROM loginhistory
+    WHERE state IN ('in', 'out')
+    GROUP BY userid, CAST(date_time AS DATE)
+)
+SELECT TOP 1 ui.id, ui.fullname, SUM(DATEDIFF(HOUR, in_time, out_time)) AS total_hours
+FROM WorkSessions ws
+JOIN users_info ui ON ws.userid = ui.id
+GROUP BY ui.id, ui.fullname
+ORDER BY total_hours DESC;";
+
+            DataSet mostWorkedData = conn.getData(mostWorkedQuery);
+            if (mostWorkedData.Tables.Count > 0 && mostWorkedData.Tables[0].Rows.Count > 0)
+            {
+                string userid = mostWorkedData.Tables[0].Rows[0]["id"].ToString();
+                string fullname = mostWorkedData.Tables[0].Rows[0]["fullname"].ToString();
+                string totalHours = mostWorkedData.Tables[0].Rows[0]["total_hours"].ToString();
+                MostWorkedUser.Text = $"{userid} : {fullname} has been working for: {totalHours} hours";
+            }
+
+            // Least Worked User
+            string leastWorkedQuery = @"
+    WITH WorkSessions AS (
+    SELECT userid,
+           MIN(date_time) AS in_time,
+           MAX(date_time) AS out_time
+    FROM loginhistory
+    WHERE state IN ('in', 'out')
+    GROUP BY userid, CAST(date_time AS DATE)
+)
+SELECT TOP 1 ui.id, ui.fullname, SUM(DATEDIFF(HOUR, in_time, out_time)) AS total_hours
+FROM WorkSessions ws
+JOIN users_info ui ON ws.userid = ui.id
+GROUP BY ui.id, ui.fullname
+ORDER BY total_hours ASC;
+";
+
+            DataSet leastWorkedData = conn.getData(leastWorkedQuery);
+            if (leastWorkedData.Tables.Count > 0 && leastWorkedData.Tables[0].Rows.Count > 0)
+            {
+                string userid = leastWorkedData.Tables[0].Rows[0]["id"].ToString();
+                string fullname = leastWorkedData.Tables[0].Rows[0]["fullname"].ToString();
+                string totalHours = leastWorkedData.Tables[0].Rows[0]["total_hours"].ToString();
+                LeastWorkedUser.Text = $"{userid} : {fullname} has been working for: {totalHours} hours";
+            }
+
+            // Most Upseen User
+            string mostUpseenQuery = @"
+    SELECT TOP 1 ui.id, ui.fullname, COUNT(*) AS upseen_count
+FROM statehistroy sh
+JOIN users_info ui ON sh.userid = ui.id
+WHERE state = 'upseen'
+GROUP BY ui.id, ui.fullname
+ORDER BY upseen_count DESC;";
+
+            DataSet mostUpseenData = conn.getData(mostUpseenQuery);
+            if (mostUpseenData.Tables.Count > 0 && mostUpseenData.Tables[0].Rows.Count > 0)
+            {
+                string userid = mostUpseenData.Tables[0].Rows[0]["id"].ToString();
+                string fullname = mostUpseenData.Tables[0].Rows[0]["fullname"].ToString();
+                string upseenCount = mostUpseenData.Tables[0].Rows[0]["upseen_count"].ToString();
+                MostUpseenUser.Text = $"{userid} : {fullname} has been upseen: {upseenCount} times";
+            }
+
+            // Least Upseen User
+            string leastUpseenQuery = @"
+    SELECT TOP 1 ui.id, ui.fullname, COUNT(*) AS upseen_count
+FROM statehistroy sh
+JOIN users_info ui ON sh.userid = ui.id
+WHERE state = 'upseen'
+GROUP BY ui.id, ui.fullname
+ORDER BY upseen_count ASC;";
+
+            DataSet leastUpseenData = conn.getData(leastUpseenQuery);
+            if (leastUpseenData.Tables.Count > 0 && leastUpseenData.Tables[0].Rows.Count > 0)
+            {
+                string userid = leastUpseenData.Tables[0].Rows[0]["id"].ToString();
+                string fullname = leastUpseenData.Tables[0].Rows[0]["fullname"].ToString();
+                string upseenCount = leastUpseenData.Tables[0].Rows[0]["upseen_count"].ToString();
+                LeastUpseenUser.Text = $"{userid} : {fullname} has been upseen: {upseenCount} times";
+            }
+        }
+
 
         private void header_Loaded(object sender, RoutedEventArgs e)
         {
@@ -51,7 +143,7 @@ namespace OxSystem
             }
             try
             {
-                query = "select * from users_info";
+                query = "SELECT \r\n    ui.id, \r\n    ui.fullname, \r\n    ui.role, \r\n    s.salaryamount, s.transectiondate, \r\n    sh.shift_name, \r\n    sh.shift_hours\r\nFROM \r\n    users_info ui\r\nLEFT JOIN \r\n    salary s \r\n    ON s.usersid LIKE '%,' + CAST(ui.id AS VARCHAR) + ',%'  -- Match ID in the middle\r\n       OR s.usersid LIKE CAST(ui.id AS VARCHAR) + ',%'      -- Match ID at the start\r\n       OR s.usersid LIKE '%,' + CAST(ui.id AS VARCHAR)      -- Match ID at the end\r\n       OR s.usersid = CAST(ui.id AS VARCHAR)               -- Single ID match\r\nLEFT JOIN \r\n    shifts sh \r\n    ON sh.shift_too LIKE '%,' + ui.fullname + ',%'         -- Match fullname in the middle\r\n       OR sh.shift_too LIKE ui.fullname + ',%'             -- Match fullname at the start\r\n       OR sh.shift_too LIKE '%,' + ui.fullname             -- Match fullname at the end\r\n       OR sh.shift_too = ui.fullname                      -- Single fullname match;\r\n ";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -120,6 +212,7 @@ namespace OxSystem
             // Check if an item is selected
             if (DataGrid.SelectedItem != null)
             {
+                note.Visibility = Visibility.Collapsed;
                 // Get the selected row as a DataRowView
                 DataRowView selectedRow = (DataRowView)DataGrid.SelectedItem;
 
@@ -388,57 +481,57 @@ namespace OxSystem
             double totalExpectedHoursday = GetUserShiftHours(userId, selectedMonth);
             double totalExpectedHours = GetTotalExpectedHours(userId, selectedMonth);
 
-            // Create a Grid to hold the labels
             Grid grid = new Grid();
             grid.RowDefinitions.Add(new RowDefinition()); // For worked hours
             grid.RowDefinitions.Add(new RowDefinition()); // For expected hours
             grid.RowDefinitions.Add(new RowDefinition()); // For total expected hours
 
-            // Worked Hours label
             Label workedHoursLabel = new Label
             {
-                Content = $"{workedHours:N2}",
+                Content = $"{workedHours:N0}",
                 FontSize = 25,
                 FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(20,0,150,200),
+                Margin = new Thickness(-130,0,150,200),
             };
             Label workedhour = new Label
             {
                 Content = "Worked Hours This Month",
-                FontSize = 12,
-                FontWeight = FontWeights.SemiBold,
+                FontSize = 20,
+                FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(200,0,0,190),
+                Margin = new Thickness(100,0,0,190),
             };
             Grid.SetRow(workedHoursLabel, 0);
 
             // Expected Hours label
             Label expectedHoursLabel = new Label
             {
-                Content = $" {totalExpectedHoursday:N2}",
+                Content = $" {totalExpectedHoursday:N0}",
                 FontSize = 20,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0,-350,0,250),
+                Margin = new Thickness(-280,-400,0,250),
             };
             Label expectedHours = new Label
             {
-                Content = "Expected Hours",
+                Content = "Shift Hours",
                 FontSize = 20,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0,-300,0,0),
+                Margin = new Thickness(-50,-500,0,150),
             };
             Grid.SetRow(expectedHoursLabel, 1);
+            Grid.SetRow(expectedHours, 1);
 
             // Total Expected Hours label
             Label totalExpectedHoursLabel = new Label
             {
-                Content = $"Total Expected Hours: {totalExpectedHours:N2}",
-                FontSize = 18,
+                Content = $"Total Expected Hours for the Month: {totalExpectedHours:N0}",
+                FontSize = 20
+                , FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -449,6 +542,7 @@ namespace OxSystem
             grid.Children.Add(expectedHoursLabel);
             grid.Children.Add(totalExpectedHoursLabel);
             grid.Children.Add(workedhour);
+            grid.Children.Add(expectedHours);
 
             // Add the grid to the Border
             Selectedaccount.Child = grid;
@@ -498,6 +592,44 @@ namespace OxSystem
                     UsernameGrid.Children.Add(fullNameLabel);
                     UsernameGrid.Children.Add(roleLabel);
 
+                    // Create an Image control for the role-based image
+                    Image roleImage = new Image
+                    {
+                        Width = 160, // Set your desired width
+                        Height = 160, // Set your desired height
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Margin = new Thickness(0, 0, 0, 90) // Adjust the margin as necessary
+                    };
+
+                    // Set the image source based on the user's role
+                    string imagePath = "";
+
+                    if (role == "Admin")
+                    {
+                        roleImage.Width = 160;
+                        roleImage.Height = 160;
+                        roleImage.Source = new BitmapImage(new Uri("pack://application:,,,/images/am.png"));
+                    }
+                    else if (role == "Pharm")
+                    {
+                        roleImage.Width = 140; // Reduced by 10 pixels
+                        roleImage.Height = 140;
+                        roleImage.Source = new BitmapImage(new Uri("pack://application:,,,/images/6938244.png"));
+                    }
+                    else if (role == "Accountent")
+                    {
+                        roleImage.Width = 115; // Reduced by 40 pixels
+                        roleImage.Height = 115;
+                        roleImage.Source = new BitmapImage(new Uri("pack://application:,,,/images/6348754.png"));
+                    }
+
+                    // Set the Source using BitmapImage
+               
+
+                    // Add the role image to the UsernameGrid
+                    UsernameGrid.Children.Add(roleImage);
+
                     // Create an Image control for the GIF
                     Image gifImage = new Image
                     {
@@ -535,8 +667,11 @@ namespace OxSystem
 
 
 
+
         private void UpdateBorders(int userId)
         {
+            approved.Width = 0;
+            notApproved.Width = 1200;
             // Fetch login history for the current day
             List<LoginHistory> loginHistoryRows = GetLoginHistoryForToday(userId);
 
@@ -545,17 +680,29 @@ namespace OxSystem
 
             // Print or display the total logged-in time
             Console.WriteLine($"User has been logged in for: {totalLoggedInTime}");
-           
+
+            // Update hour breakdown label
             hourbreakdown.Content = totalLoggedInTime;
-            // Calculate green and red border widths
+
+            // Check if totalShiftHours is valid
+            if (totalShiftHours <= 0)
+            {
+               
+                return; // Exit the method to avoid calculation issues
+            }
+
+            // Calculate green border width
             double totalHours = totalLoggedInTime.TotalHours;
             double greenBorderWidth = (totalHours / totalShiftHours) * 1200; // 24-hour day mapped to 1200 max width
 
-            // Ensure widths are not negative
-            double redBorderWidth = Math.Max(0, 1200 - greenBorderWidth);
+            // Ensure widths are not negative or infinite
             greenBorderWidth = Math.Max(0, greenBorderWidth);
+            greenBorderWidth = double.IsInfinity(greenBorderWidth) ? 0 : greenBorderWidth; // Handle division issues
 
-            // Update the borders
+            // Calculate red border width (remaining time)
+            double redBorderWidth = Math.Max(0, 1200 - greenBorderWidth);
+
+            // Update the borders with calculated widths
             notApproved.Width = redBorderWidth;
             approved.Width = greenBorderWidth;
 
@@ -563,6 +710,7 @@ namespace OxSystem
             notApproved.InvalidateVisual();
             approved.InvalidateVisual();
         }
+
 
 
 
@@ -598,7 +746,6 @@ namespace OxSystem
             return loginHistory;
         }
 
-        // Function to calculate the total logged-in time from login history rows
         private TimeSpan CalculateLoggedInTime(List<LoginHistory> loginHistoryRows)
         {
             TimeSpan totalLoggedInTime = TimeSpan.Zero;
@@ -610,16 +757,18 @@ namespace OxSystem
                     DateTime loginTime = loginHistoryRows[i].DateTime;
                     DateTime? logoutTime = null;
 
-                    // Find the corresponding "out" state
+                    // Find the corresponding "out" state, ensuring it happens after the "in" state
                     for (int j = i + 1; j < loginHistoryRows.Count; j++)
                     {
-                        if (loginHistoryRows[j].State == "out")
+                        if (loginHistoryRows[j].State == "out" && loginHistoryRows[j].DateTime > loginTime)
                         {
                             logoutTime = loginHistoryRows[j].DateTime;
+                            i = j; // Skip to the "out" state index to avoid double-counting
                             break;
                         }
                     }
 
+                    // Only calculate if a valid "out" state was found after the "in"
                     if (logoutTime.HasValue)
                     {
                         totalLoggedInTime += logoutTime.Value - loginTime;
@@ -627,11 +776,28 @@ namespace OxSystem
                 }
             }
 
+            Console.WriteLine(totalLoggedInTime);
             return totalLoggedInTime;
+        }
+
+        private void salaryamount_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (salaryamount.Text == "" || salaryamount.Text == "Salary Amount")
+            {
+                salaryamount.Text = "";
+            }
+        }
+
+        private void salaryamount_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (salaryamount.Text == "" || salaryamount.Text == "Salary Amount")
+            {
+                salaryamount.Text = "Salary Amount";
+            }
         }
     }
 
-   
+
     public class LoginHistory
     {
         public DateTime DateTime { get; set; }

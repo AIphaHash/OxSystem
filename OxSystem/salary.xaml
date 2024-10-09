@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OxSystem"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+
              mc:Ignorable="d" 
               Background="White" Width="2560" Height="1440">
 
@@ -21,6 +23,7 @@
 
             <Border x:Name="Selectedaccount" CornerRadius="0" Background="#FFF1F1F1" Margin="0,510,2149,0" BorderBrush="#FFA5A5A5" BorderThickness="2,2,2,2">
                 <Grid>
+                    
                 </Grid>
             </Border>
             <Border x:Name="username" Background="#FFF1F1F1" Margin="0,87,2149,930" BorderBrush="#FF969696" BorderThickness="2,0,2,0">
@@ -30,13 +33,25 @@
             </Border>
             <Border x:Name="header" CornerRadius="0" Background="White" Loaded="header_Loaded" Margin="416,87,732,0">
                 <Canvas>
-                    <Border Background="#FF6D2323" Height="13" Width="13" Canvas.Left="1175" Canvas.Top="203" HorizontalAlignment="Left" VerticalAlignment="Top"></Border>
-                    <Border Background="#FF39A296" Height="13" Width="14" Canvas.Left="1010" Canvas.Top="203" HorizontalAlignment="Center" VerticalAlignment="Center"></Border>
-                    <Label Content="Hour breakdown     |" Canvas.Left="90" Canvas.Top="167" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Label Content="Approved" Canvas.Left="1032" Canvas.Top="188" FontSize="20"/>
-                    <Label Content="Not Approved" Canvas.Left="1194" Canvas.Top="188" FontSize="20"/>
-                    <Label x:Name="hourbreakdown" Content="170.00 hrs" Canvas.Left="279" Canvas.Top="167" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <DatePicker Canvas.Left="90" Canvas.Top="61" HorizontalAlignment="Left" VerticalAlignment="Top" Width="278" Height="42" FontSize="20" />
+                    <Border Background="#FF6D2323" Height="13" Width="13" Canvas.Left="1138" Canvas.Top="203" HorizontalAlignment="Left" VerticalAlignment="Center"></Border>
+                    <Border Background="#FF39A296" Height="13" Width="14" Canvas.Left="973" Canvas.Top="203" HorizontalAlignment="Left" VerticalAlignment="Center"></Border>
+                    <Label Content="Hour breakdown For the Date :" Canvas.Left="83" Canvas.Top="51" FontSize="36" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"/>
+                    <Label Content="Hour Worked   |" Canvas.Left="83" Canvas.Top="198" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="Approved" Canvas.Left="995" Canvas.Top="188" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="Not Approved" Canvas.Left="1157" Canvas.Top="188" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label x:Name="hourbreakdown" Content="170.00 hrs" Canvas.Left="233" Canvas.Top="198" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <DatePicker 
+                        VerticalContentAlignment="Center"
+    Canvas.Left="654" 
+    Canvas.Top="51" 
+    HorizontalAlignment="Center" 
+    VerticalAlignment="Top" 
+    Width="278" 
+    Height="58" 
+    FontSize="24" 
+    IsHitTestVisible="False"
+    SelectedDate="{x:Static sys:DateTime.Now}" 
+    IsEnabled="False" />
                     <DataGrid 
             IsReadOnly="True"
             x:Name="DataGrid" 
@@ -57,15 +72,16 @@
             ScrollViewer.CanContentScroll="True" 
             Background="White" 
             BorderBrush="#FFA5A5A5" 
-            BorderThickness="0,2,2,2" Foreground="#DD3E3E3E" SelectionChanged="DataGrid_SelectionChanged" Canvas.Top="396" Width="1412" HorizontalAlignment="Center" Height="957" VerticalAlignment="Top">
+            BorderThickness="0,2,2,2" Foreground="#DD3E3E3E" SelectionChanged="DataGrid_SelectionChanged" Canvas.Top="332" Width="1412" HorizontalAlignment="Center" Height="1021" VerticalAlignment="Top">
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID  ↕️" MinWidth="80" Width="100" Binding="{Binding id}"/>
                             <DataGridTextColumn Header="Full Name  ↕️" MinWidth="150" Width="280" Binding="{Binding fullname}"/>
                             <DataGridTextColumn Header="Role  ↕️" MinWidth="150" Width="120" Binding="{Binding role}"/>
-                       <DataGridTextColumn Header="Salary  ↕️" MinWidth="80" Width="100" Binding="{Binding salaryamount}"/>
+                            <DataGridTextColumn Header="Salary  ↕️" MinWidth="200" Width="100" Binding="{Binding salaryamount}"/>
                             <DataGridTextColumn Header="Transection Date  ↕️" MinWidth="150" Width="280" Binding="{Binding transectiondate}"/>
                             <DataGridTextColumn Header="Shift  ↕️" MinWidth="150" Width="120" Binding="{Binding shift_name}"/>
+                            <DataGridTextColumn Header="Shift Hours ↕️" MinWidth="200" Width="150" Binding="{Binding shift_hours}"/>
                         </DataGrid.Columns>
 
                         <!-- DataGrid column header style -->
@@ -111,22 +127,128 @@
                     </DataGrid>
                 </Canvas>
             </Border>
-
-            <Border x:Name="suggestion" CornerRadius="0" Background="Gainsboro" Margin="1828,87,0,720">
+            <Border x:Name="suggestion" CornerRadius="0" Background="#FFF1F1F1" Margin="1828,87,0,720">
                 <Grid>
-                    <Border CornerRadius="20" Background="White" Margin="30,35,30,489"/>
-                    <Border CornerRadius="20" Background="White" Margin="30,192,30,331"/>
-                    <Border CornerRadius="20" Background="White" Margin="30,347,30,177"/>
-                    <Border CornerRadius="20" Background="White" Margin="30,500,30,24"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Most Worked User Card -->
+                    <Border CornerRadius="20" BorderThickness="2" Background="White" Margin="20,30,20,10" Height="110" Grid.Row="0" BorderBrush="Black">
+                        <StackPanel>
+                            <TextBlock Text="Most Worked User:" FontSize="16" FontWeight="Bold" Margin="10"/>
+                            <TextBlock x:Name="MostWorkedUser" FontSize="20" Margin="10"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Least Worked User Card -->
+                    <Border CornerRadius="20" BorderThickness="2" Background="White" Margin="20,30,20,10" Height="110" Grid.Row="1" BorderBrush="Black">
+                        <StackPanel>
+                            <TextBlock Text="Least Worked User:" FontSize="16" FontWeight="Bold" Margin="10"/>
+                            <TextBlock x:Name="LeastWorkedUser" FontSize="20" Margin="10"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Most Upseen User Card -->
+                    <Border CornerRadius="20" BorderThickness="2" Background="White" Margin="20,30,20,10" Height="110" Grid.Row="2" BorderBrush="Black">
+                        <StackPanel>
+                            <TextBlock Text="Most Upseen User:" FontSize="16" FontWeight="Bold" Margin="10"/>
+                            <TextBlock x:Name="MostUpseenUser" FontSize="20" Margin="10"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Least Upseen User Card -->
+                    <Border CornerRadius="20" BorderThickness="2" Background="White" Margin="20,27,20,13" Height="110" Grid.Row="3" BorderBrush="Black">
+                        <StackPanel>
+                            <TextBlock Text="Least Upseen User:" FontSize="16" FontWeight="Bold" Margin="10"/>
+                            <TextBlock x:Name="LeastUpseenUser" FontSize="20" Margin="10"/>
+                        </StackPanel>
+                    </Border>
                 </Grid>
             </Border>
-            <Border x:Name="salaryadd" CornerRadius="0" Background="#FFF9F9F9" Margin="1828,720,0,0">
+
+
+            <Border x:Name="salaryadd" CornerRadius="0" Background="#FFF9F9F9" Margin="1828,705,0,0">
                 <Grid>
                     <Label Content="Add Salary" FontSize="30" FontWeight="Bold" Margin="41,20,525,648"></Label>
-                    <TextBox Padding="5,0,0,0" Text="Salary Amount" x:Name="salaryamount"  Margin="41,99,318,578" Background="#FFF9F9F9" RenderTransformOrigin="0.5,0.5" BorderBrush="DimGray" FontSize="22">
-                       
+                   
+                    <DataGrid IsReadOnly="True" x:Name="DataGrid1"
+          AutoGenerateColumns="False" 
+          CanUserAddRows="False" 
+          SelectionMode="Extended" 
+          HeadersVisibility="Column"
+          ColumnHeaderHeight="60"
+          RowHeight="45"
+          GridLinesVisibility="None"
+          ScrollViewer.CanContentScroll="True" 
+          Background="#FFF9F9F9" 
+          BorderBrush="{x:Null}" 
+          Margin="0,202,0,88" 
+          BorderThickness="0,0,0,0" 
+          Foreground="#FF5DABA9">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID  ↕️" MinWidth="80" Width="100" Binding="{Binding id}"/>
+                            <DataGridTextColumn Header="Full Name  ↕️" MinWidth="150" Width="280" Binding="{Binding fullname}"/>
+                            <DataGridTextColumn Header="Role  ↕️" MinWidth="150" Width="120" Binding="{Binding role}"/>
+                        </DataGrid.Columns>
+
+                        <!-- Style for the DataGrid column headers -->
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="BorderThickness" Value="0,2,0,2"/>
+                                <Setter Property="BorderBrush" Value="#FF77ABA9"/>
+                                <Setter Property="FontSize" Value="22"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                <Setter Property="Padding" Value="20,0,0,0"/>
+                                <Setter Property="Foreground" Value="#FF77ABA9"/>
+                                <!-- Set header font color to green -->
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <!-- Style for the DataGrid cells -->
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Padding" Value="20,0,20,0"/>
+                                <Setter Property="FontSize" Value="19"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <!-- Set row and cell font color to black -->
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#FF5F5F5F"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+
+                        <!-- Style for the DataGrid rows -->
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Margin" Value="20,10,15,0"/>
+                                <Setter Property="Padding" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                <Setter Property="BorderBrush" Value="#FFE6E6E6"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+
+                    </DataGrid>
+
+                    <Label x:Name="note" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="30" FontWeight="Bold" Content="Double click on Main Table rows To add here " Margin="0,20,0,-20"/>
+                    <TextBox Padding="5,0,0,0" Text="Salary Amount" x:Name="salaryamount"  Margin="41,99,318,578" Background="#FFF9F9F9" RenderTransformOrigin="0.5,0.5" BorderBrush="DimGray" FontSize="22" GotFocus="salaryamount_GotFocus" LostFocus="salaryamount_LostFocus">
+
                     </TextBox>
-                    
+                    <Button Content="Create" Margin="566,647,29,24" Click="Button_Click" FontSize="20"></Button>
+
                     <DatePicker x:Name="salarydate" Margin="435,99,89,578" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" FontSize="22">
                         <DatePicker.RenderTransform>
                             <TransformGroup>
@@ -137,76 +259,12 @@
                             </TransformGroup>
                         </DatePicker.RenderTransform>
                     </DatePicker>
-                    <Button Margin="632,663,10,25" Click="Button_Click"></Button>
-                    <DataGrid IsReadOnly="True" x:Name="DataGrid1"
-AutoGenerateColumns="False" 
-CanUserAddRows="False" 
-SelectionMode="Extended" 
-HeadersVisibility="Column"
-
-ColumnHeaderHeight="60"
-RowHeight="45"
-              GridLinesVisibility="None"
-ScrollViewer.CanContentScroll="True" 
-Background="#FFF9F9F9" 
-BorderBrush="{x:Null}" 
-Margin="0,202,0,77" 
-BorderThickness="0,0,0,0" Foreground="#FF5DABA9">
-
-
-
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID  ↕️" MinWidth="80" Width="100" Binding="{Binding id}"/>
-                            <DataGridTextColumn Header="Full Name  ↕️" MinWidth="150" Width="280" Binding="{Binding fullname}"/>
-                            <DataGridTextColumn Header="Role  ↕️" MinWidth="150" Width="120" Binding="{Binding role}"/>
-                        </DataGrid.Columns>
-                        <DataGrid.ColumnHeaderStyle>
-                            <Style TargetType="{x:Type DataGridColumnHeader}">
-
-                                <Setter Property="BorderThickness" Value="0,2,0,2"/>
-                                <Setter Property="BorderBrush" Value="#FF77ABA9"/>
-                                <Setter Property="FontSize" Value="22"/>
-                                <Setter Property="FontWeight" Value="Bold"/>
-                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                <Setter Property="Padding" Value="20,0,0,0"/>
-                            </Style>
-                        </DataGrid.ColumnHeaderStyle>
-
-                        <!-- DataGridCell Style for adding padding -->
-                        <DataGrid.CellStyle>
-                            <Style TargetType="{x:Type DataGridCell}">
-                                <Setter Property="Padding" Value="20,0,20,0"/>
-                                <Setter Property="FontSize" Value="19"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                
-                                <Style.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="#FF5F5F5F"/>
-                                        <Setter Property="Foreground" Value="Black"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.CellStyle>
-
-                        <!-- DataGridRow Style for adding white space between row border and cell -->
-                        <DataGrid.RowStyle>
-                            <Style TargetType="{x:Type DataGridRow}">
-                                <Setter Property="Margin" Value="20,10,15,0"/>
-                                <Setter Property="Padding" Value="0,0,0,0"/>
-                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                              
-                                <Setter Property="Background" Value="Transparent"/>
-                            </Style>
-                        </DataGrid.RowStyle>
-
-                    </DataGrid>
                 </Grid>
             </Border>
 
 
-            <Border Background="White" Margin="0,0,0,1353" BorderBrush="#FF1CB9A0" BorderThickness="0,0,0,10">
+            <Border Background="White" Margin="0,0,0,1350" BorderBrush="#FF1D8676" BorderThickness="0,0,0,10" Height="90">
+                <Label Content="Dashboard - Accountent -" HorizontalAlignment="Left" Margin="70,19,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Cambria Math"/>
 
             </Border>
             <Border x:Name="notApproved" Background="#FF6D2323" HorizontalAlignment="Right" Margin="0,352,856,1072" Height="15" Width="1200"/>

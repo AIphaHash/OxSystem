@@ -11,37 +11,41 @@
     <UserControl.Resources>
 
 
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Scroll.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
 
-
-        <Storyboard x:Key="GlowAnimation" AutoReverse="True" RepeatBehavior="Forever">
-            <DoubleAnimation Storyboard.TargetName="border1"
+            <Storyboard x:Key="GlowAnimation" AutoReverse="True" RepeatBehavior="Forever">
+                <DoubleAnimation Storyboard.TargetName="border1"
                              Storyboard.TargetProperty="Opacity"
                              From="1.0" To="0.1" Duration="0:0:1"/>
-            <DoubleAnimation Storyboard.TargetName="border2"
+                <DoubleAnimation Storyboard.TargetName="border2"
                              Storyboard.TargetProperty="Opacity"
                              From="1.0" To="0.1" Duration="0:0:1"/>
-            <DoubleAnimation Storyboard.TargetName="border3"
+                <DoubleAnimation Storyboard.TargetName="border3"
                              Storyboard.TargetProperty="Opacity"
                              From="1.0" To="0.1" Duration="0:0:1"/>
-        </Storyboard>
-        <Storyboard x:Key="MoveupStoryboard">
-            <DoubleAnimation
+            </Storyboard>
+            <Storyboard x:Key="MoveupStoryboard">
+                <DoubleAnimation
 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
 From="1200" To="0" Duration="0:0:0.5" />
-        </Storyboard>
+            </Storyboard>
 
 
-        <Storyboard x:Key="ShakeAndRedBorderStoryboard">
-            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"
+            <Storyboard x:Key="ShakeAndRedBorderStoryboard">
+                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"
                          From="0" To="-10" Duration="0:0:0.1" AutoReverse="True" RepeatBehavior="3x"/>
-            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"
+                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"
                          From="-10" To="10" Duration="0:0:0.1" AutoReverse="True" RepeatBehavior="3x"/>
-            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"
+                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"
                          From="10" To="0" Duration="0:0:0.1" AutoReverse="True" RepeatBehavior="3x"/>
-            <ColorAnimation Storyboard.TargetProperty="(TextBox.BorderBrush).(SolidColorBrush.Color)"
+                <ColorAnimation Storyboard.TargetProperty="(TextBox.BorderBrush).(SolidColorBrush.Color)"
                         To="Red" Duration="0:0:2"/>
-        </Storyboard>
+            </Storyboard>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid Margin="0,0,0,-36" Height="1080" Width="1920">
         <Grid x:Name="allinfo" Background="#FFF6F8F9" MouseEnter="allinfo_MouseEnter" >
@@ -89,9 +93,9 @@ From="1200" To="0" Duration="0:0:0.5" />
                     <Border BorderThickness="10" CornerRadius="20" Grid.ColumnSpan="2" Margin="355,355,108,0" Background="#FF63676B" Grid.RowSpan="2" BorderBrush="#FFA2A2A2" Height="225" VerticalAlignment="Top">
 
                         <Grid>
-                            <ComboBox IsEditable="True" x:Name="YearComboBox" Width="100" Height="34" VerticalAlignment="Center" Margin="665,0,424,0" SelectionChanged="YearComboBox_SelectionChanged" BorderBrush="White"/>
-                            <ComboBox IsEditable="True" x:Name="MonthComboBox" Width="100" Height="34" VerticalAlignment="Center" Margin="765,0,324,0" SelectionChanged="MonthComboBox_SelectionChanged" BorderBrush="White" Background="{x:Null}"/>
-                            <ComboBox IsEditable="True" x:Name="DayComboBox" Width="100" Height="34" VerticalAlignment="Center" Margin="865,0,224,0"/>
+                            <ComboBox IsEditable="True" x:Name="YearComboBox" Width="100" Height="34" VerticalAlignment="Center" Margin="665,0,424,0" SelectionChanged="YearComboBox_SelectionChanged" BorderBrush="White" Foreground="White" Background="Transparent"/>
+                            <ComboBox IsEditable="True" x:Name="MonthComboBox" Height="34" VerticalAlignment="Center" Margin="778,0,325,0" SelectionChanged="MonthComboBox_SelectionChanged" BorderBrush="White" Background="Transparent" Foreground="White"/>
+                            <ComboBox IsEditable="True" x:Name="DayComboBox" Height="34" VerticalAlignment="Center" Margin="888,0,215,0" SelectionChanged="MonthComboBox_SelectionChanged" BorderBrush="White" Background="Transparent" Foreground="White"/>
                         </Grid>
                     </Border>
 
@@ -388,7 +392,7 @@ Margin="1251,224,0,0" Text=" " x:Name="rolee" FontSize="18" Foreground="White" F
             </Border.RenderTransform>
         </Border>
         <Border BorderThickness="10" CornerRadius="20" Margin="466,77,1333,0" Background="#FF63676B" BorderBrush="#FFA2A2A2" Height="245" VerticalAlignment="Top">
-            
+
         </Border>
         <Grid Visibility="Collapsed" x:Name="adminPerm" Margin="543,393,1189,581">
             <CheckBox x:Name="all" Content="All Permmisions" IsChecked="False" FontSize="16" IsEnabled="True"/>
@@ -401,9 +405,9 @@ Margin="1251,224,0,0" Text=" " x:Name="rolee" FontSize="18" Foreground="White" F
                 <CheckBox x:Name="chkSellMedic" Content="Sell Medic" IsChecked="False" IsEnabled="True" FontSize="16"/>
                 <CheckBox x:Name="chkSellMedicDuplicate" Content="storage manage" IsChecked="False" IsEnabled="True" FontSize="16"/>
                 <CheckBox x:Name="makereport" Content="Make Report" IsChecked="False" IsEnabled="True" FontSize="16"/>
-            
-            
-            
+
+
+
             </StackPanel>
         </Grid>
         <Image Source="/images/Vector 1.png" RenderTransformOrigin="0.527,0.502" Margin="-38,683,1567,178">

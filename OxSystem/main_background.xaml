@@ -693,15 +693,15 @@ RenderTransformOrigin="0.527,0.502" Margin="9,16,158,17" Cursor="Hand"/>
                 VerticalContentAlignment="Center" 
                 IsEditable="True" 
                 HorizontalAlignment="Left" 
-                Margin="695,712,0,0" 
+                Margin="697,712,0,0" 
                 VerticalAlignment="Top" 
                 Width="170" 
                 Height="44" 
                 SelectionChanged="ComboBoxAdv_TextChanged" 
-                BorderBrush="#FF44AEAE" 
+                BorderBrush="#FFABB2B3" 
                 BorderThickness="2,2,2,2"
                 FontSize="18" 
-                Foreground="#FF8A8A8A" FontWeight="Bold">
+                Foreground="#FF8A8A8A" FontWeight="Bold" Background="White">
 
                 <ComboBoxItem Content="Name" />
                 <ComboBoxItem Content="PhoneNum" />

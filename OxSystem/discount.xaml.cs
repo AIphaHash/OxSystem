@@ -220,6 +220,7 @@ namespace OxSystem
             // Check if an item is selected
             if (DataGrid.SelectedItem != null)
             {
+            note.Visibility = Visibility.Collapsed;
                 // Get the selected row as a DataRowView
                 DataRowView selectedRow = (DataRowView)DataGrid.SelectedItem;
 
@@ -274,6 +275,14 @@ namespace OxSystem
             query = "insert into discount values('"+idsString+"', '"+discountN+"' , '"+discountS+"' , '"+discountE+"' ,'"+discountA+"')";
             conn.setData(query);
 
+        }
+
+        private void DataGrid1_Loaded(object sender, RoutedEventArgs e)
+        {
+            query = "select * from discount";
+            ds = conn.getData(query);
+            
+            DataGrid1.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
         }
     }
 }

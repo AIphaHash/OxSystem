@@ -13,181 +13,186 @@ xmlns:Effects="clr-namespace:System.Windows.Media.Effects;assembly=PresentationC
         WindowStyle="None" AllowsTransparency="True" 
 ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="Transparent" Loaded="Window_Loaded">
     <Window.Resources>
-        <Storyboard x:Key="HideStackPanel">
-            <DoubleAnimation 
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Scroll.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="HideStackPanel">
+                <DoubleAnimation 
             Storyboard.TargetName="nav_pnl"
             Storyboard.TargetProperty="Width"
             From="240" To="61"
             Duration="0:0:0.2"/>
-            <DoubleAnimation 
+                <DoubleAnimation 
             Storyboard.TargetName="navbar"
             Storyboard.TargetProperty="Height"
             From="50" To="0"
             Duration="0:0:0.2"/>
-            <DoubleAnimation 
+                <DoubleAnimation 
             Storyboard.TargetName="nav_pnl2"
             Storyboard.TargetProperty="Width"
             From="300" To="0"
             Duration="0:0:0.2"/>
-            <ThicknessAnimation
+                <ThicknessAnimation
             Storyboard.TargetName="ExpandableBorder"
             Storyboard.TargetProperty="Margin"
             From="1219,0,0,0"
             To="1398,0,0,0"
             Duration="0:0:0.2"/>
-        </Storyboard>
-        <Storyboard x:Key="ShowStackPanel">
-            <DoubleAnimation
+            </Storyboard>
+            <Storyboard x:Key="ShowStackPanel">
+                <DoubleAnimation
             Storyboard.TargetName="nav_pnl"
             Storyboard.TargetProperty="Width"
             From="61" To="240"
             Duration="0:0:0.3"/>
-            <DoubleAnimation 
+                <DoubleAnimation 
             Storyboard.TargetName="navbar"
             Storyboard.TargetProperty="Height"
             From="0" To="50"
             Duration="0:0:0.2"/>
-            <DoubleAnimation
+                <DoubleAnimation
             Storyboard.TargetName="nav_pnl2"
             Storyboard.TargetProperty="Width"
             From="0" To="300"
             Duration="0:0:0.3"/>
-            <ThicknessAnimation
+                <ThicknessAnimation
             Storyboard.TargetName="ExpandableBorder"
             Storyboard.TargetProperty="Margin"
             From="1398,0,0,0"
             To="1219,0,0,0"
             Duration="0:0:0.3"/>
-        </Storyboard>
-        <Storyboard x:Key="FadeInStoryboard2">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            </Storyboard>
+            <Storyboard x:Key="FadeInStoryboard2">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                          From="0" To="1" Duration="0:0:1"/>
-        </Storyboard>
-        <Storyboard x:Key="FadeOutStoryboard2">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            </Storyboard>
+            <Storyboard x:Key="FadeOutStoryboard2">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                          From="1" To="0" Duration="0:0:1"/>
-        </Storyboard>
-        <Style TargetType="TextBox">
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Background" Value="#FFEBEDED"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="Margin" Value="32,36,5,5"/>
-            <Setter Property="IsReadOnly" Value="True"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="SelectionBrush" Value="{x:Null}"/>
-            <Setter Property="SelectionTextBrush" Value="{x:Null}"/>
-        </Style>
-        <Storyboard x:Key="DragOutStoryboard">
-            <DoubleAnimation 
+            </Storyboard>
+            <Style TargetType="TextBox">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Background" Value="#FFEBEDED"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="Margin" Value="32,36,5,5"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="SelectionBrush" Value="{x:Null}"/>
+                <Setter Property="SelectionTextBrush" Value="{x:Null}"/>
+            </Style>
+            <Storyboard x:Key="DragOutStoryboard">
+                <DoubleAnimation 
                          Storyboard.TargetProperty="Opacity" 
                          From="1" To="0" Duration="0:0:0.1" />
-            <ThicknessAnimation 
+                <ThicknessAnimation 
                             Storyboard.TargetProperty="Margin" 
                             From="0,0,0,0" To="0,-100,0,0" 
                             Duration="0:0:0.1" />
-        </Storyboard>
-        <Storyboard x:Key="DragInStoryboard">
-            <DoubleAnimation 
+            </Storyboard>
+            <Storyboard x:Key="DragInStoryboard">
+                <DoubleAnimation 
                          Storyboard.TargetProperty="Opacity" 
                          From="0" To="1" Duration="0:0:0.1" />
-            <ThicknessAnimation  
+                <ThicknessAnimation  
                             Storyboard.TargetProperty="Margin" 
                             From="0,-100,0,0" To="0,0,0,0" 
                             Duration="0:0:0.1" />
-        </Storyboard>
-        <Storyboard x:Key="FadeOutStoryboard">
-            <DoubleAnimation
+            </Storyboard>
+            <Storyboard x:Key="FadeOutStoryboard">
+                <DoubleAnimation
     Storyboard.TargetName="report"
     Storyboard.TargetProperty="Opacity"
     From="0"
     To="1"
     Duration="0:0:1" />
-        </Storyboard>
-        <Storyboard x:Key="FadeOutStoryboard1">
-            <DoubleAnimation
+            </Storyboard>
+            <Storyboard x:Key="FadeOutStoryboard1">
+                <DoubleAnimation
     Storyboard.TargetName="gsetting"
     Storyboard.TargetProperty="Opacity"
     From="0"
     To="1"
     Duration="0:0:1" />
-        </Storyboard>
-        <Storyboard x:Key="ExpandBorderStoryboard">
-            <DoubleAnimation 
+            </Storyboard>
+            <Storyboard x:Key="ExpandBorderStoryboard">
+                <DoubleAnimation 
         Storyboard.TargetName="ExpandableBorder"
         Storyboard.TargetProperty="Height"
         From="45" To="350" 
         Duration="0:0:0.5" 
         AutoReverse="False"/>
-        </Storyboard>
-        <Storyboard x:Key="CollapseBorderStoryboard">
-            <DoubleAnimation 
+            </Storyboard>
+            <Storyboard x:Key="CollapseBorderStoryboard">
+                <DoubleAnimation 
         Storyboard.TargetName="ExpandableBorder"
         Storyboard.TargetProperty="Height"
         From="350" To="45" 
         Duration="0:0:0.5" 
         AutoReverse="False"/>
-        </Storyboard>
-        <Storyboard x:Key="GlowAnimation" RepeatBehavior="Forever" AutoReverse="True">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            </Storyboard>
+            <Storyboard x:Key="GlowAnimation" RepeatBehavior="Forever" AutoReverse="True">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                              From="0.5" To="1.0" Duration="0:0:1" />
-        </Storyboard>
-        <ImageBrush x:Key="tb_mouse_over"
+            </Storyboard>
+            <ImageBrush x:Key="tb_mouse_over"
                     ImageSource="images/home.png"/>
-        <Style x:Key="font_style" TargetType="{x:Type TextBlock}">
-            <Setter Property="VerticalAlignment"
+            <Style x:Key="font_style" TargetType="{x:Type TextBlock}">
+                <Setter Property="VerticalAlignment"
                     Value="Center"/>
-            <Setter Property="HorizontalAlignment"
+                <Setter Property="HorizontalAlignment"
                     Value="Left"/>
-            <Setter Property="Foreground"
+                <Setter Property="Foreground"
                     Value="White"/>
-            <Setter Property="FontSize"
+                <Setter Property="FontSize"
                     Value="20"/>
-        </Style>
-        <Style TargetType="{x:Type ToolTip}" x:Key="tt_style">
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Width" Value=" 100"/>
-            <Setter Property="Margin" Value="20,0,0,0"/>
-            <Setter Property="Background" Value="#4A5668"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="PlacementRectangle" Value="60,0,0,0"/>
-            <Setter Property="HorizontalOffset" Value="15"/>
-            <Setter Property="VerticalOffset" Value="6"/>
-            <Setter Property="HasDropShadow" Value="True"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        </Style>
-        <Style x:Key="tb_style" TargetType="{x:Type ToggleButton}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border x:Name="border"
+            </Style>
+            <Style TargetType="{x:Type ToolTip}" x:Key="tt_style">
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Width" Value=" 100"/>
+                <Setter Property="Margin" Value="20,0,0,0"/>
+                <Setter Property="Background" Value="#4A5668"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="PlacementRectangle" Value="60,0,0,0"/>
+                <Setter Property="HorizontalOffset" Value="15"/>
+                <Setter Property="VerticalOffset" Value="6"/>
+                <Setter Property="HasDropShadow" Value="True"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="tb_style" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="border"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 SnapsToDevicePixels="True"/>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background"
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background"
                                         TargetName="border"
                                         Value="{StaticResource tb_mouse_over}"/>
-                                <Setter Property="BorderBrush"
+                                    <Setter Property="BorderBrush"
                                         TargetName="border"
                                         Value="{StaticResource tb_mouse_over}"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background"
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background"
                                         TargetName="border"
                                         Value="{StaticResource tb_mouse_over}"/>
-                                <Setter Property="BorderBrush"
+                                    <Setter Property="BorderBrush"
                                         TargetName="border"
                                         Value="{StaticResource tb_mouse_over}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
     </Window.Resources>
     <Viewbox Height="1440">
         <Grid Width="1900" Height="1069">
@@ -440,9 +445,17 @@ ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="Transpare
                                     </TextBox.Foreground>
                                 </TextBox>
                                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="22,125,24,0">
-                                    <StackPanel x:Name="ChatStackPanel" VerticalAlignment="Top">
+
+                                    <StackPanel x:Name="ChatStackPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                                        <StackPanel.Resources>
+                                            <!-- Clear any inherited Material Design styles -->
+                                            <Style TargetType="StackPanel" BasedOn="{x:Null}"/>
+                                        </StackPanel.Resources>
+                                        <!-- Add your content here -->
                                     </StackPanel>
+
                                 </ScrollViewer>
+
                                 <Label Content="🔔" Margin="343,2,65,0" Height="26" VerticalAlignment="Top"/>
                                 <Label Content="⚙️" Margin="369,2,37,0" Height="26" VerticalAlignment="Top"></Label>
                                 <Label x:Name="ToggleLabel" HorizontalContentAlignment="Center" Padding="0,0,0,0" Content="▲" Margin="0,7,10,0" 

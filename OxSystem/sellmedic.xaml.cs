@@ -1,4 +1,13 @@
-﻿using iText.Forms.Form.Element;
+﻿
+
+
+
+
+
+
+
+
+using iText.Forms.Form.Element;
 using Org.BouncyCastle.Math;
 using System;
 using System.Collections;
@@ -33,7 +42,10 @@ using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace OxSystem
 {
-
+    /// <summary>
+    /// Interaction logic for sellmedic.xaml
+    /// </summary>
+    /// 
     public partial class sellmedic : UserControl
 
     {
@@ -41,7 +53,7 @@ namespace OxSystem
         private Stopwatch inputTimer = new Stopwatch(); // To measure the time between key inputs
         private const int barcodeThresholdMs = 50; // Threshold time in milliseconds
 
-        private SolidColorBrush numMedicBackground; 
+        private SolidColorBrush numMedicBackground;
         private Dictionary<string, TextBlock> cardQuantities = new Dictionary<string, TextBlock>();
 
         private Dictionary<string, Border> cardBorders = new Dictionary<string, Border>();
@@ -85,7 +97,7 @@ namespace OxSystem
         public sellmedic()
         {
             InitializeComponent();
-           
+
 
 
             TransferredMedicList = new ObservableCollection<MedicWithFlag>();
@@ -254,7 +266,7 @@ namespace OxSystem
 
         private void DecreaseButton_Click(object sender, RoutedEventArgs e)
         {
-           if (int.TryParse(quantityTextBox.Text, out int currentValue))
+            if (int.TryParse(quantityTextBox.Text, out int currentValue))
             {
                 if (currentValue > 1)
                 {
@@ -428,7 +440,7 @@ namespace OxSystem
             // Ensure the total sell price is updated again
             UpdateTotalSellPrice();
         }
-    
+
 
 
 
@@ -949,7 +961,7 @@ namespace OxSystem
 
             }
 
-            }
+        }
 
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -1226,7 +1238,7 @@ namespace OxSystem
 
         }
 
-       
+
 
 
 
@@ -1237,7 +1249,7 @@ namespace OxSystem
 
 
         }
-      
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
@@ -1335,6 +1347,7 @@ namespace OxSystem
 
         private void ItemsCards_Loaded(object sender, RoutedEventArgs e)
         {
+
             DataGrid1.ItemsSource = null;
 
             // Clear existing items in CardContainer to prevent duplication
@@ -1343,11 +1356,9 @@ namespace OxSystem
             cardQuantities.Clear();
 
             query = @"
-    SELECT d.medicid, d.discamount, d.disc_start, d.disc_end, m.mname, m.bprice, m.sprice, m.exdate, m.nummedic
-    FROM medicinfo m
-    LEFT JOIN discount d ON CHARINDEX(',' + CAST(m.mid AS VARCHAR) + ',', ',' + d.medicid + ',') > 0
-    WHERE m.nummedic > 0
-    AND (d.disc_start IS NULL OR d.disc_end IS NULL OR GETDATE() BETWEEN d.disc_start AND d.disc_end);";
+SELECT mname, bprice, sprice, exdate, nummedic 
+FROM medicinfo 
+WHERE nummedic > 0;";
 
             ds = conn.getData(query); // Fetch the data from the database
 
@@ -1355,13 +1366,11 @@ namespace OxSystem
             {
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    // Get the values from the row
+                    // Get the value of nummedic
                     int nummedic = Convert.ToInt32(row["nummedic"]);
                     string itemName = row["mname"].ToString();
-                    double originalSellPrice = Convert.ToDouble(row["sprice"]);
 
                     // Determine color for the number of medics border based on nummedic value
-                    SolidColorBrush numMedicBackground;
                     if (nummedic > 10)
                     {
                         numMedicBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF39A08B")); // More than 10
@@ -1390,12 +1399,11 @@ namespace OxSystem
                         RenderTransform = new TransformGroup
                         {
                             Children = new TransformCollection
-                    {
-                        new ScaleTransform() // Add a ScaleTransform to be animated
-                    }
+                {
+                    new ScaleTransform() // Add a ScaleTransform to be animated
+                }
                         }
                     };
-
                     // Add mouse event handlers for hover effect and click animation
                     mainBorder.MouseEnter += (s, args) =>
                     {
@@ -1424,6 +1432,7 @@ namespace OxSystem
                         }
                     };
 
+
                     // Create a StackPanel to hold the card content
                     StackPanel stackPanel = new StackPanel
                     {
@@ -1442,7 +1451,7 @@ namespace OxSystem
                         Margin = new Thickness(0, 0, 0, 10) // Add margin at the bottom
                     };
 
-                    // Create a Grid for buy price and sell price
+                    // Create a Grid for bprice and sprice
                     Grid priceGrid = new Grid();
                     priceGrid.ColumnDefinitions.Add(new ColumnDefinition());
                     priceGrid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -1460,10 +1469,10 @@ namespace OxSystem
                     };
                     Grid.SetColumn(buyPrice, 0);
 
-                    // Sell price (original)
+                    // Sell price
                     TextBlock sellPrice = new TextBlock
                     {
-                        Text = "Sell: " + originalSellPrice.ToString("F2"),
+                        Text = "Sell: " + row["sprice"].ToString(),
                         Foreground = Brushes.Black,
                         VerticalAlignment = VerticalAlignment.Center,
                         FontSize = 13,
@@ -1472,42 +1481,9 @@ namespace OxSystem
                     };
                     Grid.SetColumn(sellPrice, 1);
 
-                    // Add buy and sell prices to the price grid
+                    // Add bprice and sprice to the price grid
                     priceGrid.Children.Add(buyPrice);
                     priceGrid.Children.Add(sellPrice);
-
-                    // Check if discount exists and if the current date is within the discount period
-                    if (row["disc_start"] != DBNull.Value && row["disc_end"] != DBNull.Value)
-                    {
-                        DateTime discountStart = Convert.ToDateTime(row["disc_start"]);
-                        DateTime discountEnd = Convert.ToDateTime(row["disc_end"]);
-                        DateTime today = DateTime.Now;
-
-                        // Apply discount only if today is within the discount period
-                        if (today >= discountStart && today <= discountEnd)
-                        {
-                            double discountAmount = Convert.ToDouble(row["discamount"]);
-                            double discountedPrice = originalSellPrice - ((originalSellPrice * discountAmount) / 100);
-
-                            // Set original price with overline and reduced opacity
-                            sellPrice.TextDecorations = TextDecorations.Strikethrough;
-                            sellPrice.Opacity = 0.4;
-
-                            // Create new label for discounted price
-                            TextBlock discountedPriceLabel = new TextBlock
-                            {
-                                Text = "Discounted Price: " + discountedPrice.ToString("F2"),
-                                Foreground = Brushes.Black,
-                                FontSize = 13,
-                                FontWeight = FontWeights.Medium,
-                                TextAlignment = TextAlignment.Center,
-                                Margin = new Thickness(0, 0, 5, 0) // Add margin for spacing
-                            };
-
-                            // Add discounted price label below the original price
-                            stackPanel.Children.Add(discountedPriceLabel);
-                        }
-                    }
 
                     // Expiration date
                     TextBlock exDate = new TextBlock
@@ -1548,18 +1524,20 @@ namespace OxSystem
                     stackPanel.Children.Add(medicName);   // Top element (mname)
                     stackPanel.Children.Add(priceGrid);   // Price grid
                     stackPanel.Children.Add(exDate);      // Expiration date
-                    stackPanel.Children.Add(numMedicBorder); // Nummedic border at the bottom
+                    stackPanel.Children.Add(numMedicBorder); // Number of medics within its colored border
 
-                    // Add the StackPanel inside the Border (mainBorder)
+                    // Add StackPanel to the main Border
                     mainBorder.Child = stackPanel;
 
-                    // Add the mainBorder to the CardContainer StackPanel
+                    // Store references to update later
+                    cardBorders[itemName] = mainBorder;
+                    cardQuantities[itemName] = numMedic;
+
+                    // Add the main Border (card) to the WrapPanel (CardContainer)
                     CardContainer.Children.Add(mainBorder);
                 }
             }
         }
-
-
         private void UpdateNumMedicColor(string itemName, int nummedic)
         {
             // Determine the background color based on the nummedic value
@@ -1729,7 +1707,7 @@ namespace OxSystem
             var image7 = new BitmapImage(new Uri("pack://application:,,,/images/system-solid-39-trash-hover-trash-empty.gif"));
             ImageBehavior.SetAnimatedSource(accountentimage6, image7);
             ImageBehavior.SetRepeatBehavior(accountentimage6, System.Windows.Media.Animation.RepeatBehavior.Forever);
-          
+
             var image9 = new BitmapImage(new Uri("pack://application:,,,/images/wired-outline-751-share-hover-pointing.gif"));
             ImageBehavior.SetAnimatedSource(accountentimage8, image9);
             ImageBehavior.SetRepeatBehavior(accountentimage8, System.Windows.Media.Animation.RepeatBehavior.Forever);
@@ -2062,7 +2040,6 @@ namespace OxSystem
     }
 
 }
-
 
 
 

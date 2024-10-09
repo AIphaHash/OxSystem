@@ -203,7 +203,7 @@ Duration="0:0:1" >
                             
                         </Grid>
                     </Grid>
-                     <Border Height="45" x:Name="ExpandableBorder" BorderThickness="3,3,3,0" CornerRadius="20,20,0,0" Background="White" VerticalAlignment="Bottom" BorderBrush="#FF85AEAF" Width="442" Margin="1406,0,0,0" HorizontalAlignment="Left">
+                     <Border Height="45" x:Name="ExpandableBorder" BorderThickness="3,3,3,0" CornerRadius="20,20,0,0" Background="White" VerticalAlignment="Bottom" BorderBrush="#FF85AEAF" Width="442" Margin="1946,0,0,0" HorizontalAlignment="Left">
                         <Grid Margin="5,6,0,0">
                             <Border Margin="-3,2,2,302" Padding="10" Background="White" CornerRadius="10">
                                 <Border.Effect>

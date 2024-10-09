@@ -151,7 +151,10 @@ namespace OxSystem
         }
         private void ListViewItem_Selected_1(object sender, RoutedEventArgs e)
         {
+            DateTime currentDateOnly = DateTime.Now;
             query = "UPDATE state\r\nSET state.state = 'unseen'\r\nFROM state\r\nINNER JOIN users_info ON state.userid = users_info.id\r\nWHERE users_info.id = '" + Login_.iduser + "' ";
+            conn.setData(query);
+            query = "insert into loginhistory values ('" + Login_.iduser + "' , '" + currentDateOnly + "' , 'out')";
             conn.setData(query);
             Login_ l1 = new Login_();
             l1.Show();
@@ -242,15 +245,7 @@ namespace OxSystem
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
-
-            this.Width = screenWidth * 0.8;
-            this.Height = screenHeight * 0.8;
-
-            // Position the window in the center of the screen
-            this.Left = (screenWidth - this.Width) / 2;
-            this.Top = (screenHeight - this.Height) / 2;
+            
 
             query = "select * from users_info where id = '" + CurrentUserId + "' AND perms = 'allpermmisions'";
             ds = conn.getData(query);
@@ -276,10 +271,15 @@ namespace OxSystem
                 string lastMessageQuery = $"SELECT TOP 1 message FROM UserMessages WHERE sender_id = '{userId}' ORDER BY timestamp DESC";
                 DataSet lastMessageDs = new DbConnection().getData(lastMessageQuery);
                 string lastMessage = lastMessageDs.Tables[0].Rows.Count > 0 ? lastMessageDs.Tables[0].Rows[0]["message"].ToString() : "No messages yet";
+
                 StackPanel cardContent = new StackPanel
                 {
-                    Orientation = Orientation.Horizontal
+                    Orientation = Orientation.Horizontal,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Height = 100,
+                    Margin = new Thickness(0)
                 };
+
                 Image outerImage = new Image
                 {
                     Source = new BitmapImage(new Uri("images/1414.png", UriKind.Relative)),
@@ -287,6 +287,7 @@ namespace OxSystem
                     Height = 100,
                     Margin = new Thickness(0, 0, 0, 0)
                 };
+
                 Image innerImage = new Image
                 {
                     Width = 50,
@@ -294,6 +295,7 @@ namespace OxSystem
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center
                 };
+
                 switch (role)
                 {
                     case "Accountent":
@@ -313,7 +315,10 @@ namespace OxSystem
 
                 TextBlock buttonContent = new TextBlock
                 {
-                    Margin = new Thickness(10, 20, 0, 0)
+                    Margin = new Thickness(10, 0, 0, 0),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Foreground = new SolidColorBrush(Colors.Black),  // Explicitly set Foreground color to ensure visibility
+                    TextWrapping = TextWrapping.Wrap,  // Allows text to wrap if necessary
                 };
 
                 buttonContent.Inlines.Add(new Run(fullName)
@@ -328,8 +333,10 @@ namespace OxSystem
                 {
                     FontSize = 12
                 });
+
                 cardContent.Children.Add(imageGrid);
                 cardContent.Children.Add(buttonContent);
+
                 Button cardButton = new Button
                 {
                     Content = cardContent,
@@ -338,14 +345,19 @@ namespace OxSystem
                     Padding = new Thickness(0),
                     Background = new SolidColorBrush(Colors.White),
                     HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
                     BorderBrush = null,
                     VerticalContentAlignment = VerticalAlignment.Center,
                     HorizontalContentAlignment = HorizontalAlignment.Stretch,
-                    Width = 400
+                    Width = 400,
+                    MinHeight = 100
                 };
+
                 cardButton.Click += CardButton_Click;
                 ChatStackPanel.Children.Add(cardButton);
             }
+
+
             var glowAnimation = (Storyboard)Resources["GlowAnimation"];
             glowAnimation.Begin(glowingBorder1, true);
             glowAnimation.Begin(glowingBorder2, true);
@@ -761,5 +773,7 @@ namespace OxSystem
         {
             StartGifAnimation();
         }
+
+      
     }
 }

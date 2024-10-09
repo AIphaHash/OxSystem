@@ -7,7 +7,8 @@
              mc:Ignorable="d" 
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
-             d:DesignHeight="1440" d:DesignWidth="2560">
+             d:DesignHeight="1440" d:DesignWidth="2560
+             ">
 
     <UserControl.Resources>
         <Style TargetType="TextBox">
@@ -23,15 +24,15 @@
 
         </Style>
     </UserControl.Resources>
-    <Viewbox Height="1440">
-        <Grid Background="#FFCFD9FF" Width="2560" Height="1440">
-            <Grid x:Name="income" Margin="50,210,750,494" Width="2560" Height="1440">
+    <Viewbox Height="1440" Width="2560">
+        <Grid Background="#FFDCEAE5" Width="2560" Height="1440">
+            <Grid x:Name="income" Margin="10,101,1138,558">
                 <Border BorderThickness="2" CornerRadius="20" Background="White"/>
                 <Border Background="White" CornerRadius="20">
-                    
+
 
                     <StackPanel Margin="4,10,10,-10">
-                        <chart:SfChart Width="1089" Height="338">
+                        <chart:SfChart Width="1304" Height="742">
                             <!-- Enable Zooming and Panning -->
                             <chart:SfChart.Behaviors>
                                 <chart:ChartZoomPanBehavior EnablePinchZooming="True"
@@ -60,20 +61,80 @@
 
 
             </Grid>
-            <Grid x:Name="moneystate" Margin="1182,210,50,418">
-                <Border BorderThickness="2" CornerRadius="20" Background="White" Margin="0,0,0,27">
-                    
+            <Grid x:Name="moneystate" Margin="1434,122,86,530">
+                <Border BorderThickness="2" CornerRadius="20" Background="White" Margin="0,-22,-66,27">
+                    <Grid>
+                        <Label Content="Money History" HorizontalAlignment="Left" Margin="66,52,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Width="195"/>
+                        <syncfusion:DateTimeEdit x:Name="history" DateTime="1/1/2024" HorizontalAlignment="Left" Height="38" Margin="762,129,0,0" TextWrapping="Wrap" Text="DateTimeEdit" VerticalAlignment="Top" Width="154" BorderBrush="#FFABABAB" Background="White" FocusedBorderBrush="#FF6DD19C" SelectionBrush="#FF54946C" FontSize="18" SelectionChanged="DateTimeEdit_SelectionChanged_1"/>
+                        <Label Content="One Day" HorizontalAlignment="Left" Margin="66,310,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math" Width="96"/>
+                        <Label Content="One Week" HorizontalAlignment="Left" Margin="66,370,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math" Width="89"/>
+                        <Label Content="One Month" HorizontalAlignment="Left" Margin="66,424,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math" Width="94"/>
+                        <Label Content="One Year" HorizontalAlignment="Left" Margin="66,480,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math" Width="84"/>
+                        <Label Content="Period" HorizontalAlignment="Left" Margin="187,223,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090" Width="105"/>
+                        <Border Background="#FF9C9C9C" Margin="145,259,325,492"></Border>
+                        <Border Background="#FF9C9C9C" Margin="56,192,197,559"></Border>
+                        <Label Content="Date too" HorizontalAlignment="Left" Margin="530,221,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090" Width="112"/>
+                        <Label Content="Date from" HorizontalAlignment="Left" Margin="406,221,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090" Width="110"/>
+                        <Label x:Name="aOne" Content="N/A" HorizontalAlignment="Left" Margin="282,308,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="82"/>
+                        <Label x:Name="aWeek" Content="N/A" HorizontalAlignment="Left" Margin="270,365,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="76"/>
+                        <Label x:Name="aMonth" Content="N/A" HorizontalAlignment="Left" Margin="269,425,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="78"/>
+                        <Label x:Name="aYear" Content="N/A" HorizontalAlignment="Left" Margin="259,488,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="106"/>
+                        <Label x:Name="fOne" Content="N/A" HorizontalAlignment="Left" Margin="358,308,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="147"/>
+                        <Label x:Name="fWeek" Content="N/A" HorizontalAlignment="Left" Margin="358,370,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="147"/>
+                        <Label Content="Amount" HorizontalAlignment="Left" Margin="292,221,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090" Width="106"/>
+                        <Label x:Name="tYear" Content="N/A" HorizontalAlignment="Left" Margin="510,488,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="169"/>
+                        <Label x:Name="tMonth" Content="N/A" HorizontalAlignment="Left" Margin="518,432,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="161"/>
+                        <Label x:Name="tWeek" Content="N/A" HorizontalAlignment="Left" Margin="510,370,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="169"/>
+                        <Label x:Name="tOne" Content="N/A" HorizontalAlignment="Left" Margin="510,308,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="169"/>
+                        <Label x:Name="fYear" Content="N/A" HorizontalAlignment="Left" Margin="358,483,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="147"/>
+                        <Label x:Name="fMonth" Content="N/A" Margin="358,425,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" HorizontalAlignment="Left" Width="147"/>
+                        <ToggleButton x:Name="SwitchButton_Copy" Width="60" Height="30"
+HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,138,751,0"
+Checked="SwitchButton_Checked1" Unchecked="SwitchButton_Unchecked1">
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                <Grid>
+                                                    <Border x:Name="SwitchBorder" Width="60" Height="30" CornerRadius="15" Background="Gray">
+                                                        <Grid>
+                                                            <Ellipse x:Name="SwitchKnob" Width="28" Height="28" Fill="White" HorizontalAlignment="Left" Margin="1,1,0,1"/>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter TargetName="SwitchBorder" Property="Background" Value="LightGreen"/>
+                                                        <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Right"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsChecked" Value="False">
+                                                        <Setter TargetName="SwitchBorder" Property="Background" Value="Gray"/>
+                                                        <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Left"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                        <Label x:Name="histroy" Content="Sell Bill" HorizontalAlignment="Left" Margin="1205,286,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math"/>
+
+
+                    </Grid>
                 </Border>
 
             </Grid>
-            <Grid x:Name="bills" Margin="50,586,750,32">
+            <Grid x:Name="bills" Margin="10,894,870,48">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="17*"/>
                     <RowDefinition Height="203*"/>
                 </Grid.RowDefinitions>
+
                 <Border BorderThickness="2" CornerRadius="20" Background="White" Margin="0,0,0,-6" Grid.RowSpan="2">
-                    
-                    
+
+
                     <DataGrid IsReadOnly="True" x:Name="DataGrid" 
 MouseDoubleClick="DataGrid_MouseDoubleClick"
 AlternatingRowBackground="AliceBlue"
@@ -256,13 +317,15 @@ Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
                     </ToggleButton.Style>
                 </ToggleButton>
                 <Label x:Name="BillLabel" Content="Sell Bill" Margin="59,2,928,376" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.RowSpan="2"/>
+                <Label Content="See All" HorizontalAlignment="Left" Margin="908,18,0,0" VerticalAlignment="Top" Height="34" Width="60" Foreground="#FF1F9260" FontSize="16" FontWeight="SemiBold" MouseLeftButtonDown="Label_MouseLeftButtonDown" Grid.RowSpan="2"/>
+                <Label Content="Total Bills Money: " HorizontalAlignment="Left" Margin="28,368,0,0" VerticalAlignment="Top" FontSize="24" Height="44" Grid.Row="1"/>
 
             </Grid>
-            <Grid x:Name="billsSearch" Margin="1182,665,50,32">
+            <Grid x:Name="billsSearch" Margin="1704,930,17,26">
                 <Border BorderThickness="2" CornerRadius="20" Background="White" Margin="0,-35,0,16">
-                   
+
                     <Border BorderThickness="5" CornerRadius="20" Background="White" Margin="332,-5,-5,-5">
-                        
+
                         <Grid Margin="22,55,22,33" Loaded="Grid_Loaded">
                             <StackPanel>
                                 <chart:SfChart Header="Number of Buy and Sell Bills" Height="300" Width="280" x:Name="pieChart" FontSize="22" FontWeight="SemiBold">
@@ -284,80 +347,23 @@ Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
 
                             </StackPanel>
 
+                            <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname" HorizontalAlignment="Left" Margin="-295,49,0,0" VerticalAlignment="Top" Width="237" Height="37" SelectionChanged="sname_SelectionChanged" Loaded="sname_Loaded" KeyUp="sname_KeyUp" BorderBrush="{x:Null}" FontSize="22"/>
+                            <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname_Copy" HorizontalAlignment="Left" Margin="-295,119,0,0" VerticalAlignment="Top" Width="237" Height="36" SelectionChanged="sname_SelectionChanged1" Loaded="sname_Loaded1" KeyUp="sname_KeyUp1" BorderBrush="{x:Null}" FontSize="22"/>
+                            <syncfusion:DateTimeEdit x:Name="date" DateTime="1/1/2024" HorizontalAlignment="Left" Height="38" Margin="-295,214,0,0" TextWrapping="Wrap" Text="DateTimeEdit" VerticalAlignment="Top" Width="236" BorderBrush="#FFABABAB" Background="White" FocusedBorderBrush="#FF6DD19C" SelectionBrush="#FF54946C" FontSize="18" SelectionChanged="DateTimeEdit_SelectionChanged"/>
+                            <Label Content="Search Filter" HorizontalAlignment="Left" Margin="-263,-24,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="44" Width="56"/>
+                            <Label Content="From" HorizontalAlignment="Left" Margin="-263,91,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="56" Width="78"/>
+                            <Label Content="Too" HorizontalAlignment="Left" Margin="-295,174,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="78" Width="142"/>
+                            <Label Content="Date" HorizontalAlignment="Left" Margin="-313,286,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="40" Width="160"/>
 
                         </Grid>
                     </Border>
                 </Border>
             </Grid>
-            <Label Content="See All" HorizontalAlignment="Left" Margin="1072,602,0,0" VerticalAlignment="Top" Height="34" Width="60" Foreground="#FF1F9260" FontSize="16" FontWeight="SemiBold" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
-            <Label Content="Dashboard - Accountent -" HorizontalAlignment="Left" Margin="90,126,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Cambria Math"/>
-            <Label Content="Money History" HorizontalAlignment="Left" Margin="1205,232,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math"/>
-            <syncfusion:DateTimeEdit x:Name="history" DateTime="1/1/2024" HorizontalAlignment="Left" Height="38" Margin="1674,282,0,0" TextWrapping="Wrap" Text="DateTimeEdit" VerticalAlignment="Top" Width="154" BorderBrush="#FFABABAB" Background="White" FocusedBorderBrush="#FF6DD19C" SelectionBrush="#FF54946C" FontSize="18" SelectionChanged="DateTimeEdit_SelectionChanged_1"/>
-            <Label Content="One Day" HorizontalAlignment="Left" Margin="1221,396,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math"/>
-            <Label Content="One Week" HorizontalAlignment="Left" Margin="1221,448,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math"/>
-            <Label Content="One Month" HorizontalAlignment="Left" Margin="1221,503,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math"/>
-            <Label Content="One Year" HorizontalAlignment="Left" Margin="1221,562,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math"/>
-            <Label Content="Period" HorizontalAlignment="Left" Margin="1227,346,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090"/>
-            <Border Background="#FF9C9C9C" Margin="1184,383,52,673"></Border>
-            <Border Background="#FF9C9C9C" Margin="1184,339,52,717"></Border>
-            <Label Content="Date too" HorizontalAlignment="Left" Margin="1691,346,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090"/>
-            <Label Content="Date from" HorizontalAlignment="Left" Margin="1516,346,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090"/>
-            <Label x:Name="aOne" Content="N/A" HorizontalAlignment="Left" Margin="1380,395,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label x:Name="aWeek" Content="N/A" HorizontalAlignment="Left" Margin="1380,448,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label x:Name="aMonth" Content="N/A" HorizontalAlignment="Left" Margin="1380,502,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label x:Name="aYear" Content="N/A" HorizontalAlignment="Left" Margin="1380,556,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label x:Name="fOne" Content="N/A" HorizontalAlignment="Left" Margin="1531,395,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label x:Name="fWeek" Content="N/A" HorizontalAlignment="Left" Margin="1531,448,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label Content="Amount" HorizontalAlignment="Left" Margin="1365,346,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090"/>
-            <Label x:Name="tYear" Content="N/A" HorizontalAlignment="Left" Margin="1706,556,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label x:Name="tMonth" Content="N/A" HorizontalAlignment="Left" Margin="1707,501,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label x:Name="tWeek" Content="N/A" HorizontalAlignment="Left" Margin="1706,448,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label x:Name="tOne" Content="N/A" HorizontalAlignment="Left" Margin="1706,393,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label x:Name="fYear" Content="N/A" HorizontalAlignment="Left" Margin="1531,556,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <Label x:Name="fMonth" Content="N/A" HorizontalAlignment="Left" Margin="1531,503,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin"/>
-            <ToggleButton x:Name="SwitchButton_Copy" Width="60" Height="30"
-      HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,286,547,0"
-      Checked="SwitchButton_Checked1" Unchecked="SwitchButton_Unchecked1">
-                <ToggleButton.Style>
-                    <Style TargetType="{x:Type ToggleButton}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                    <Grid>
-                                        <Border x:Name="SwitchBorder" Width="60" Height="30" CornerRadius="15" Background="Gray">
-                                            <Grid>
-                                                <Ellipse x:Name="SwitchKnob" Width="28" Height="28" Fill="White" HorizontalAlignment="Left" Margin="1,1,0,1"/>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsChecked" Value="True">
-                                            <Setter TargetName="SwitchBorder" Property="Background" Value="LightGreen"/>
-                                            <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Right"/>
-                                        </Trigger>
-                                        <Trigger Property="IsChecked" Value="False">
-                                            <Setter TargetName="SwitchBorder" Property="Background" Value="Gray"/>
-                                            <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Left"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ToggleButton.Style>
-            </ToggleButton>
-            <Label x:Name="histroy" Content="Sell Bill" HorizontalAlignment="Left" Margin="1205,286,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math"/>
-            <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname" HorizontalAlignment="Left" Margin="1239,745,0,0" VerticalAlignment="Top" Width="237" Height="37" SelectionChanged="sname_SelectionChanged" Loaded="sname_Loaded" KeyUp="sname_KeyUp" BorderBrush="{x:Null}" FontSize="22"/>
-            <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname_Copy" HorizontalAlignment="Left" Margin="1239,827,0,0" VerticalAlignment="Top" Width="237" Height="36" SelectionChanged="sname_SelectionChanged1" Loaded="sname_Loaded1" KeyUp="sname_KeyUp1" BorderBrush="{x:Null}" FontSize="22"/>
-            <syncfusion:DateTimeEdit x:Name="date" DateTime="1/1/2024" HorizontalAlignment="Left" Height="38" Margin="1239,910,0,0" TextWrapping="Wrap" Text="DateTimeEdit" VerticalAlignment="Top" Width="236" BorderBrush="#FFABABAB" Background="White" FocusedBorderBrush="#FF6DD19C" SelectionBrush="#FF54946C" FontSize="18" SelectionChanged="DateTimeEdit_SelectionChanged"/>
-            <Label Content="Search Filter" HorizontalAlignment="Left" Margin="1283,665,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math"/>
-            <Label Content="From" HorizontalAlignment="Left" Margin="1239,709,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math"/>
-            <Label Content="Too" HorizontalAlignment="Left" Margin="1239,791,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math"/>
-            <Label Content="Date" HorizontalAlignment="Left" Margin="1239,874,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math"/>
+            <Border Background="White" Margin="0,0,0,1350" BorderBrush="#FF1D8676" BorderThickness="0,0,0,10" Height="90">
+                <Label Content="Dashboard - Accountent -" HorizontalAlignment="Left" Margin="70,19,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Cambria Math"/>
 
+            </Border>
 
-
-            <Label Content="Total Bills Money: " HorizontalAlignment="Left" Margin="305,953,0,0" VerticalAlignment="Top" FontSize="24"/>
 
         </Grid>
     </Viewbox>

@@ -490,7 +490,7 @@ RenderTransformOrigin="0.527,0.502" Margin="1115,68,703,907" Cursor="Hand"/>
                         </Style>
                     </TextBox.Style>
                 </TextBox>
-                <ComboBox Text="" 
+                <ComboBox Text="Choose filter" 
           HorizontalContentAlignment="Center" 
           VerticalContentAlignment="Center" 
           IsEditable="True" 
@@ -502,7 +502,7 @@ RenderTransformOrigin="0.527,0.502" Margin="1115,68,703,907" Cursor="Hand"/>
           Height="54" 
           BorderBrush="{x:Null}" 
           FontSize="22" 
-          BorderThickness="2,2,2,2" SelectionChanged="supname_SelectionChanged">
+          BorderThickness="2,2,2,2" SelectionChanged="supname_SelectionChanged" Background="#FFEFEFEF">
                     <ComboBoxItem Content="ID" />
                     <ComboBoxItem Content="Full Name" />
                     <ComboBoxItem Content="Role" />

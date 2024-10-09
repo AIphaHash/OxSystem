@@ -13,57 +13,63 @@ xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              d:DesignHeight="1080" d:DesignWidth="1920" Background="#FFE3EBF3" Height="1070" Width="1900" Loaded="UserControl_Loaded">
 
     <UserControl.Resources>
-        <Storyboard x:Key="ClickEffectStoryboard">
-            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleX"
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Scroll.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="ClickEffectStoryboard">
+                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleX"
                          From="1" To="0.9"
                          Duration="0:0:0.1"
                          AutoReverse="True"/>
-            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleY"
+                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleY"
                          From="1" To="0.9"
                          Duration="0:0:0.1"
                          AutoReverse="True"/>
-        </Storyboard>
-        <Storyboard x:Key="GlowAnimation" AutoReverse="True" RepeatBehavior="Forever">
-            <DoubleAnimation Storyboard.TargetName="border1"
+            </Storyboard>
+            <Storyboard x:Key="GlowAnimation" AutoReverse="True" RepeatBehavior="Forever">
+                <DoubleAnimation Storyboard.TargetName="border1"
                       Storyboard.TargetProperty="Opacity"
                       From="1.0" To="0.1" Duration="0:0:3"/>
-            <DoubleAnimation Storyboard.TargetName="border1_Copy"
+                <DoubleAnimation Storyboard.TargetName="border1_Copy"
                       Storyboard.TargetProperty="Opacity"
                       From="1.0" To="0.1" Duration="0:0:3"/>
-            <DoubleAnimation Storyboard.TargetName="border1_Copy1"
+                <DoubleAnimation Storyboard.TargetName="border1_Copy1"
                       Storyboard.TargetProperty="Opacity"
                       From="1.0" To="0.1" Duration="0:0:3"/>
-            <DoubleAnimation Storyboard.TargetName="border1_Copy2"
+                <DoubleAnimation Storyboard.TargetName="border1_Copy2"
                       Storyboard.TargetProperty="Opacity"
                       From="1.0" To="0.1" Duration="0:0:3"/>
-            <DoubleAnimation Storyboard.TargetName="border1_Copy3"
+                <DoubleAnimation Storyboard.TargetName="border1_Copy3"
                       Storyboard.TargetProperty="Opacity"
                       From="1.0" To="0.1" Duration="0:0:3"/>
-        </Storyboard>
-        <Storyboard x:Key="FadeOutStoryboard2">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            </Storyboard>
+            <Storyboard x:Key="FadeOutStoryboard2">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                          From="1.0" To="0.0" Duration="0:0:0.5"/>
-        </Storyboard>
-        <Storyboard x:Key="FadeInStoryboard2">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            </Storyboard>
+            <Storyboard x:Key="FadeInStoryboard2">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                          From="0.0" To="1.0" Duration="0:0:0.5"/>
-        </Storyboard>
-        <Storyboard x:Key="FadeOutStoryboard">
-            <DoubleAnimation
+            </Storyboard>
+            <Storyboard x:Key="FadeOutStoryboard">
+                <DoubleAnimation
 Storyboard.TargetName="report"
 Storyboard.TargetProperty="Opacity"
 From="0"
 To="1"
 Duration="0:0:0.3" />
-        </Storyboard>
-        <Storyboard x:Key="FadeOutStoryboard1">
-            <DoubleAnimation
+            </Storyboard>
+            <Storyboard x:Key="FadeOutStoryboard1">
+                <DoubleAnimation
 Storyboard.TargetName="gsetting"
 Storyboard.TargetProperty="Opacity"
 From="0"
 To="1"
 Duration="0:0:0.3" />
-        </Storyboard>
+            </Storyboard>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Viewbox Width="1900" Height="1070">
         <Grid Margin="0,0,0,16" Width="1900" Height="1057">
@@ -522,11 +528,13 @@ CanUserAddRows="False"
 SelectionMode="Extended" 
 HeadersVisibility="Column"
 HorizontalGridLinesBrush="White"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 VerticalGridLinesBrush="#FF63676B"
+                              
 ColumnHeaderHeight="60"
 RowHeight="35" 
 GridLinesVisibility="None"
-ScrollViewer.CanContentScroll="True" 
+ScrollViewer.CanContentScroll="False" 
 Background="White" 
 BorderBrush="White" Margin="-8,60,-8,25" Loaded="DataGrid_Loaded" BorderThickness="0,0,0,0">
 
@@ -564,7 +572,7 @@ Binding="{Binding supnum}"/>
                                     </Setter.Value>
                                 </Setter>
                                 <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="BorderThickness" Value="0,0,0,4"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,2"/>
                                 <Setter Property="BorderBrush" Value="#FFDEDEDE"/>
                                 <Setter Property="FontSize" Value="19"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
@@ -598,7 +606,7 @@ Binding="{Binding supnum}"/>
 
                         <DataGrid.RowStyle>
                             <Style TargetType="{x:Type DataGridRow}">
-                                <Setter Property="Margin" Value="10"/>
+                                <Setter Property="Margin" Value="10,0,0,0"/>
                                 <Setter Property="BorderBrush" Value="#FFE2E2E2"/>
                                 <Setter Property="BorderThickness" Value="0,0,0,2"/>
                             </Style>
@@ -669,7 +677,7 @@ RenderTransformOrigin="0.527,0.502" Margin="1655,134,200,881" Cursor="Hand"/>
 
             <Label x:Name="seeall" Content="See All" HorizontalAlignment="Left" Margin="934,231,0,0" VerticalAlignment="Top" Height="34" Width="60" Foreground="#FF777777" FontSize="16" FontWeight="SemiBold" MouseLeftButtonDown="Label_MouseLeftButtonDown4" MouseLeave="Label_MouseLeave" MouseEnter="seeall_MouseEnter"/>
             <Label x:Name="seeall1" Content="See All" HorizontalAlignment="Left" Margin="964,715,0,0" VerticalAlignment="Top" Height="39" Width="71" Foreground="White" FontSize="20" FontWeight="SemiBold" MouseLeftButtonDown="Label_MouseLeftButtonDown5" MouseLeave="seeall1_MouseLeave"/>
-
+            
             <ComboBox  x:Name="ComboBoxAdv" 
           Text="Name" 
           HorizontalContentAlignment="Center" 
@@ -681,10 +689,10 @@ RenderTransformOrigin="0.527,0.502" Margin="1655,134,200,881" Cursor="Hand"/>
           Width="170" 
           Height="40" 
           SelectionChanged="ComboBoxAdv_TextChanged" 
-          BorderBrush="#FF44AEAE" 
+          BorderBrush="{x:Null}" 
           BorderThickness="0,0,0,0"
           FontSize="18" 
-          Foreground="#FF8A8A8A">
+          Foreground="#FF8A8A8A" Background="White" >
 
                 <ComboBoxItem Content="Name" />
                 <ComboBoxItem Content="PhoneNum" />
