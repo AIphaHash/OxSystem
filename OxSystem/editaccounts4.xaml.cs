@@ -47,6 +47,21 @@ namespace OxSystem
             Storyboard.SetTarget(storyboard, textBox);
             storyboard.Begin();
         }
+        private T FindParentControl<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+            {
+                return parent;
+            }
+            else
+            {
+                return FindParentControl<T>(parentObject);
+            }
+        }
         private async void mybutton_Click(object sender, RoutedEventArgs e)
         {
             await Task.Delay(200);
@@ -66,6 +81,16 @@ namespace OxSystem
                 fadeInStoryboard.Begin();
                 await Task.Delay(1000);
                 this.Visibility = Visibility.Collapsed;
+                var parent = FindParentControl<showaccounts>(this);
+
+                if (parent != null)
+                {
+                    parent.UserControl_Loaded(sender,e);  // Call the method to reload data
+                }
+                else
+                {
+                    MessageBox.Show("Unable to find the parent Show Accounts control.");
+                }
             }
             if (Username.Text == "Username..." || Username.Text == "" || Username.Text == "insert the Username!")
             {

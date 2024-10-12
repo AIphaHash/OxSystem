@@ -10,7 +10,7 @@ xmlns:Effects="clr-namespace:System.Windows.Media.Effects;assembly=PresentationC
 
  xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
 mc:Ignorable="d" 
-d:DesignHeight="1057" d:DesignWidth="1900" Background="#FFE5EAFF" Loaded="UserControl_Loaded" Height="1070">
+d:DesignHeight="1057" d:DesignWidth="1900" Background="White" Loaded="UserControl_Loaded" Height="1070">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -333,7 +333,7 @@ Background="White"
 SelectedCellsChanged="DataGrid_SelectedCellsChanged" 
 BorderBrush="White" 
                 
-Margin="756,104,0,0" BorderThickness="0,0,0,0" Height="393" VerticalAlignment="Top">
+Margin="756,104,-92,0" BorderThickness="0,0,0,0" Height="393" VerticalAlignment="Top">
 
 
 
@@ -484,7 +484,7 @@ Binding="{Binding size}"/>
                         </TextBox>
 
 
-                        <Border CornerRadius="20,0,0,0" Margin="0,0,1013,0" Height="164" VerticalAlignment="Top">
+                        <Border CornerRadius="0,0,0,0" Margin="-28,-45,1013,0" Height="209" VerticalAlignment="Top">
                             <Border.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="#FF2B797F"/>
@@ -493,7 +493,7 @@ Binding="{Binding size}"/>
                             </Border.Background>
                         </Border>
                         <Border CornerRadius="0,0,0,0" Margin="756,164,1022,0" Background="#FF848484" Height="742" VerticalAlignment="Top"/>
-                        <Border CornerRadius="0,20,0,0" Margin="752,0,0,0" Height="116" VerticalAlignment="Top">
+                        <Border CornerRadius="0,0,0,0" Margin="752,-45,-92,0" Height="161" VerticalAlignment="Top">
                             <Border.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="#FF2B797F"/>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Printing;
@@ -404,9 +405,11 @@ GROUP BY
 
         }
 
-        private void DataGrid_Loaded(object sender, RoutedEventArgs e)
+        private async void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            //fullnameLabel.Content = full;
+            await Task.Delay(200);
+            fullnameLabel.Content = pharmacist.fulln;
+           
             welcome_Copy.Content = pharmacist.fulln;
 
             if (Properties.Settings.Default.check_currency == "$")
@@ -789,7 +792,73 @@ WHERE
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            // Ensure that a row is selected
+            if (DataGrid.SelectedItem != null)
+            {
+                // Assuming the DataGrid is bound to a DataTable and each row is a DataRowView
+                DataRowView selectedRow = DataGrid.SelectedItem as DataRowView;
 
+                if (selectedRow != null)
+                {
+                    // Get the supplier number (supnum) from the selected row
+                    string supnum = selectedRow["supnum"].ToString();
+
+                    // Remove any leading zeros from the number (if applicable)
+                    supnum = supnum.TrimStart('0');
+
+                    // Format the number to include the Iraq country code +964
+                    string iraqNumber = $"+964{supnum}";
+
+                    // Launch WhatsApp chat with the formatted number
+                    OpenWhatsAppChat(iraqNumber);
+                }
+            }
+        }
+
+        // Method to open WhatsApp chat
+        private void OpenWhatsAppChat(string phoneNumber)
+        {
+            try
+            {
+                // Create the WhatsApp app schema (for desktop app)
+                string whatsappDesktopUrl = $"whatsapp://send?phone={phoneNumber}";
+
+                // Try to start WhatsApp desktop app
+                var processInfo = new ProcessStartInfo
+                {
+                    FileName = whatsappDesktopUrl,
+                    UseShellExecute = true
+                };
+
+                // Start WhatsApp desktop app, if installed
+                System.Diagnostics.Process.Start(processInfo);
+            }
+            catch (Exception)
+            {
+                // If WhatsApp desktop is not installed, open the web version
+                OpenWhatsAppWeb(phoneNumber);
+            }
+        }
+
+        // Method to open WhatsApp Web
+        private void OpenWhatsAppWeb(string phoneNumber)
+        {
+            try
+            {
+                // Create the WhatsApp Web URL schema
+                string whatsappWebUrl = $"https://wa.me/{phoneNumber}";
+
+                // Open the URL in the default browser
+                System.Diagnostics.Process.Start(new ProcessStartInfo
+                {
+                    FileName = whatsappWebUrl,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to open WhatsApp chat: {ex.Message}");
+            }
         }
 
         private void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -834,21 +903,25 @@ WHERE
 
         private void searchBox1_LostFocus(object sender, RoutedEventArgs e)
         {
+
             if (searchBox1.Text == "")
             {
                 searchBox1.Text = "🔍  Type the Supplier Name to search ";
                 searchBox1.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB7B7B7"));
-                searchBox1.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFABB2B3"));
             }
         }
 
         private void searchBox1_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (searchBox1.Text == "🔍  Type the Supplier Name to search " || searchBox1.Text == "")
+            if (searchBox1.Text == "🔍  Type the Supplier Name to search ")
             {
                 searchBox1.Text = "";
                 searchBox1.Foreground = new SolidColorBrush(Colors.Black);
-                searchBox1.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF7F7F7F"));
+            }
+            else if (searchBox1.Text == "")
+            {
+                searchBox1.Text = "";
+                searchBox1.Foreground = new SolidColorBrush(Colors.Black);
             }
 
         }
@@ -870,13 +943,11 @@ WHERE
             s.sid,
             s.supname,
             s.supnum,
-           
             (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
         FROM 
             Suppliers s";
 
                     ds = conn.getData(query);
-
                     if (ds != null && ds.Tables.Count > 0)
                     {
                         DataGrid.ItemsSource = ds.Tables[0].DefaultView;
@@ -885,7 +956,6 @@ WHERE
                 else
                 {
                     await Task.Delay(300);
-
                     string searchText = searchBox1.Text.Trim(); // Get the text from the search box and trim any extra spaces
 
                     query = $@"
@@ -897,7 +967,7 @@ WHERE
     FROM 
         Suppliers s
     WHERE 
-        s.supname LIKE '%{searchText}%'"; // Use the search text to filter the supplier names
+        s.supname LIKE '%{searchText}%'";
 
                     ds = conn.getData(query);
 
@@ -935,7 +1005,7 @@ FROM
                 {
                     await Task.Delay(300);
 
-                    string searchText = searchBox1.Text.Trim(); // Get the text from the search box and trim any extra spaces
+                    string searchText = searchBox1.Text.Trim();
 
                     query = $@"
     SELECT 
@@ -946,7 +1016,7 @@ FROM
     FROM 
         Suppliers s
     WHERE 
-        s.supnum LIKE '%{searchText}%'"; // Use the search text to filter the supplier names
+        s.supnum LIKE '%{searchText}%'";
 
                     ds = conn.getData(query);
 
@@ -981,7 +1051,7 @@ FROM
                 {
                     await Task.Delay(300);
 
-                    string searchText = searchBox1.Text.Trim(); // Get the text from the search box and trim any extra spaces
+                    string searchText = searchBox1.Text.Trim();
 
                     query = $@"
     SELECT 
@@ -992,7 +1062,7 @@ FROM
     FROM 
         Suppliers s
     WHERE 
-        s.suplocation LIKE '%{searchText}%'"; // Use the search text to filter the supplier names
+        s.suplocation LIKE '%{searchText}%'";
 
                     ds = conn.getData(query);
 

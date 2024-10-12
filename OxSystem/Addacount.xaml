@@ -88,7 +88,7 @@ Duration="0:0:1" />
                             <Image x:Name="accountentimage" RenderTransformOrigin="0.527,0.502" Margin="157,25,157,265" Cursor="Hand"/>
                             <TextBlock x:Name="pharmnum1" TextAlignment="Center" Text="5" Margin="158,248,158,0" FontSize="40" Foreground="#FF63676B" Height="64" VerticalAlignment="Top"/>
                             <TextBlock TextAlignment="Right" Text=" Num of Pharmacist" Margin="128,304,128,0" FontSize="18" Foreground="#FF63676B" Height="64" VerticalAlignment="Top" FontWeight="Bold"/>
-                            <TextBlock TextAlignment="Right" Text="Managing and having an eye on the income and   &#xA; outcome of the Whole Pharmacy" Margin="24,154,24,0" FontSize="16" Foreground="White" Height="64" VerticalAlignment="Top"/>
+                            <TextBlock TextAlignment="Right" Text="Managing and having an eye on the income and   &#xA; outcome of the Whole Pharmacy              " Margin="24,154,24,0" FontSize="16" Foreground="White" Height="64" VerticalAlignment="Top"/>
                             <TextBlock TextAlignment="Center" Text="Accountant" Margin="82,117,82,0" FontSize="22" Foreground="White" Height="35" VerticalAlignment="Top"/>
                         </Grid>
                     </Border>

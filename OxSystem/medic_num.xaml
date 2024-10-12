@@ -349,82 +349,6 @@ RenderTransformOrigin="0.527,0.502" Margin="10,10,204,12" Cursor="Hand"/>
                 </Button>
                 <Image x:Name="accountentimage6" 
 RenderTransformOrigin="0.527,0.502" Margin="899,214,957,816" Cursor="Hand" MouseLeftButtonDown="accountentimage6_MouseLeftButtonDown"/>
-                <Button x:Name="add_Copy" Padding="0,0,0,0" BorderThickness="0" Content="Add" Margin="1090,0,754,813"
-     BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Height="44" 
-     VerticalAlignment="Bottom" FontSize="16" Click="pdf_Click2">
-
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
-
-                    <Button.Background>
-                        <LinearGradientBrush StartPoint="0.5,0">
-                            <GradientStop Color="#FF0BA9A4"/>
-                            <GradientStop Color="#FF418C8C" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Button.Background>
-
-                    <Button.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="1" ScaleX="1"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Button.RenderTransform>
-
-                    <!-- Apply the ControlTemplate with EventTriggers -->
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid>
-                                <!-- Original button border -->
-                                <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="10" Background="#FF3C928F">
-                                    <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                </Border>
-
-                                <!-- Overlay border for the click animation -->
-                                <Border x:Name="overlayBorder" Background="White" Opacity="0" CornerRadius="10" IsHitTestVisible="False" />
-                            </Grid>
-
-                            <ControlTemplate.Triggers>
-                                <!-- Mouse Enter animation to darken the background color -->
-                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="buttonBorder"
-                                 Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                 To="#FF1A504E" Duration="0:0:0.2" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-
-                                <!-- Mouse Leave animation to revert the background color -->
-                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="buttonBorder"
-                                 Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                 To="#FF3C928F" Duration="0:0:0.2" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-
-                                <!-- Click animation to show the overlay and fade it out -->
-                                <EventTrigger RoutedEvent="ButtonBase.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="overlayBorder"
-                                 Storyboard.TargetProperty="Opacity"
-                                 From="0.4" To="0" Duration="0:0:0.3" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
                 <Button x:Name="pdf_Copy" Padding="0,0,0,0" BorderThickness="0" Content="              Print , Pdf  " 
      Margin="1668,0,85,813" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"  
      Height="44" VerticalAlignment="Bottom" FontSize="16" Click="pdf_Click">
@@ -514,9 +438,9 @@ Margin="642,206,0,0"
 VerticalAlignment="Top" 
 Width="236" 
 Height="52" 
-BorderBrush="{x:Null}" 
+BorderBrush="#FF7D7D7D" 
 FontSize="22" 
-BorderThickness="2,2,2,2" SelectionChanged="supname_SelectionChanged">
+BorderThickness="2,2,2,2" SelectionChanged="supname_SelectionChanged" Background="White">
                     <ComboBoxItem Content="ID" />
                     <ComboBoxItem Content="Medic Name" />
                     <ComboBoxItem Content="Buy Price" />

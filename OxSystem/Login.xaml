@@ -149,49 +149,6 @@ Duration="0:0:0.5" />
             </Label>
 
             <Label Content="DataBase Login" HorizontalAlignment="Center" Margin="0,92,0,0" VerticalAlignment="Top" FontSize="28" Foreground="#FF5EC3BF" FontWeight="UltraBold"/>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <Label Content="Help" Margin="805,120,307,34" Foreground="#FF66D6ED" FontSize="16" FontWeight="Bold"/>
-            <Image gif:ImageBehavior.RepeatBehavior="Forever" gif:ImageBehavior.AnimatedSource="images/info.gif"
-RenderTransformOrigin="0.5,0.515" Margin="801,88,305,54" MouseLeftButtonDown="Image_MouseLeftButtonDown2" Cursor="Hand">
-                <Image.Style>
-                    <Style TargetType="Image">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8"/>
-                                <Setter Property="RenderTransform">
-                                    <Setter.Value>
-                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="False">
-                                <Setter Property="Opacity" Value="1"/>
-                                <Setter Property="RenderTransform">
-                                    <Setter.Value>
-                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-                <Image.Effect>
-                    <DropShadowEffect Color="Black" Direction="270" ShadowDepth="1" Opacity="0.3"/>
-                </Image.Effect>
-            </Image>
             <Label Content="Or" HorizontalAlignment="Center" Margin="0,216,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF3EB3DA" FontSize="18" FontWeight="Bold" Height="37" Width="38" Grid.Row="1">
                 <Label.Effect>
                     <DropShadowEffect ShadowDepth="1" Direction="0" Opacity="0"/>

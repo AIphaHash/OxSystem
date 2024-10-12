@@ -93,9 +93,9 @@ From="1200" To="0" Duration="0:0:0.5" />
                     <Border BorderThickness="10" CornerRadius="20" Grid.ColumnSpan="2" Margin="355,355,108,0" Background="#FF63676B" Grid.RowSpan="2" BorderBrush="#FFA2A2A2" Height="225" VerticalAlignment="Top">
 
                         <Grid>
-                            <ComboBox IsEditable="True" x:Name="YearComboBox" Width="100" Height="34" VerticalAlignment="Center" Margin="665,0,424,0" SelectionChanged="YearComboBox_SelectionChanged" BorderBrush="White" Foreground="White" Background="Transparent"/>
-                            <ComboBox IsEditable="True" x:Name="MonthComboBox" Height="34" VerticalAlignment="Center" Margin="778,0,325,0" SelectionChanged="MonthComboBox_SelectionChanged" BorderBrush="White" Background="Transparent" Foreground="White"/>
-                            <ComboBox IsEditable="True" x:Name="DayComboBox" Height="34" VerticalAlignment="Center" Margin="888,0,215,0" SelectionChanged="MonthComboBox_SelectionChanged" BorderBrush="White" Background="Transparent" Foreground="White"/>
+                            <ComboBox IsEditable="True" x:Name="YearComboBox" Width="100" Height="34" VerticalAlignment="Center" Margin="665,0,424,0" SelectionChanged="YearComboBox_SelectionChanged" BorderBrush="White" Foreground="White" Background="Transparent" FontSize="16"/>
+                            <ComboBox IsEditable="True" x:Name="MonthComboBox" Height="34" VerticalAlignment="Center" Margin="778,0,325,0" SelectionChanged="MonthComboBox_SelectionChanged" BorderBrush="White" Background="Transparent" Foreground="White" FontSize="16"/>
+                            <ComboBox IsEditable="True" x:Name="DayComboBox" Height="34" VerticalAlignment="Center" Margin="888,0,215,0" BorderBrush="White" Background="Transparent" Foreground="White" FontSize="16"/>
                         </Grid>
                     </Border>
 
@@ -289,23 +289,23 @@ CornerRadius="10">
                         </TextBox.Style>
                     </TextBox>
                 </Grid>
-                <Label  HorizontalAlignment="Left" Margin="699,163,0,0"  Content="UserName" VerticalAlignment="Top" Width="70" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}"/>
+                <Label  HorizontalAlignment="Left" Margin="684,164,0,0"  Content="UserName" VerticalAlignment="Top" Width="82" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}" FontSize="14"/>
                 <Image x:Name="avatar" 
     RenderTransformOrigin="0.527,0.502" Margin="1298,111,490,850" Cursor="Hand"/>
                 <TextBlock TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top"
 Margin="1251,224,0,0" Text=" " x:Name="rolee" FontSize="18" Foreground="White" FontWeight="Bold" Width="226"/>
             </Grid>
-            <Label HorizontalAlignment="Left" Margin="1035,795,0,0"  Content="Address" VerticalAlignment="Top" Width="61" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}"/>
-            <Label HorizontalAlignment="Left" Margin="1035,687,0,0"  Content="Email" VerticalAlignment="Top" Width="66" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}"/>
+            <Label HorizontalAlignment="Left" Margin="1035,795,0,0"  Content="Address" VerticalAlignment="Top" Width="66" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}" FontSize="14"/>
+            <Label HorizontalAlignment="Left" Margin="1035,687,0,0"  Content="Email" VerticalAlignment="Top" Width="66" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}" FontSize="14"/>
             <Border Background="#FF9E9E9E" Margin="883,368,1034,507"></Border>
             <Label HorizontalAlignment="Left" Margin="793,92,0,0"  Content="Account Information" VerticalAlignment="Top" Width="258" BorderBrush="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" Background="{x:Null}"/>
             <Label HorizontalAlignment="Left" Margin="1103,368,0,0"  Content="Date of Birth" VerticalAlignment="Top" Width="166" BorderBrush="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" Background="{x:Null}"/>
 
             <Label HorizontalAlignment="Left" Margin="820,618,0,0"  Content="Personal Information" VerticalAlignment="Top" Width="254" BorderBrush="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" Background="{x:Null}"/>
 
-            <Label HorizontalAlignment="Left" Margin="204,687,0,0"  Content="FullName" VerticalAlignment="Top" Width="86" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}"/>
-            <Label HorizontalAlignment="Left" Margin="701,232,0,0"  Content ="Password" VerticalAlignment="Top" Width="62" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}"/>
-            <Label HorizontalAlignment="Left" Margin="204,795,0,0"  Content="PhoneNum" VerticalAlignment="Top" Width="120" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}"/>
+            <Label HorizontalAlignment="Left" Margin="204,687,0,0"  Content="FullName" VerticalAlignment="Top" Width="86" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}" FontSize="14"/>
+            <Label HorizontalAlignment="Left" Margin="684,234,0,0"  Content ="Password" VerticalAlignment="Top" Width="84" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}" FontSize="14"/>
+            <Label HorizontalAlignment="Left" Margin="204,795,0,0"  Content="PhoneNum" VerticalAlignment="Top" Width="120" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" Background="{x:Null}" FontSize="14"/>
         </Grid>
         <Image Source="/images/Vector 1.png" RenderTransformOrigin="0.527,0.502" Margin="1383,389,315,512">
             <Image.RenderTransform>
@@ -337,7 +337,6 @@ Margin="1251,224,0,0" Text=" " x:Name="rolee" FontSize="18" Foreground="White" F
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Label x:Name="dateerror" Visibility="Collapsed" Content="يرجى ادخال التاريخ " HorizontalAlignment="Left" Margin="643,466,0,0" VerticalAlignment="Top"/>
         <Label x:Name="usererror" Visibility="Collapsed" Content="*username already in use " HorizontalAlignment="Left" Margin="778,193,0,0" VerticalAlignment="Top" Foreground="#FFB95E5E" FontWeight="Bold">
             <Label.Background>
                 <SolidColorBrush Opacity="0.6"/>
@@ -395,16 +394,16 @@ Margin="1251,224,0,0" Text=" " x:Name="rolee" FontSize="18" Foreground="White" F
 
         </Border>
         <Grid Visibility="Collapsed" x:Name="adminPerm" Margin="543,393,1189,581">
-            <CheckBox x:Name="all" Content="All Permmisions" IsChecked="False" FontSize="16" IsEnabled="True"/>
+            <CheckBox x:Name="all" Content="All Permmisions" IsChecked="False" FontSize="18" IsEnabled="True" Foreground="White"/>
         </Grid>
         <Label HorizontalAlignment="Left" Margin="557,372,0,0"  Content="Permmisions" VerticalAlignment="Top" Width="166" BorderBrush="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" Background="{x:Null}"/>
         <Grid x:Name="pPerm" Visibility="Collapsed" Margin="555,413,1209,513" ScrollViewer.CanContentScroll="True">
             <StackPanel Margin="0,10,-19,30">
-                <CheckBox x:Name="chkViewMedic" Content="View Medic" IsChecked="False" IsEnabled="True" FontSize="16"/>
-                <CheckBox x:Name="chkAddMedic" Content="Add Medic" IsChecked="False" IsEnabled="True" FontSize="16"/>
-                <CheckBox x:Name="chkSellMedic" Content="Sell Medic" IsChecked="False" IsEnabled="True" FontSize="16"/>
-                <CheckBox x:Name="chkSellMedicDuplicate" Content="storage manage" IsChecked="False" IsEnabled="True" FontSize="16"/>
-                <CheckBox x:Name="makereport" Content="Make Report" IsChecked="False" IsEnabled="True" FontSize="16"/>
+                <CheckBox x:Name="chkViewMedic" Content="View Medic" IsChecked="False" IsEnabled="True" FontSize="18" Foreground="White"/>
+                <CheckBox x:Name="chkAddMedic" Content="Add Medic" IsChecked="False" IsEnabled="True" FontSize="18" Background="White" Foreground="White"/>
+                <CheckBox x:Name="chkSellMedic" Content="Sell Medic" IsChecked="False" IsEnabled="True" FontSize="18" Foreground="White"/>
+                <CheckBox x:Name="chkSellMedicDuplicate" Content="storage manage" IsChecked="False" IsEnabled="True" FontSize="18" Foreground="White"/>
+                <CheckBox x:Name="makereport" Content="Make Report" IsChecked="False" IsEnabled="True" FontSize="18" Foreground="White"/>
 
 
 

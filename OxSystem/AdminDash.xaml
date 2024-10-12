@@ -455,9 +455,6 @@ ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="Transpare
                                     </StackPanel>
 
                                 </ScrollViewer>
-
-                                <Label Content="🔔" Margin="343,2,65,0" Height="26" VerticalAlignment="Top"/>
-                                <Label Content="⚙️" Margin="369,2,37,0" Height="26" VerticalAlignment="Top"></Label>
                                 <Label x:Name="ToggleLabel" HorizontalContentAlignment="Center" Padding="0,0,0,0" Content="▲" Margin="0,7,10,0" 
            MouseLeftButtonDown="ToggleLabel_MouseLeftButtonDown" 
            HorizontalAlignment="Right" Width="27" Height="19" VerticalAlignment="Top"/>
@@ -476,7 +473,7 @@ ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="Transpare
                                             </TransformGroup>
                                         </Border.RenderTransform>
                                     </Border>
-                                    <Border CornerRadius="20,0,0,0" Background="White" Margin="-5,-6,0,302"/>
+                                    <Border CornerRadius="20,0,0,0" Background="#FF5BA9AB" Margin="-5,-6,0,302"/>
                                     <TextBlock x:Name="ChatTitle" 
            FontSize="16" 
            FontWeight="Bold" 
@@ -503,8 +500,8 @@ HorizontalAlignment="Right" Width="27" Height="19" VerticalAlignment="Top" Rende
 
                                     </Border>
 
-                                    <TextBox IsReadOnly="False" x:Name="MessageInput" Padding="10,13,0,0" BorderThickness="0" Text="Type a message" Margin="-5,297,0,0" 
-     BorderBrush="{x:Null}" Background="White" GotFocus="searchBox1_GotFocus1" 
+                                    <TextBox IsReadOnly="False" x:Name="MessageInput" Padding="10,13,0,0" BorderThickness="1,1,1,1" Text="Type a message" Margin="-5,297,0,0" 
+     BorderBrush="#FF949494" Background="White" GotFocus="searchBox1_GotFocus1" 
      LostFocus="searchBox1_LostFocus1" KeyDown="MessageInput_KeyDown">
                                         <TextBox.Resources>
                                             <Style TargetType="{x:Type Border}">

@@ -148,7 +148,49 @@ RadiusX="20" RadiusY="20"
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox Padding="10,15,0,0" Text="" x:Name="num" Background="{x:Null}" Margin="1137,410,0,602"  HorizontalAlignment="Left" Width="319" BorderBrush="#FF4C4C4C" LostFocus="num_LostFocus" GotFocus="num_GotFocus" TextChanged="num_TextChanged" FontSize="18" Foreground="Gray"  >
+            <TextBox Padding="10,14,0,0" Text="" x:Name="type" Background="{x:Null}" Margin="854,407,0,0" HorizontalAlignment="Left" Width="406" BorderBrush="#FF4C4C4C" Height="58" VerticalAlignment="Top" GotFocus="mname_GotFocus1" LostFocus="mname_LostFocus1" TextChanged="mname_TextChanged1" FontSize="18" Foreground="Gray">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="5">
+
+                                        <ScrollViewer x:Name="PART_ContentHost"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <TextBox Padding="10,14,0,0" Text="" x:Name="scififcename" Background="{x:Null}" Margin="1374,407,0,0" HorizontalAlignment="Left" Width="405" BorderBrush="#FF4C4C4C" Height="58" VerticalAlignment="Top" GotFocus="mname_GotFocus2" LostFocus="mname_LostFocus2" TextChanged="mname_TextChanged2" FontSize="18" Foreground="Gray">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="5">
+
+                                        <ScrollViewer x:Name="PART_ContentHost"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <TextBox Padding="10,15,0,0" Text="" x:Name="num" Background="{x:Null}" Margin="1148,512,0,500"  HorizontalAlignment="Left" Width="319" BorderBrush="#FF4C4C4C" LostFocus="num_LostFocus" GotFocus="num_GotFocus" TextChanged="num_TextChanged" FontSize="18" Foreground="Gray"  >
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
 
@@ -172,7 +214,7 @@ RadiusX="20" RadiusY="20"
             </TextBox>
             <ComboBox Text="Supplier Name" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="supname" HorizontalAlignment="Left" Margin="878,842,0,0" VerticalAlignment="Top" Width="358" Height="54" SelectionChanged="sname_SelectionChanged2" Loaded="sname_Loaded2" BorderBrush="#FF4C4C4C" FontSize="22" BorderThickness="3,3,3,3" Background="White"/>
 
-            <TextBox Padding="10,15,0,0" Text="" x:Name="bprice" Background="{x:Null}" Margin="854,532,0,480"  HorizontalAlignment="Left" Width="405" BorderBrush="#FF4C4C4C" LostFocus="bprice_LostFocus" GotFocus="bprice_GotFocus" TextChanged="bprice_TextChanged" FontSize="18" Foreground="Black" PreviewTextInput="bprice_PreviewTextInput"  >
+            <TextBox Padding="10,15,0,0" Text="" x:Name="bprice" Background="{x:Null}" Margin="865,634,0,378"  HorizontalAlignment="Left" Width="405" BorderBrush="#FF4C4C4C" LostFocus="bprice_LostFocus" GotFocus="bprice_GotFocus" TextChanged="bprice_TextChanged" FontSize="18" Foreground="Black" PreviewTextInput="bprice_PreviewTextInput"  >
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
 
@@ -197,7 +239,7 @@ RadiusX="20" RadiusY="20"
             <ComboBox Text="Storage Name" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname" HorizontalAlignment="Left" Margin="1390,841,0,0" VerticalAlignment="Top" Width="374" Height="55" SelectionChanged="sname_SelectionChanged" Loaded="sname_Loaded" KeyUp="sname_KeyUp" BorderBrush="#FF4C4C4C" FontSize="22" Background="White" BorderThickness="3,3,3,3"/>
 
 
-            <TextBox Padding="10,15,0,0" x:Name="sprice" Background="{x:Null}" Margin="1374,532,0,480" HorizontalAlignment="Left" Width="406" BorderBrush="#FF4C4C4C" GotFocus="sprice_GotFocus" LostFocus="sprice_LostFocus" TextChanged="sprice_TextChanged" PreviewTextInput="sprice_PreviewTextInput" FontSize="18" Foreground="Black" Height="58">
+            <TextBox Padding="10,15,0,0" x:Name="sprice" Background="{x:Null}" Margin="1385,634,0,378" HorizontalAlignment="Left" Width="406" BorderBrush="#FF4C4C4C" GotFocus="sprice_GotFocus" LostFocus="sprice_LostFocus" TextChanged="sprice_TextChanged" PreviewTextInput="sprice_PreviewTextInput" FontSize="18" Foreground="Black" Height="58">
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
                         <Setter Property="BorderThickness" Value="2"/>
@@ -240,12 +282,12 @@ RadiusX="20" RadiusY="20"
                 </TextBox.Style>
             </TextBox>
 
-            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label3" Content="Quantity" Margin="0,427,661,0" FontSize="18" FontWeight="SemiBold" Height="24" VerticalAlignment="Top" HorizontalAlignment="Right" Width="81" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label3_MouseLeftButtonDown">
+            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label3" Content="Quantity" Margin="0,529,650,0" FontSize="18" FontWeight="SemiBold" Height="24" VerticalAlignment="Top" HorizontalAlignment="Right" Width="81" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label3_MouseLeftButtonDown">
                 <Label.RenderTransform>
                     <TranslateTransform x:Name="translateTransformLabel3" />
                 </Label.RenderTransform>
             </Label>
-            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label4" Content="Buy Price" Margin="0,548,936,0" FontSize="18" FontWeight="SemiBold" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="86" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label4_MouseLeftButtonDown">
+            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label4" Content="Buy Price" Margin="0,650,925,0" FontSize="18" FontWeight="SemiBold" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="86" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label4_MouseLeftButtonDown">
                 <Label.RenderTransform>
                     <TranslateTransform x:Name="translateTransformLabel4" />
                 </Label.RenderTransform>
@@ -255,7 +297,7 @@ RadiusX="20" RadiusY="20"
                     <TranslateTransform x:Name="translateTransformLabel2" />
                 </Label.RenderTransform>
             </Label>
-            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label5" Content="Sell Price" Margin="0,548,417,0" FontSize="18" FontWeight="SemiBold" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="84" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label5_MouseLeftButtonDown">
+            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label5" Content="Sell Price" Margin="0,650,406,0" FontSize="18" FontWeight="SemiBold" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="84" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label5_MouseLeftButtonDown">
                 <Label.RenderTransform>
                     <TranslateTransform x:Name="translateTransformLabel5" />
                 </Label.RenderTransform>
@@ -265,6 +307,16 @@ RadiusX="20" RadiusY="20"
             <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label1" Content="Medic Name" Margin="0,301,908,0" FontSize="18" FontWeight="SemiBold" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="114" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label1_MouseLeftButtonDown">
                 <Label.RenderTransform>
                     <TranslateTransform x:Name="translateTransformLabel1" />
+                </Label.RenderTransform>
+            </Label>
+            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label12" Content="Type" Margin="0,424,908,0" FontSize="18" FontWeight="SemiBold" Height="24" VerticalAlignment="Top" HorizontalAlignment="Right" Width="114" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label1_4MouseLeftButtonDown">
+                <Label.RenderTransform>
+                    <TranslateTransform x:Name="translateTransformLabel12" />
+                </Label.RenderTransform>
+            </Label>
+            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label13" Content="Scnfic Name" Margin="0,426,387,0" FontSize="18" FontWeight="SemiBold" Height="22" VerticalAlignment="Top" HorizontalAlignment="Right" Width="114" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label1_1MouseLeftButtonDown">
+                <Label.RenderTransform>
+                    <TranslateTransform x:Name="translateTransformLabel13" />
                 </Label.RenderTransform>
             </Label>
 
@@ -469,13 +521,11 @@ RadiusX="20" RadiusY="20"
 RenderTransformOrigin="0.527,0.502" Margin="63,175,1745,816" Cursor="Hand" /> -->
 
             <Label Content="Total Price" Margin="20,1023,1760,13" FontSize="20" FontWeight="Bold"></Label>
-            <Label Content="Total Price" Margin="20,995,1771,41" FontSize="20" FontWeight="SemiBold"></Label>
             <Label  Content="Price" Margin="16,952,1831,80" FontSize="20"></Label>
             <Label x:Name="price" HorizontalContentAlignment="Right" Content="0,00" Margin="206,952,1409,80" FontSize="20"></Label>
             <Label Content="discount" Margin="16,919,1790,112" FontSize="22"></Label>
             <Label HorizontalContentAlignment="Right" Content="0,00" Margin="206,923,1409,112" FontSize="20"></Label>
             <Label x:Name="pricet" HorizontalContentAlignment="Right" Content="0,00" Margin="196,1021,1409,11" FontSize="24" FontWeight="Bold"></Label>
-            <Label x:Name="quan" HorizontalContentAlignment="Right" Content="0" Margin="196,991,1409,41" FontSize="24" FontWeight="SemiBold"></Label>
             <Border BorderBrush="Black" Margin="16,989,1396,80" Background="#FF101010" Height="1"></Border>
         </Grid>
 

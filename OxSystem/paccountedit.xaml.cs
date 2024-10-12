@@ -62,10 +62,23 @@ namespace OxSystem
             Storyboard.SetTarget(storyboard, textBox);
             storyboard.Begin();
         }
+        private T FindParentControl<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+            {
+                return parent;
+            }
+            else
+            {
+                return FindParentControl<T>(parentObject);
+            }
+        }
         private async void mybutton_Click(object sender, RoutedEventArgs e)
         {
-
-
             string fullname = full.Text;
             string password = Password.Text;
             string phonenum = PhoneNum.Text;
@@ -83,8 +96,18 @@ namespace OxSystem
                 Storyboard fadeInStoryboard = (Storyboard)FindResource("FadeOutStoryboard");
                 fadeInStoryboard.Begin();
                 await Task.Delay(300);
-                
+                verfication.Visibility = Visibility.Visible;
                 this.Visibility = Visibility.Collapsed;
+                var parent = FindParentControl<adminaccount>(this);
+
+                if (parent != null)
+                {
+                    parent.UserControl_Loaded(sender, e);  // Call the method to reload data
+                }
+                else
+                {
+                    MessageBox.Show("Unable to find the parent Show Accounts control.");
+                }
             }
             if (Username.Text == "Username..." || Username.Text == "" || Username.Text == "insert the Username!")
             {

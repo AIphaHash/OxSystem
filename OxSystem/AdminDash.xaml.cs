@@ -19,6 +19,7 @@ using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 using System.Threading;
 using static OxSystem.Login;
 using WpfAnimatedGif;
+using Syncfusion.Windows.Shared;
 namespace OxSystem
 
 {
@@ -524,59 +525,103 @@ namespace OxSystem
             {
                 ChatStackPanel.Children.Clear();
 
-                string query = $"SELECT id, fullname FROM users_info WHERE  id <> '{CurrentUserId}' and fullname like '{fulln}'";
+                string query = $"SELECT id, role, fullname FROM users_info WHERE  id <> '{CurrentUserId}' and fullname like '{fulln}'";
                 DataSet ds = new DbConnection().getData(query);
 
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
                     string userId = row["id"].ToString();
                     string fullName = row["fullname"].ToString();
+                    string role = row["role"].ToString();
                     string lastMessageQuery = $"SELECT TOP 1 message FROM UserMessages WHERE sender_id = '{userId}' ORDER BY timestamp DESC";
                     DataSet lastMessageDs = new DbConnection().getData(lastMessageQuery);
                     string lastMessage = lastMessageDs.Tables[0].Rows.Count > 0 ? lastMessageDs.Tables[0].Rows[0]["message"].ToString() : "No messages yet";
+
                     StackPanel cardContent = new StackPanel
                     {
-                        Orientation = Orientation.Horizontal
+                        Orientation = Orientation.Horizontal,
+                        VerticalAlignment = VerticalAlignment.Stretch,
+                        Height = 100,
+                        Margin = new Thickness(0)
                     };
-                    Image userImage = new Image
+
+                    Image outerImage = new Image
                     {
                         Source = new BitmapImage(new Uri("images/1414.png", UriKind.Relative)),
                         Width = 100,
                         Height = 100,
                         Margin = new Thickness(0, 0, 0, 0)
                     };
+
+                    Image innerImage = new Image
+                    {
+                        Width = 50,
+                        Height = 50,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    switch (role)
+                    {
+                        case "Accountent":
+                            innerImage.Source = new BitmapImage(new Uri("images/6348754.png", UriKind.Relative));
+                            break;
+                        case "Pharm":
+                            innerImage.Source = new BitmapImage(new Uri("images/6938244.png", UriKind.Relative));
+                            break;
+                        case "Admin":
+                            innerImage.Source = new BitmapImage(new Uri("images/pngtree-administrator-line-icon-png-image_9064932.png", UriKind.Relative));
+                            break;
+                    }
+
+                    Grid imageGrid = new Grid();
+                    imageGrid.Children.Add(outerImage);
+                    imageGrid.Children.Add(innerImage);
+
                     TextBlock buttonContent = new TextBlock
                     {
-                        Margin = new Thickness(10, 20, 0, 0)
+                        Margin = new Thickness(10, 0, 0, 0),
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Foreground = new SolidColorBrush(Colors.Black),  // Explicitly set Foreground color to ensure visibility
+                        TextWrapping = TextWrapping.Wrap,  // Allows text to wrap if necessary
                     };
+
                     buttonContent.Inlines.Add(new Run(fullName)
                     {
                         FontSize = 16,
                         FontWeight = FontWeights.Bold
                     });
+
                     buttonContent.Inlines.Add(new LineBreak());
+
                     buttonContent.Inlines.Add(new Run($"Last message: {lastMessage}")
                     {
                         FontSize = 12
                     });
-                    cardContent.Children.Add(userImage);
+
+                    cardContent.Children.Add(imageGrid);
                     cardContent.Children.Add(buttonContent);
+
                     Button cardButton = new Button
                     {
                         Content = cardContent,
                         Tag = userId,
                         Margin = new Thickness(0),
                         Padding = new Thickness(0),
-                        Background = new SolidColorBrush((Colors.White)),
+                        Background = new SolidColorBrush(Colors.White),
                         HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch,
                         BorderBrush = null,
                         VerticalContentAlignment = VerticalAlignment.Center,
                         HorizontalContentAlignment = HorizontalAlignment.Stretch,
-                        Width = 400
+                        Width = 400,
+                        MinHeight = 100
                     };
+
                     cardButton.Click += CardButton_Click;
                     ChatStackPanel.Children.Add(cardButton);
                 }
+
                 var glowAnimation = (Storyboard)Resources["GlowAnimation"];
                 glowAnimation.Begin(glowingBorder1, true);
                 glowAnimation.Begin(glowingBorder2, true);

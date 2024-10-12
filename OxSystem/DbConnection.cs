@@ -20,10 +20,12 @@ namespace OxSystem
 
         protected SqlConnection getConnection()
         {
+            string machineName = Environment.MachineName; // Get the machine name dynamically
             SqlConnection con = new SqlConnection();
-            con.ConnectionString = "data source = AMEERPC\\SQLEXPRESS ; database = final_proj_db ; integrated security = True";
+            con.ConnectionString = $"data source = {machineName}\\SQLEXPRESS; database = final_proj_db; integrated security = True";
             return con;
         }
+
         // Azure string connection
         /*public SqlConnection getConnection()
         {

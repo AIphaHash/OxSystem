@@ -91,7 +91,7 @@ namespace OxSystem
             await Task.Delay(300);
             this.Visibility = Visibility.Collapsed;
         }
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        public void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             fullnameLabel.Content = full;
             query = "select * from users_info where user_name = '" + user_name + "'";

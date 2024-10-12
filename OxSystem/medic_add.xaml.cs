@@ -228,10 +228,10 @@ namespace OxSystem
         private void AddDataToDataGrid()
         {
             // Validate inputs
-            if (mname.Text != "" && mname_Copy.Text != "" && sprice.Text != "" && bprice.Text != "" && num.Text != "" &&
+            if (mname.Text != "" && mname_Copy.Text != "" && sprice.Text != "" && bprice.Text != "" && num.Text != "" && scififcename.Text != "" && type.Text != "" &&
                 supname.SelectedIndex >= 0 && sname.SelectedIndex >= 0  && YearComboBox1.SelectedIndex >= 0 &&
                 MonthComboBox.SelectedIndex >= 0 && MonthComboBox1.SelectedIndex >= 0 && DayComboBox.SelectedIndex >= 0 && DayComboBox1.SelectedIndex >= 0 &&
-                mname.Text != "insert the Medic Name!" && mname_Copy.Text != "insert the Too Name!" && num.Text != "9999" &&
+                mname.Text != "insert the Medic Name!" && mname_Copy.Text != "insert the Too Name!" && num.Text != "9999" && scififcename.Text != "insert the Scinfic Name!" && type.Text != "insert the Type Name!" &&
                 sname.Text != "999,999" && supname.Text != "999,99")
             {
                 supname.IsEnabled = false;
@@ -326,6 +326,24 @@ namespace OxSystem
                     storyboard.Begin(mname, true);
                     Storyboard shakeStoryboard = (Storyboard)this.Resources["ShakeStoryboard"];
                     shakeStoryboard.Begin(label1);
+                }
+                if (string.IsNullOrWhiteSpace(type.Text) || type.Text == "insert the Type Name!")
+                {
+                    
+                   
+                    var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
+                    storyboard.Begin(type, true);
+                    Storyboard shakeStoryboard = (Storyboard)this.Resources["ShakeStoryboard"];
+                    shakeStoryboard.Begin(label13);
+                }
+                if (string.IsNullOrWhiteSpace(scififcename.Text) || scififcename.Text == "insert the Scinfic Name!")
+                {
+                    
+                   
+                    var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
+                    storyboard.Begin(scififcename, true);
+                    Storyboard shakeStoryboard = (Storyboard)this.Resources["ShakeStoryboard"];
+                    shakeStoryboard.Begin(label12);
                 }
                 if (string.IsNullOrWhiteSpace(bprice.Text) || bprice.Text == "999,999")
                 {
@@ -865,7 +883,6 @@ namespace OxSystem
                     else
                     {
                         expiryDate = string.Empty; // Handle invalid date parsing
-                        MessageBox.Show("Invalid expiry date format for " + medic.MedicName);
                     }
 
                     // Manufacture Date
@@ -876,7 +893,9 @@ namespace OxSystem
                     else
                     {
                         manufactureDate = string.Empty; // Handle invalid date parsing
-                        MessageBox.Show("Invalid manufacture date format for " + medic.MedicName);
+
+
+
                     }
 
 
@@ -901,20 +920,20 @@ namespace OxSystem
 
 
                 // Check if the record already exists
-                query = $"SELECT * FROM medicinfo WHERE mname LIKE '{medicName}' AND bprice = '{buyPrice:F2}' AND sprice = '{sellPrice:F2}' AND exdate LIKE '{expiryDate}' AND madate LIKE '{manufactureDate}' AND nummedic LIKE '{numberMedic}' AND sname LIKE '{sname}' AND from_ LIKE '{supn}' AND too_ LIKE '{mname_Copy.Text}' AND billId LIKE '{bid}' AND codeid LIKE '{cid}'";
+                query = $"SELECT * FROM medicinfo WHERE mname LIKE '{medicName}' AND bprice = '{buyPrice:F2}' AND sprice = '{sellPrice:F2}' AND exdate LIKE '{expiryDate}' AND madate LIKE '{manufactureDate}' AND nummedic LIKE '{numberMedic}' AND sname LIKE '{sname}' AND from_ LIKE '{supn}' AND too_ LIKE '{mname_Copy.Text}' And ScintficName like '{scififcename.Text}' and medictype like '{type.Text}'  AND billId LIKE '{bid}' AND codeid LIKE '{cid}'";
                     ds = conn.getData(query);
 
                     if (ds.Tables[0].Rows.Count != 0)
                     {
                         // Update existing record
-                        query = $"UPDATE medicinfo SET nummedic = nummedic + '{numberMedic}' WHERE mname LIKE '{medicName}' AND bprice = '{buyPrice:F2}' AND sprice = '{sellPrice:F2}' AND exdate LIKE '{expiryDate}' AND madate LIKE '{manufactureDate}' AND nummedic LIKE '{numberMedic}' AND sname LIKE '{sname}' AND from_ LIKE '{supn}' AND too_ LIKE '{mname_Copy.Text}' AND billId LIKE '{bid}' AND codeid LIKE '{cid}'";
+                        query = $"UPDATE medicinfo SET nummedic = nummedic + '{numberMedic}' WHERE mname LIKE '{medicName}' AND bprice = '{buyPrice:F2}' AND sprice = '{sellPrice:F2}' AND exdate LIKE '{expiryDate}' AND madate LIKE '{manufactureDate}' AND nummedic LIKE '{numberMedic}' AND sname LIKE '{sname}' AND from_ LIKE '{supn}' AND too_ LIKE '{mname_Copy.Text}' And ScintficName like '{scififcename.Text}' and medictype like '{type.Text}'  AND billId LIKE '{bid}' AND codeid LIKE '{cid}'";
                         conn.setData(query);
                     }
                     else
                     {
                         // Insert new record
-                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid) " +
-                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}','{supn}','{mname_Copy.Text}','{bid}','{cid}')";
+                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid , ScintficName , medictype) " +
+                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}','{supn}','{mname_Copy.Text}','{bid}','{cid}' , '{scififcename.Text}','{type.Text}')";
                         conn.setData(query);
                     }
                 }
@@ -943,11 +962,9 @@ namespace OxSystem
             }
             catch (FormatException ex)
             {
-                MessageBox.Show($"Format Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"General Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -1779,6 +1796,96 @@ namespace OxSystem
 
         private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+
+        }
+
+        private void mname_GotFocus1(object sender, RoutedEventArgs e)
+        {
+            if (type.Text == "")
+            {
+
+                MoveLabelUp(label12);
+                type.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2EA5A3"));
+            }
+        }
+
+        private void mname_LostFocus1(object sender, RoutedEventArgs e)
+        {
+            if (type.Text == "" || type.Text == "insert the Type Name!")
+            {
+                MoveLabelDown(label12);
+                type.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4C4C4C"));
+
+            }
+        }
+
+        private void mname_TextChanged1(object sender, TextChangedEventArgs e)
+        {
+            if (type.IsFocused)
+            {
+                if (type.Text == "" || type.Text == "Type Name..." || type.Text == "insert the Type Name!")
+                {
+                    type.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC1BCBC"));
+                }
+                else
+                {
+                    type.Foreground = new SolidColorBrush(Colors.Black);
+                }
+            }
+        }
+
+        private void mname_TextChanged2(object sender, TextChangedEventArgs e)
+        {
+            if (scififcename.IsFocused)
+            {
+                if (scififcename.Text == "" || scififcename.Text == "Scinfic Name..." || scififcename.Text == "insert the Scitnifc Name!")
+                {
+                    scififcename.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC1BCBC"));
+                }
+                else
+                {
+                    scififcename.Foreground = new SolidColorBrush(Colors.Black);
+                }
+            }
+        }
+
+        private void mname_LostFocus2(object sender, RoutedEventArgs e)
+        {
+            if (scififcename.Text == "" || scififcename.Text == "insert the Scitnifc Name!")
+            {
+                MoveLabelDown(label13);
+                scififcename.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4C4C4C"));
+
+            }
+        }
+
+        private void mname_GotFocus2(object sender, RoutedEventArgs e)
+        {
+            if (scififcename.Text == "")
+            {
+
+                MoveLabelUp(label13);
+                scififcename.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2EA5A3"));
+            }
+        }
+
+        private void label1_1MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (type.Focus() == false)
+            {
+                mname_GotFocus2(sender, e);
+                type.Focus();
+            }
+
+        }
+
+        private void label1_4MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (scififcename.Focus() == false)
+            {
+                mname_GotFocus1(sender, e);
+                scififcename.Focus();
+            }
 
         }
     }

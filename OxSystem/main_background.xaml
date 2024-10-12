@@ -137,12 +137,12 @@ Duration="0:0:1" />
 
                             <!-- Define Primary Axis (X-Axis: Transaction Type) -->
                             <chart:SfChart.PrimaryAxis>
-                                <chart:CategoryAxis Header="Transaction Type" LabelPlacement="BetweenTicks"/>
+                                <chart:CategoryAxis Header="Transaction Type" LabelPlacement="BetweenTicks" FontSize="15" />
                             </chart:SfChart.PrimaryAxis>
 
                             <!-- Define Secondary Axis (Y-Axis: Amount in Money) -->
                             <chart:SfChart.SecondaryAxis>
-                                <chart:NumericalAxis Header="Amount" />
+                                <chart:NumericalAxis Header="Amount" FontSize="15" />
                             </chart:SfChart.SecondaryAxis>
 
                             <!-- BarSeries for Transaction Data -->
@@ -223,19 +223,19 @@ RenderTransformOrigin="0.527,0.502" Margin="434,5,21,5" Cursor="Hand"/>
                                 </TransformGroup>
                             </Border.RenderTransform>
                         </Border>
-                        <chart:SfChart Margin="10,35,10,10" FontSize="20">
+                        <chart:SfChart Margin="10,35,10,10" FontSize="20" FontWeight="Bold">
                             <chart:SfChart.Behaviors>
                                 <chart:ChartZoomPanBehavior EnablePanning="True" EnableSelectionZooming="False"/>
                             </chart:SfChart.Behaviors>
 
                             <chart:SfChart.Resources>
                                 <DataTemplate x:Key="AdornmentLabelTemplate">
-                                    <TextBlock Text="{Binding}" Foreground="White" FontSize="14" Padding="0,20,0,0"/>
+                                    <TextBlock Text="{Binding}" Foreground="White" FontSize="17" Padding="0,20,0,0" FontWeight="Bold"/>
                                 </DataTemplate>
                             </chart:SfChart.Resources>
 
                             <chart:ColumnSeries x:Name="AdminSeries11" Palette="FloraHues" 
-                        XBindingPath="ExpirationPeriod" YBindingPath="Count">
+                        XBindingPath="ExpirationPeriod" YBindingPath="Count" FontSize="20" >
                                 <chart:ColumnSeries.Interior>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                         <GradientStop Color="#FF125A5A"/>
@@ -311,10 +311,10 @@ RenderTransformOrigin="0.527,0.502" Margin="434,5,21,5" Cursor="Hand"/>
 
                         <chart:SfChart Margin="10,34,10,6"  FontSize="20">
                             <chart:SfChart.PrimaryAxis>
-                                <chart:CategoryAxis/>
+                                <chart:CategoryAxis FontSize="15" />
                             </chart:SfChart.PrimaryAxis>
                             <chart:SfChart.SecondaryAxis>
-                                <chart:NumericalAxis />
+                                <chart:NumericalAxis FontSize="15" />
                             </chart:SfChart.SecondaryAxis>
 
 
@@ -368,10 +368,10 @@ RenderTransformOrigin="0.527,0.502" Margin="434,5,21,5" Cursor="Hand"/>
 
                         <chart:SfChart x:Name="BillsChart" Height="295" >
                             <chart:SfChart.PrimaryAxis>
-                                <chart:CategoryAxis Header="Bill Type" />
+                                <chart:CategoryAxis Header="Bill Type" FontSize="15"  />
                             </chart:SfChart.PrimaryAxis>
                             <chart:SfChart.SecondaryAxis>
-                                <chart:NumericalAxis Header="Number of Medics" />
+                                <chart:NumericalAxis Header="Number of Medics" FontSize="15"  />
                             </chart:SfChart.SecondaryAxis>
 
                             <!-- ColumnSeries to display Buy and Sell counts -->
@@ -487,7 +487,7 @@ Binding="{Binding supnum}"/>
 
                         <DataGrid.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}">
-                                <Setter Property="FontSize" Value="15"/>
+                                <Setter Property="FontSize" Value="18"/>
                                 <Setter Property="BorderThickness" Value="0"/>
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -624,10 +624,10 @@ RenderTransformOrigin="0.527,0.502" Margin="9,16,158,17" Cursor="Hand"/>
                     <chart:SfChart Margin="0,20,10,-9" FontSize="18" FontWeight="Bold">
                         <chart:SfChart.Resources>
                             <DataTemplate x:Key="AdornmentLabelTemplate">
-                                <TextBlock Text="{Binding}" Foreground="White" FontSize="14" Padding="0,20,0,0"/>
+                                <TextBlock Text="{Binding}" Foreground="White" FontSize="17" Padding="0,20,0,0" FontWeight="Bold"/>
                             </DataTemplate>
                         </chart:SfChart.Resources>
-                        <chart:ColumnSeries x:Name="StorageSeries" ShowTooltip="True" Label="Medic Count" XBindingPath="Sname" YBindingPath="MedicCount">
+                        <chart:ColumnSeries x:Name="StorageSeries" ShowTooltip="True" Label="Medic Count" XBindingPath="Sname" YBindingPath="MedicCount"  FontSize="17" FontWeight="Bold" >
 
                             <chart:ColumnSeries.Interior>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -720,7 +720,7 @@ RenderTransformOrigin="0.527,0.502" Margin="9,16,158,17" Cursor="Hand"/>
             <Grid x:Name="navbar">
 
                 <Border Background="White" Margin="-13,0,-13,1002" Loaded="Border_Loaded"/>
-                <Label Content="Admin :" FontSize="20" Margin="36,10,1763,1011" FontWeight="Bold"/>
+                <Label Content="Pharm :" FontSize="20" Margin="36,10,1763,1011" FontWeight="Bold"/>
                 <Label x:Name="fullnameLabel" Content="" FontSize="20" Margin="121,10,1520,1011"/>
                 <Button x:Name="add_Copy1" Padding="0,0,0,0" BorderThickness="0" Content="📄 Reports" 
     Margin="1695,0,105,1008" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" 

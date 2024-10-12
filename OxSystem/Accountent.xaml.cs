@@ -1,4 +1,5 @@
 ﻿using LiveCharts.Wpf;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -90,7 +91,7 @@ namespace OxSystem
                     TextBlock dateSeparator = new TextBlock
                     {
                         Text = timestamp.ToString("yyyy-MM-dd"),
-                        FontSize = 14,
+                        FontSize = 20,
                         FontWeight = FontWeights.Bold,
                         Foreground = new SolidColorBrush(Colors.Gray),
                         HorizontalAlignment = HorizontalAlignment.Center,
@@ -113,6 +114,7 @@ namespace OxSystem
                     CornerRadius = new CornerRadius(10), // Corner radius for the message background
                     Padding = new Thickness(10),
                     Margin = new Thickness(5),
+                    
                     HorizontalAlignment = senderId == CurrentUserId ? HorizontalAlignment.Right : HorizontalAlignment.Left // Align based on sender
                 };
 
@@ -123,14 +125,15 @@ namespace OxSystem
                 TextBlock messageBlock = new TextBlock
                 {
                     TextWrapping = TextWrapping.Wrap,
-                    Text = message
+                    Text = message,
+                    FontSize = 20
                 };
 
                 // Create a TextBlock for the timestamp
                 TextBlock timestampBlock = new TextBlock
                 {
                     Text = timestamp.ToString("HH:mm"),
-                    FontSize = 10,
+                    FontSize = 15,
                     Foreground = new SolidColorBrush(Colors.Gray),
                     Margin = new Thickness(0, 5, 0, 0) // Add a little margin on top
                 };
@@ -256,46 +259,71 @@ namespace OxSystem
 
         private async void searchBox_TextChanged1(object sender, TextChangedEventArgs e)
         {
-
             await Task.Delay(300);
-
             fulln = searchBox1.Text;
             if (searchBox1.Text != "" && searchBox1.Text != "🔍  Search")
             {
                 ChatStackPanel.Children.Clear();
 
-                string query = $"SELECT id, fullname FROM users_info WHERE  id <> '{CurrentUserId}' and fullname like '{fulln}'";
+                string query = $"SELECT id, role, fullname FROM users_info WHERE  id <> '{CurrentUserId}' and fullname like '{fulln}'";
                 DataSet ds = new DbConnection().getData(query);
 
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
                     string userId = row["id"].ToString();
                     string fullName = row["fullname"].ToString();
-
-                    // Query to get the last message for each user
+                    string role = row["role"].ToString();
                     string lastMessageQuery = $"SELECT TOP 1 message FROM UserMessages WHERE sender_id = '{userId}' ORDER BY timestamp DESC";
                     DataSet lastMessageDs = new DbConnection().getData(lastMessageQuery);
                     string lastMessage = lastMessageDs.Tables[0].Rows.Count > 0 ? lastMessageDs.Tables[0].Rows[0]["message"].ToString() : "No messages yet";
 
-                    // Create a StackPanel to hold the image and text
                     StackPanel cardContent = new StackPanel
                     {
-                        Orientation = Orientation.Horizontal
+                        Orientation = Orientation.Horizontal,
+                        VerticalAlignment = VerticalAlignment.Stretch,
+                        Height = 100,
+                        Margin = new Thickness(0)
                     };
 
-                    // Create the Image element
-                    Image userImage = new Image
+                    Image outerImage = new Image
                     {
                         Source = new BitmapImage(new Uri("images/1414.png", UriKind.Relative)),
                         Width = 100,
                         Height = 100,
-                        Margin = new Thickness(0, 0, 0, 0) // Margin between image and text
+                        Margin = new Thickness(0, 0, 0, 0)
                     };
 
-                    // Create the TextBlock for the user's full name and last message
+                    Image innerImage = new Image
+                    {
+                        Width = 50,
+                        Height = 50,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    switch (role)
+                    {
+                        case "Accountent":
+                            innerImage.Source = new BitmapImage(new Uri("images/6348754.png", UriKind.Relative));
+                            break;
+                        case "Pharm":
+                            innerImage.Source = new BitmapImage(new Uri("images/6938244.png", UriKind.Relative));
+                            break;
+                        case "Admin":
+                            innerImage.Source = new BitmapImage(new Uri("images/pngtree-administrator-line-icon-png-image_9064932.png", UriKind.Relative));
+                            break;
+                    }
+
+                    Grid imageGrid = new Grid();
+                    imageGrid.Children.Add(outerImage);
+                    imageGrid.Children.Add(innerImage);
+
                     TextBlock buttonContent = new TextBlock
                     {
-                        Margin = new Thickness(10, 20, 0, 0) // Adjust the top margin here
+                        Margin = new Thickness(10, 0, 0, 0),
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Foreground = new SolidColorBrush(Colors.Black),  // Explicitly set Foreground color to ensure visibility
+                        TextWrapping = TextWrapping.Wrap,  // Allows text to wrap if necessary
                     };
 
                     buttonContent.Inlines.Add(new Run(fullName)
@@ -311,27 +339,26 @@ namespace OxSystem
                         FontSize = 12
                     });
 
-                    // Add the image and text to the StackPanel
-                    cardContent.Children.Add(userImage);
+                    cardContent.Children.Add(imageGrid);
                     cardContent.Children.Add(buttonContent);
 
-                    // Create the Button for each user
                     Button cardButton = new Button
                     {
                         Content = cardContent,
                         Tag = userId,
                         Margin = new Thickness(0),
                         Padding = new Thickness(0),
-                        Background = new SolidColorBrush((Colors.White)),
+                        Background = new SolidColorBrush(Colors.White),
                         HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch,
                         BorderBrush = null,
                         VerticalContentAlignment = VerticalAlignment.Center,
                         HorizontalContentAlignment = HorizontalAlignment.Stretch,
-                        Width = 400
+                        Width = 400,
+                        MinHeight = 100
                     };
 
                     cardButton.Click += CardButton_Click;
-
                     ChatStackPanel.Children.Add(cardButton);
                 }
 
@@ -446,56 +473,87 @@ namespace OxSystem
         {
             query = "select * from users_info where id = '" + CurrentUserId + "' AND perms = 'allpermmisions'";
             ds = conn.getData(query);
+
             if (ds.Tables[0].Rows.Count == 0)
             {
                 admindash.Visibility = Visibility.Collapsed;
+                pharmdash.Visibility = Visibility.Collapsed;
             }
             else
             {
                 admindash.Visibility = Visibility.Visible;
+                pharmdash.Visibility = Visibility.Visible;
             }
 
-           
+            query = "select * from users_info where id = '" + CurrentUserId + "' AND perms = 'allpermmisions'";
+            ds = conn.getData(query);
+
+            
             ChatStackPanel.Children.Clear();
-
-            // Query to get admin users, excluding the logged-in user
-            query = $"SELECT id, fullname FROM users_info WHERE  id <> '{CurrentUserId}'";
+            query = $"SELECT id, fullname, role FROM users_info WHERE id <> '{CurrentUserId}'";
             ds = new DbConnection().getData(query);
-
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 string userId = row["id"].ToString();
                 string fullName = row["fullname"].ToString();
-
-                // Query to get the last message for each user
+                string role = row["role"].ToString();
                 string lastMessageQuery = $"SELECT TOP 1 message FROM UserMessages WHERE sender_id = '{userId}' ORDER BY timestamp DESC";
                 DataSet lastMessageDs = new DbConnection().getData(lastMessageQuery);
                 string lastMessage = lastMessageDs.Tables[0].Rows.Count > 0 ? lastMessageDs.Tables[0].Rows[0]["message"].ToString() : "No messages yet";
 
-                // Create a StackPanel to hold the image and text
                 StackPanel cardContent = new StackPanel
                 {
-                    Orientation = Orientation.Horizontal
+                    Orientation = Orientation.Horizontal,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Height = 100,
+                   
+                    Margin = new Thickness(0)
                 };
 
-                // Create the Image element
-                Image userImage = new Image
+                Image outerImage = new Image
                 {
                     Source = new BitmapImage(new Uri("images/1414.png", UriKind.Relative)),
-                    Width = 100,
-                    Height = 100,
-                    Margin = new Thickness(0, 0, 0, 0) // Margin between image and text
+                    Width = 110,
+                    Height = 110,
+                    Margin = new Thickness(0, 0, 0, 0)
                 };
 
-                // Create the TextBlock for the user's full name and last message
+                Image innerImage = new Image
+                {
+                    Width = 60,
+                    Height = 60,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                switch (role)
+                {
+                    case "Accountent":
+                        innerImage.Source = new BitmapImage(new Uri("images/6348754.png", UriKind.Relative));
+                        break;
+                    case "Pharm":
+                        innerImage.Source = new BitmapImage(new Uri("images/6938244.png", UriKind.Relative));
+                        break;
+                    case "Admin":
+                        innerImage.Source = new BitmapImage(new Uri("images/pngtree-administrator-line-icon-png-image_9064932.png", UriKind.Relative));
+                        break;
+                }
+
+                Grid imageGrid = new Grid();
+                imageGrid.Children.Add(outerImage);
+                imageGrid.Children.Add(innerImage);
+
                 TextBlock buttonContent = new TextBlock
                 {
-                    Margin = new Thickness(10, 20, 0, 0) // Adjust the top margin here
+                    Margin = new Thickness(10, 0, 0, 0),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Foreground = new SolidColorBrush(Colors.Black),  // Explicitly set Foreground color to ensure visibility
+                    TextWrapping = TextWrapping.Wrap,  // Allows text to wrap if necessary
                 };
 
                 buttonContent.Inlines.Add(new Run(fullName)
                 {
-                    FontSize = 16,
+                    FontSize = 20,
                     FontWeight = FontWeights.Bold
                 });
 
@@ -503,38 +561,35 @@ namespace OxSystem
 
                 buttonContent.Inlines.Add(new Run($"Last message: {lastMessage}")
                 {
-                    FontSize = 12
+                    FontSize = 18
                 });
 
-                // Add the image and text to the StackPanel
-                cardContent.Children.Add(userImage);
+                cardContent.Children.Add(imageGrid);
                 cardContent.Children.Add(buttonContent);
 
-                // Create the Button for each user
                 Button cardButton = new Button
                 {
                     Content = cardContent,
                     Tag = userId,
                     Margin = new Thickness(0),
                     Padding = new Thickness(0),
-                    Background = new SolidColorBrush((Colors.White)),
+                    Background = new SolidColorBrush(Colors.White),
                     HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
                     BorderBrush = null,
                     VerticalContentAlignment = VerticalAlignment.Center,
                     HorizontalContentAlignment = HorizontalAlignment.Stretch,
-                    Width = 400
+                    Width = 400,
+                    MinHeight = 100
                 };
 
                 cardButton.Click += CardButton_Click;
-
                 ChatStackPanel.Children.Add(cardButton);
             }
 
-            // Start the glow animation
+
             var glowAnimation = (Storyboard)Resources["GlowAnimation"];
-            /*glowAnimation.Begin(glowingBorder1, true);
-            glowAnimation.Begin(glowingBorder2, true);
-            glowAnimation.Begin(glowingBorder3, true);*/
+         
         }
 
         private void admindash_Click(object sender, RoutedEventArgs e)
@@ -601,18 +656,20 @@ namespace OxSystem
             await Task.Delay(1200);
         }
 
-        private void navbarhover_MouseEnter(object sender, MouseEventArgs e)
+        private async void navbarhover_MouseEnter(object sender, MouseEventArgs e)
         {
             Storyboard expandStoryboard = (Storyboard)this.FindResource("ExpandNavbar");
             expandStoryboard.Begin();
-            
+            await Task.Delay(300);
+            pill.Visibility = Visibility.Visible;
         }
 
-        private void navbarhover_MouseLeave(object sender, MouseEventArgs e)
+        private async void navbarhover_MouseLeave(object sender, MouseEventArgs e)
         {
             Storyboard collapseStoryboard = (Storyboard)this.FindResource("CollapseNavbar");
             collapseStoryboard.Begin();
-          
+            await Task.Delay(300);
+            pill.Visibility = Visibility.Collapsed;
         }
 
         private void syncdate_Loaded(object sender, RoutedEventArgs e)
@@ -704,6 +761,27 @@ namespace OxSystem
         private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ShowUserControl(salary, discount, accountentdashboard, stateNshift);
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            pharmacist mb = new pharmacist();
+            mb.Show();
+            this.Close();
+            
+        }
+
+        private void admindash_Click_1(object sender, RoutedEventArgs e)
+        {
+            AdminDash ad = new AdminDash();
+            ad.Show();
+            this.Close();
+
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            stateNshift.Visibility = Visibility.Visible;
         }
     }
 }

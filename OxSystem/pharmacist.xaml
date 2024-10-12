@@ -15,228 +15,231 @@
         WindowState="Maximized" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
 
     <Window.Resources>
-
-        <Style TargetType="TextBox">
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Background" Value="#FFEBEDED"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="Margin" Value="32,36,5,5"/>
-            <Setter Property="IsReadOnly" Value="True"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="SelectionBrush" Value="{x:Null}"/>
-            <Setter Property="SelectionTextBrush" Value="{x:Null}"/>
-        </Style>
-        <Storyboard x:Key="FadeInStoryboard2">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Scroll.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="TextBox">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Background" Value="#FFEBEDED"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="Margin" Value="32,36,5,5"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="SelectionBrush" Value="{x:Null}"/>
+                <Setter Property="SelectionTextBrush" Value="{x:Null}"/>
+            </Style>
+            <Storyboard x:Key="FadeInStoryboard2">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                  From="0" To="1" Duration="0:0:1"/>
-        </Storyboard>
+            </Storyboard>
 
-        <!-- Fade Out Storyboard -->
-        <Storyboard x:Key="FadeOutStoryboard2">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            <!-- Fade Out Storyboard -->
+            <Storyboard x:Key="FadeOutStoryboard2">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                  From="1" To="0" Duration="0:0:0.1"/>
-        </Storyboard>
+            </Storyboard>
 
-        <Storyboard x:Key="HideStackPanel">
-            <DoubleAnimation 
+            <Storyboard x:Key="HideStackPanel">
+                <DoubleAnimation 
      Storyboard.TargetName="nav_pnl"
      Storyboard.TargetProperty="Width"
      From="240" To="61"
      Duration="0:0:0.2"/>
 
-            <DoubleAnimation 
+                <DoubleAnimation 
      Storyboard.TargetName="navbar"
      Storyboard.TargetProperty="Height"
      From="50" To="0"
      Duration="0:0:0.2"/>
 
-            <DoubleAnimation 
+                <DoubleAnimation 
      Storyboard.TargetName="nav_pnl2"
      Storyboard.TargetProperty="Width"
      From="300" To="0"
      Duration="0:0:0.2"/>
 
-            <!-- Animate Border Margin (Back to original 1398) -->
-            <ThicknessAnimation
+                <!-- Animate Border Margin (Back to original 1398) -->
+                <ThicknessAnimation
      Storyboard.TargetName="ExpandableBorder"
      Storyboard.TargetProperty="Margin"
      From="1218,0,0,0"
      To="1397,0,0,0"
      Duration="0:0:0.2"/>
-        </Storyboard>
+            </Storyboard>
 
-        <!-- Show StackPanel Storyboard -->
-        <Storyboard x:Key="ShowStackPanel">
-            <DoubleAnimation
+            <!-- Show StackPanel Storyboard -->
+            <Storyboard x:Key="ShowStackPanel">
+                <DoubleAnimation
      Storyboard.TargetName="nav_pnl"
      Storyboard.TargetProperty="Width"
      From="61" To="240"
      Duration="0:0:0.3"/>
 
-            <DoubleAnimation 
+                <DoubleAnimation 
      Storyboard.TargetName="navbar"
      Storyboard.TargetProperty="Height"
      From="0" To="50"
      Duration="0:0:0.2"/>
 
-            <DoubleAnimation
+                <DoubleAnimation
      Storyboard.TargetName="nav_pnl2"
      Storyboard.TargetProperty="Width"
      From="0" To="300"
      Duration="0:0:0.3"/>
 
-            <!-- Animate Border Margin (From 1398 to 1158) -->
-            <ThicknessAnimation
+                <!-- Animate Border Margin (From 1398 to 1158) -->
+                <ThicknessAnimation
      Storyboard.TargetName="ExpandableBorder"
      Storyboard.TargetProperty="Margin"
      From="1397,0,0,0"
      To="1218,0,0,0"
      Duration="0:0:0.3"/>
-        </Storyboard>
+            </Storyboard>
 
-        <Storyboard x:Key="DragOutStoryboard">
-            <!-- Fade out animation -->
-            <DoubleAnimation 
+            <Storyboard x:Key="DragOutStoryboard">
+                <!-- Fade out animation -->
+                <DoubleAnimation 
                   Storyboard.TargetProperty="Opacity" 
                   From="1" To="0" Duration="0:0:0.1" />
-            <!-- Translate animation -->
-            <ThicknessAnimation 
+                <!-- Translate animation -->
+                <ThicknessAnimation 
                      Storyboard.TargetProperty="Margin" 
                      From="0,0,0,0" To="0,-100,0,0" 
                      Duration="0:0:0.1" />
-            <!-- Repeat for other controls as needed -->
-        </Storyboard>
+                <!-- Repeat for other controls as needed -->
+            </Storyboard>
 
-        <!-- Define the storyboard for dragging in the new control -->
-        <Storyboard x:Key="DragInStoryboard">
-            <!-- Fade in animation -->
-            <DoubleAnimation 
+            <!-- Define the storyboard for dragging in the new control -->
+            <Storyboard x:Key="DragInStoryboard">
+                <!-- Fade in animation -->
+                <DoubleAnimation 
                   Storyboard.TargetProperty="Opacity" 
                   From="0" To="1" Duration="0:0:0.1" />
-            <!-- Translate animation -->
-            <ThicknessAnimation  
+                <!-- Translate animation -->
+                <ThicknessAnimation  
                      Storyboard.TargetProperty="Margin" 
                      From="0,-100,0,0" To="0,0,0,0" 
                      Duration="0:0:0.1" />
-            <!-- Repeat for other controls as needed -->
-        </Storyboard>
+                <!-- Repeat for other controls as needed -->
+            </Storyboard>
 
 
-        <Storyboard x:Key="ExpandBorderStoryboard">
-            <DoubleAnimation 
+            <Storyboard x:Key="ExpandBorderStoryboard">
+                <DoubleAnimation 
 Storyboard.TargetName="ExpandableBorder"
 Storyboard.TargetProperty="Height"
 From="45" To="350" 
 Duration="0:0:0.5" 
 AutoReverse="False"/>
-        </Storyboard>
-        <Storyboard x:Key="CollapseBorderStoryboard">
-            <DoubleAnimation 
+            </Storyboard>
+            <Storyboard x:Key="CollapseBorderStoryboard">
+                <DoubleAnimation 
 Storyboard.TargetName="ExpandableBorder"
 Storyboard.TargetProperty="Height"
 From="350" To="45" 
 Duration="0:0:0.5" 
 AutoReverse="False"/>
-        </Storyboard>
+            </Storyboard>
 
 
-        <Storyboard x:Key="FadeOutStoryboard">
-            <DoubleAnimation
+            <Storyboard x:Key="FadeOutStoryboard">
+                <DoubleAnimation
 Storyboard.TargetName="showreport"
 Storyboard.TargetProperty="Opacity"
 From="0"
 To="1"
 Duration="0:0:1" ></DoubleAnimation>
-        </Storyboard>
-        <Storyboard x:Key="FadeOutStoryboard1">
-            <DoubleAnimation
+            </Storyboard>
+            <Storyboard x:Key="FadeOutStoryboard1">
+                <DoubleAnimation
 Storyboard.TargetName="gsetting"
 Storyboard.TargetProperty="Opacity"
 From="0"
 To="1"
 Duration="0:0:1" ></DoubleAnimation>
-        </Storyboard>
+            </Storyboard>
 
 
-        <ImageBrush x:Key="tb_mouse_over"
+            <ImageBrush x:Key="tb_mouse_over"
                     ImageSource="images/Dashboard.png"/>
 
 
-        <Style x:Key="font_style" TargetType="{x:Type TextBlock}">
+            <Style x:Key="font_style" TargetType="{x:Type TextBlock}">
 
-            <Setter Property="VerticalAlignment"
+                <Setter Property="VerticalAlignment"
                     Value="Center"/>
 
-            <Setter Property="HorizontalAlignment"
+                <Setter Property="HorizontalAlignment"
                     Value="Left"/>
 
-            <Setter Property="Foreground"
+                <Setter Property="Foreground"
                     Value="White"/>
 
-            <Setter Property="FontSize"
+                <Setter Property="FontSize"
                     Value="20"/>
 
-        </Style>
+            </Style>
 
-        <Style TargetType="{x:Type ToolTip}" x:Key="tt_style">
+            <Style TargetType="{x:Type ToolTip}" x:Key="tt_style">
 
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Width" Value=" 100"/>
-            <Setter Property="Margin" Value="20,0,0,0"/>
-            <Setter Property="Background" Value="#4A5668"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Width" Value=" 100"/>
+                <Setter Property="Margin" Value="20,0,0,0"/>
+                <Setter Property="Background" Value="#4A5668"/>
 
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="PlacementRectangle" Value="60,0,0,0"/>
-            <Setter Property="HorizontalOffset" Value="15"/>
-            <Setter Property="VerticalOffset" Value="6"/>
-            <Setter Property="HasDropShadow" Value="True"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        </Style>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="PlacementRectangle" Value="60,0,0,0"/>
+                <Setter Property="HorizontalOffset" Value="15"/>
+                <Setter Property="VerticalOffset" Value="6"/>
+                <Setter Property="HasDropShadow" Value="True"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
 
 
-        <Style x:Key="tb_style" TargetType="{x:Type ToggleButton}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border x:Name="border"
+            <Style x:Key="tb_style" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="border"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 SnapsToDevicePixels="True"/>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background"
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background"
                                         TargetName="border"
                                         Value="{StaticResource tb_mouse_over}"/>
-                                <Setter Property="BorderBrush"
+                                    <Setter Property="BorderBrush"
 
-                                        TargetName="border"
-                                        Value="{StaticResource tb_mouse_over}"/>
-
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background"
                                         TargetName="border"
                                         Value="{StaticResource tb_mouse_over}"/>
 
-                                <Setter Property="BorderBrush"
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background"
                                         TargetName="border"
                                         Value="{StaticResource tb_mouse_over}"/>
 
-                            </Trigger>
+                                    <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+
+                                </Trigger>
 
 
-                        </ControlTemplate.Triggers>
+                            </ControlTemplate.Triggers>
 
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
 
-
+        </ResourceDictionary>
     </Window.Resources>
     <Viewbox>
         <Grid Width="1900" Height="1070">
@@ -268,67 +271,12 @@ Duration="0:0:1" ></DoubleAnimation>
                                 </Border.Background>
                             </Border>
                         </Grid>
-                        <Grid x:Name="navbar" Margin="0,0,0,1019" Height="0" >
+                        <Grid x:Name="navbar" Margin="0,0,0,1019" Height="50" >
                             <Border Background="White"/>
                             <Border Background="White" Margin="11,13,1878,997" Height="47.2"/>
-                            <Button x:Name="reset_Copy" BorderThickness="0" Content="➡️" Margin="1856,0,15,0" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="#FFDE5C5C" Click="Button_Clicka" Height="28" VerticalAlignment="Center" FontSize="20" Background="{x:Null}">
-                                <Button.Resources>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Setter Property="CornerRadius" Value="5"/>
-                                    </Style>
-                                </Button.Resources>
-                                <Button.Effect>
-                                    <DropShadowEffect Color="Black" Direction="270" ShadowDepth="1" Opacity="0"/>
-                                </Button.Effect>
-                                <Button.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform ScaleY="1" ScaleX="1"/>
-                                        <SkewTransform/>
-                                        <RotateTransform/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Button.RenderTransform>
-                            </Button>
-                            <Label Content="🤵 Admin : " Margin="0,1,0,-1" FontSize="24" FontWeight="Bold"/>
-                            <Label x:Name="Fulln" Content="" Margin="131,6,1462,8" FontSize="18" />
-                            <Button x:Name="pharm" Content="👨‍⚕️ Switch to Pharm" Margin="776,6,950,8" Click="Button_Click" BorderBrush="White" Foreground="White" Background="#FF3DABA4"></Button>
-                            <Button x:Name="accountent" Content="💵 Switch to accountent" Margin="965,6,739,8" Click="Button_Click_1" BorderBrush="White" Background="#FF288882" Foreground="White" FontSize="14"></Button>
-                            <Button  x:Name="pharm_Copy" Content="📃" Margin="1774,9,98,11" Click="Button_Clickr" BorderBrush="White" Foreground="Gray" Background="{x:Null}" FontSize="20"/>
 
-
-
-                            <Button x:Name="reset" BorderThickness="4" Content="🔃 Refresh" Margin="1658,7,131,7" BorderBrush="{x:Null}" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="#FF6D6D6D"  Click="reset_Click_1" FontSize="20" >
-                                <Button.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="20"></Setter>
-                                    </Style>
-                                </Button.Resources>
-
-                                <Button.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform ScaleY="1" ScaleX="1"/>
-                                        <SkewTransform/>
-                                        <RotateTransform/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Button.RenderTransform>
-                            </Button>
-                            <Button Padding="0,0,0,2" x:Name="reset_Copy1" BorderThickness="0" Content="⚙" Margin="1807,13,63,0" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="#FF6D6D6D" Click="Button_Clicks" Height="28" VerticalAlignment="Top" FontSize="18" Background="{x:Null}">
-                                <Button.Resources>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Setter Property="CornerRadius" Value="100"/>
-                                    </Style>
-                                </Button.Resources>
-
-                                <Button.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform ScaleY="1" ScaleX="1"/>
-                                        <SkewTransform/>
-                                        <RotateTransform/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Button.RenderTransform>
-                            </Button>
+                            <Button x:Name="pharmdash" Content="AccountentDash" Margin="950,5,758,5" Background="#FF4B8796" Foreground="White" FontSize="18" BorderBrush="White" Click="Button_Click_2"/>
+                            <Button x:Name="admindash" Content="AdminDash" Margin="770,5,955,5" BorderBrush="White" Foreground="White" Background="#FF3E9C9A" FontSize="18" Click="admindash_Click_1"/>
 
 
                         </Grid>
@@ -575,7 +523,7 @@ Margin="0,380,0,0" PreviewMouseLeftButtonUp="ListViewItem_Selected_1" Height="53
                                     </Grid>
 
                                 </StackPanel>
-                                
+
                             </Grid>
 
                         </Grid>
@@ -757,7 +705,7 @@ gif:ImageBehavior.AnimatedSource="images/notebell.gif"
 
                     <Border Height="45" CornerRadius="18,0,0,0" Background="White" Margin="-5,-6,0,0" VerticalAlignment="Top" ></Border>
                     <Label HorizontalContentAlignment="Center" Content="Chat" Margin="-1,-4,301,0" FontSize="24" FontWeight="Bold" Height="38" VerticalAlignment="Top"></Label>
-                    <TextBox IsReadOnly="False" x:Name="searchBox1" Padding="5,10,0,0" BorderThickness="1" Text="🔍  Search"  Margin="22,58,18,0" BorderBrush="{x:Null}" Background="#FFE3EBF3" TextChanged="searchBox_TextChanged1" GotFocus="searchBox1_GotFocus" LostFocus="searchBox1_LostFocus" Height="38" VerticalAlignment="Top" >
+                    <TextBox IsReadOnly="False" x:Name="searchBox1" Padding="5,10,0,0" BorderThickness="1" Text="🔍  Search"  Margin="22,58,18,0" BorderBrush="#FF949494" Background="#FFE3EBF3" TextChanged="searchBox_TextChanged1" GotFocus="searchBox1_GotFocus" LostFocus="searchBox1_LostFocus" Height="38" VerticalAlignment="Top" >
                         <TextBox.Resources>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="CornerRadius" Value="10"/>
@@ -768,15 +716,17 @@ gif:ImageBehavior.AnimatedSource="images/notebell.gif"
                         </TextBox.Foreground>
                     </TextBox>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="22,125,24,0">
-                        <StackPanel x:Name="ChatStackPanel" VerticalAlignment="Top">
-                            <!-- Dynamically load admin cards here -->
+                        <StackPanel x:Name="ChatStackPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+
+                            <StackPanel.Resources>
+                                <!-- Clear any inherited Material Design styles -->
+                                <Style TargetType="StackPanel" BasedOn="{x:Null}"/>
+                            </StackPanel.Resources>
                         </StackPanel>
                     </ScrollViewer>
 
 
                     <!-- Chat area (initially hidden) -->
-                    <Label Content="🔔" Margin="343,2,65,0" Height="26" VerticalAlignment="Top"/>
-                    <Label Content="⚙️" Margin="369,2,37,0" Height="26" VerticalAlignment="Top"></Label>
                     <Label x:Name="ToggleLabel" HorizontalContentAlignment="Center" Padding="0,0,0,0" Content="▲" Margin="0,7,10,0" 
            MouseLeftButtonDown="ToggleLabel_MouseLeftButtonDown" 
            HorizontalAlignment="Right" Width="27" Height="19" VerticalAlignment="Top"/>
@@ -796,7 +746,7 @@ gif:ImageBehavior.AnimatedSource="images/notebell.gif"
                             </Border.RenderTransform>
 
                         </Border>
-                        <Border CornerRadius="20,0,0,0" Background="White" Margin="-5,-6,0,302"/>
+                        <Border CornerRadius="20,0,0,0" Background="#FF57AFA9" Margin="-5,-6,0,302"/>
                         <TextBlock x:Name="ChatTitle" 
            FontSize="16" 
            FontWeight="Bold" 
@@ -823,8 +773,8 @@ HorizontalAlignment="Right" Width="27" Height="19" VerticalAlignment="Top" Rende
 
                         </Border>
 
-                        <TextBox IsReadOnly="False" x:Name="MessageInput" Padding="10,13,0,0" BorderThickness="0" Text="Type a message" Margin="-5,297,0,0" 
-     BorderBrush="{x:Null}" Background="White" TextChanged="searchBox_TextChanged11" GotFocus="searchBox1_GotFocus1" 
+                        <TextBox IsReadOnly="False" x:Name="MessageInput" Padding="10,13,0,0" BorderThickness="1,1,1,1" Text="Type a message" Margin="-5,297,0,0" 
+     BorderBrush="#FF888888" Background="White" TextChanged="searchBox_TextChanged11" GotFocus="searchBox1_GotFocus1" 
      LostFocus="searchBox1_LostFocus1" KeyDown="MessageInput_KeyDown">
 
 

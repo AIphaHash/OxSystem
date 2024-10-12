@@ -394,7 +394,7 @@ namespace OxSystem
                 )";
                             conn_.setData(query);
 
-
+                            
                             query = "select * from statehistroy where userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
                             ds = conn_.getData(query);
                             if (ds.Tables[0].Rows.Count == 0)
@@ -404,6 +404,7 @@ namespace OxSystem
                             }
                             query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
                             conn_.setData(query);
+                            
                             pharmacist p = new pharmacist();
                             p.Show();
                             this.Close();

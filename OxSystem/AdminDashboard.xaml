@@ -237,22 +237,22 @@ Width="50">
             </Grid>
             <Border BorderThickness="5" CornerRadius="20" Background="White" Margin="1028,205,78,421">
                 <Grid Margin="8,8,8,28">
-                    <chart:SfChart Margin="0,0,10,-10" Header="Storages Capacity" FontSize="20" FontWeight="Bold">
+                    <chart:SfChart Margin="0,0,10,-10" Header="Pharmacists Bills" FontSize="20" FontWeight="Bold">
                         <chart:SfChart.PrimaryAxis>
-                            <chart:CategoryAxis ShowGridLines="False"/>
+                            <chart:CategoryAxis ShowGridLines="False" FontSize="15"/>
                         </chart:SfChart.PrimaryAxis>
                         <chart:SfChart.SecondaryAxis>
-                            <chart:NumericalAxis ShowGridLines="False" />
+                            <chart:NumericalAxis ShowGridLines="False" FontSize="15" />
                         </chart:SfChart.SecondaryAxis>
                         <chart:SfChart.Behaviors>
                             <chart:ChartZoomPanBehavior />
                         </chart:SfChart.Behaviors>
                         <chart:SfChart.Resources>
                             <DataTemplate x:Key="AdornmentLabelTemplate">
-                                <TextBlock Text="{Binding}" Foreground="White" FontSize="14" Padding="0,20,0,0"/>
+                                <TextBlock Text="{Binding}" Foreground="White" FontSize="16" Padding="0,20,0,0"/>
                             </DataTemplate>
                         </chart:SfChart.Resources>
-                        <chart:ColumnSeries x:Name="AdminSeries" Palette="FloraHues" ShowTooltip="False" XBindingPath="Role" YBindingPath="PhoneNumber">
+                        <chart:ColumnSeries x:Name="AdminSeries" Palette="FloraHues" ShowTooltip="False" XBindingPath="Role" YBindingPath="PhoneNumber" FontSize="16">
                             <chart:ColumnSeries.Interior>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="#FF47AD7C"/>
@@ -270,8 +270,8 @@ Width="50">
                         <chart:ColumnSeries x:Name="PharmSeries" ShowTooltip="False" XBindingPath="PharmacistName" YBindingPath="BillCount">
                             <chart:ColumnSeries.Interior>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="#FF76ADAC"/>
-                                    <GradientStop Color="#FFAAD5E0" Offset="1"/>
+                                    <GradientStop Color="#FF5FADAC"/>
+                                    <GradientStop Color="#FF7797A0" Offset="1"/>
                                 </LinearGradientBrush>
                             </chart:ColumnSeries.Interior>
                             <chart:ColumnSeries.AdornmentsInfo>
@@ -291,7 +291,7 @@ Width="50">
                     <StackPanel>
                         <syncfusion:SfChart Header="Num of Users" Height="305" Width="318" x:Name="pieChart" FontSize="22" FontWeight="Bold">
                             <syncfusion:SfChart.Legend>
-                                <syncfusion:ChartLegend FontSize="18" />
+                                <syncfusion:ChartLegend FontSize="22" />
                             </syncfusion:SfChart.Legend>
                             <syncfusion:DoughnutSeries FontSize="30" 
                                LabelPosition="OutsideExtended" 
@@ -313,7 +313,7 @@ Width="50">
                                 <syncfusion:DoughnutSeries.AdornmentsInfo>
                                     <syncfusion:ChartAdornmentInfo ShowLabel="True" 
                                            ShowConnectorLine="True" 
-                                           LabelPosition="Outer" />
+                                           LabelPosition="Outer"  FontSize="16"/>
                                 </syncfusion:DoughnutSeries.AdornmentsInfo>
                             </syncfusion:DoughnutSeries>
                         </syncfusion:SfChart>
@@ -343,7 +343,7 @@ RenderTransformOrigin="0.527,0.502" Margin="376,5,21,5" Cursor="Hand"/>
                     <Border x:Name="thisday" CornerRadius="10" Background="#FFF4F7FE" Margin="521,16,362,364" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
                         <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="📅 This Day" Foreground="#FFA6B1D2" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Width="96" Height="39" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
                     </Border>
-                    <chart:SfChart x:Name="all" Margin="10,36,27,10">
+                    <chart:SfChart x:Name="all" Margin="10,36,10,10" FontSize="20" FontWeight="Bold">
                         <chart:SfChart.RenderTransform>
                             <TranslateTransform X="0" />
                         </chart:SfChart.RenderTransform>
@@ -353,31 +353,31 @@ RenderTransformOrigin="0.527,0.502" Margin="376,5,21,5" Cursor="Hand"/>
                                     ZoomMode="XY"/>
                             <chart:ChartTrackBallBehavior ShowLine="True"
                                       LabelDisplayMode="FloatAllPoints"
-                                      UseSeriesPalette="True"/>
+                                      UseSeriesPalette="True" />
                         </chart:SfChart.Behaviors>
                         <chart:SfChart.SecondaryAxis>
-                            <chart:NumericalAxis ShowGridLines="True"/>
+                            <chart:NumericalAxis ShowGridLines="True" FontSize="15"/>
                         </chart:SfChart.SecondaryAxis>
                         <chart:SfChart.PrimaryAxis>
-                            <chart:CategoryAxis ShowGridLines="False"/>
+                            <chart:CategoryAxis ShowGridLines="False" FontSize="13"/>
                         </chart:SfChart.PrimaryAxis>
                         <chart:SplineSeries ItemsSource="{Binding BillsData}" 
                         XBindingPath="bdate" 
                         YBindingPath="Price" 
                         Loaded="SplineSeries_Loaded"
-                        Interior="#FF429A5F">
+                        Interior="#FF429A5F" FontSize="20">
                             <chart:SplineSeries.AdornmentsInfo>
-                                <chart:ChartAdornmentInfo ShowMarker="True" ShowLabel="False">
+                                <chart:ChartAdornmentInfo ShowMarker="True" ShowLabel="False" FontSize="20">
                                     <chart:ChartAdornmentInfo.SymbolTemplate>
                                         <DataTemplate>
-                                            <Ellipse Height="8" Width="8" Fill="#FF1F8068"/>
+                                            <Ellipse Height="8" Width="8" Fill="#FF1F8068" />
                                         </DataTemplate>
                                     </chart:ChartAdornmentInfo.SymbolTemplate>
                                 </chart:ChartAdornmentInfo>
                             </chart:SplineSeries.AdornmentsInfo>
                         </chart:SplineSeries>
                     </chart:SfChart>
-                    <syncfusion:SfChart Visibility="Collapsed" x:Name="day" Margin="10,36,10,10">
+                    <syncfusion:SfChart Visibility="Collapsed" x:Name="day" Margin="10,36,10,10" FontWeight="Bold">
                         <syncfusion:SfChart.RenderTransform>
                             <TranslateTransform X="0" />
                         </syncfusion:SfChart.RenderTransform>
@@ -390,10 +390,10 @@ RenderTransformOrigin="0.527,0.502" Margin="376,5,21,5" Cursor="Hand"/>
                                       UseSeriesPalette="True"/>
                         </syncfusion:SfChart.Behaviors>
                         <syncfusion:SfChart.SecondaryAxis>
-                            <syncfusion:NumericalAxis ShowGridLines="True"/>
+                            <syncfusion:NumericalAxis ShowGridLines="True" FontSize="15"/>
                         </syncfusion:SfChart.SecondaryAxis>
                         <syncfusion:SfChart.PrimaryAxis>
-                            <syncfusion:CategoryAxis ShowGridLines="False"/>
+                            <syncfusion:CategoryAxis ShowGridLines="False" FontSize="13"/>
                         </syncfusion:SfChart.PrimaryAxis>
                         <syncfusion:SplineSeries ItemsSource="{Binding BillsData1}" 
                         XBindingPath="bdate" 
@@ -411,7 +411,7 @@ RenderTransformOrigin="0.527,0.502" Margin="376,5,21,5" Cursor="Hand"/>
                             </syncfusion:SplineSeries.AdornmentsInfo>
                         </syncfusion:SplineSeries>
                     </syncfusion:SfChart>
-                    <syncfusion:SfChart Visibility="Collapsed" x:Name="month" Margin="10,36,10,10">
+                    <syncfusion:SfChart Visibility="Collapsed" x:Name="month" Margin="10,36,10,10" FontWeight="Bold">
                         <syncfusion:SfChart.RenderTransform>
                             <TranslateTransform X="0" />
                         </syncfusion:SfChart.RenderTransform>
@@ -424,10 +424,10 @@ RenderTransformOrigin="0.527,0.502" Margin="376,5,21,5" Cursor="Hand"/>
             UseSeriesPalette="True"/>
                         </syncfusion:SfChart.Behaviors>
                         <syncfusion:SfChart.SecondaryAxis>
-                            <syncfusion:NumericalAxis ShowGridLines="True"/>
+                            <syncfusion:NumericalAxis ShowGridLines="True" FontSize="15"/>
                         </syncfusion:SfChart.SecondaryAxis>
                         <syncfusion:SfChart.PrimaryAxis>
-                            <syncfusion:CategoryAxis ShowGridLines="False"/>
+                            <syncfusion:CategoryAxis ShowGridLines="False" FontSize="13"/>
                         </syncfusion:SfChart.PrimaryAxis>
                         <syncfusion:SplineSeries ItemsSource="{Binding BillsData2}" 
                         XBindingPath="bdate" 
@@ -445,7 +445,7 @@ RenderTransformOrigin="0.527,0.502" Margin="376,5,21,5" Cursor="Hand"/>
                             </syncfusion:SplineSeries.AdornmentsInfo>
                         </syncfusion:SplineSeries>
                     </syncfusion:SfChart>
-                    <chart:SfChart Visibility="Collapsed" x:Name="year" Margin="10,36,10,10">
+                    <chart:SfChart Visibility="Collapsed" x:Name="year" Margin="10,36,10,10" FontWeight="Bold">
                         <chart:SfChart.RenderTransform>
                             <TranslateTransform X="0" />
                         </chart:SfChart.RenderTransform>
@@ -459,10 +459,10 @@ RenderTransformOrigin="0.527,0.502" Margin="376,5,21,5" Cursor="Hand"/>
             UseSeriesPalette="True"/>
                         </chart:SfChart.Behaviors>
                         <chart:SfChart.SecondaryAxis>
-                            <chart:NumericalAxis ShowGridLines="True"/>
+                            <chart:NumericalAxis ShowGridLines="True" FontSize="15"/>
                         </chart:SfChart.SecondaryAxis>
                         <chart:SfChart.PrimaryAxis>
-                            <chart:CategoryAxis ShowGridLines="False"/>
+                            <chart:CategoryAxis ShowGridLines="False" FontSize="13"/>
                         </chart:SfChart.PrimaryAxis>
                         <chart:SplineSeries ItemsSource="{Binding BillsData3}" 
                         XBindingPath="bdate" 
@@ -486,12 +486,12 @@ RenderTransformOrigin="0.527,0.502" Margin="376,5,21,5" Cursor="Hand"/>
                 <Grid Margin="18,48,5,-18">
                     <Label Content="Number of Bills" Margin="82,-45,82,338" FontSize="20" FontWeight="Bold"/>
                     <StackPanel Margin="-10,0,10,0">
-                        <chart:SfChart x:Name="BillsChart">
+                        <chart:SfChart x:Name="BillsChart" FontWeight="Bold">
                             <chart:SfChart.PrimaryAxis>
-                                <chart:CategoryAxis Header="Bill Type" />
+                                <chart:CategoryAxis Header="Bill Type"  FontSize="15" />
                             </chart:SfChart.PrimaryAxis>
                             <chart:SfChart.SecondaryAxis>
-                                <chart:NumericalAxis Header="Number of Bills" />
+                                <chart:NumericalAxis Header="Number of Bills" FontSize="15" />
                             </chart:SfChart.SecondaryAxis>
                             <chart:ColumnSeries 
                     ItemsSource="{Binding BuySellData}" 
@@ -536,24 +536,24 @@ RowHeight="35"
 GridLinesVisibility="None"
 ScrollViewer.CanContentScroll="False" 
 Background="White" 
-BorderBrush="White" Margin="-8,60,-8,25" Loaded="DataGrid_Loaded" BorderThickness="0,0,0,0">
+BorderBrush="White" Margin="-8,60,-8,25" Loaded="DataGrid_Loaded" BorderThickness="0,0,0,0" MouseDoubleClick="DataGrid_MouseDoubleClick">
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID"
+                            <DataGridTextColumn Header="ID  ↕️"
       MinWidth="150"
       Width="Auto"
       Binding="{Binding sid}"/>
 
-                            <DataGridTextColumn Header="Supplier name"
+                            <DataGridTextColumn Header="Supplier name   ↕️"
       MinWidth="150"
       Width="*"
       Binding="{Binding supname}"/>
 
-                            <DataGridTextColumn Header="Supplier bills"
+                            <DataGridTextColumn Header="Supplier bills   ↕️"
       MinWidth="150"
       Width="*"
       Binding="{Binding SupplierBills}"/>
-                            <DataGridTextColumn Header="Supplier Num"
+                            <DataGridTextColumn Header="Supplier Num   ↕️"
 MinWidth="150"
 Width="*"
 Binding="{Binding supnum}"/>
@@ -583,7 +583,7 @@ Binding="{Binding supnum}"/>
 
                         <DataGrid.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}">
-                                <Setter Property="FontSize" Value="15"/>
+                                <Setter Property="FontSize" Value="17"/>
                                 <Setter Property="BorderThickness" Value="0"/>
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                 <Setter Property="VerticalAlignment" Value="Stretch"/>

@@ -214,7 +214,7 @@ Foreground="White"
                     <DropShadowEffect Color="Black" Direction="315" ShadowDepth="3" Opacity="0.7"/>
                 </TextBlock.Effect>
             </TextBlock>
-            <Label Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" FontSize="30" FontWeight="Heavy" Width="90" Margin="289,72,0,0" Height="62" Foreground="Black"/>
+            <Label Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" FontSize="30" FontWeight="Heavy" Width="95" Margin="289,72,0,0" Height="62" Foreground="Black"/>
 
             <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label1" Content="UserName" Margin="0,226,990,0" FontSize="18" FontWeight="SemiBold" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="95" Background="White" Foreground="#FF4C4C4C" MouseLeftButtonDown="label1_MouseLeftButtonDown">
                 <Label.RenderTransform>

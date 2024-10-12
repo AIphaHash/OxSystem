@@ -209,10 +209,10 @@ namespace OxSystem
             await Task.Delay(200);
             Storyboard storyboard = (Storyboard)addaccount.FindResource("MoveDownStoryboard");
             storyboard.Begin(AnimatedBorder);
-            role_add = "Pharm";
-            info.pdf.Content = "Create Pharmacist";
+            role_add = "Accountent";
+            info.pdf.Content = "Create Accountent";
             info.Visibility = Visibility.Visible;
-            info.pPerm.Visibility = Visibility.Visible;
+            info.pPerm.Visibility = Visibility.Collapsed;
             info.adminPerm.Visibility = Visibility.Collapsed;
             info.rolee.Text = role_add;
             add.Visibility = Visibility.Collapsed;

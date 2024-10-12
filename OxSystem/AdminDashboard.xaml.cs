@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -117,12 +118,19 @@ namespace OxSystem
                     DataTable dt = ds.Tables[0];
                     foreach (DataRow row in dt.Rows)
                     {
+                        // Get the original price as decimal
+                        decimal originalPrice = Convert.ToDecimal(row["Price"]);
+
+                        // Format the price with commas for every three digits and convert to string
+                        string formattedPrice = String.Format("{0:N0}", originalPrice);
+
                         BillsData.Add(new Bill
                         {
                             bdate = Convert.ToDateTime(row["bdate"]).ToString("yyyy-MM-dd"),
-                            Price = Convert.ToDecimal(row["Price"])
+                            Price = formattedPrice // Use the formatted price as a string
                         });
                     }
+
                 }
                 this.DataContext = this;
             }
@@ -136,17 +144,29 @@ namespace OxSystem
                     DataTable dt = ds.Tables[0];
                     foreach (DataRow row in dt.Rows)
                     {
-                        decimal rawPrice = Convert.ToDecimal(row["Price"]);
-                        decimal formattedPrice = rawPrice * Properties.Settings.Default.currency;
+                        // Assuming row["Price"] is a string and needs to be converted to decimal for calculations
+                        decimal originalPrice = Convert.ToDecimal(row["Price"]);
+                        decimal priceInIQD = originalPrice * Properties.Settings.Default.currency;
+
+                        // Use Math.Floor only if needed
+                        // You can use decimal.Round if you want to round to the nearest integer
+                        decimal roundedPrice = Math.Floor(priceInIQD);
+
+                        // Format the price as a string with commas
+                        string formattedPrice = String.Format("{0:N0}", roundedPrice);
+
                         BillsData.Add(new Bill
                         {
                             bdate = Convert.ToDateTime(row["bdate"]).ToString("yyyy-MM-dd"),
-                            Price = formattedPrice
+                            Price = formattedPrice // Use the formatted price as a string
                         });
                     }
                 }
+
+                // Make sure the DataContext is refreshed after updating the BillsData
                 this.DataContext = this;
             }
+
         }
         private void LoadRandomTip()
         {
@@ -641,12 +661,19 @@ WHERE
                     DataTable dt = ds.Tables[0];
                     foreach (DataRow row in dt.Rows)
                     {
+                        // Get the original price as decimal
+                        decimal originalPrice = Convert.ToDecimal(row["Price"]);
+
+                        // Format the price with commas for every three digits and convert to string
+                        string formattedPrice = String.Format("{0:N0}", originalPrice);
+
                         BillsData3.Add(new Bill3
                         {
                             bdate = Convert.ToDateTime(row["bdate"]).ToString("yyyy-MM-dd"),
-                            Price = Convert.ToDecimal(row["Price"])
+                            Price = formattedPrice // Use the formatted price as a string
                         });
                     }
+
                 }
                 this.DataContext = this;
             }
@@ -671,15 +698,24 @@ ORDER BY
                     DataTable dt = ds.Tables[0];
                     foreach (DataRow row in dt.Rows)
                     {
+                        // Assuming row["Price"] is a string and needs to be converted to decimal for calculations
                         decimal originalPrice = Convert.ToDecimal(row["Price"]);
                         decimal priceInIQD = originalPrice * Properties.Settings.Default.currency;
                         decimal priceWithoutDecimal = Math.Floor(priceInIQD);
+
+                        // Format the price as a string with commas
+                        string formattedPrice = String.Format("{0:N0}", priceWithoutDecimal);
+
                         BillsData3.Add(new Bill3
                         {
                             bdate = Convert.ToDateTime(row["bdate"]).ToString("yyyy-MM-dd"),
-                            Price = priceWithoutDecimal
+                            Price = formattedPrice // Assign the formatted price string here
                         });
                     }
+
+
+
+
                 }
                 this.DataContext = this;
             }
@@ -699,12 +735,19 @@ ORDER BY
                     DataTable dt = ds.Tables[0];
                     foreach (DataRow row in dt.Rows)
                     {
+                        // Get the original price as decimal
+                        decimal originalPrice = Convert.ToDecimal(row["Price"]);
+
+                        // Format the price with commas for every three digits and convert to string
+                        string formattedPrice = String.Format("{0:N0}", originalPrice);
+
                         BillsData2.Add(new Bill2
                         {
                             bdate = Convert.ToDateTime(row["bdate"]).ToString("yyyy-MM-dd"),
-                            Price = Convert.ToDecimal(row["Price"])
+                            Price = formattedPrice // Use the formatted price as a string
                         });
                     }
+
                 }
                 this.DataContext = this;
             }
@@ -729,14 +772,21 @@ ORDER BY
                     DataTable dt = ds.Tables[0];
                     foreach (DataRow row in dt.Rows)
                     {
-                        decimal price = Convert.ToDecimal(row["Price"]) * Properties.Settings.Default.currency;
+                        // Assuming row["Price"] is a string and needs to be converted to decimal for calculations
+                        decimal originalPrice = Convert.ToDecimal(row["Price"]);
+                        decimal priceInIQD = originalPrice * Properties.Settings.Default.currency;
+                        decimal priceWithoutDecimal = Math.Floor(priceInIQD);
+
+                        // Format the price as a string with commas
+                        string formattedPrice = String.Format("{0:N0}", priceWithoutDecimal);
 
                         BillsData2.Add(new Bill2
                         {
                             bdate = Convert.ToDateTime(row["bdate"]).ToString("yyyy-MM-dd"),
-                            Price = Math.Floor(price)
+                            Price = formattedPrice // Assign the formatted price string here
                         });
                     }
+
                 }
                 this.DataContext = this;
             }
@@ -755,12 +805,19 @@ ORDER BY
                     DataTable dt = ds.Tables[0];
                     foreach (DataRow row in dt.Rows)
                     {
+                        // Get the original price as decimal
+                        decimal originalPrice = Convert.ToDecimal(row["Price"]);
+
+                        // Format the price with commas for every three digits and convert to string
+                        string formattedPrice = String.Format("{0:N0}", originalPrice);
+
                         BillsData1.Add(new Bill11
                         {
                             bdate = Convert.ToDateTime(row["bdate"]).ToString("yyyy-MM-dd"),
-                            Price = Convert.ToDecimal(row["Price"])
+                            Price = formattedPrice // Use the formatted price as a string
                         });
                     }
+
                 }
                 this.DataContext = this;
             }
@@ -784,14 +841,21 @@ ORDER BY
                     DataTable dt = ds.Tables[0];
                     foreach (DataRow row in dt.Rows)
                     {
-                        decimal price = Convert.ToDecimal(row["Price"]) * Properties.Settings.Default.currency;
+                        // Assuming row["Price"] is a string and needs to be converted to decimal for calculations
+                        decimal originalPrice = Convert.ToDecimal(row["Price"]);
+                        decimal priceInIQD = originalPrice * Properties.Settings.Default.currency;
+                        decimal priceWithoutDecimal = Math.Floor(priceInIQD);
+
+                        // Format the price as a string with commas
+                        string formattedPrice = String.Format("{0:N0}", priceWithoutDecimal);
 
                         BillsData1.Add(new Bill11
                         {
                             bdate = Convert.ToDateTime(row["bdate"]).ToString("yyyy-MM-dd"),
-                            Price = Math.Floor(price)
+                            Price = formattedPrice // Assign the formatted price string here
                         });
                     }
+
                 }
                 this.DataContext = this;
             }
@@ -1175,5 +1239,78 @@ FROM
             SplineSeries_Loaded3(sender, e);
             UserControl_Loaded(sender, e);
         }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Ensure that a row is selected
+            if (DataGrid.SelectedItem != null)
+            {
+                // Assuming the DataGrid is bound to a DataTable and each row is a DataRowView
+                DataRowView selectedRow = DataGrid.SelectedItem as DataRowView;
+
+                if (selectedRow != null)
+                {
+                    // Get the supplier number (supnum) from the selected row
+                    string supnum = selectedRow["supnum"].ToString();
+
+                    // Remove any leading zeros from the number (if applicable)
+                    supnum = supnum.TrimStart('0');
+
+                    // Format the number to include the Iraq country code +964
+                    string iraqNumber = $"+964{supnum}";
+
+                    // Launch WhatsApp chat with the formatted number
+                    OpenWhatsAppChat(iraqNumber);
+                }
+            }
+        }
+
+        // Method to open WhatsApp chat
+        private void OpenWhatsAppChat(string phoneNumber)
+        {
+            try
+            {
+                // Create the WhatsApp app schema (for desktop app)
+                string whatsappDesktopUrl = $"whatsapp://send?phone={phoneNumber}";
+
+                // Try to start WhatsApp desktop app
+                var processInfo = new ProcessStartInfo
+                {
+                    FileName = whatsappDesktopUrl,
+                    UseShellExecute = true
+                };
+
+                // Start WhatsApp desktop app, if installed
+                System.Diagnostics.Process.Start(processInfo);
+            }
+            catch (Exception)
+            {
+                // If WhatsApp desktop is not installed, open the web version
+                OpenWhatsAppWeb(phoneNumber);
+            }
+        }
+
+        // Method to open WhatsApp Web
+        private void OpenWhatsAppWeb(string phoneNumber)
+        {
+            try
+            {
+                // Create the WhatsApp Web URL schema
+                string whatsappWebUrl = $"https://wa.me/{phoneNumber}";
+
+                // Open the URL in the default browser
+                System.Diagnostics.Process.Start(new ProcessStartInfo
+                {
+                    FileName = whatsappWebUrl,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to open WhatsApp chat: {ex.Message}");
+            }
+        }
+
+
     }
 }

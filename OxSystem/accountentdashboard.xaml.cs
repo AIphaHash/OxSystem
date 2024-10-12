@@ -32,22 +32,22 @@ namespace OxSystem
     public class Bill
     {
         public string bdate { get; set; }
-        public decimal Price { get; set; }
+        public string Price { get; set; }
     }
     public class Bill11
     {
         public string bdate { get; set; }
-        public decimal Price { get; set; }
+        public string Price { get; set; }
     }
     public class Bill2
     {
         public string bdate { get; set; }
-        public decimal Price { get; set; }
+        public string Price { get; set; }
     }
     public class Bill3
     {
         public string bdate { get; set; }
-        public decimal Price { get; set; }
+        public string Price { get; set; }
     }
     public class Bill1
     {
@@ -715,12 +715,19 @@ namespace OxSystem
                 DataTable dt = ds.Tables[0];
                 foreach (DataRow row in dt.Rows)
                 {
+                    // Get the original price as decimal
+                    decimal originalPrice = Convert.ToDecimal(row["Price"]);
+
+                    // Format the price with commas for every three digits and convert to string
+                    string formattedPrice = String.Format("{0:N0}", originalPrice);
+
                     BillsData.Add(new Bill
                     {
                         bdate = Convert.ToDateTime(row["bdate"]).ToString("yyyy-MM-dd"),
-                        Price = Convert.ToDecimal(row["Price"])
+                        Price = formattedPrice // Use the formatted price as a string
                     });
                 }
+
             }
 
             // Bind the data to the chart

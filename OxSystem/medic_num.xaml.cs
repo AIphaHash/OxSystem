@@ -722,7 +722,7 @@ FROM
             AdminDash ad = new AdminDash();
             ad.SetActiveUserControl(medicadd);
             medicnum.Visibility = Visibility.Collapsed;
-            medicadd1.Visibility = Visibility.Visible;
+            medicadd.Visibility = Visibility.Visible;
         }
 
         private void accountentimage7_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

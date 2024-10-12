@@ -22,6 +22,9 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Linq;
 using WpfAnimatedGif;
+using Microsoft.Win32; // for SaveFileDialog
+using System.Globalization; // for date formatting
+
 
 namespace OxSystem
 {
@@ -72,7 +75,7 @@ namespace OxSystem
             _timer.Tick += Timer_Tick;
             _timer.Start();
             comboBoxText = supnam.Text;
-
+            
             UpdateCurrentTime();
         }
 
@@ -136,6 +139,7 @@ namespace OxSystem
         }
         public void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            comboBoxText = "Full Name";
             StartGifAnimation();
             Storyboard glowStoryboard = (Storyboard)this.Resources["GlowAnimation"];
             glowStoryboard.Begin();
@@ -149,7 +153,10 @@ namespace OxSystem
 
             query = "select * from users_info where role ='Pharm'";
             ds = conn.getData(query);
-            pharmnum.Content = ds.Tables[0].Rows.Count.ToString();
+            pharmnum.Content = ds.Tables[0].Rows.Count.ToString(); 
+            query = "select * from users_info where role ='Accountent'";
+            ds = conn.getData(query);
+            accountentnum.Content = ds.Tables[0].Rows.Count.ToString();
 
             try
             {
@@ -456,7 +463,8 @@ namespace OxSystem
                         FontWeight = System.Windows.FontWeights.Bold,
                         TextAlignment = System.Windows.TextAlignment.Center,
                         BorderBrush = Brushes.Black,
-                        BorderThickness = new Thickness(0.5)
+                        BorderThickness = new Thickness(0.2)
+                        
                     });
                 }
                 headerGroup.Rows.Add(headerRow);

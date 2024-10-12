@@ -162,7 +162,7 @@ namespace OxSystem
             YearComboBox.Items.Refresh();
             MonthComboBox.Items.Refresh();
             DayComboBox.Items.Refresh();
-            dateerror.Visibility = Visibility.Collapsed;
+         
         }
 
         private void YearComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -524,16 +524,10 @@ namespace OxSystem
                                $"VALUES ('{username}', '{password}', '{userrole}', '{email}', '{phonenum}', '{address}', '{birthdate}', '{fullname}','{perms}');";
 
                 conn_.setData(query);
+                MessageBox.Show("Created Succesfuly");
                 reset_();
             }
-            if (DayComboBox.SelectedItem != null)
-            {
-                dateerror.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                dateerror.Visibility = Visibility.Visible;
-            }
+           
         }
 
         private void pdf_MouseEnter(object sender, MouseEventArgs e)

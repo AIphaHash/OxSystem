@@ -151,7 +151,7 @@ From="1100" To="0" Duration="0:0:0.3" />
                 <Image x:Name="avatar" 
 RenderTransformOrigin="0.527,0.502" Margin="1223,143,621,806" Cursor="Hand" MouseLeftButtonDown="avatar_MouseLeftButtonDown" />
 
-                <Grid x:Name="verfication" >
+                <Grid  x:Name="verfication" >
                     <TextBox Text="" Padding="10,10,0,0"  x:Name="verfication1" Background="{x:Null}" Margin="0,453,0,0"  HorizontalAlignment="Center" Width="315" BorderBrush="White" Height="44" VerticalAlignment="Top" FontSize="16" Foreground="White" MouseEnter="Password_MouseEnter1" MouseLeave="Password_MouseLeave1" TextChanged="Password_TextChanged1" LostFocus="Password_LostFocus1" GotFocus="Password_GotFocus1"  >
                         <TextBox.Style>
                             <Style TargetType="{x:Type TextBox}">
