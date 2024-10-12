@@ -22,9 +22,48 @@ namespace OxSystem
         {
             string machineName = Environment.MachineName; // Get the machine name dynamically
             SqlConnection con = new SqlConnection();
-            con.ConnectionString = $"data source = {machineName}\\SQLEXPRESS; database = final_proj_db; integrated security = True";
-            return con;
+
+            // First attempt with SQLEXPRESS
+            string connectionStringWithSqlExpress = $"data source = {machineName}\\SQLEXPRESS; database = final_proj_db; integrated security = True; Connect Timeout=5";
+
+            try
+            {
+                con.ConnectionString = connectionStringWithSqlExpress;
+                con.Open(); // Try opening the connection
+                return con; // If successful, return the connection
+            }
+            catch (SqlException ex)
+            {
+                // Check for timeout error (error code: -2 for timeout)
+                if (ex.Number == -2)
+                {
+                    MessageBox.Show($"Connection to {machineName}\\SQLEXPRESS timed out. Retrying without SQLEXPRESS...", "Connection Timeout", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                    // Attempt without SQLEXPRESS
+                    string connectionStringWithoutSqlExpress = $"data source = {machineName}; database = final_proj_db; integrated security = True; Connect Timeout=5";
+                    con.ConnectionString = connectionStringWithoutSqlExpress;
+
+                    try
+                    {
+                        con.Open(); // Try opening the connection again
+                        return con;
+                    }
+                    catch (SqlException ex2)
+                    {
+                        // Handle failure of second attempt
+                        MessageBox.Show($"An error occurred: {ex2.Message}", "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    // Handle other SQL exceptions
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+
+            return null; // Return null if both attempts fail
         }
+
 
         // Azure string connection
         /*public SqlConnection getConnection()
