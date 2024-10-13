@@ -24,7 +24,7 @@ namespace OxSystem
             SqlConnection con = new SqlConnection();
 
             // First attempt without SQLEXPRESS
-            string connectionStringWithoutSqlExpress = $"data source = {machineName}; database = final_proj_db; integrated security = True; Connect Timeout=5";
+            string connectionStringWithoutSqlExpress = $"data source = {machineName}; database = final_proj_db; integrated security = True; Connect Timeout=1";
 
             try
             {
@@ -38,7 +38,7 @@ namespace OxSystem
                
 
                     // Attempt with SQLEXPRESS
-                    string connectionStringWithSqlExpress = $"data source = {machineName}\\SQLEXPRESS; database = final_proj_db; integrated security = True; Connect Timeout=5";
+                    string connectionStringWithSqlExpress = $"data source = {machineName}\\SQLEXPRESS; database = final_proj_db; integrated security = True; Connect Timeout=1";
                     con.ConnectionString = connectionStringWithSqlExpress;
 
                     try

@@ -1279,7 +1279,7 @@ namespace OxSystem
                         // Check if the available quantity is 0
                         if (availableQuantity == 0)
                         {
-                            MessageBox.Show("This item is out of stock.");
+                           // MessageBox.Show("This item is out of stock.");
                         }
                         else
                         {
@@ -1320,7 +1320,7 @@ namespace OxSystem
             // Check if the quantity is sufficient
             if (requestedQuantity > availableQuantity)
             {
-                MessageBox.Show("Not enough quantity available.");
+                //MessageBox.Show("Not enough quantity available.");
                 return;
             }
 

@@ -96,9 +96,13 @@ namespace OxSystem
             for (int year = currentYear; year >= currentYear && year <= 2100; year++)
             {
                 YearComboBox.Items.Add(year);
-                YearComboBox1.Items.Add(year);
+               
             }
+            for (int year1 = 2000; year1 >= 2000 && year1 <= currentYear; year1++)
+            {
+                YearComboBox1.Items.Add(year1);
 
+            }
 
             // Populate MonthComboBox
             for (int month = 1; month <= 12; month++)
@@ -196,31 +200,63 @@ namespace OxSystem
         public async void mybutton_Click(object sender, RoutedEventArgs e)
         {
             await Task.Delay(200);
-            // Check if QR code is missing
+
+            // Check if QR code (barcode) is missing
             if (string.IsNullOrWhiteSpace(brcode))
             {
                 MessageBoxResult result = MessageBox.Show("Do you want to proceed without a QR code?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    // Proceed without QR code
-                    /*setting parentWindow = (setting)this.Parent;
-                    parentWindow?.disablecheck();*/
-                    AddDataToDataGrid();
+                    AddDataToDataGrid();  // Proceed without QR code
                 }
-                else if (result == MessageBoxResult.No)
+                else
                 {
-                    // Prompt user to enter QR code
                     MessageBox.Show("Please add QR code.");
-                    // Optionally, you could focus on the QR code input field here
+                    return;  // Stop execution if the user doesn't want to proceed
                 }
             }
             else
             {
-                /*pharmacist parentWindow = (pharmacist)Window.GetWindow(this);
-                parentWindow?.disablecheck();*/
-                // QR code is present, proceed with adding data
-                AddDataToDataGrid();
+                // Check if the barcode already exists in the database
+                string queryCheckBarcode = $"SELECT nummedic FROM medicinfo WHERE Codeid = '{brcode}'";
+
+                // Use DataSet to fetch data
+                DataSet ds = conn.getData(queryCheckBarcode); // Assuming conn.getDataSet returns a DataSet
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    // Barcode already exists
+                    string existingQuantity = ds.Tables[0].Rows[0]["nummedic"].ToString();
+                    MessageBoxResult updateResult = MessageBox.Show("There is already an item with this medic. Do you want to update the quantity of the item?", "Item Exists", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (updateResult == MessageBoxResult.Yes)
+                    {
+                        // Parse new quantity
+                        if (int.TryParse(num.Text, out int newQuantity) && int.TryParse(existingQuantity, out int existingNum))
+                        {
+                            int updatedQuantity = existingNum + newQuantity;
+
+                            // Update quantity in the database
+                            string updateQuery = $"UPDATE medicinfo SET nummedic = {updatedQuantity} WHERE Codeid = '{brcode}'";
+                            conn.setData(updateQuery);
+
+                            // Update the DataGrid
+                            AddDataToDataGrid();  // Add the item to DataGrid after updating the quantity
+                        }
+                    }
+                    else
+                    {
+                        // User declined the update, show message or simply exit
+                        MessageBox.Show("Item not added.");
+                        return;
+                    }
+                }
+                else
+                {
+                    // No existing item with the same barcode, proceed normally
+                    AddDataToDataGrid();
+                }
             }
         }
 
@@ -343,7 +379,7 @@ namespace OxSystem
                     var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
                     storyboard.Begin(scififcename, true);
                     Storyboard shakeStoryboard = (Storyboard)this.Resources["ShakeStoryboard"];
-                    shakeStoryboard.Begin(label12);
+                    
                 }
                 if (string.IsNullOrWhiteSpace(bprice.Text) || bprice.Text == "999,999")
                 {
@@ -629,9 +665,10 @@ namespace OxSystem
 
         private void num_TextChanged(object sender, TextChangedEventArgs e)
         {
+            // Check if the TextBox is focused and modify the foreground color based on the text
             if (num.IsFocused)
             {
-                if (num.Text == "" || num.Text == "9999" )
+                if (string.IsNullOrEmpty(num.Text) || num.Text == "9999")
                 {
                     num.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC1BCBC"));
                 }
@@ -643,45 +680,38 @@ namespace OxSystem
         }
 
 
+
         private void sprice_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // Prevent recursive calls to TextChanged event
+            // Temporarily remove the event handler to prevent recursion
             sprice.TextChanged -= sprice_TextChanged;
 
             // Store the current caret position
             int caretIndex = sprice.CaretIndex;
 
-            // Remove all non-digit characters
-            string rawText = sprice.Text;
-            string cleanedText = Regex.Replace(rawText, @"[^\d]", "");
+            // Remove all non-digit characters except commas
+            string rawText = sprice.Text.Replace(",", "");
 
-            if (long.TryParse(cleanedText, out long number))
+            if (long.TryParse(rawText, out long number))
             {
                 string formattedText;
-                if (setting.check_currency == "IQD")
-                {
-                    // Format the number with commas (e.g., 1,000,000)
+
+               
+                    // Format the number with commas for IQD (e.g., 1,000,000)
                     formattedText = number.ToString("N0", CultureInfo.InvariantCulture);
-                }
-                else if (setting.check_currency == "$")
-                {
-                    // Format the number with dot and two decimal places (e.g., 1000000.00)
-                    formattedText = (number / 100.0).ToString("N2", CultureInfo.InvariantCulture);
-                    formattedText = formattedText; // Remove commas
-                }
-                else
-                {
-                    formattedText = cleanedText; // Default formatting if check_currency is not recognized
-                }
+                
+                
+          
 
                 sprice.Text = formattedText;
 
-                // Adjust the caret position
+                // Adjust the caret position after formatting
                 int newCaretIndex = caretIndex + (formattedText.Length - rawText.Length);
                 sprice.CaretIndex = Math.Min(newCaretIndex, sprice.Text.Length);
             }
             else
             {
+                // If input is invalid, clear the text
                 sprice.Text = string.Empty;
             }
 
@@ -692,41 +722,26 @@ namespace OxSystem
 
         private void sprice_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Only allow numeric input
+            // Allow only numeric input
             e.Handled = !Regex.IsMatch(e.Text, @"\d");
         }
 
 
+
         private void bprice_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // Prevent recursive calls to TextChanged event
+            // Temporarily remove the event handler to prevent recursion
             bprice.TextChanged -= bprice_TextChanged;
 
             // Store the current caret position
             int caretIndex = bprice.CaretIndex;
 
-            // Remove all non-digit characters
-            string rawText = bprice.Text;
-            string cleanedText = Regex.Replace(rawText, @"[^\d]", "");
+            // Remove all non-digit characters except commas
+            string rawText = bprice.Text.Replace(",", "");
 
-            if (long.TryParse(cleanedText, out long number))
+            if (long.TryParse(rawText, out long number))
             {
-                string formattedText;
-                if (setting.check_currency == "IQD")
-                {
-                    // Format the number with commas (e.g., 1,000,000)
-                    formattedText = number.ToString("N0", CultureInfo.InvariantCulture);
-                }
-                else if (setting.check_currency == "$")
-                {
-                    // Format the number with dot and two decimal places (e.g., 1000000.00)
-                    formattedText = (number / 100.0).ToString("N2", CultureInfo.InvariantCulture);
-                    // Remove commas
-                }
-                else
-                {
-                    formattedText = cleanedText; // Default formatting if check_currency is not recognized
-                }
+                string formattedText = number.ToString("N0", CultureInfo.InvariantCulture);
 
                 bprice.Text = formattedText;
 
@@ -736,6 +751,7 @@ namespace OxSystem
             }
             else
             {
+                // If the input is invalid, clear the text
                 bprice.Text = string.Empty;
             }
 
@@ -744,11 +760,13 @@ namespace OxSystem
         }
 
 
+
         private void sname_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sname.SelectedItem != null)
             {
                 sn = sname.SelectedItem.ToString();
+                Console.WriteLine(sn);
             }
             else
             {
@@ -830,7 +848,7 @@ namespace OxSystem
                 ds = conn.getData(query);
 
                 int maxid = 0;
-                if (ds.Tables[0].Rows.Count > 0 && int.TryParse(ds.Tables[0].Rows[0][0].ToString(), out int result))
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0 && int.TryParse(ds.Tables[0].Rows[0]["MaxBillId"].ToString(), out int result))
                 {
                     maxid = result;
                 }
@@ -854,9 +872,7 @@ namespace OxSystem
                     string manufactureDate = medic.ManufactureDate ?? string.Empty;
                     string numberMedic = medic.NumberMedic ?? "0";
                     string sname = medic.Sname ?? string.Empty;
-                    string sb = medic.SillBill ?? string.Empty;
-                    string bb = medic.BuyBill ?? string.Empty;
-                    string cid = medic.Codeid ?? string.Empty;
+                    string cid = medic.Codeid ?? string.Empty; // Assuming Codeid is the barcode
 
                     // Parse buy and sell prices
                     decimal buyPrice = 0;
@@ -874,30 +890,23 @@ namespace OxSystem
 
                     // Parse dates
                     DateTime expiryDateValue, manufactureDateValue;
-
-                    // Expiry Date
-                    if (DateTime.TryParse(medic.ExpiryDate, out expiryDateValue))
-                    {
-                        expiryDate = expiryDateValue.ToString("yyyy-MM-dd"); // SQL compatible date format
-                    }
-                    else
+                    if (!DateTime.TryParse(medic.ExpiryDate, out expiryDateValue))
                     {
                         expiryDate = string.Empty; // Handle invalid date parsing
                     }
-
-                    // Manufacture Date
-                    if (DateTime.TryParse(medic.ManufactureDate, out manufactureDateValue))
+                    else
                     {
-                        manufactureDate = manufactureDateValue.ToString("yyyy-MM-dd"); // SQL compatible date format
+                        expiryDate = expiryDateValue.ToString("yyyy-MM-dd"); // SQL compatible date format
+                    }
+
+                    if (!DateTime.TryParse(medic.ManufactureDate, out manufactureDateValue))
+                    {
+                        manufactureDate = string.Empty; // Handle invalid date parsing
                     }
                     else
                     {
-                        manufactureDate = string.Empty; // Handle invalid date parsing
-
-
-
+                        manufactureDate = manufactureDateValue.ToString("yyyy-MM-dd"); // SQL compatible date format
                     }
-
 
                     // Parse quantity
                     int quantity = 0;
@@ -912,29 +921,27 @@ namespace OxSystem
                     manufactureDate = SqlEscape(manufactureDate);
                     numberMedic = SqlEscape(numberMedic);
                     sname = SqlEscape(sname);
-                    sb = SqlEscape(sb);
-                    bb = SqlEscape(bb);
+                    cid = SqlEscape(cid);
 
-                    // SQL query logic here (update or insert)
-                
-
-
-                // Check if the record already exists
-                query = $"SELECT * FROM medicinfo WHERE mname LIKE '{medicName}' AND bprice = '{buyPrice:F2}' AND sprice = '{sellPrice:F2}' AND exdate LIKE '{expiryDate}' AND madate LIKE '{manufactureDate}' AND nummedic LIKE '{numberMedic}' AND sname LIKE '{sname}' AND from_ LIKE '{supn}' AND too_ LIKE '{mname_Copy.Text}' And ScintficName like '{scififcename.Text}' and medictype like '{type.Text}'  AND billId LIKE '{bid}' AND codeid LIKE '{cid}'";
+                    // Check if the record already exists based on the barcode (codeid)
+                    query = $"SELECT * FROM medicinfo WHERE codeid = '{cid}'";
                     ds = conn.getData(query);
 
-                    if (ds.Tables[0].Rows.Count != 0)
+                    if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 0)
                     {
-                        // Update existing record
-                        query = $"UPDATE medicinfo SET nummedic = nummedic + '{numberMedic}' WHERE mname LIKE '{medicName}' AND bprice = '{buyPrice:F2}' AND sprice = '{sellPrice:F2}' AND exdate LIKE '{expiryDate}' AND madate LIKE '{manufactureDate}' AND nummedic LIKE '{numberMedic}' AND sname LIKE '{sname}' AND from_ LIKE '{supn}' AND too_ LIKE '{mname_Copy.Text}' And ScintficName like '{scififcename.Text}' and medictype like '{type.Text}'  AND billId LIKE '{bid}' AND codeid LIKE '{cid}'";
+                        // Insert new record if it does not exist
+                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid) " +
+                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}')";
                         conn.setData(query);
+
+                        // Update storage size based on the quantity of the medic added
+                       
                     }
                     else
                     {
-                        // Insert new record
-                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid , ScintficName , medictype) " +
-                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}','{supn}','{mname_Copy.Text}','{bid}','{cid}' , '{scififcename.Text}','{type.Text}')";
+                        query = $"UPDATE storageinfo SET size = size - {quantity} WHERE sname = '" + sn + "'"; // Update the condition as necessary
                         conn.setData(query);
+
                     }
                 }
 
@@ -942,7 +949,7 @@ namespace OxSystem
                 medicList.Clear();
                 pricet.Content = "0,00";
                 reset_();
-                MessageBox.Show("Data inserted and DataGrid cleared successfully.");
+                MessageBox.Show("Data processed successfully.");
 
                 // Insert into the bills table
                 string from_ = supn;
@@ -951,10 +958,8 @@ namespace OxSystem
                 string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
                 string by_ = Login_.username;
 
-                
-
-                query = "INSERT INTO bills (from_, too_, Price, bdate, billId, type, by_ , currency)" +
-                        $"VALUES ('{from_}', '{too_}', {price:F2}, '{currentDate}', '{bid}', 'buy', '{by_}' , '" + setting.currencyies + "')";
+                query = "INSERT INTO bills (from_, too_, Price, bdate, billId, type, by_, currency) " +
+                        $"VALUES ('{from_}', '{too_}', {price:F2}, '{currentDate}', '{bid}', 'buy', '{by_}', '{setting.currencyies}')";
                 conn.setData(query);
 
                 totalBuyPrice = 0;
@@ -962,11 +967,14 @@ namespace OxSystem
             }
             catch (FormatException ex)
             {
+                // Handle format exceptions here
             }
             catch (Exception ex)
             {
+                // Handle other exceptions here
             }
         }
+
 
 
 
@@ -1390,7 +1398,7 @@ namespace OxSystem
         {
             if (mname_Copy.Text == "")
             {
-                MoveLabelUp(label2);
+                
                 mname_Copy.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2EA5A3"));
 
             }
@@ -1401,7 +1409,7 @@ namespace OxSystem
         {
             if (mname_Copy.Text == "" )
             {
-                MoveLabelDown(label2);
+             
                 mname_Copy.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4C4C4C"));
 
             }
@@ -1465,9 +1473,10 @@ namespace OxSystem
 
         private void bprice_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Only allow numeric input
+            // Allow only numeric input (no need to allow commas manually)
             e.Handled = !Regex.IsMatch(e.Text, @"\d");
         }
+
 
         private async void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -1536,6 +1545,9 @@ namespace OxSystem
             var image9 = new BitmapImage(new Uri("pack://application:,,,/images/system-regular-29-cross-hover-cross-3 (2).gif"));
             ImageBehavior.SetAnimatedSource(accountentimage9, image9);
             ImageBehavior.SetRepeatBehavior(accountentimage9, System.Windows.Media.Animation.RepeatBehavior.Forever);
+            var image22 = new BitmapImage(new Uri("pack://application:,,,/images/system-regular-18-autorenew-hover-autorenew (2).gif"));
+            ImageBehavior.SetAnimatedSource(back, image22);
+            ImageBehavior.SetRepeatBehavior(back, System.Windows.Media.Animation.RepeatBehavior.Forever);
            
 
 
@@ -1702,7 +1714,7 @@ namespace OxSystem
 
         private void accountentimage4_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            mybutton_Click1(sender, e);
+            Button_Click_1(sender, e);
         }
 
         private void accountentimage7_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1725,6 +1737,7 @@ namespace OxSystem
        
         private async void close_Click(object sender, MouseButtonEventArgs e)
         {
+            sname_Loaded2(sender, e);   
             Storyboard fadeInStoryboard1 = (Storyboard)this.FindResource("FadeOutStoryboard1");
             fadeInStoryboard1.Begin();
             await Task.Delay(400);
@@ -1796,28 +1809,12 @@ namespace OxSystem
 
         private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            sname_Loaded2(sender, e);
+            Grid_Loaded(sender, e);
 
         }
 
-        private void mname_GotFocus1(object sender, RoutedEventArgs e)
-        {
-            if (type.Text == "")
-            {
 
-                MoveLabelUp(label12);
-                type.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2EA5A3"));
-            }
-        }
-
-        private void mname_LostFocus1(object sender, RoutedEventArgs e)
-        {
-            if (type.Text == "" || type.Text == "insert the Type Name!")
-            {
-                MoveLabelDown(label12);
-                type.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4C4C4C"));
-
-            }
-        }
 
         private void mname_TextChanged1(object sender, TextChangedEventArgs e)
         {
@@ -1883,10 +1880,15 @@ namespace OxSystem
         {
             if (scififcename.Focus() == false)
             {
-                mname_GotFocus1(sender, e);
+               
                 scififcename.Focus();
             }
 
+        }
+
+        private void num_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^\d+$");
         }
     }
 }

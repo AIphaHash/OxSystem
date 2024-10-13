@@ -87,11 +87,11 @@ namespace OxSystem
 
 
             editmedic.Username.Text = medicn;
-            editmedic.Password.Text = buyp;
+            editmedic.Password.Text = numberm;
             
-            editmedic.Address.Text = manud;
+            editmedic.Address.Text = buyp;
             editmedic.full.Text = sellp;
-            editmedic.sname.Text = storagen;
+            
            
             editmedic.editborder.Visibility = Visibility.Collapsed;
             editmedic.Visibility = Visibility.Visible;
@@ -392,11 +392,11 @@ namespace OxSystem
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             editmedic.Username.Text = medicn;
-            editmedic.Password.Text = buyp;
+            editmedic.Password.Text = numberm;
            
-            editmedic.Address.Text = manud;
+            editmedic.Address.Text = buyp;
             editmedic.full.Text = sellp;
-           editmedic.sname.Text = storagen;
+         
 
 
 
@@ -427,7 +427,7 @@ namespace OxSystem
             }
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        public void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
              query = @"
 SELECT TOP 1

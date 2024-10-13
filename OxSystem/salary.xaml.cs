@@ -152,12 +152,12 @@ ORDER BY upseen_count ASC;";
                 }
                 else
                 {
-                    MessageBox.Show("No data found or an error occurred.");
+                    
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}");
+              
             }
         }
 

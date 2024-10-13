@@ -148,27 +148,20 @@ RadiusX="20" RadiusY="20"
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox Padding="10,14,0,0" Text="" x:Name="type" Background="{x:Null}" Margin="854,407,0,0" HorizontalAlignment="Left" Width="406" BorderBrush="#FF4C4C4C" Height="58" VerticalAlignment="Top" GotFocus="mname_GotFocus1" LostFocus="mname_LostFocus1" TextChanged="mname_TextChanged1" FontSize="18" Foreground="Gray">
-                <TextBox.Style>
-                    <Style TargetType="{x:Type TextBox}">
-                        <Setter Property="BorderThickness" Value="2"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type TextBox}">
-                                    <Border 
-                            Background="{TemplateBinding Background}" 
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}" 
-                            CornerRadius="5">
+            <ComboBox IsEditable="True" HorizontalContentAlignment="Center" x:Name="type" Margin="854,407,641,609" BorderBrush="#FF4C4C4C" FontSize="24" BorderThickness="2,2,2,2" Height="54">
+                <ComboBoxItem Content="Pill/Tablets" />
+                <ComboBoxItem Content="Capsules" />
+                <ComboBoxItem Content="Liquids/Syrups" />
+                <ComboBoxItem Content="Injections" />
+                <ComboBoxItem Content="Topical" />
+                <ComboBoxItem Content="Inhalers" />
+                <ComboBoxItem Content="Suppositories" />
+                <ComboBoxItem Content="Eye Drops / Ear Drops" />
+                <ComboBoxItem Content="Patches (Transdermal)" />
+                <ComboBoxItem Content="Lozenges" />
+                <ComboBoxItem Content="Powders" />
+            </ComboBox>
 
-                                        <ScrollViewer x:Name="PART_ContentHost"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
             <TextBox Padding="10,14,0,0" Text="" x:Name="scififcename" Background="{x:Null}" Margin="1374,407,0,0" HorizontalAlignment="Left" Width="405" BorderBrush="#FF4C4C4C" Height="58" VerticalAlignment="Top" GotFocus="mname_GotFocus2" LostFocus="mname_LostFocus2" TextChanged="mname_TextChanged2" FontSize="18" Foreground="Gray">
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
@@ -190,7 +183,7 @@ RadiusX="20" RadiusY="20"
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox Padding="10,15,0,0" Text="" x:Name="num" Background="{x:Null}" Margin="1148,512,0,500"  HorizontalAlignment="Left" Width="319" BorderBrush="#FF4C4C4C" LostFocus="num_LostFocus" GotFocus="num_GotFocus" TextChanged="num_TextChanged" FontSize="18" Foreground="Gray"  >
+            <TextBox Padding="10,15,0,0" Text="" x:Name="num" Background="{x:Null}" Margin="1148,512,0,500"  HorizontalAlignment="Left" Width="319" BorderBrush="#FF4C4C4C" LostFocus="num_LostFocus" GotFocus="num_GotFocus" TextChanged="num_TextChanged" FontSize="18" Foreground="Gray" PreviewTextInput="num_PreviewTextInput"  >
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
 
@@ -260,7 +253,7 @@ RadiusX="20" RadiusY="20"
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox Padding="10,14,0,0" Text="" x:Name="mname_Copy" Background="#FFF6F8F9" Margin="1374,284,0,0" HorizontalAlignment="Left" Width="406" BorderBrush="#FF4C4C4C" Height="58" VerticalAlignment="Top" GotFocus="mname_GotFocus4" LostFocus="mname_LostFocus4" TextChanged="mname_TextChanged4" FontSize="18" Foreground="Black">
+            <TextBox  Padding="10,14,0,0" Text="Pharmacy" x:Name="mname_Copy" Background="#FFF6F8F9" Margin="1374,284,0,0" HorizontalAlignment="Left" Width="406" BorderBrush="#FF4C4C4C" Height="58" VerticalAlignment="Top" GotFocus="mname_GotFocus4" LostFocus="mname_LostFocus4" TextChanged="mname_TextChanged4" FontSize="18" Foreground="Black">
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
                         <Setter Property="BorderThickness" Value="2"/>
@@ -292,7 +285,7 @@ RadiusX="20" RadiusY="20"
                     <TranslateTransform x:Name="translateTransformLabel4" />
                 </Label.RenderTransform>
             </Label>
-            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label2" Content="Too Name" Margin="0,301,405,0" FontSize="18" FontWeight="SemiBold" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="96" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label2_MouseLeftButtonDown">
+            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label2" Content="Too Name" Margin="0,269,406,0" FontSize="18" FontWeight="SemiBold" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="96" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label2_MouseLeftButtonDown">
                 <Label.RenderTransform>
                     <TranslateTransform x:Name="translateTransformLabel2" />
                 </Label.RenderTransform>
@@ -307,11 +300,6 @@ RadiusX="20" RadiusY="20"
             <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label1" Content="Medic Name" Margin="0,301,908,0" FontSize="18" FontWeight="SemiBold" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="114" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label1_MouseLeftButtonDown">
                 <Label.RenderTransform>
                     <TranslateTransform x:Name="translateTransformLabel1" />
-                </Label.RenderTransform>
-            </Label>
-            <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label12" Content="Type" Margin="0,424,908,0" FontSize="18" FontWeight="SemiBold" Height="24" VerticalAlignment="Top" HorizontalAlignment="Right" Width="114" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label1_4MouseLeftButtonDown">
-                <Label.RenderTransform>
-                    <TranslateTransform x:Name="translateTransformLabel12" />
                 </Label.RenderTransform>
             </Label>
             <Label VerticalContentAlignment="Top"  Padding="5,0,0,0" x:Name="label13" Content="Scnfic Name" Margin="0,426,387,0" FontSize="18" FontWeight="SemiBold" Height="22" VerticalAlignment="Top" HorizontalAlignment="Right" Width="114" Background="#FFF6F8F9" Foreground="#FF4C4C4C" MouseLeftButtonDown="label1_1MouseLeftButtonDown">
@@ -374,7 +362,7 @@ RadiusX="20" RadiusY="20"
           Background="White" 
           SelectedCellsChanged="DataGrid_SelectedCellsChanged" 
           BorderBrush="White" 
-          Margin="-10,136,-10,162" BorderThickness="0,0,0,0">
+          Margin="-10,67,-10,162" BorderThickness="0,0,0,0">
 
                     <DataGrid.Resources>
                         <!-- Custom ScrollBar Style -->
@@ -562,7 +550,7 @@ RenderTransformOrigin="0.527,0.502" Margin="63,175,1745,816" Cursor="Hand" /> --
         <Label Content="You Should fill all the needed and important information with real values" Margin="845,958,505,79" FontSize="16" FontWeight="DemiBold"/>
 
 
-        <Border CornerRadius="0,0,0,0" Margin="0,50,1101,862">
+        <Border CornerRadius="0,0,0,0" Margin="0,50,1101,941">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF82C5C2"/>
@@ -573,10 +561,10 @@ RenderTransformOrigin="0.527,0.502" Margin="63,175,1745,816" Cursor="Hand" /> --
 
                 <Label Content="Cart Itmes" Margin="33,8,0,0" FontSize="36" FontWeight="SemiBold" Height="66" VerticalAlignment="Top" HorizontalAlignment="Left" Width="185" Foreground="White"/>
 
-                <Border x:Name="glowingBorder1" CornerRadius="100" Margin="10,56,573,80" RenderTransformOrigin="0.5,0.5">
+                <Border x:Name="glowingBorder1" CornerRadius="100" Margin="10,56,573,0" RenderTransformOrigin="0.5,0.5" Height="13" VerticalAlignment="Top">
                     <Border.Background>
                         <RadialGradientBrush>
-                            <GradientStop Color="#FF57B9B6" Offset="1"/>
+                            <GradientStop Color="#FF29ADA9" Offset="1"/>
                             <GradientStop Color="White" Offset="0"/>
                         </RadialGradientBrush>
                     </Border.Background>
@@ -706,28 +694,6 @@ RenderTransformOrigin="0.527,0.502" Margin="396,30,29,420" Cursor="Hand" MouseLe
             </Image>
 
         </Grid>
-        <TextBox Padding="10,10,0,0" Text="Search Medic Name..." x:Name="bprice_Copy" Background="#FFEEFFF8" Margin="10,143,0,881"  HorizontalAlignment="Left" Width="405" BorderBrush="{x:Null}" MouseEnter="bprice_MouseEnter" MouseLeave="bprice_MouseLeave" LostFocus="bprice_LostFocus" GotFocus="bprice_GotFocus" TextChanged="bprice_TextChanged" FontSize="18" Foreground="Gray" PreviewTextInput="bprice_PreviewTextInput"  >
-            <TextBox.Style>
-                <Style TargetType="{x:Type TextBox}">
-
-                    <Setter Property="BorderThickness" Value="1"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TextBox}">
-                                <Border 
-                                    Background="{TemplateBinding Background}" 
-                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="{TemplateBinding BorderThickness}" 
-                                    CornerRadius="5">
-
-                                    <ScrollViewer x:Name="PART_ContentHost"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TextBox.Style>
-        </TextBox>
         <Button x:Name="add_Copy" Padding="0,0,0,0" BorderThickness="0" Content="Add" Margin="1644,0,94,74"
             BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Height="44" 
             VerticalAlignment="Bottom" FontSize="16" Click="mybutton_Click">
@@ -890,7 +856,7 @@ RenderTransformOrigin="0.527,0.502" Margin="396,30,29,420" Cursor="Hand" MouseLe
         <Image x:Name="accountentimage3" 
 RenderTransformOrigin="0.527,0.502" Margin="1536,958,328,80" Cursor="Hand" MouseLeftButtonDown="accountentimage3_MouseLeftButtonDown"/>
         <Button x:Name="pdf_Copy1" Padding="0,0,0,0" BorderThickness="0" Content="             Print , Pdf  " 
-            Margin="660,0,1106,884" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"  
+            Margin="653,0,1113,956" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"  
             Height="40" VerticalAlignment="Bottom" FontSize="16" Click="mybutton_Click2">
 
             <Button.Resources>
@@ -967,9 +933,9 @@ RenderTransformOrigin="0.527,0.502" Margin="1536,958,328,80" Cursor="Hand" Mouse
 
         </Button>
         <Image x:Name="accountentimage7" 
-RenderTransformOrigin="0.527,0.502" Margin="666,149,1195,886" Cursor="Hand" MouseLeftButtonDown="accountentimage7_MouseLeftButtonDown"/>
+RenderTransformOrigin="0.527,0.502" Margin="659,76,1202,958" Cursor="Hand" MouseLeftButtonDown="accountentimage7_MouseLeftButtonDown"/>
         <Button x:Name="delete_Copy" BorderThickness="0" Content="           Delete Selected" Padding="0,0,20,0"
-            Margin="420,0,1281,884" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"
+            Margin="416,0,1285,956" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"
             Click="Button_Click" Height="40" VerticalAlignment="Bottom" FontSize="18" FontWeight="Bold">
 
             <Button.Resources>
@@ -999,12 +965,12 @@ RenderTransformOrigin="0.527,0.502" Margin="666,149,1195,886" Cursor="Hand" Mous
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
                         <!-- Original button border -->
-                        <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="10" Background="#FF804747">
+                        <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="5" Background="#FF804747">
                             <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
 
                         <!-- Overlay border for the click animation -->
-                        <Border x:Name="overlayBorder" Background="White" Opacity="0" CornerRadius="10" IsHitTestVisible="False" />
+                        <Border x:Name="overlayBorder" Background="White" Opacity="0" CornerRadius="5" IsHitTestVisible="False" />
                     </Grid>
 
                     <ControlTemplate.Triggers>
@@ -1046,7 +1012,7 @@ RenderTransformOrigin="0.527,0.502" Margin="666,149,1195,886" Cursor="Hand" Mous
         </Button>
 
         <Image x:Name="accountentimage6" 
-RenderTransformOrigin="0.527,0.502" Margin="437,148,1424,886" Cursor="Hand" MouseLeftButtonDown="accountentimage6_MouseLeftButtonDown"/>
+RenderTransformOrigin="0.527,0.502" Margin="433,76,1428,958" Cursor="Hand" MouseLeftButtonDown="accountentimage6_MouseLeftButtonDown"/>
         <Button x:Name="add_Copy11" Padding="0,0,0,0" BorderThickness="0" Content="" Margin="560,0,1147,20"
             BorderBrush="#FF941C1C" RenderTransformOrigin="0.5,0.5" Foreground="White" Height="114" 
             VerticalAlignment="Bottom" FontSize="16" Click="Button_Click_1">

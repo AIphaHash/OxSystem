@@ -171,13 +171,37 @@ namespace OxSystem
 
         private void mybutton_Click(object sender, RoutedEventArgs e)
         {
+            // Get the values from the TextBoxes
             namesup = supname.Text;
             numsup = supnum.Text;
             locationsup = suplocation.Text;
-            query = "insert into Suppliers values ('" + namesup + "','" + numsup + "','" + locationsup + "')";
-            conn.setData(query);
-            reset();
+
+            // Check if any of the input fields are empty
+            if (string.IsNullOrWhiteSpace(namesup) || string.IsNullOrWhiteSpace(numsup) || string.IsNullOrWhiteSpace(locationsup))
+            {
+                MessageBox.Show("Please fill out all fields before submitting.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return; // Exit the method early if any field is empty
+            }
+
+            try
+            {
+                // Insert query for Suppliers table
+                query = "INSERT INTO Suppliers (supname, supnum, suplocation) VALUES ('" + namesup + "','" + numsup + "','" + locationsup + "')";
+                conn.setData(query);
+
+                // Show success message if query execution is successful
+                MessageBox.Show("Supplier added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Reset the form fields after successful insertion
+                reset();
+            }
+            catch (Exception ex)
+            {
+                // Show an error message if an exception occurs during the insertion process
+                MessageBox.Show($"An error occurred while adding the supplier: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
         public void reset()
         {
             supname.Text = "Supplier Name...";

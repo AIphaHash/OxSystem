@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,9 +39,12 @@ namespace OxSystem
         string query;
         DbConnection conn = new DbConnection();
         DataSet ds;
+        public static string userrole;
+        public static string username;
         public report()
         {
             InitializeComponent();
+            
         }
 
         private async void mybutton_Click(object sender, RoutedEventArgs e)
@@ -209,8 +213,21 @@ namespace OxSystem
             // Retrieve the user's role from the database
             query = "SELECT role, user_name FROM users_info WHERE id = '" + Login_.iduser + "'";
             ds = conn.getData(query);
-            string userrole = ds.Tables[0].Rows[0][0].ToString();
-            string username = ds.Tables[0].Rows[0][1].ToString();
+
+            // Check if the DataSet contains tables and if the first table has rows
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                // If there are rows, retrieve the values
+                 userrole = ds.Tables[0].Rows[0][0].ToString(); // Role
+                 username = ds.Tables[0].Rows[0][1].ToString(); // User Name
+            }
+            else
+            {
+                // If there are no rows, set default values
+                 userrole = "Default Role"; // Replace with your desired default value
+                 username = "Default User";  // Replace with your desired default value
+            }
+
 
             // Query to get the reports
             query = "SELECT rid, report_header, report_body, report_from, report_date, report_to_role FROM report";

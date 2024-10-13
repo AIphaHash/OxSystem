@@ -178,7 +178,7 @@ FROM storageinfo;
             }
             else
             {
-                MessageBox.Show("insert all the needed info please!");
+                
 
             }
             UserControl_Loaded(sender, e);
@@ -287,6 +287,30 @@ FROM storageinfo;
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            LoadStorageChartData();
+            query = "select * from storageinfo";
+            ds = conn.getData(query);
+            snum.Content = ds.Tables[0].Rows.Count;
+             query = "select * from medicinfo";
+            ds = conn.getData(query);
+            mnum.Content = ds.Tables[0].Rows.Count;
+
+            query = "SELECT MAX(size) AS LargestSize FROM storageinfo;\r\n";
+            ds = conn.getData(query);
+            larges.Content = ds.Tables[0].Rows[0][0];
+            query = "SELECT MIN(size) AS SmallestSize FROM storageinfo;\r\n";
+            ds = conn.getData(query);
+            smalls.Content = ds.Tables[0].Rows[0][0];
+
+
+
+
+
+
+
+
+
+
             fullnameLabel.Content = full;
             Storyboard glowStoryboard = (Storyboard)this.Resources["GlowAnimation"];
             glowStoryboard.Begin();
@@ -331,8 +355,130 @@ FROM storageinfo;
             }
         }
 
-        private void pdf_Click(object sender, RoutedEventArgs e)
+        private async void pdf_Click(object sender, RoutedEventArgs e)
         {
+            await Task.Delay(200);
+            PrintDialog printDialog = new PrintDialog();
+
+            if (printDialog.ShowDialog() == true)
+            {
+                // Create a FlowDocument
+                FlowDocument fd = new FlowDocument();
+                fd.PagePadding = new Thickness(50);
+                fd.ColumnWidth = printDialog.PrintableAreaWidth;
+
+                // Add a header with the current date and time
+                fd.Blocks.Add(new System.Windows.Documents.Paragraph(new Run("Your Company Name"))
+                {
+                    FontSize = 24,
+                    FontWeight = System.Windows.FontWeights.Bold,
+                    TextAlignment = System.Windows.TextAlignment.Center
+                });
+
+                fd.Blocks.Add(new System.Windows.Documents.Paragraph(new Run($"Date and Time: {DateTime.Now:f}\n"))
+                {
+                    FontSize = 14,
+                    FontWeight = System.Windows.FontWeights.Bold,
+                    TextAlignment = System.Windows.TextAlignment.Center
+                });
+
+                // Add the total price
+
+
+                // Create a WPF Table (System.Windows.Documents.Table)
+                System.Windows.Documents.Table table = new System.Windows.Documents.Table();
+                table.CellSpacing = 0;
+                table.BorderThickness = new Thickness(0.5);
+                table.BorderBrush = Brushes.Black;
+
+                // Calculate the total width of all columns
+                double totalColumnWidth = 0;
+                foreach (var column in DataGrid.Columns)
+                {
+                    totalColumnWidth += column.ActualWidth;
+                }
+
+                // Ensure that the total column width does not exceed printable area
+                double availableWidth = printDialog.PrintableAreaWidth - 100; // Subtract margins
+                double scaleFactor = availableWidth / totalColumnWidth;
+
+                // Add columns to the Table
+                foreach (var column in DataGrid.Columns)
+                {
+                    table.Columns.Add(new TableColumn() { Width = new GridLength(column.ActualWidth * scaleFactor) });
+                }
+
+                // Add headers to the Table
+                TableRowGroup headerGroup = new TableRowGroup();
+                TableRow headerRow = new TableRow();
+                foreach (var column in DataGrid.Columns)
+                {
+                    headerRow.Cells.Add(new TableCell(new System.Windows.Documents.Paragraph(new Run(column.Header.ToString())))
+                    {
+                        FontWeight = System.Windows.FontWeights.Bold,
+                        TextAlignment = System.Windows.TextAlignment.Center,
+                        BorderBrush = Brushes.Black,
+                        BorderThickness = new Thickness(0.5)
+                    });
+                }
+                headerGroup.Rows.Add(headerRow);
+                table.RowGroups.Add(headerGroup);
+
+                // Add rows to the Table
+                TableRowGroup bodyGroup = new TableRowGroup();
+                foreach (var item in DataGrid.Items)
+                {
+                    DataGridRow row = (DataGridRow)DataGrid.ItemContainerGenerator.ContainerFromItem(item);
+                    if (row != null)
+                    {
+                        TableRow bodyRow = new TableRow();
+                        foreach (var column in DataGrid.Columns)
+                        {
+                            var cellValue = column.GetCellContent(item) as TextBlock;
+                            if (cellValue != null)
+                            {
+                                bodyRow.Cells.Add(new TableCell(new System.Windows.Documents.Paragraph(new Run(cellValue.Text)))
+                                {
+                                    BorderBrush = Brushes.Black,
+                                    BorderThickness = new Thickness(0.5)
+                                });
+                            }
+                        }
+                        bodyGroup.Rows.Add(bodyRow);
+                    }
+                    else
+                    {
+                        DataGrid.ScrollIntoView(item);
+                        row = (DataGridRow)DataGrid.ItemContainerGenerator.ContainerFromItem(item);
+
+                        if (row != null)
+                        {
+                            TableRow bodyRow = new TableRow();
+                            foreach (var column in DataGrid.Columns)
+                            {
+                                var cellValue = column.GetCellContent(item) as TextBlock;
+                                if (cellValue != null)
+                                {
+                                    bodyRow.Cells.Add(new TableCell(new System.Windows.Documents.Paragraph(new Run(cellValue.Text)))
+                                    {
+                                        BorderBrush = Brushes.Black,
+                                        BorderThickness = new Thickness(0.5)
+                                    });
+                                }
+                            }
+                            bodyGroup.Rows.Add(bodyRow);
+                        }
+                    }
+                }
+                table.RowGroups.Add(bodyGroup);
+
+                // Add the table to the FlowDocument
+                fd.Blocks.Add(table);
+
+                // Print the FlowDocument
+                printDialog.PrintDocument(((IDocumentPaginatorSource)fd).DocumentPaginator, "Print DataGrid");
+            }
+
 
         }
 
@@ -535,7 +681,7 @@ FROM storageinfo;
             DoubleAnimation moveUpAnimation = new DoubleAnimation
             {
                 From = 0, // Start from current position
-                To = -22, // Move up by 34 units (negative value moves upward)
+                To = -28, // Move up by 34 units (negative value moves upward)
                 Duration = new Duration(TimeSpan.FromSeconds(0.1)) // Duration of the animation
             };
 
@@ -663,6 +809,135 @@ FROM storageinfo;
             fadeOutStoryboard.Begin();
 
             await Task.Delay(1200);
+        }
+
+        private void bprice_Copy1_MouseEnter(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void bprice_Copy1_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (bprice_Copy1.Text == "" || bprice_Copy1.Text == "Search Storage Name...")
+            {
+                bprice_Copy1.Text = "";
+                DataGrid_Loaded(sender, e);
+            }
+        }
+
+        private void bprice_Copy1_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (bprice_Copy1.Text == "" || bprice_Copy1.Text == "Search Storage Name...")
+            {
+                bprice_Copy1.Text = "Search Storage Name...";
+                DataGrid_Loaded(sender, e);
+            }
+        }
+
+        private async void bprice_Copy1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (bprice_Copy1.Text == "Search Storage Name..." || bprice_Copy1.Text == "")
+            {
+                DataGrid_Loaded(sender, e);
+
+            }
+            
+               
+                else
+                {
+                    await Task.Delay(300);
+                    string searchText = bprice_Copy1.Text.Trim(); // Get the text from the search box and trim any extra spaces
+
+                   query = "select * from storageinfo where sname like '%"+bprice_Copy1.Text+"%'";
+               
+
+                    ds = conn.getData(query);
+
+                    if (ds != null && ds.Tables.Count > 0)
+                    {
+                        DataGrid.ItemsSource = ds.Tables[0].DefaultView;
+                    }
+                
+            }
+        }
+
+        private void DataGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            query = "select * from storageinfo";
+            ds = conn.getData(query);
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                DataGrid.ItemsSource = ds.Tables[0].DefaultView;
+            }
+        }
+
+        private async void delete_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            await Task.Delay(200);
+            if (selectedIds.Count == 0)
+            {
+                MessageBox.Show("No rows selected for deletion.", "Delete", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (MessageBox.Show("Are you sure you want to delete the selected rows?", "Delete Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                // Create a query to delete all selected rows
+                var idsString = string.Join(",", selectedIds);
+                string query = $"DELETE FROM storageinfo WHERE sid IN ({idsString})";
+
+                conn.setData(query);
+
+                // Reload the data to reflect changes
+                UserControl_Loaded(sender, e);
+            }
+        }
+
+        private void accountentimage6_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            delete_Copy_Click(sender, e);
+        }
+
+        private void accountentimage7_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            pdf_Click(sender, e);
+        }
+
+        private void label1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sname.Focus() == false)
+            {
+                sname_GotFocus(sender, e);
+                sname.Focus();
+            }
+        }
+
+        private void label2_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (slocation.Focus() == false)
+            {
+                slocation_GotFocus(sender, e);
+                slocation.Focus();
+            }
+        }
+
+        private void label3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+            if (size.Focus() == false)
+            {
+                size_GotFocus(sender, e);
+                size.Focus();
+            }
+        }
+
+        private void label2_GotFocus(object sender, MouseButtonEventArgs e)
+        {
+            if (slocation.Focus() == false)
+            {
+                slocation_GotFocus(sender, e);
+                slocation.Focus();
+            }
         }
     }
 }

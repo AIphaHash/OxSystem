@@ -94,8 +94,6 @@ From="1100" To="0" Duration="0:0:0.5" />
                     <Border.Background>
                         <SolidColorBrush Color="#FF333333" Opacity="1"/>
                     </Border.Background>
-                    
-                    <ComboBox HorizontalContentAlignment="Center" IsEditable="True" x:Name="sname" Margin="208,613,221,162" SelectionChanged="ComboBox_SelectionChanged" FontSize="16" Loaded="sname_Loaded"/>
 
 
                 </Border>
@@ -286,7 +284,6 @@ CornerRadius="10">
 Margin="881,165,907,827" Text=" " x:Name="rolee" FontSize="36"/>
                 <Label HorizontalAlignment="Left" Margin="993,437,0,0"  Content="Sell Price" VerticalAlignment="Top" Width="120" BorderBrush="{x:Null}" FontSize="20" Foreground="White"/>
                 <Label HorizontalAlignment="Left" Margin="626,432,0,0"  Content="Buy Price" VerticalAlignment="Top" Width="120" BorderBrush="{x:Null}" FontSize="20" Foreground="White" RenderTransformOrigin="0.555,0.49"/>
-                <Label HorizontalAlignment="Left" Margin="883,674,0,0"  Content="Storage Name" VerticalAlignment="Top" Width="141" BorderBrush="{x:Null}" FontSize="20" Foreground="White"/>
                 <Label HorizontalAlignment="Left" Margin="870,144,0,0"  Content="Medic info edit" VerticalAlignment="Top" Width="221" BorderBrush="{x:Null}" FontSize="24" Foreground="White" FontWeight="Bold"/>
 
             </Grid>

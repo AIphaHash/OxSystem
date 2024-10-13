@@ -39,12 +39,25 @@ namespace OxSystem
         {
             InitializeComponent();
             LV.SelectedIndex = 0;
-            query = "select role , fullname, address from users_info where id = '" + CurrentUserId + "'";
+            query = "SELECT role, fullname, address FROM users_info WHERE id = '" + CurrentUserId + "'";
             ds = conn.getData(query);
-            Fulln.Content = ds.Tables[0].Rows[0][1].ToString();
-            Pname.Text = ds.Tables[0].Rows[0][0].ToString();
-            place.Text = ds.Tables[0].Rows[0][1].ToString();
-            role_.Text = ds.Tables[0].Rows[0][2].ToString();
+
+            // Check if the DataSet contains tables and if the first table has rows
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                // If there are rows, set the control values
+                Fulln.Content = ds.Tables[0].Rows[0][1].ToString(); // Full Name
+                Pname.Text = ds.Tables[0].Rows[0][0].ToString();  // Role
+                place.Text = ds.Tables[0].Rows[0][1].ToString();  // Address
+                role_.Text = ds.Tables[0].Rows[0][2].ToString();   // Role
+            }
+            else
+            {
+                
+                // If there are no rows, set a default value for role_
+                role_.Text = "Default Role"; // Replace with your desired default value
+            }
+
             navbar.Visibility = Visibility.Collapsed;
             chatReloadTimer = new DispatcherTimer();
             chatReloadTimer.Interval = TimeSpan.FromSeconds(3);

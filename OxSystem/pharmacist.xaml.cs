@@ -179,6 +179,9 @@ namespace OxSystem
                     // Show the new control
                     newControl.Visibility = Visibility.Visible;
 
+                    // Trigger the Loaded event for the new control
+                    newControl.RaiseEvent(new RoutedEventArgs(UserControl.LoadedEvent));
+
                     // Prepare storyboard for dragging in
                     var dragInStoryboard = (Storyboard)this.Resources["DragInStoryboard"];
 
@@ -204,6 +207,9 @@ namespace OxSystem
                 // No control is visible, so directly show the new one
                 newControl.Visibility = Visibility.Visible;
 
+                // Trigger the Loaded event for the new control
+                newControl.RaiseEvent(new RoutedEventArgs(UserControl.LoadedEvent));
+
                 // Prepare storyboard for dragging in
                 var dragInStoryboard = (Storyboard)this.Resources["DragInStoryboard"];
 
@@ -221,6 +227,7 @@ namespace OxSystem
                 dragInStoryboard.Begin();
             }
         }
+
 
 
 

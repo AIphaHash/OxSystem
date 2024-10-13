@@ -471,6 +471,8 @@ namespace OxSystem
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            name.Content = selectedUserName;
+
             query = "select * from users_info where id = '" + CurrentUserId + "' AND perms = 'allpermmisions'";
             ds = conn.getData(query);
 

@@ -36,7 +36,7 @@ namespace OxSystem
         public editmedic()
         {
             InitializeComponent();
-            LoadStorageNames();
+           
             int currentYear = DateTime.Now.Year;          
         }
         public void ApplyStoryboard(TextBox textBox)
@@ -54,10 +54,17 @@ namespace OxSystem
 
         private async void mybutton_Click(object sender, RoutedEventArgs e)
         {
-            if (Username.Text != "" && Username.Text != "insert the Medic Name!" && Username.Text != "Medic Name..." && Password.Text != "" && Password.Text != "Num of Medic..." && Password.Text != "insert the Num of Medic!" && Address.Text != ""  && full.Text != ""  && Address.Text != "9999"  && full.Text != "9999")
+            if (Username.Text != "" && Username.Text != "insert the Medic Name!" && Username.Text != "Medic Name..." &&
+                Password.Text != "" && Password.Text != "Num of Medic..." && Password.Text != "insert the Num of Medic!" &&
+                Address.Text != "" && full.Text != "" &&
+                Address.Text != "9999" && full.Text != "9999")
             {
-                query = " update medicinfo set  nummedic = '"+Password.Text+"', bprice = '" + full.Text + "' , sprice = '" + Address.Text + "'  , sname = '"+storagename+"'  where mname = '" + Username.Text + "' ";
+                query = "update medicinfo set nummedic = '" + Password.Text + "', bprice = '" + full.Text + "', sprice = '" + Address.Text + "' where mname = '" + Username.Text + "'";
                 conn.setData(query);
+
+                // Call the method on the parent UserControl
+                var parentControl = this.Parent as medic_num; // Cast Parent to your parent UserControl type
+                parentControl?.UserControl_Loaded(sender,e); // Call the method if parent is not null
 
                 Storyboard moveInStoryboard = (Storyboard)FindResource("MoveUpStoryboard");
                 moveInStoryboard.Begin();
@@ -68,36 +75,38 @@ namespace OxSystem
                 this.Visibility = Visibility.Collapsed;
             }
 
+            // Validation and UI updates
+            ValidateInputFields();
+        }
+
+        private void ValidateInputFields()
+        {
             if (Username.Text == "Medic Name..." || Username.Text == "insert the Medic Name!")
             {
-                Username.BorderBrush = new SolidColorBrush(Colors.Red);
-                Username.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC8C5C5"));
-                Username.Text = "insert the Medic Name!";
-                ApplyStoryboard(Username);
+                HighlightField(Username);
             }
-            if (Password.Text == "Num of Medic..." || Password.Text == "insert the Num of Medic!")
+            if (Password.Text == "9999")
             {
-                Password.BorderBrush = new SolidColorBrush(Colors.Red);
-                Password.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC8C5C5"));
-                Password.Text = "insert the Num of Medic!";
-                ApplyStoryboard(Password);
+                HighlightField(Password);
             }
-            
             if (full.Text == "9999")
             {
-                full.BorderBrush = new SolidColorBrush(Colors.Red);
-                full.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC8C5C5"));
-                full.Text = "9999";
-                ApplyStoryboard(full);
+                HighlightField(full);
             }
             if (Address.Text == "9999")
             {
-                Address.BorderBrush = new SolidColorBrush(Colors.Red);
-                Address.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC8C5C5"));
-                Address.Text = "9999";
-                ApplyStoryboard(Address);
+                HighlightField(Address);
             }
         }
+
+        private void HighlightField(TextBox textBox)
+        {
+            textBox.BorderBrush = new SolidColorBrush(Colors.Red);
+            textBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC8C5C5"));
+            textBox.Text = "9999";
+            ApplyStoryboard(textBox);
+        }
+
         private void editborder_Loaded(object sender, RoutedEventArgs e)
         {
             Username.Text = medic_num.medicn;
@@ -267,10 +276,7 @@ namespace OxSystem
             }
             Address.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF94A6B3"));
         }
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-             storagename = sname.SelectedItem.ToString();
-        }
+        
         public List<string> GetStorageNames()
         {
             List<string> storageNames = new List<string>();
@@ -287,16 +293,8 @@ namespace OxSystem
 
             return storageNames;
         }
-        private void LoadStorageNames()
-        {
-            List<string> storageNames = GetStorageNames();
-            sname.ItemsSource = storageNames;
-        }
+        
 
-        private void sname_Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadStorageNames();
-        }
-
+       
     }
 }

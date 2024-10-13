@@ -78,7 +78,8 @@ namespace OxSystem
             username = Username.Text;
             password_ = Password.Text;
 
-
+            bool usernameExists = false;
+            bool passwordCorrect = false;
 
             query = "select * from users_info where role = 'Admin'";
 
@@ -86,29 +87,59 @@ namespace OxSystem
 
             if (ds.Tables[0].Rows.Count == 0)
             {
-                query = "select fullname,id from users_info where user_name = '" + Username.Text + "'";
-                ds = conn_.getData(query);
-                fullName = ds.Tables[0].Rows[0][0].ToString();
-                iduser = ds.Tables[0].Rows[0][1].ToString();
+
                 if (username == "root" && password_ == "root")
                 {
+                    usernameExists = true;
+                   
                     await Task.Delay(200);
                     AdminDash ad = new AdminDash();
                     ad.Show();
                     this.Close();
                     fullName = "root";
                 }
+                else if ( username != "root" && password_ == "root" )
+                {
+                    var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
+                    storyboard.Begin(Username, true);
+                    Storyboard ShakeLabel = (Storyboard)this.Resources["ShakeLabel"];
+                    ShakeLabel.Begin(label1);
+                    animatedTextBlock3.Visibility = Visibility.Collapsed;
+                    StartTextAnimation(animatedTextBlock2, "Error Accourd!");
+                    StartTextAnimation(animatedTextBlock, "Username is Wrong Check your info!");
+                    mybutton.IsEnabled = false;
+                    await Task.Delay(700);
+                    mybutton.IsEnabled = true;
+                }
+                else if (username == "root" && password_ != "root")
+                {
+                    var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
+                    Storyboard ShakeLabel = (Storyboard)this.Resources["ShakeLabel"];
+                    ShakeLabel.Begin(label2);
+                    storyboard.Begin(Password, true);
+                    animatedTextBlock3.Visibility = Visibility.Collapsed;
+                    StartTextAnimation(animatedTextBlock2, "Error Accourd!");
+                    StartTextAnimation(animatedTextBlock, "Password is Wrong Check your info!");
+                    mybutton.IsEnabled = false;
+                    await Task.Delay(700);
+                    mybutton.IsEnabled = true;
+                }
                 else if (username != "root" && password_ != "root")
                 {
 
 
-                    query = "select * from users_info where user_name = '" + username + "'  ";
+                    query = "select * from users_info where user_name = '" + username + "' AND password = '" + Password.Text + "' ";
                     ds = conn_.getData(query);
                     if (ds.Tables[0].Rows.Count != 0)
                     {
+                        usernameExists = true;
                         string role = ds.Tables[0].Rows[0][2].ToString();
                         if (role == "Pharm")
                         {
+                            query = "select fullname,id from users_info where user_name = '" + Username.Text + "' AND password = '" + Password.Text + "'";
+                            ds = conn_.getData(query);
+                            fullName = ds.Tables[0].Rows[0][0].ToString();
+                            iduser = ds.Tables[0].Rows[0][1].ToString();
                             await Task.Delay(200);
 
 
@@ -149,6 +180,10 @@ namespace OxSystem
                         }
                         else if (role == "Accountent")
                         {
+                            query = "select fullname,id from users_info where user_name = '" + Username.Text + "'";
+                            ds = conn_.getData(query);
+                            fullName = ds.Tables[0].Rows[0][0].ToString();
+                            iduser = ds.Tables[0].Rows[0][1].ToString();
                             await Task.Delay(200);
 
 
@@ -188,120 +223,59 @@ namespace OxSystem
                         }
                     }
 
-                    else
-                    {
-                        var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
-                        storyboard.Begin(Username, true);
 
-                        storyboard.Begin(Password, true);
-                        animatedTextBlock3.Visibility = Visibility.Collapsed;
-                        StartTextAnimation(animatedTextBlock, "Username is Wrong Check your info!");
-                        mybutton.IsEnabled = false;
-                        await Task.Delay(1000);
-                        mybutton.IsEnabled = true;
-                    }
-                    query = "select * from users_info where password = '" + password_ + "' ";
-                    ds = conn_.getData(query);
-                    if (ds.Tables[0].Rows.Count != 0)
-                    {
-                        string role = ds.Tables[0].Rows[0][2].ToString();
-                        if (role == "Pharm")
-                        {
-                            await Task.Delay(200);
+                   
 
-
-                            query = @"UPDATE state
-                SET state.state = CASE 
-                    WHEN (CONVERT(TIME, shifts.shift_start) < CONVERT(TIME, shifts.shfit_end) AND CONVERT(TIME, '" + currentTime + @"') 
-                        BETWEEN CONVERT(TIME, shifts.shift_start) AND CONVERT(TIME, shifts.shfit_end)) 
-                    OR (CONVERT(TIME, shifts.shift_start) > CONVERT(TIME, shifts.shfit_end) AND (CONVERT(TIME, '" + currentTime + @"') 
-                        >= CONVERT(TIME, shifts.shift_start) OR CONVERT(TIME, '" + currentTime + @"') < CONVERT(TIME, shifts.shfit_end))) 
-                    THEN 'upseen'
-                    ELSE 'active'
-                END
-                FROM state
-                INNER JOIN users_info ON state.userid = users_info.id
-                INNER JOIN shifts ON users_info.id = state.userid
-                WHERE users_info.id = '" + iduser + @"' 
-                AND shifts.shid = (
-                    SELECT TOP 1 shiftid 
-                    FROM shifts 
-                    WHERE userid = '" + iduser + @"'
-                )";
-                            conn_.setData(query);
-
-                            query = "select * from statehistroy where userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
-                            ds = conn_.getData(query);
-                            if (ds.Tables[0].Rows.Count == 0)
-                            {
-                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
-                                conn_.setData(query);
-                            }
-                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
-                            conn_.setData(query);
-
-                            pharmacist p = new pharmacist();
-                            p.Show();
-                            this.Close();
+                    if (!usernameExists && !passwordCorrect)
+                    { 
+                            var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
+                            storyboard.Begin(Username, true);
+                            Storyboard ShakeLabel = (Storyboard)this.Resources["ShakeLabel"];
+                            ShakeLabel.Begin(label1);
+                            ShakeLabel.Begin(label2);
+                            storyboard.Begin(Password, true);
+                            animatedTextBlock3.Visibility = Visibility.Collapsed;
+                            StartTextAnimation(animatedTextBlock2, "Error Accourd!");
+                            StartTextAnimation(animatedTextBlock, "Username and Password are Wrong, Check your info!");
+                            mybutton.IsEnabled = false;
+                            await Task.Delay(700);
+                            mybutton.IsEnabled = true;
                         }
-                        else if (role == "Accountent")
+                        else if (!usernameExists)
                         {
-                            await Task.Delay(200);
-
-                            query = @"UPDATE state
-                SET state.state = CASE 
-                    WHEN (CONVERT(TIME, shifts.shift_start) < CONVERT(TIME, shifts.shfit_end) AND CONVERT(TIME, '" + currentTime + @"') 
-                        BETWEEN CONVERT(TIME, shifts.shift_start) AND CONVERT(TIME, shifts.shfit_end)) 
-                    OR (CONVERT(TIME, shifts.shift_start) > CONVERT(TIME, shifts.shfit_end) AND (CONVERT(TIME, '" + currentTime + @"') 
-                        >= CONVERT(TIME, shifts.shift_start) OR CONVERT(TIME, '" + currentTime + @"') < CONVERT(TIME, shifts.shfit_end))) 
-                    THEN 'upseen'
-                    ELSE 'active'
-                END
-                FROM state
-                INNER JOIN users_info ON state.userid = users_info.id
-                INNER JOIN shifts ON users_info.id = state.userid
-                WHERE users_info.id = '" + iduser + @"' 
-                AND shifts.shid = (
-                    SELECT TOP 1 shiftid 
-                    FROM shifts 
-                    WHERE userid = '" + iduser + @"'
-                )";
-                            conn_.setData(query);
-
-                            query = "select * from statehistroy where userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
-                            ds = conn_.getData(query);
-                            if (ds.Tables[0].Rows.Count == 0)
-                            {
-                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
-                                conn_.setData(query);
-                            }
-                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
-                            conn_.setData(query);
-                            Accountent ac = new Accountent();
-                            ac.Show();
-                            this.Close();
+                            var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
+                            storyboard.Begin(Username, true);
+                            Storyboard ShakeLabel = (Storyboard)this.Resources["ShakeLabel"];
+                            ShakeLabel.Begin(label1);
+                            animatedTextBlock3.Visibility = Visibility.Collapsed;
+                            StartTextAnimation(animatedTextBlock2, "Error Accourd!");
+                            StartTextAnimation(animatedTextBlock, "Username is Wrong Check your info!");
+                            mybutton.IsEnabled = false;
+                            await Task.Delay(700);
+                            mybutton.IsEnabled = true;
+                        }
+                        else if (!passwordCorrect)
+                        {
+                            var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
+                            Storyboard ShakeLabel = (Storyboard)this.Resources["ShakeLabel"];
+                            ShakeLabel.Begin(label2);
+                            storyboard.Begin(Password, true);
+                            animatedTextBlock3.Visibility = Visibility.Collapsed;
+                            StartTextAnimation(animatedTextBlock2, "Error Accourd!");
+                            StartTextAnimation(animatedTextBlock, "Password is Wrong Check your info!");
+                            mybutton.IsEnabled = false;
+                            await Task.Delay(700);
+                            mybutton.IsEnabled = true;
                         }
                     }
-                    else
-                    {
-                        var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
-                        storyboard.Begin(Username, true);
-
-                        storyboard.Begin(Password, true);
-                        animatedTextBlock3.Visibility = Visibility.Collapsed;
-                        StartTextAnimation(animatedTextBlock, "Password is Wrong Check your info!");
-                        mybutton.IsEnabled = false;
-                        await Task.Delay(700);
-                        mybutton.IsEnabled = true;
-                    }
-                }
+                
             }
             else
             {
 
                 
-                bool usernameExists = false;
-                bool passwordCorrect = false;
+                 usernameExists = false;
+                 passwordCorrect = false;
 
 
                 query = "SELECT * FROM users_info WHERE user_name = '" + Username.Text + "'";

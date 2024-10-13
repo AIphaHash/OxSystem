@@ -249,37 +249,8 @@ ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="Transpare
                             <Label x:Name="Fulln" Content="" Margin="131,6,1462,8" FontSize="18" />
                             <Button x:Name="pharm" Content="👨‍⚕️ Switch to Pharm" Margin="776,6,950,8" Click="Button_Click" BorderBrush="White" Foreground="White" Background="#FF3DABA4"></Button>
                             <Button x:Name="accountent" Content="💵 Switch to accountent" Margin="965,6,739,8" Click="Button_Click_1" BorderBrush="White" Background="#FF288882" Foreground="White" FontSize="14"></Button>
-                            <Button  x:Name="pharm_Copy" Content="📃" Margin="1774,9,98,11" Click="Button_Clickr" BorderBrush="White" Foreground="Gray" Background="{x:Null}" FontSize="20"/>
-                            <Button x:Name="reset" BorderThickness="4" Content="🔃 Refresh" Margin="1658,7,131,7" BorderBrush="{x:Null}" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="#FF6D6D6D"  Click="reset_Click_1" FontSize="20" >
-                                <Button.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="20"></Setter>
-                                    </Style>
-                                </Button.Resources>
-                                <Button.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform ScaleY="1" ScaleX="1"/>
-                                        <SkewTransform/>
-                                        <RotateTransform/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Button.RenderTransform>
-                            </Button>
-                            <Button Padding="0,0,0,2" x:Name="reset_Copy1" BorderThickness="0" Content="⚙" Margin="1807,13,63,0" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="#FF6D6D6D" Click="Button_Clicks" Height="28" VerticalAlignment="Top" FontSize="18" Background="{x:Null}">
-                                <Button.Resources>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Setter Property="CornerRadius" Value="100"/>
-                                    </Style>
-                                </Button.Resources>
-                                <Button.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform ScaleY="1" ScaleX="1"/>
-                                        <SkewTransform/>
-                                        <RotateTransform/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Button.RenderTransform>
-                            </Button>
+                          
+                           
                         </Grid>
                         <Grid HorizontalAlignment="Center" Width="1901" Margin="0,0,0,-1">
                             <Grid x:Name="nav_pnl"

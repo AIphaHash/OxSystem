@@ -333,7 +333,7 @@ Background="White"
 SelectedCellsChanged="DataGrid_SelectedCellsChanged" 
 BorderBrush="White" 
                 
-Margin="756,104,-92,0" BorderThickness="0,0,0,0" Height="393" VerticalAlignment="Top">
+Margin="756,104,-92,0" BorderThickness="0,0,0,0" Height="393" VerticalAlignment="Top" Loaded="DataGrid_Loaded">
 
 
 
@@ -373,7 +373,7 @@ Binding="{Binding size}"/>
                                     <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="BorderThickness" Value="0,0,0,0"/>
 
-                                    <Setter Property="FontSize" Value="19"/>
+                                    <Setter Property="FontSize" Value="22"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
                                     <Setter Property="HorizontalContentAlignment" Value="Left"/>
                                     <Setter Property="Padding" Value="20,0"/>
@@ -382,7 +382,7 @@ Binding="{Binding size}"/>
 
                             <DataGrid.CellStyle>
                                 <Style TargetType="{x:Type DataGridCell}">
-                                    <Setter Property="FontSize" Value="15"/>
+                                    <Setter Property="FontSize" Value="18"/>
                                     <Setter Property="BorderThickness" Value="0"/>
                                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                     <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -415,7 +415,7 @@ Binding="{Binding size}"/>
 
 
 
-                        <TextBox Padding="5,8,0,0"  x:Name="sname" Background="White" Margin="354,211,0,0"  HorizontalAlignment="Left" Width="334" BorderBrush="#FF777777" Height="39" VerticalAlignment="Top" Foreground="Black" TextChanged="sname_TextChanged" MouseLeave="sname_MouseLeave" MouseEnter="sname_MouseEnter" LostFocus="sname_LostFocus" GotFocus="sname_GotFocus"  >
+                        <TextBox Padding="5,8,0,0"  x:Name="sname" Background="White" Margin="354,192,0,0"  HorizontalAlignment="Left" Width="334" BorderBrush="#FF777777" Height="56" VerticalAlignment="Top" Foreground="Black" TextChanged="sname_TextChanged" MouseLeave="sname_MouseLeave" MouseEnter="sname_MouseEnter" LostFocus="sname_LostFocus" GotFocus="sname_GotFocus" FontSize="18"  >
                             <TextBox.Style>
                                 <Style TargetType="{x:Type TextBox}">
 
@@ -437,7 +437,7 @@ Binding="{Binding size}"/>
                                 </Style>
                             </TextBox.Style>
                         </TextBox>
-                        <TextBox Padding="5,8,0,0"  x:Name="slocation" Background="White" Margin="354,280,0,0"  HorizontalAlignment="Left" Width="334" BorderBrush="#FF777777" Foreground="Black" TextChanged="slocation_TextChanged" MouseEnter="slocation_MouseEnter" MouseLeave="slocation_MouseLeave" LostFocus="slocation_LostFocus" GotFocus="slocation_GotFocus" Height="40" VerticalAlignment="Top"  >
+                        <TextBox Padding="5,8,0,0"  x:Name="slocation" Background="White" Margin="354,288,0,0"  HorizontalAlignment="Left" Width="334" BorderBrush="#FF777777" Foreground="Black" TextChanged="slocation_TextChanged" MouseEnter="slocation_MouseEnter" MouseLeave="slocation_MouseLeave" LostFocus="slocation_LostFocus" GotFocus="slocation_GotFocus" Height="56" VerticalAlignment="Top" FontSize="18"  >
                             <TextBox.Style>
                                 <Style TargetType="{x:Type TextBox}">
 
@@ -460,7 +460,7 @@ Binding="{Binding size}"/>
                             </TextBox.Style>
                         </TextBox>
 
-                        <TextBox Padding="5,8,0,0" x:Name="size" Background="White" Margin="354,352,0,0"  HorizontalAlignment="Left" Width="334" BorderBrush="#FF777777" Foreground="Black" TextChanged="size_TextChanged" MouseEnter="size_MouseEnter" MouseLeave="size_MouseLeave" LostFocus="size_LostFocus" GotFocus="size_GotFocus" Height="40" VerticalAlignment="Top"  >
+                        <TextBox Padding="5,8,0,0" x:Name="size" Background="White" Margin="354,377,0,0"  HorizontalAlignment="Left" Width="334" BorderBrush="#FF777777" Foreground="Black" TextChanged="size_TextChanged" MouseEnter="size_MouseEnter" MouseLeave="size_MouseLeave" LostFocus="size_LostFocus" GotFocus="size_GotFocus" Height="56" VerticalAlignment="Top" FontSize="18"  >
                             <TextBox.Style>
                                 <Style TargetType="{x:Type TextBox}">
 
@@ -501,22 +501,22 @@ Binding="{Binding size}"/>
                                 </LinearGradientBrush>
                             </Border.Background>
                         </Border>
-                        <Label HorizontalContentAlignment="Center" Content="Add Storage" Foreground="White" Margin="438,119,1176,352" FontSize="20" Background="{x:Null}" FontWeight="Bold"></Label>
+                        <Label HorizontalContentAlignment="Center" Content="Add Storage" Foreground="White" Margin="438,119,1176,742" FontSize="20" Background="{x:Null}" FontWeight="Bold"></Label>
 
                     </Grid>
                 </Border>
 
-                <Label x:Name="label1" VerticalContentAlignment="Top" Padding="4,0,0,1"  Content="Storage Name" HorizontalAlignment="Left" Margin="395,299,0,0" VerticalAlignment="Top" FontWeight="DemiBold" Background="White" Height="17" Foreground="DimGray" Width="85">
+                <Label x:Name="label1" VerticalContentAlignment="Top" Padding="4,0,0,1"  Content="Storage Name" HorizontalAlignment="Left" Margin="395,285,0,0" VerticalAlignment="Top" FontWeight="DemiBold" Background="White" Height="27" Foreground="DimGray" Width="115" FontSize="16" MouseLeftButtonDown="label1_MouseLeftButtonDown">
                     <Label.RenderTransform>
                         <TranslateTransform x:Name="translateTransformLabel1" />
                     </Label.RenderTransform>
                 </Label>
-                <Label x:Name="label2" VerticalContentAlignment="Top" Padding="4,0,0,1" Content="Storage Location" HorizontalAlignment="Left" Margin="395,27,0,0" VerticalAlignment="Top" FontWeight="DemiBold" Background="White" Height="17" Grid.Row="1" Foreground="DimGray" Width="99">
+                <Label x:Name="label2" VerticalContentAlignment="Top" Padding="4,0,0,1" Content="Storage Location" HorizontalAlignment="Left" Margin="396,39,0,0" VerticalAlignment="Top" FontWeight="DemiBold" Background="White" Height="25" Grid.Row="1" Foreground="DimGray" Width="132" FontSize="16" MouseLeftButtonDown="label2_GotFocus">
                     <Label.RenderTransform>
                         <TranslateTransform x:Name="translateTransformLabel2" />
                     </Label.RenderTransform>
                 </Label>
-                <Label x:Name="label3" VerticalContentAlignment="Top" Padding="4,0,0,1" Content="Storage Size" HorizontalAlignment="Left" Margin="397,99,0,0" VerticalAlignment="Top" FontWeight="DemiBold" Background="White" Height="17" Grid.Row="1" Foreground="DimGray" Width="74">
+                <Label x:Name="label3" VerticalContentAlignment="Top" Padding="4,0,0,1" Content="Storage Size" HorizontalAlignment="Left" Margin="397,128,0,0" VerticalAlignment="Top" FontWeight="DemiBold" Background="White" Height="22" Grid.Row="1" Foreground="DimGray" Width="130" FontSize="16" MouseLeftButtonDown="label3_MouseLeftButtonDown">
                     <Label.RenderTransform>
                         <TranslateTransform x:Name="translateTransformLabel3" />
                     </Label.RenderTransform>
@@ -620,7 +620,7 @@ Binding="{Binding size}"/>
                 </TransformGroup>
             </Border.RenderTransform>
         </Border>
-        <TextBox Padding="10,8,0,0" Text="Search Medic Name..." x:Name="bprice_Copy1" Background="White" Margin="1046,153,0,866"  HorizontalAlignment="Left" Width="400" BorderBrush="{x:Null}"  FontSize="14" Foreground="#FFB1B1B1" >
+        <TextBox Padding="10,8,0,0" Text="Search Storage Name..." x:Name="bprice_Copy1" Background="White" Margin="1096,140,0,870"  HorizontalAlignment="Left" Width="400" BorderBrush="{x:Null}"  FontSize="20" Foreground="#FFB1B1B1" MouseEnter="bprice_Copy1_MouseEnter" GotFocus="bprice_Copy1_GotFocus" LostFocus="bprice_Copy1_LostFocus" TextChanged="bprice_Copy1_TextChanged" >
             <TextBox.Style>
                 <Style TargetType="{x:Type TextBox}">
 
@@ -642,9 +642,9 @@ Binding="{Binding size}"/>
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <Button x:Name="add_Copy" Padding="0,0,0,0" BorderThickness="0" Content="Add" Margin="472,0,1275,0"
-            BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Height="30" 
-            VerticalAlignment="Center" FontSize="16" Click="mybutton_Click">
+        <Button x:Name="add_Copy" Padding="0,0,0,0" BorderThickness="0" Content="Add" Margin="477,533,1270,0"
+            BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Height="39" 
+            VerticalAlignment="Top" FontSize="20" Click="mybutton_Click">
 
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
@@ -718,8 +718,8 @@ Binding="{Binding size}"/>
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Label HorizontalContentAlignment="Center" Content="View Edit " Foreground="White" Margin="1170,89,458,909" FontSize="24" Background="{x:Null}" FontWeight="Bold" Loaded="Label_Loaded"/>
-        <Border x:Name="glowingBorder1_Copy1" CornerRadius="100" Margin="1222,124,514,921" RenderTransformOrigin="0.5,0.5">
+        <Label HorizontalContentAlignment="Center" Content="View Edit " Foreground="White" Margin="1170,51,458,947" FontSize="24" Background="{x:Null}" FontWeight="Bold" Loaded="Label_Loaded"/>
+        <Border x:Name="glowingBorder1_Copy1" CornerRadius="100" Margin="1224,91,512,954" RenderTransformOrigin="0.5,0.5">
             <Border.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="#FF378990" Offset="1"/>
@@ -736,7 +736,7 @@ Binding="{Binding size}"/>
             </Border.RenderTransform>
         </Border>
         <Button x:Name="delete_Copy" BorderThickness="0" Content="           Delete Selected" Padding="0,0,20,0"
-            Margin="1450,0,270,869" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Height="32" VerticalAlignment="Bottom" FontSize="16" FontWeight="Bold">
+            Margin="1506,0,214,870" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Height="47" VerticalAlignment="Bottom" FontSize="16" FontWeight="Bold" Click="delete_Copy_Click">
 
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
@@ -812,11 +812,11 @@ Binding="{Binding size}"/>
         </Button>
 
         <Image x:Name="accountentimage6" 
-RenderTransformOrigin="0.527,0.502" Margin="1458,158,398,871" Cursor="Hand" />
+RenderTransformOrigin="0.527,0.502" Margin="1511,150,345,874" Cursor="Hand" MouseLeftButtonDown="accountentimage6_MouseLeftButtonDown" />
 
         <Button x:Name="pdf_Copy" Padding="0,0,0,0" BorderThickness="0" Content="              Print , Pdf  " 
-            Margin="1647,0,106,869" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"  
-            Height="32" VerticalAlignment="Bottom" FontSize="14" Click="pdf_Click" FontWeight="Bold">
+            Margin="1690,0,63,869" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"  
+            Height="48" VerticalAlignment="Bottom" FontSize="14" Click="pdf_Click" FontWeight="Bold">
 
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
@@ -892,7 +892,7 @@ RenderTransformOrigin="0.527,0.502" Margin="1458,158,398,871" Cursor="Hand" />
 
         </Button>
         <Image x:Name="accountentimage7" 
-RenderTransformOrigin="0.527,0.502" Margin="1658,160,196,873" Cursor="Hand" />
+RenderTransformOrigin="0.527,0.502" Margin="1701,148,153,873" Cursor="Hand" MouseLeftButtonDown="accountentimage7_MouseLeftButtonDown" />
         <Label Content="Number of Medics per Storage" FontSize="22" FontWeight="Bold" Margin="1137,605,433,413"/>
         <Border x:Name="glowingBorder1_Copy" CornerRadius="100" Margin="1144,643,433,402" RenderTransformOrigin="0.5,0.5">
             <Border.Background>

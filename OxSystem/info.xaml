@@ -399,11 +399,11 @@ Margin="1251,224,0,0" Text=" " x:Name="rolee" FontSize="18" Foreground="White" F
         <Label HorizontalAlignment="Left" Margin="557,372,0,0"  Content="Permmisions" VerticalAlignment="Top" Width="166" BorderBrush="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" Background="{x:Null}"/>
         <Grid x:Name="pPerm" Visibility="Collapsed" Margin="555,413,1209,513" ScrollViewer.CanContentScroll="True">
             <StackPanel Margin="0,10,-19,30">
-                <CheckBox x:Name="chkViewMedic" Content="View Medic" IsChecked="False" IsEnabled="True" FontSize="18" Foreground="White"/>
-                <CheckBox x:Name="chkAddMedic" Content="Add Medic" IsChecked="False" IsEnabled="True" FontSize="18" Background="White" Foreground="White"/>
-                <CheckBox x:Name="chkSellMedic" Content="Sell Medic" IsChecked="False" IsEnabled="True" FontSize="18" Foreground="White"/>
-                <CheckBox x:Name="chkSellMedicDuplicate" Content="storage manage" IsChecked="False" IsEnabled="True" FontSize="18" Foreground="White"/>
-                <CheckBox x:Name="makereport" Content="Make Report" IsChecked="False" IsEnabled="True" FontSize="18" Foreground="White"/>
+                <CheckBox x:Name="chkViewMedic" Content="View Medic" IsChecked="False" IsEnabled="True" FontSize="16" Foreground="White"/>
+                <CheckBox x:Name="chkAddMedic" Content="Add Medic" IsChecked="False" IsEnabled="True" FontSize="16" Background="White" Foreground="White"/>
+                <CheckBox x:Name="chkSellMedic" Content="Sell Medic" IsChecked="False" IsEnabled="True" FontSize="16" Foreground="White"/>
+                <CheckBox x:Name="chkSellMedicDuplicate" Content="storage manage" IsChecked="False" IsEnabled="True" FontSize="16" Foreground="White"/>
+                <CheckBox x:Name="makereport" Content="Make Report" IsChecked="False" IsEnabled="True" FontSize="16" Foreground="White"/>
 
 
 

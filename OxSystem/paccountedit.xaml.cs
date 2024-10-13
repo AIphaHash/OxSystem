@@ -489,20 +489,40 @@ namespace OxSystem
 
         private void mybutton_Clickver(object sender, RoutedEventArgs e)
         {
-            query = "select password from users_info where id like '"+Login_.iduser+"'";
+            query = "SELECT password FROM users_info WHERE id LIKE '" + Login_.iduser + "'";
             ds = conn.getData(query);
-            if (verfication1.Text == ds.Tables[0].Rows[0][0].ToString())
+
+            // Check if the DataSet contains tables and if the first table has rows
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                verfication1.Clear();
-                verfication.Visibility = Visibility.Collapsed;
-                edit.Visibility = Visibility.Visible;
+                // If there are rows, retrieve the password
+                string storedPassword = ds.Tables[0].Rows[0][0].ToString();
+
+                // Verify the password entered by the user
+                if (verfication1.Text == storedPassword)
+                {
+                    verfication1.Clear();
+                    verfication.Visibility = Visibility.Collapsed;
+                    edit.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    // Password does not match, apply the shaking animation
+                    ApplyStoryboard(v); ApplyStoryboard(verfication1);
+                }
             }
             else
             {
-                ApplyStoryboard(verfication1);
-                Storyboard storyboard = (Storyboard)this.Resources["ShakeStoryboard"];
-                storyboard.Begin(v);
+                // Handle the case where no user was found with the provided ID
+                MessageBox.Show("Yout signed as a root Can't Edit info", "Verification Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
+        }
+        private void ApplyStoryboard(UIElement targetElement)
+        {
+            Storyboard storyboard = (Storyboard)this.Resources["ShakeStoryboard"];
+            Storyboard.SetTarget(storyboard, targetElement); // Set the target of the animation
+            storyboard.Begin(); // Start the animation
         }
     }
 }

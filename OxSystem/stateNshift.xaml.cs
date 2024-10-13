@@ -248,7 +248,6 @@ namespace OxSystem
             }
             else
             {
-                MessageBox.Show("No user data found.", "Data Retrieval", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -461,7 +460,7 @@ namespace OxSystem
             }
             else
             {
-                MessageBox.Show("No user states found.");
+               
             }
         }
 

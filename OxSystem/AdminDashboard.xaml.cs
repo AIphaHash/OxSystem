@@ -87,10 +87,31 @@ namespace OxSystem
         string query;
         DbConnection conn = new DbConnection();
         DataSet ds;
+        public string CurrentUserId = Login_.iduser;
         public static string full = Login_.fullName;
         public AdminDashboard()
         {
             InitializeComponent();
+
+            query = "SELECT role FROM users_info WHERE id = '" + CurrentUserId + "'";
+            ds = conn.getData(query);
+
+            // Check if the DataSet contains tables and if the first table has rows
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                // If there are rows, set the control values
+                  // Role
+            }
+            else
+            {
+
+                add_Copy.Visibility = Visibility.Collapsed;
+                add_Copy1.Visibility = Visibility.Collapsed;
+                
+            }
+
+
+
             currentChart = all;
             Properties.Settings.Default.report_visible = "1";
             Properties.Settings.Default.Save();
@@ -528,7 +549,7 @@ WHERE
             SplineSeries_Loaded2(sender, e);
             SplineSeries_Loaded3(sender, e);
             welcome.Content = $"Welcome Back {full}";
-            fullnameLabel.Content = full;
+            fullnameLabel.Content = AdminDash.fulln;
             try
             {
                 var roleCounts = new List<RoleCount>();

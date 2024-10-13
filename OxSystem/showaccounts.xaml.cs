@@ -34,6 +34,7 @@ namespace OxSystem
     public partial class showaccounts : UserControl, INotifyPropertyChanged
     {
         private string comboBoxText;
+        public string CurrentUserId = Login_.iduser;
 
         private string _currentTime;
         public string CurrentTime
@@ -69,6 +70,25 @@ namespace OxSystem
         public showaccounts()
         {
             InitializeComponent();
+
+            query = "SELECT role FROM users_info WHERE id = '" + CurrentUserId + "'";
+            ds = conn.getData(query);
+
+            // Check if the DataSet contains tables and if the first table has rows
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                // If there are rows, set the control values
+                // Role
+            }
+            else
+            {
+
+                add_Copy.Visibility = Visibility.Collapsed;
+                add_Copy1.Visibility = Visibility.Collapsed;
+
+            }
+
+
             DataContext = this;
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(1);
