@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:OxSystem"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        Title="Login" Height="600" Width="1200"
+        Title="Login" Height="400" Width="700"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="labelShadow1_Loaded">
     <Window.Resources>
@@ -38,9 +38,8 @@ Duration="0:0:0.5" />
         </Border.BorderBrush>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="198*"/>
-                <RowDefinition Height="389*"/>
-                <RowDefinition Height="14*"/>
+                <RowDefinition Height="44*"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
 
 
@@ -57,23 +56,7 @@ Duration="0:0:0.5" />
 
             <!-- Add the white panel with opacity in the middle -->
 
-
-
-
-
-            <Image Source="images/vector 3.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-5,-20,-61" Grid.RowSpan="3"/>
-            <Image Source="images/vector 3.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-5,-20,-61" Grid.RowSpan="3"/>
-            <Image Source="images/vector 3.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-5,-20,-61" Grid.RowSpan="3"/>
-            <Image Source="images/vector 1.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-162,-20,-252" Grid.RowSpan="3"/>
-            <Image Source="images/vector 1.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-162,-20,-252" Grid.RowSpan="3"/>
-            <Image Source="images/vector 1.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-162,-20,-252" Grid.RowSpan="3"/>
-            <Image Source="images/vector 1.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-162,-20,-252" Grid.RowSpan="3"/>
-            <Image Source="images/vector 1.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-162,-20,-252" Grid.RowSpan="3"/>
-            <Image Source="images/vector 1.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-162,-20,-252" Grid.RowSpan="3"/>
-            <Image Source="/images/Vector 3.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-5,-20,-61" Grid.RowSpan="3"/>
-            <Image Source="/images/Vector 3.png" RenderTransformOrigin="0.527,0.502" Margin="-20,-5,-20,-61" Grid.RowSpan="3"/>
-
-            <Border x:Name="panel" Opacity="1" CornerRadius="20" Margin="282,74,282,28" Grid.RowSpan="2">
+            <Border x:Name="panel" Opacity="1" CornerRadius="20" Margin="0,74,0,2">
                 <Border.Background>
                     <SolidColorBrush Color="White" Opacity="1"/>
                 </Border.Background>
@@ -82,7 +65,7 @@ Duration="0:0:0.5" />
                 </Border.Effect>
                 <!-- Add your Image here -->
             </Border>
-            <Image Source="images/flow.png" RenderTransformOrigin="0.527,0.492" Margin="129,-34,129,-34" Grid.RowSpan="3">
+            <Image Source="images/flow.png" RenderTransformOrigin="0.527,0.492" Margin="48,-54,48,-164" Grid.RowSpan="2">
                 <Image.OpacityMask>
                     <SolidColorBrush Color="Black" Opacity="0.1"/>
                 </Image.OpacityMask>
@@ -91,7 +74,7 @@ Duration="0:0:0.5" />
                 </Image.Effect>
             </Image>
             <Image gif:ImageBehavior.RepeatBehavior="Forever" gif:ImageBehavior.AnimatedSource="images/exit.gif"
-       RenderTransformOrigin="0.527,0.502" Margin="1083,5,11,84" MouseLeftButtonDown="Image_MouseLeftButtonDown" Cursor="Hand">
+       RenderTransformOrigin="0.527,0.502" Margin="1083,5,-423,317" Cursor="Hand">
                 <Image.Style>
                     <Style TargetType="Image">
                         <Style.Triggers>
@@ -119,18 +102,18 @@ Duration="0:0:0.5" />
                 </Image.Effect>
             </Image>
 
-            <Label Content="Exit" HorizontalAlignment="Left" Margin="1098,85,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White" Height="40" Width="42">
+            <Label Content="Exit" HorizontalAlignment="Left" Margin="570,8,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White" Height="40" Width="42">
                 <Label.Effect>
                     <DropShadowEffect Color="Black" Direction="0" ShadowDepth="0" Opacity="1"/>
                 </Label.Effect>
             </Label>
 
-            <Grid Grid.RowSpan="3" Margin="0,0,140,0"/>
+            <Grid Grid.RowSpan="2" Margin="0,0,140,0"/>
 
 
 
 
-            <Grid HorizontalAlignment="Left" Margin="514,194,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+            <Grid HorizontalAlignment="Left" Margin="514,313,0,0" VerticalAlignment="Top"/>
             <Label Content="PharmaFlow" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="42" Foreground="White" FontWeight="UltraBlack" Width="272" Margin="0,2,0,0">
                 <Label.Effect>
                     <DropShadowEffect x:Name="labelShadow" Color="Black" Direction="0" ShadowDepth="1" Opacity="1"/>
@@ -148,78 +131,8 @@ Duration="0:0:0.5" />
                 </Label.Triggers>
             </Label>
 
-            <Label Content="DataBase Login" HorizontalAlignment="Center" Margin="0,92,0,0" VerticalAlignment="Top" FontSize="28" Foreground="#FF5EC3BF" FontWeight="UltraBold"/>
-            <Label Content="Or" HorizontalAlignment="Center" Margin="0,216,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF3EB3DA" FontSize="18" FontWeight="Bold" Height="37" Width="38" Grid.Row="1">
-                <Label.Effect>
-                    <DropShadowEffect ShadowDepth="1" Direction="0" Opacity="0"/>
-                </Label.Effect>
-            </Label>
-            <Label Content="--------------------------------------" HorizontalAlignment="Left" Margin="298,218,0,0" VerticalAlignment="Top" Width="256" FontSize="16" Background="{x:Null}" Foreground="#FF33A7CE" FontWeight="Bold" Grid.Row="1"/>
-            <Label Content="Call to make a DataBase" HorizontalAlignment="Center" Margin="0,250,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF39BADC" FontSize="16" FontWeight="DemiBold" Height="42" Width="190" Grid.Row="1">
-                <Label.Effect>
-                    <DropShadowEffect ShadowDepth="0" Direction="0" Opacity="0"/>
-                </Label.Effect>
-            </Label>
-            <Image RenderTransformOrigin="0.527,0.502" Margin="546,281,550,41" MouseLeftButtonDown="Image_MouseLeftButtonDown1" Cursor="Hand" Grid.Row="1">
-                <Image.Style>
-                    <Style TargetType="Image">
-                        <Setter Property="Source" Value="images/call.png"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8"/>
-                                <Setter Property="RenderTransform">
-                                    <Setter.Value>
-                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Source" Value="images/call.png"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="False">
-                                <Setter Property="Opacity" Value="1"/>
-                                <Setter Property="RenderTransform">
-                                    <Setter.Value>
-                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Source" Value="images/call.png"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-                <Image.Effect>
-                    <DropShadowEffect Color="Black" Direction="0" ShadowDepth="0" Opacity="0"/>
-                </Image.Effect>
-            </Image>
-            <Label x:Name="RememberMeLabel" 
-               Content="Remember me" 
-               Margin="449,135,611,198" 
-               Grid.Row="1" 
-               Foreground="#FF1EA797" 
-               FontSize="14" MouseLeftButtonDown="RememberMeLabel_MouseLeftButtonDown"/>
-
-            <CheckBox  x:Name="RememberMeCheckBox" 
-                  BorderThickness="0.9" 
-                  Margin="435,143,707,200" 
-                  Grid.Row="1" 
-                  Background="White" 
-                  BorderBrush="#FFB3B3B3" 
-                  FontSize="18" Checked="RememberMeCheckBox_Checked" Unchecked="RememberMeCheckBox_Unchecked">
-                <CheckBox.Style>
-                    <Style TargetType="CheckBox">
-                        <Setter Property="BorderBrush" Value="#FFB3B3B3"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="BorderBrush" Value="#FF1EA797"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="False">
-                                <Setter Property="BorderBrush" Value="#FFB3B3B3"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </CheckBox.Style>
-            </CheckBox>
-
-            <TextBox Padding="10,7,0,0" Text="" x:Name="pharmName" Background="White" Margin="0,16,0,307" HorizontalAlignment="Center" Width="302" Grid.Row="1" FontSize="16" Foreground="#FFC5C5C5" GotFocus="pharmName_GotFocus" LostFocus="pharmName_LostFocus" MouseEnter="pharmName_MouseEnter" MouseLeave="pharmName_MouseLeave">
+            <Label Content="Activation Key" HorizontalAlignment="Center" Margin="0,92,0,0" VerticalAlignment="Top" FontSize="28" Foreground="#FF5EC3BF" FontWeight="UltraBold" Height="52"/>
+            <TextBox Padding="10,7,0,0" Text="" x:Name="pharmName_Copy" Background="White" Margin="0,180,0,128" HorizontalAlignment="Center" Width="302" Foreground="#FFC5C5C5" FontSize="16" GotFocus="pharmName_Copy_GotFocus" LostFocus="pharmName_Copy_LostFocus" MouseEnter="pharmName_Copy_MouseEnter" MouseLeave="pharmName_Copy_MouseLeave">
                 <TextBox.BorderBrush>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="1,0">
                         <GradientStop Color="#FF44ABAE"/>
@@ -261,53 +174,8 @@ Duration="0:0:0.5" />
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <Label Content="--------------------------------------" HorizontalAlignment="Left" Margin="609,218,0,0" VerticalAlignment="Top" Width="255" FontSize="16" Background="{x:Null}" Foreground="#FF33A7CE" FontWeight="Bold" Grid.Row="1"/>
-            <TextBox Padding="10,7,0,0" Text="" x:Name="pharmName_Copy" Background="White" Margin="0,98,0,225" HorizontalAlignment="Center" Width="302" Grid.Row="1" Foreground="#FFC5C5C5" FontSize="16" GotFocus="pharmName_Copy_GotFocus" LostFocus="pharmName_Copy_LostFocus" MouseEnter="pharmName_Copy_MouseEnter" MouseLeave="pharmName_Copy_MouseLeave">
-                <TextBox.BorderBrush>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="1,0">
-                        <GradientStop Color="#FF44ABAE"/>
-                        <GradientStop Color="#FF1EA797" Offset="1"/>
-                    </LinearGradientBrush>
-                </TextBox.BorderBrush>
-                <TextBox.Style>
-                    <Style TargetType="{x:Type TextBox}">
-                        <Setter Property="BorderBrush">
-                            <Setter.Value>
-                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="#FFC0FEFF"/>
-                                    <GradientStop Color="#FFA2FDB5" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="BorderThickness" Value="2"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type TextBox}">
-                                    <Border 
-                                        Background="{TemplateBinding Background}" 
-                                        BorderBrush="{TemplateBinding BorderBrush}" 
-                                        BorderThickness="{TemplateBinding BorderThickness}" 
-                                        CornerRadius="7">
-                                        <Border.Effect>
-                                            <DropShadowEffect
-                                                Color="Black"
-                                                Direction="330"
-                                                ShadowDepth="5"
-                                                Opacity="0"
-                                                BlurRadius="5"/>
-                                        </Border.Effect>
-                                        <ScrollViewer x:Name="PART_ContentHost"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
-            
-            <Label Content="Database Name" HorizontalAlignment="Left" Margin="429,163,0,0" VerticalAlignment="Top" Foreground="#FF5EC3BF" FontWeight="DemiBold" Grid.RowSpan="2" FontSize="20"/>
-            <Label Content="Database Password" HorizontalAlignment="Left" Margin="429,62,0,0" VerticalAlignment="Top" Foreground="#FF5EC3BF" FontWeight="DemiBold" Grid.Row="1" FontSize="20"/>
-            <Button x:Name="mybutton" Content="Log in" Foreground="White" BorderBrush="Black" BorderThickness="2,2,2,2" FontWeight="UltraBold" Margin="0,171,0,157" FontSize="14" Cursor="Hand" HorizontalAlignment="Center" Width="150" Click="mybutton_Click" Grid.Row="1" MouseEnter="mybutton_MouseEnter" MouseLeave="mybutton_MouseLeave">
+
+            <Button x:Name="mybutton" Content="Activate" Foreground="White" BorderBrush="Black" BorderThickness="2,2,2,2" FontWeight="UltraBold" Margin="0,280,0,35" FontSize="14" Cursor="Hand" HorizontalAlignment="Center" Width="150">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="2" CornerRadius="10">
@@ -343,7 +211,7 @@ Duration="0:0:0.5" />
             </Button>
 
 
-            <Grid  Margin="-20,-20,-20,-20" Grid.RowSpan="3" Height="600">
+            <Grid  Margin="-20,-20,-20,-220" Grid.RowSpan="2" Height="600">
                 <local:createdb x:Name="createdb" Visibility="Collapsed"/>
                 <local:passwordreset x:Name="passwordreset" Visibility="Collapsed"/>
 

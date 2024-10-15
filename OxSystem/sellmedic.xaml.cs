@@ -7,6 +7,7 @@
 
 
 
+using Amazon.Runtime;
 using iText.Forms.Form.Element;
 using Org.BouncyCastle.Math;
 using System;
@@ -1050,13 +1051,14 @@ namespace OxSystem
             {
                 // Calculate the new billId
                 bid = maxid + 1;
-
+                string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
                 // Update the quantities in the database and on the cards
                 foreach (var medic in medicList)
                 {
+                    
                     // Construct query to update the database
                     query = $"UPDATE medicinfo SET nummedic = nummedic - {medic.Quantity} WHERE mname = '{medic.Mname}'";
-
+                    int medicq = medic.Quantity;
                     // Execute the query
                     try
                     {
@@ -1071,7 +1073,9 @@ namespace OxSystem
 
 
                 }
-
+                int mid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
+                query = "insert into medichistory values( '" + 2 + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "')";
+                conn.setData(query);
                 // Convert price to correct currency value
                 decimal priceValue;
                 string priceText = pricet.Content?.ToString() ?? string.Empty;
@@ -1099,9 +1103,23 @@ namespace OxSystem
                         return; // Exit the method if parsing fails
                     }
                 }
+                else if (pharmacist.check_currency == "$")
+                {
+                    // Remove commas and convert to decimal, no division for USD
+                    priceText = priceText.Replace(",", "").Replace(" $", ""); // Remove "$" if it exists
+                    if (decimal.TryParse(priceText, NumberStyles.Any, CultureInfo.InvariantCulture, out priceValue))
+                    {
+                        priceValue = Math.Round(priceValue, 2); // Round to 2 decimal places
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to parse the price.");
+                        return; // Exit the method if parsing fails
+                    }
+                }
                 else
                 {
-                    // For other currencies like USD
+                    // For other currencies like USD or any other currency symbol
                     if (!decimal.TryParse(priceText, NumberStyles.Any, CultureInfo.CurrentCulture, out priceValue))
                     {
                         MessageBox.Show("Failed to parse the price.");
@@ -1110,10 +1128,11 @@ namespace OxSystem
                 }
 
                 // Prepare SQL query to insert a new bill
-                string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+               
                 string by_ = Login_.username;
+                Console.WriteLine("the price is : '" + priceValue + "'");
                 query = "INSERT INTO bills (from_, too_, Price, bdate, billId, type, by_, currency) " +
-                        $"VALUES ('Pharmacy', 'Customer', '{priceValue}', '{currentDate}', '{bid}', 'sell', '{by_}', '{pharmacist.currencyies}')";
+                        $"VALUES ('Pharmacy', 'Customer', '{pricet.Content}', '{currentDate}', '{bid}', 'sell', '{by_}', '{pharmacist.currencyies}')";
 
                 // Execute the query
                 try
@@ -1711,6 +1730,9 @@ WHERE nummedic > 0;";
             var image9 = new BitmapImage(new Uri("pack://application:,,,/images/wired-outline-751-share-hover-pointing.gif"));
             ImageBehavior.SetAnimatedSource(accountentimage8, image9);
             ImageBehavior.SetRepeatBehavior(accountentimage8, System.Windows.Media.Animation.RepeatBehavior.Forever);
+            var image22 = new BitmapImage(new Uri("pack://application:,,,/images/system-regular-18-autorenew-hover-autorenew (2).gif"));
+            ImageBehavior.SetAnimatedSource(back, image22);
+            ImageBehavior.SetRepeatBehavior(back, System.Windows.Media.Animation.RepeatBehavior.Forever);
 
 
         }
@@ -2035,7 +2057,7 @@ WHERE nummedic > 0;";
 
         private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            ItemsCards_Loaded(sender,e);
         }
     }
 

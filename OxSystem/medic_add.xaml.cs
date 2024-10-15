@@ -102,6 +102,7 @@ namespace OxSystem
             {
                 YearComboBox1.Items.Add(year1);
 
+
             }
 
             // Populate MonthComboBox
@@ -921,28 +922,48 @@ namespace OxSystem
                     manufactureDate = SqlEscape(manufactureDate);
                     numberMedic = SqlEscape(numberMedic);
                     sname = SqlEscape(sname);
-                    cid = SqlEscape(cid);
+                    cid = SqlEscape(cid); 
+                    string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
 
                     // Check if the record already exists based on the barcode (codeid)
                     query = $"SELECT * FROM medicinfo WHERE codeid = '{cid}'";
                     ds = conn.getData(query);
-
-                    if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 0)
+                    if (cid == "")
                     {
-                        // Insert new record if it does not exist
+                        cid = "0";
+                    }
+                    // If `codeid = 0`, allow multiple items with `codeid = 0`
+                    if (cid == "0")
+                    {
+                        // Insert new record for items without a barcode
+                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid) " +
+                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}')";
+                        conn.setData(query);
+                        query = $"UPDATE storageinfo SET size = size - {quantity} WHERE sname = '{sn}'";
+                        conn.setData(query);
+                        query = "SELECT TOP 1 mid\r\nFROM medicinfo\r\nORDER BY mid DESC;\r\n";
+                        ds = conn.getData(query);
+                        int mid = int.Parse( ds.Tables[0].Rows[0][0].ToString());
+                        query = "insert into medichistory values( '" + numberMedic+"' , '"+bid+"' , '"+currentDate+"' , '"+mid+"')";
+                        conn.setData(query);
+
+                        // Update storage size based on the quantity of the medic added
+                    }
+                    else if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 0)
+                    {
+                        // Ensure that codeid is unique for real barcodes (codeid != 0)
                         query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid) " +
                                 $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}')";
                         conn.setData(query);
 
-                        // Update storage size based on the quantity of the medic added
-                       
-                    }
-                    else
-                    {
-                        query = $"UPDATE storageinfo SET size = size - {quantity} WHERE sname = '" + sn + "'"; // Update the condition as necessary
+                        query = "SELECT TOP 1 mid\r\nFROM medicinfo\r\nORDER BY mid DESC;\r\n";
+                        ds = conn.getData(query);
+                        int mid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
+                        query = "insert into medichistory values( '" + numberMedic + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "')";
                         conn.setData(query);
-
+                        // Update storage size based on the quantity of the medic added
                     }
+
                 }
 
                 // Clear the collection after insertion
@@ -955,11 +976,11 @@ namespace OxSystem
                 string from_ = supn;
                 string too_ = mname_Copy.Text;
                 decimal price = totalBuyPrice;
-                string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+                string currentDate1 = DateTime.Now.ToString("yyyy-MM-dd");
                 string by_ = Login_.username;
 
                 query = "INSERT INTO bills (from_, too_, Price, bdate, billId, type, by_, currency) " +
-                        $"VALUES ('{from_}', '{too_}', {price:F2}, '{currentDate}', '{bid}', 'buy', '{by_}', '{setting.currencyies}')";
+                        $"VALUES ('{from_}', '{too_}', {price:F2}, '{currentDate1}', '{bid}', 'buy', '{by_}', '{setting.currencyies}')";
                 conn.setData(query);
 
                 totalBuyPrice = 0;
@@ -1811,6 +1832,7 @@ namespace OxSystem
         {
             sname_Loaded2(sender, e);
             Grid_Loaded(sender, e);
+       
 
         }
 

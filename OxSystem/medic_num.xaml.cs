@@ -689,6 +689,11 @@ FROM
             ImageBehavior.SetRepeatBehavior(accountentimage7, System.Windows.Media.Animation.RepeatBehavior.Forever);
 
 
+            var image22 = new BitmapImage(new Uri("pack://application:,,,/images/system-regular-18-autorenew-hover-autorenew (2).gif"));
+            ImageBehavior.SetAnimatedSource(back, image22);
+            ImageBehavior.SetRepeatBehavior(back, System.Windows.Media.Animation.RepeatBehavior.Forever);
+
+
 
 
 
@@ -737,7 +742,7 @@ FROM
 
         private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            UserControl_Loaded(sender,e);
         }
 
         private async void Button_Clicks(object sender, RoutedEventArgs e)
