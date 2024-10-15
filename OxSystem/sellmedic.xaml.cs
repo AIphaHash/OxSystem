@@ -1058,8 +1058,12 @@ namespace OxSystem
                     
                     // Construct query to update the database
                     query = $"UPDATE medicinfo SET nummedic = nummedic - {medic.Quantity} WHERE mname = '{medic.Mname}'";
+                    conn.setData(query);
                     int medicq = medic.Quantity;
                     // Execute the query
+                    query = "select mid from medicinfo where mname = '"+medic.Mname+"'";
+                    ds = conn.getData(query);
+                    int mid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
                     try
                     {
                         conn.setData(query);
@@ -1068,14 +1072,14 @@ namespace OxSystem
                     {
                         MessageBox.Show($"An error occurred while updating medic: {ex.Message}");
                     }
-
+                   
+                    query = "insert into medichistory values( '" + medic.Quantity + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "')";
+                    conn.setData(query);
                     // Update the quantity on the card item
 
 
                 }
-                int mid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
-                query = "insert into medichistory values( '" + 2 + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "')";
-                conn.setData(query);
+                
                 // Convert price to correct currency value
                 decimal priceValue;
                 string priceText = pricet.Content?.ToString() ?? string.Empty;
@@ -1308,7 +1312,7 @@ namespace OxSystem
                     }
                     else
                     {
-                        MessageBox.Show("No item found with the provided barcode.");
+                        
                     }
                 }
                 catch (Exception ex)

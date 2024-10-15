@@ -43,6 +43,7 @@ using Org.BouncyCastle.Math;
 using static OxSystem.sellmedic;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using PdfSharp.Pdf.Content.Objects;
 
 
 
@@ -96,7 +97,7 @@ namespace OxSystem
             for (int year = currentYear; year >= currentYear && year <= 2100; year++)
             {
                 YearComboBox.Items.Add(year);
-               
+
             }
             for (int year1 = 2000; year1 >= 2000 && year1 <= currentYear; year1++)
             {
@@ -113,10 +114,10 @@ namespace OxSystem
             }
 
             // Set default selections to today's date
-            
-            
+
+
             PopulateDays();
-           
+
 
         }
 
@@ -194,7 +195,7 @@ namespace OxSystem
 
             public string Codeid { get; set; }
 
-            
+
         }
 
 
@@ -210,6 +211,7 @@ namespace OxSystem
                 if (result == MessageBoxResult.Yes)
                 {
                     AddDataToDataGrid();  // Proceed without QR code
+
                 }
                 else
                 {
@@ -241,7 +243,13 @@ namespace OxSystem
                             // Update quantity in the database
                             string updateQuery = $"UPDATE medicinfo SET nummedic = {updatedQuantity} WHERE Codeid = '{brcode}'";
                             conn.setData(updateQuery);
-
+                            query = "SELECT TOP 1 mid\r\nFROM medicinfo\r\nORDER BY mid DESC;\r\n";
+                            ds = conn.getData(query);
+                            int mid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
+                            string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+                           
+                            query = "insert into medichistory values( '" + newQuantity + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "')";
+                            conn.setData(query);
                             // Update the DataGrid
                             AddDataToDataGrid();  // Add the item to DataGrid after updating the quantity
                         }
@@ -266,7 +274,7 @@ namespace OxSystem
         {
             // Validate inputs
             if (mname.Text != "" && mname_Copy.Text != "" && sprice.Text != "" && bprice.Text != "" && num.Text != "" && scififcename.Text != "" && type.Text != "" &&
-                supname.SelectedIndex >= 0 && sname.SelectedIndex >= 0  && YearComboBox1.SelectedIndex >= 0 &&
+                supname.SelectedIndex >= 0 && sname.SelectedIndex >= 0 && YearComboBox1.SelectedIndex >= 0 &&
                 MonthComboBox.SelectedIndex >= 0 && MonthComboBox1.SelectedIndex >= 0 && DayComboBox.SelectedIndex >= 0 && DayComboBox1.SelectedIndex >= 0 &&
                 mname.Text != "insert the Medic Name!" && mname_Copy.Text != "insert the Too Name!" && num.Text != "9999" && scififcename.Text != "insert the Scinfic Name!" && type.Text != "insert the Type Name!" &&
                 sname.Text != "999,999" && supname.Text != "999,99")
@@ -357,8 +365,8 @@ namespace OxSystem
                 // Handle validation errors here
                 if (string.IsNullOrWhiteSpace(mname.Text) || mname.Text == "insert the Medic Name!")
                 {
-                    
-                   
+
+
                     var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
                     storyboard.Begin(mname, true);
                     Storyboard shakeStoryboard = (Storyboard)this.Resources["ShakeStoryboard"];
@@ -366,8 +374,8 @@ namespace OxSystem
                 }
                 if (string.IsNullOrWhiteSpace(type.Text) || type.Text == "insert the Type Name!")
                 {
-                    
-                   
+
+
                     var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
                     storyboard.Begin(type, true);
                     Storyboard shakeStoryboard = (Storyboard)this.Resources["ShakeStoryboard"];
@@ -375,12 +383,12 @@ namespace OxSystem
                 }
                 if (string.IsNullOrWhiteSpace(scififcename.Text) || scififcename.Text == "insert the Scinfic Name!")
                 {
-                    
-                   
+
+
                     var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
                     storyboard.Begin(scififcename, true);
                     Storyboard shakeStoryboard = (Storyboard)this.Resources["ShakeStoryboard"];
-                    
+
                 }
                 if (string.IsNullOrWhiteSpace(bprice.Text) || bprice.Text == "999,999")
                 {
@@ -461,7 +469,7 @@ namespace OxSystem
             sprice.Clear();
             num.Text = "";
             //sname.Clear();
-            
+
         }
         public List<string> GetFromNames()
         {
@@ -488,7 +496,7 @@ namespace OxSystem
             List<string> storagenames = new List<string>();
             try
             {
-                
+
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -534,12 +542,12 @@ namespace OxSystem
                 MoveLabelUp(label1);
                 mname.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2EA5A3"));
             }
-            
+
         }
 
         private void mname_LostFocus(object sender, RoutedEventArgs e)
         {
-            if(mname.Text == "" || mname.Text == "insert the Medic Name!")
+            if (mname.Text == "" || mname.Text == "insert the Medic Name!")
             {
                 MoveLabelDown(label1);
                 mname.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4C4C4C"));
@@ -569,7 +577,7 @@ namespace OxSystem
 
         private void num_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (num.Text == "" )
+            if (num.Text == "")
             {
                 MoveLabelDown(label3);
                 num.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4C4C4C"));
@@ -579,7 +587,7 @@ namespace OxSystem
 
         private void num_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (num.Text == "" )
+            if (num.Text == "")
             {
                 MoveLabelUp(label3);
                 num.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2EA5A3"));
@@ -590,7 +598,7 @@ namespace OxSystem
 
         private void sprice_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (sprice.Text == "" )
+            if (sprice.Text == "")
             {
                 MoveLabelUp(label5);
                 sprice.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2EA5A3"));
@@ -640,7 +648,7 @@ namespace OxSystem
 
         private void bprice_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (bprice.Text == "" )
+            if (bprice.Text == "")
             {
                 MoveLabelUp(label4);
                 bprice.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2EA5A3"));
@@ -697,12 +705,12 @@ namespace OxSystem
             {
                 string formattedText;
 
-               
-                    // Format the number with commas for IQD (e.g., 1,000,000)
-                    formattedText = number.ToString("N0", CultureInfo.InvariantCulture);
-                
-                
-          
+
+                // Format the number with commas for IQD (e.g., 1,000,000)
+                formattedText = number.ToString("N0", CultureInfo.InvariantCulture);
+
+
+
 
                 sprice.Text = formattedText;
 
@@ -822,7 +830,7 @@ namespace OxSystem
                         /*pharmacist parentWindow = (pharmacist)Window.GetWindow(this);
                         parentWindow?.enablecheck();*/
                     }
-                  
+
                 }
             }
             else
@@ -838,14 +846,9 @@ namespace OxSystem
 
         }
 
-
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        private void bidcreate()
         {
-            await Task.Delay(200);
-            try
-            {
-                // Get the maximum bill ID from medicinfo
-                query = "SELECT MAX(billId) AS MaxBillId FROM medicinfo";
+        query = "SELECT MAX(billId) AS MaxBillId FROM bills where type = 'buy'";
                 ds = conn.getData(query);
 
                 int maxid = 0;
@@ -853,6 +856,16 @@ namespace OxSystem
                 {
                     maxid = result;
                 }
+            bid = maxid + 1;
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            await Task.Delay(200);
+            try
+            {
+                // Get the maximum bill ID from medicinfo
+                
 
                 var medicList = DataGrid1.ItemsSource as ObservableCollection<MedicInfo>;
 
@@ -862,7 +875,7 @@ namespace OxSystem
                     return;
                 }
 
-                bid = maxid + 1;
+                
 
                 foreach (var medic in medicList.ToList())
                 {
@@ -936,8 +949,8 @@ namespace OxSystem
                     if (cid == "0")
                     {
                         // Insert new record for items without a barcode
-                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid) " +
-                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}')";
+                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid , ScintficName , medictype) " +
+                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}' , '{scififcename.Text}' , '{type.Text}')";
                         conn.setData(query);
                         query = $"UPDATE storageinfo SET size = size - {quantity} WHERE sname = '{sn}'";
                         conn.setData(query);
@@ -952,8 +965,8 @@ namespace OxSystem
                     else if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 0)
                     {
                         // Ensure that codeid is unique for real barcodes (codeid != 0)
-                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid) " +
-                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}')";
+                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid , ScintficName , medictype) " +
+                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}' , '{scififcename.Text}' , '{type.Text}')";
                         conn.setData(query);
 
                         query = "SELECT TOP 1 mid\r\nFROM medicinfo\r\nORDER BY mid DESC;\r\n";
@@ -971,7 +984,10 @@ namespace OxSystem
                 pricet.Content = "0,00";
                 reset_();
                 MessageBox.Show("Data processed successfully.");
-
+                accountentimage4.IsEnabled = false;
+                add_Copy.IsEnabled = false;
+                add_Copy11.IsEnabled = false;
+                add_Copy3.IsEnabled = true;
                 // Insert into the bills table
                 string from_ = supn;
                 string too_ = mname_Copy.Text;
@@ -1830,8 +1846,9 @@ namespace OxSystem
 
         private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            sname_Loaded2(sender, e);
+          
             Grid_Loaded(sender, e);
+            
        
 
         }
@@ -1911,6 +1928,15 @@ namespace OxSystem
         private void num_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !Regex.IsMatch(e.Text, @"^\d+$");
+        }
+
+        private void mybutton_Click11(object sender, RoutedEventArgs e)
+        {
+            add_Copy3.IsEnabled = false;
+            add_Copy.IsEnabled = true;
+            add_Copy11.IsEnabled = true;
+            accountentimage4.IsEnabled = true;
+            bidcreate();
         }
     }
 }
