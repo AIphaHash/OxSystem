@@ -103,7 +103,7 @@ Duration="0:0:1" >
                             <Grid x:Name="nav" Background="#FFC8ACAC" Height="0" >
                                 <Border CornerRadius="0,0,0,0" BorderBrush="#FFC1C1C1" BorderThickness="0,0,0,2" Background="White" Height="85"/>
 
-                                <Border BorderThickness="1" CornerRadius="20" Margin="589,14,1777,10" Background="White" BorderBrush="#FF888888">
+                                <Border BorderThickness="1" CornerRadius="20" Margin="846,18,1520,-18" Background="White" BorderBrush="#FF888888">
 
                                     <Label HorizontalContentAlignment="Center" Padding="0,0,0,0" VerticalContentAlignment="Center" Content="Dashboard"
                                      MouseLeftButtonDown="Dashboard1_MouseLeftButtonDown" FontSize="24" FontWeight="Bold"/>
@@ -113,7 +113,7 @@ Duration="0:0:1" >
 
                                     <Label  HorizontalContentAlignment="Center" Padding="0,0,0,0" VerticalContentAlignment="Center" Content="Work Hours"    MouseLeftButtonDown="Dashboard2_MouseLeftButtonDown" FontSize="24" FontWeight="Bold"/>
                                 </Border>
-                                <Border BorderThickness="1" CornerRadius="20" Margin="848,14,1510,10" Background="White" BorderBrush="#FF888888">
+                                <Border Visibility="Collapsed" BorderThickness="1" CornerRadius="20" Margin="848,14,1510,10" Background="White" BorderBrush="#FF888888">
 
                                     <Label x:Name="f" HorizontalContentAlignment="Center" Padding="0,0,0,0" VerticalContentAlignment="Center" Content="Discounts" MouseLeftButtonDown="f_MouseLeftButtonDown" FontSize="24" FontWeight="Bold"/>
                                 </Border>

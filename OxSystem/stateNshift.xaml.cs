@@ -344,7 +344,7 @@ namespace OxSystem
             {
                 Width = 30,
                 Height = 30,
-                Margin = new Thickness(0, -110, 0, 0), // Adjust positioning of the circle
+                Margin = new Thickness(0, -190, 0, 0), // Adjust positioning of the circle
                 HorizontalAlignment = HorizontalAlignment.Right
                
                 
@@ -543,12 +543,26 @@ namespace OxSystem
 
         private void mname_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (supname.Text == "")
+            {
+                supname.Text = "Shift Name...";
+                supname.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB7B7B7"));
+            }
         }
 
         private void mname_GotFocus(object sender, RoutedEventArgs e)
         {
 
+            if (supname.Text == "Shift Name...")
+            {
+                supname.Text = "";
+                supname.Foreground = new SolidColorBrush(Colors.Black);
+            }
+            else if (supname.Text == "")
+            {
+                supname.Text = "";
+                supname.Foreground = new SolidColorBrush(Colors.Black);
+            }
         }
         private List<string> checkedItems = new List<string>();
 

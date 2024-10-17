@@ -201,7 +201,7 @@ Margin="0,160,0,20" Foreground="#DD888484">
 
                                             <Setter Property="BorderThickness" Value="0,0,0,0"/>
                                             <Setter Property="BorderBrush" Value="#FFF1F1F1"/>
-                                            <Setter Property="FontSize" Value="19"/>
+                                            <Setter Property="FontSize" Value="24"/>
                                             <Setter Property="FontWeight" Value="Bold"/>
                                             <Setter Property="HorizontalContentAlignment" Value="Left"/>
                                             <Setter Property="Padding" Value="20,0,0,0"/>
@@ -212,7 +212,7 @@ Margin="0,160,0,20" Foreground="#DD888484">
                                     <DataGrid.CellStyle>
                                         <Style TargetType="{x:Type DataGridCell}">
                                             <Setter Property="Padding" Value="20,0,20,0"/>
-                                            <Setter Property="FontSize" Value="16"/>
+                                            <Setter Property="FontSize" Value="20"/>
                                             <Setter Property="BorderThickness" Value="0"/>
                                             <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -388,7 +388,6 @@ StaysOpen="False">
                     </Grid>
                 </Border>
             </Grid>
-            <Button HorizontalContentAlignment="Right" Padding="0,0,10,0" Content="Print" Margin="2342,106,109,1292" Background="#FF5A5A5A" Foreground="White" BorderBrush="#FF5A5A5A" Height="42"></Button>
             <Button HorizontalContentAlignment="Center" Content="▶️" Click="NextMonth_Click" Margin="2176,106,308,1292" Height="42" Background="#FF52A493" BorderBrush="#FF52A493" Foreground="White"/>
             <Button HorizontalContentAlignment="Center"  Content="◀️" Click="PreviousMonth_Click" Margin="1914,106,570,1292" Height="42" Foreground="White" BorderBrush="#FF52A493" Background="#FF52A493"/>
             <DatePicker x:Name="selectedmonth" DisplayDateStart="2000-01-01" DisplayDateEnd="2100-12-31" SelectedDateChanged="selectedmonth_SelectedDateChanged" Margin="1990,106,384,1292" FontSize="20" BorderBrush="#FF888888" Background="White" />

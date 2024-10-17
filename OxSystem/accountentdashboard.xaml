@@ -26,113 +26,120 @@
     </UserControl.Resources>
     <Viewbox Height="1440" Width="2560">
         <Grid Background="#FFDCEAE5" Width="2560" Height="1440">
-            <Grid x:Name="income" Margin="10,101,1138,558">
-                <Border BorderThickness="2" CornerRadius="20" Background="White"/>
-                <Border Background="White" CornerRadius="20">
+            <Grid x:Name="income" Margin="10,101,1138,558"/>
+            <Grid x:Name="moneystate" Margin="1434,122,86,530"/>
+
+            <Border CornerRadius="20" x:Name="Showbills" Background="White" Margin="1194,108,114,84">
+                <DataGrid IsReadOnly="True" x:Name="DataGrid_Copy" 
+                    MouseDoubleClick="DataGrid_MouseDoubleClick"
+                    AlternatingRowBackground="AliceBlue"
+                    RowBackground="Gray"
+                    AutoGenerateColumns="False" 
+                    CanUserAddRows="False" 
+                    SelectionMode="Extended" 
+                    HeadersVisibility="Column"
+                    HorizontalGridLinesBrush="White"
+                    VerticalGridLinesBrush="#FF63676B"
+                    ColumnHeaderHeight="60"
+                    RowHeight="35" 
+                    GridLinesVisibility="None"
+                    ScrollViewer.CanContentScroll="True" 
+                    Background="White" 
+                    BorderBrush="White" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
+
+                    
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID"
+                            MinWidth="80"
+                            Width="Auto"
+                            Binding="{Binding Mid}"/>
+
+                        <DataGridTextColumn Header="Medic Name"
+                            MinWidth="150"
+                            Width="360"
+                            Binding="{Binding Mname}"/>
+
+                        <DataGridTextColumn Header="Quantity"
+                            MinWidth="150"
+                            Width="100"
+                            Binding="{Binding Quantity}"/>
+
+                        <DataGridTextColumn Header="Buy Price"
+                            MinWidth="150"
+                            Width="320"
+                            Binding="{Binding Bprice}"/>
+
+                        <DataGridTextColumn Header="Sell Price"
+                            MinWidth="150"
+                            Width="*"
+                            Binding="{Binding Sprice}"/>
 
 
-                    <StackPanel Margin="4,10,10,-10">
-                        <chart:SfChart Width="1304" Height="742">
-                            <!-- Enable Zooming and Panning -->
-                            <chart:SfChart.Behaviors>
-                                <chart:ChartZoomPanBehavior EnablePinchZooming="True"
-                          EnablePanning="True"
-                          ZoomMode="XY"/>
-                            </chart:SfChart.Behaviors>
+                    </DataGrid.Columns>
 
-                            <!-- Initialize the vertical axis for the WPF Chart -->
-                            <chart:SfChart.SecondaryAxis>
-                                <chart:NumericalAxis/>
-                            </chart:SfChart.SecondaryAxis>
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF3F7F6F"/>
+                                        <GradientStop Color="#FF6CBF9F" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,4"/>
+                            <Setter Property="BorderBrush" Value="#FFDEDEDE"/>
+                            <Setter Property="FontSize" Value="26"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                            <Setter Property="Padding" Value="20,0"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
 
-                            <!-- Initialize the horizontal axis for the WPF Chart -->
-                            <chart:SfChart.PrimaryAxis>
-                                <chart:CategoryAxis/>
-                            </chart:SfChart.PrimaryAxis>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="FontSize" Value="24"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="VerticalAlignment" Value="Stretch"/>
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#FF6CA4A2"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
 
-                            <!-- Adding Spline Series to the WPF Chart -->
-                            <chart:SplineSeries ItemsSource="{Binding BillsData}" 
-              XBindingPath="bdate" 
-              YBindingPath="Price" Loaded="SplineSeries_Loaded"/>
-                        </chart:SfChart>
+                    <DataGrid.RowHeaderStyle>
+                        <Style TargetType="{x:Type DataGridRowHeader}">
+                            <Setter Property="FontSize" Value="20" />
+                        </Style>
+                    </DataGrid.RowHeaderStyle>
 
-                    </StackPanel>
-                </Border>
-
-
-            </Grid>
-            <Grid x:Name="moneystate" Margin="1434,122,86,530">
-                <Border BorderThickness="2" CornerRadius="20" Background="White" Margin="0,-22,-66,27">
-                    <Grid>
-                        <Label Content="Money History" HorizontalAlignment="Left" Margin="66,52,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Width="195"/>
-                        <syncfusion:DateTimeEdit x:Name="history" DateTime="1/1/2024" HorizontalAlignment="Left" Height="38" Margin="762,129,0,0" TextWrapping="Wrap" Text="DateTimeEdit" VerticalAlignment="Top" Width="154" BorderBrush="#FFABABAB" Background="White" FocusedBorderBrush="#FF6DD19C" SelectionBrush="#FF54946C" FontSize="18" SelectionChanged="DateTimeEdit_SelectionChanged_1"/>
-                        <Label Content="One Day" HorizontalAlignment="Left" Margin="66,310,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math" Width="96"/>
-                        <Label Content="One Week" HorizontalAlignment="Left" Margin="66,370,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math" Width="89"/>
-                        <Label Content="One Month" HorizontalAlignment="Left" Margin="66,424,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math" Width="94"/>
-                        <Label Content="One Year" HorizontalAlignment="Left" Margin="66,480,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Cambria Math" Width="84"/>
-                        <Label Content="Period" HorizontalAlignment="Left" Margin="187,223,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090" Width="105"/>
-                        <Border Background="#FF9C9C9C" Margin="145,259,325,492"></Border>
-                        <Border Background="#FF9C9C9C" Margin="56,192,197,559"></Border>
-                        <Label Content="Date too" HorizontalAlignment="Left" Margin="530,221,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090" Width="112"/>
-                        <Label Content="Date from" HorizontalAlignment="Left" Margin="406,221,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090" Width="110"/>
-                        <Label x:Name="aOne" Content="N/A" HorizontalAlignment="Left" Margin="282,308,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="82"/>
-                        <Label x:Name="aWeek" Content="N/A" HorizontalAlignment="Left" Margin="270,365,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="76"/>
-                        <Label x:Name="aMonth" Content="N/A" HorizontalAlignment="Left" Margin="269,425,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="78"/>
-                        <Label x:Name="aYear" Content="N/A" HorizontalAlignment="Left" Margin="259,488,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="106"/>
-                        <Label x:Name="fOne" Content="N/A" HorizontalAlignment="Left" Margin="358,308,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="147"/>
-                        <Label x:Name="fWeek" Content="N/A" HorizontalAlignment="Left" Margin="358,370,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="147"/>
-                        <Label Content="Amount" HorizontalAlignment="Left" Margin="292,221,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Foreground="#FF909090" Width="106"/>
-                        <Label x:Name="tYear" Content="N/A" HorizontalAlignment="Left" Margin="510,488,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="169"/>
-                        <Label x:Name="tMonth" Content="N/A" HorizontalAlignment="Left" Margin="518,432,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="161"/>
-                        <Label x:Name="tWeek" Content="N/A" HorizontalAlignment="Left" Margin="510,370,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="169"/>
-                        <Label x:Name="tOne" Content="N/A" HorizontalAlignment="Left" Margin="510,308,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="169"/>
-                        <Label x:Name="fYear" Content="N/A" HorizontalAlignment="Left" Margin="358,483,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" Width="147"/>
-                        <Label x:Name="fMonth" Content="N/A" Margin="358,425,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math" FontWeight="Thin" HorizontalAlignment="Left" Width="147"/>
-                        <ToggleButton x:Name="SwitchButton_Copy" Width="60" Height="30"
-HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,138,751,0"
-Checked="SwitchButton_Checked1" Unchecked="SwitchButton_Unchecked1">
-                            <ToggleButton.Style>
-                                <Style TargetType="{x:Type ToggleButton}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <Grid>
-                                                    <Border x:Name="SwitchBorder" Width="60" Height="30" CornerRadius="15" Background="Gray">
-                                                        <Grid>
-                                                            <Ellipse x:Name="SwitchKnob" Width="28" Height="28" Fill="White" HorizontalAlignment="Left" Margin="1,1,0,1"/>
-                                                        </Grid>
-                                                    </Border>
-                                                </Grid>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsChecked" Value="True">
-                                                        <Setter TargetName="SwitchBorder" Property="Background" Value="LightGreen"/>
-                                                        <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Right"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked" Value="False">
-                                                        <Setter TargetName="SwitchBorder" Property="Background" Value="Gray"/>
-                                                        <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Left"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ToggleButton.Style>
-                        </ToggleButton>
-                        <Label x:Name="histroy" Content="Sell Bill" HorizontalAlignment="Left" Margin="1205,286,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Cambria Math"/>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="Margin" Value="10"/>
+                            <Setter Property="BorderBrush" Value="#FFE2E2E2"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                        </Style>
+                    </DataGrid.RowStyle>
+                </DataGrid>
+            </Border>
 
 
-                    </Grid>
-                </Border>
-
-            </Grid>
-            <Grid x:Name="bills" Margin="10,894,870,48">
+            <Grid x:Name="bills" Margin="10,516,1402,84">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="17*"/>
                     <RowDefinition Height="203*"/>
                 </Grid.RowDefinitions>
 
-                <Border BorderThickness="2" CornerRadius="20" Background="White" Margin="0,0,0,-6" Grid.RowSpan="2">
+                <Border BorderThickness="2" CornerRadius="0,0,20,20" Background="White" Margin="0,0,0,-6" Grid.RowSpan="2">
 
 
                     <DataGrid IsReadOnly="True" x:Name="DataGrid" 
@@ -155,60 +162,13 @@ BorderBrush="White"
                 
 Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
 
-                        <DataGrid.Resources>
-                            <!-- Custom ScrollBar Style -->
-                            <Style TargetType="{x:Type ScrollBar}">
-                                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                                <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ScrollBar}">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="0.00001*"/>
-                                                    <RowDefinition Height="*"/>
-                                                    <RowDefinition Height="0.00001*"/>
-                                                </Grid.RowDefinitions>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-
-                            <!-- Custom ScrollBar Button Style -->
-                            <Style x:Key="ScrollBarButtonStyle" TargetType="{x:Type RepeatButton}">
-                                <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                <Setter Property="IsTabStop" Value="False"/>
-                                <Setter Property="Focusable" Value="False"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type RepeatButton}">
-                                            <Border Background="Gray" Width="16" Height="16" CornerRadius="8"/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-
-                            <!-- Custom ScrollBar Thumb Style -->
-                            <Style x:Key="ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
-                                <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                <Setter Property="IsTabStop" Value="False"/>
-                                <Setter Property="Focusable" Value="False"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Thumb}">
-                                            <Border Background="Gray" Width="16" CornerRadius="8"/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </DataGrid.Resources>
+                        
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID"
       MinWidth="150"
       Width="Auto"
-      Binding="{Binding bid}"/>
+      Binding="{Binding billId}"/>
 
                             <DataGridTextColumn Header="From"
       MinWidth="150"
@@ -246,7 +206,7 @@ Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
                                 <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="BorderThickness" Value="0,0,0,4"/>
                                 <Setter Property="BorderBrush" Value="#FFDEDEDE"/>
-                                <Setter Property="FontSize" Value="19"/>
+                                <Setter Property="FontSize" Value="26"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
                                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
                                 <Setter Property="Padding" Value="20,0"/>
@@ -255,7 +215,7 @@ Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
 
                         <DataGrid.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}">
-                                <Setter Property="FontSize" Value="20"/>
+                                <Setter Property="FontSize" Value="24"/>
                                 <Setter Property="BorderThickness" Value="0"/>
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                 <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -286,8 +246,8 @@ Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
                     </DataGrid>
                 </Border>
                 <ToggleButton x:Name="SwitchButton" Width="60" Height="30"
-            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,18,100,0"
-            Checked="SwitchButton_Checked" Unchecked="SwitchButton_Unchecked" Grid.RowSpan="2">
+            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="947,0,0,0"
+            Checked="SwitchButton_Checked" Unchecked="SwitchButton_Unchecked">
                     <ToggleButton.Style>
                         <Style TargetType="{x:Type ToggleButton}">
                             <Setter Property="Template">
@@ -316,22 +276,22 @@ Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>
-                <Label x:Name="BillLabel" Content="Sell Bill" Margin="59,2,928,376" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.RowSpan="2"/>
-                <Label Content="See All" HorizontalAlignment="Left" Margin="908,18,0,0" VerticalAlignment="Top" Height="34" Width="60" Foreground="#FF1F9260" FontSize="16" FontWeight="SemiBold" MouseLeftButtonDown="Label_MouseLeftButtonDown" Grid.RowSpan="2"/>
-                <Label Content="Total Bills Money: " HorizontalAlignment="Left" Margin="28,368,0,0" VerticalAlignment="Top" FontSize="24" Height="44" Grid.Row="1"/>
+                <Label x:Name="BillLabel" Content="Sell Bill" Margin="846,0,211,3" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <Label Content="See All" HorizontalAlignment="Left" Margin="1052,10,0,0" VerticalAlignment="Top" Height="37" Width="86" Foreground="#FF1F9260" FontSize="22" FontWeight="SemiBold" MouseLeftButtonDown="Label_MouseLeftButtonDown" Loaded="Label_Loaded"/>
+                <Label Content="Total Bills Money: " HorizontalAlignment="Left" Margin="59,704,0,0" VerticalAlignment="Top" FontSize="24" Height="44" Grid.Row="1"/>
 
             </Grid>
-            <Grid x:Name="billsSearch" Margin="1704,930,17,26">
-                <Border BorderThickness="2" CornerRadius="20" Background="White" Margin="0,-35,0,16">
+            <Grid x:Name="billsSearch" Margin="10,140,1402,901">
+                <Border BorderThickness="2" CornerRadius="20,20,0,0" Background="White" Margin="0,-35,0,16">
 
                     <Border BorderThickness="5" CornerRadius="20" Background="White" Margin="332,-5,-5,-5">
 
-                        <Grid Margin="22,55,22,33" Loaded="Grid_Loaded">
-                            <StackPanel>
-                                <chart:SfChart Header="Number of Buy and Sell Bills" Height="300" Width="280" x:Name="pieChart" FontSize="22" FontWeight="SemiBold">
+                        <Grid Margin="22,5,22,-5" Loaded="Grid_Loaded">
+                            <StackPanel Margin="0,0,0,10">
+                                <chart:SfChart Header="Number of Buy and Sell Bills" Height="403" Width="522" x:Name="pieChart" FontSize="30" FontWeight="Bold">
                                     <!-- Adding Legend to the Chart -->
                                     <chart:SfChart.Legend>
-                                        <chart:ChartLegend FontSize="18" />
+                                        <chart:ChartLegend FontSize="28" />
                                     </chart:SfChart.Legend>
 
                                     <!-- Adding Pie Series to the WPF Chart -->
@@ -339,7 +299,7 @@ Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
            FontSize="30" LabelPosition="OutsideExtended" ShowTooltip="True" 
            Palette="Pineapple" Margin="5,0,5,0">
                                         <chart:PieSeries.AdornmentsInfo>
-                                            <chart:ChartAdornmentInfo ShowLabel="True" ShowConnectorLine="True" LabelPosition="Outer"/>
+                                            <chart:ChartAdornmentInfo ShowLabel="True" ShowConnectorLine="True" LabelPosition="Outer" FontSize="24"/>
                                         </chart:PieSeries.AdornmentsInfo>
                                     </chart:PieSeries>
                                 </chart:SfChart>
@@ -347,14 +307,23 @@ Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
 
                             </StackPanel>
 
-                            <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname" HorizontalAlignment="Left" Margin="-295,49,0,0" VerticalAlignment="Top" Width="237" Height="37" SelectionChanged="sname_SelectionChanged" Loaded="sname_Loaded" KeyUp="sname_KeyUp" BorderBrush="{x:Null}" FontSize="22"/>
-                            <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname_Copy" HorizontalAlignment="Left" Margin="-295,119,0,0" VerticalAlignment="Top" Width="237" Height="36" SelectionChanged="sname_SelectionChanged1" Loaded="sname_Loaded1" KeyUp="sname_KeyUp1" BorderBrush="{x:Null}" FontSize="22"/>
-                            <syncfusion:DateTimeEdit x:Name="date" DateTime="1/1/2024" HorizontalAlignment="Left" Height="38" Margin="-295,214,0,0" TextWrapping="Wrap" Text="DateTimeEdit" VerticalAlignment="Top" Width="236" BorderBrush="#FFABABAB" Background="White" FocusedBorderBrush="#FF6DD19C" SelectionBrush="#FF54946C" FontSize="18" SelectionChanged="DateTimeEdit_SelectionChanged"/>
-                            <Label Content="Search Filter" HorizontalAlignment="Left" Margin="-263,-24,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="44" Width="56"/>
-                            <Label Content="From" HorizontalAlignment="Left" Margin="-263,91,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="56" Width="78"/>
-                            <Label Content="Too" HorizontalAlignment="Left" Margin="-295,174,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="78" Width="142"/>
-                            <Label Content="Date" HorizontalAlignment="Left" Margin="-313,286,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="40" Width="160"/>
-
+                            <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname" HorizontalAlignment="Left" Margin="-313,101,0,0" VerticalAlignment="Top" Width="237" Height="37" SelectionChanged="sname_SelectionChanged" Loaded="sname_Loaded" KeyUp="sname_KeyUp" BorderBrush="#FF1C7F78" FontSize="22"/>
+                            <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="True"   x:Name="sname_Copy" HorizontalAlignment="Left" Margin="-313,0,0,0" VerticalAlignment="Center" Width="237" Height="36" SelectionChanged="sname_SelectionChanged1" Loaded="sname_Loaded1" KeyUp="sname_KeyUp1" BorderBrush="#FF1C7F78" FontSize="22"/>
+                            <DatePicker x:Name="date" Margin="-313,273,839,105" FontSize="18" SelectedDateChanged="DateTimeEdit_SelectionChanged"/>
+                            <Label Content="Search Filter" HorizontalAlignment="Left" Margin="-272,7,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Cambria Math" Height="44" Width="154" FontWeight="Bold"/>
+                            <Label Content="From" HorizontalAlignment="Left" Margin="-313,70,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="31" Width="78"/>
+                            <Label Content="Too" HorizontalAlignment="Left" Margin="-313,159,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="30" Width="142"/>
+                            <Label Content="Date" HorizontalAlignment="Left" Margin="-313,243,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Cambria Math" Height="30" Width="71"/>
+                            <TextBox IsReadOnly="False" x:Name="searchBox1" Padding="5,8,0,0" BorderThickness="2,2,2,2" Text="🔍  Type to search "  Margin="-348,409,429,-44" BorderBrush="#FFBFBFBF" Background="White" FontSize="18" TextChanged="searchBox_TextChanged" GotFocus="searchBox1_GotFocus" LostFocus="searchBox1_LostFocus" >
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </TextBox.Resources>
+                                <TextBox.Foreground>
+                                    <SolidColorBrush Color="#FFB7B7B7" Opacity="1"/>
+                                </TextBox.Foreground>
+                            </TextBox>
                         </Grid>
                     </Border>
                 </Border>

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -79,7 +80,7 @@ namespace OxSystem
         public accountentdashboard()
         {
             InitializeComponent();
-            
+
         }
 
         private void SwitchButton_Checked(object sender, RoutedEventArgs e)
@@ -100,14 +101,76 @@ namespace OxSystem
         {
         }
 
+
         private void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
+            // Clear existing items in DataGrid_Copy
+            DataGrid_Copy.ItemsSource = null;
 
+            // Check if any cells are selected
+            if (e.AddedCells.Count > 0)
+            {
+                // Assuming that the 'bid' column is the first column (0 index)
+                // You may need to adjust the index based on your actual DataGrid setup
+                if (e.AddedCells[0].Item is DataRowView selectedRow)
+                {
+                    // Retrieve the bid value from the selected row
+                    int billId = Convert.ToInt32(selectedRow["billId"]); // Adjust the column name as needed
+
+                    // Build your SQL query using the retrieved billId
+                    string query = $@"
+                SELECT DISTINCT m.mid, m.mname, m.bprice, m.sprice, h.quantity
+                FROM bills b
+                JOIN medicinfo m ON b.billId = m.billId
+                JOIN medichistory h ON b.billId = h.billId AND m.mid = h.mid
+                WHERE b.billId = {billId} AND b.type = '"+type+"';";
+
+                    // Fetch data using your existing getData method
+                    DataSet ds = conn.getData(query);
+
+                    // Check if the DataSet has any tables and rows
+                    if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    {
+                        // Convert the DataTable to a list of MedicInfo objects
+                        List<MedicInfo> medicData = new List<MedicInfo>();
+                        foreach (DataRow row in ds.Tables[0].Rows)
+                        {
+                            medicData.Add(new MedicInfo
+                            {
+                                Mid = Convert.ToInt32(row["mid"]),
+                                Mname = row["mname"].ToString(),
+                                Bprice = Convert.ToDecimal(row["bprice"]),
+                                Sprice = Convert.ToDecimal(row["sprice"]),
+                                Quantity = Convert.ToInt32(row["quantity"])
+                            });
+                        }
+
+                        // Set the ItemsSource for DataGrid_Copy
+                        DataGrid_Copy.ItemsSource = medicData;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No data found for the selected bill.", "No Data", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+        }
+
+
+
+
+        public class MedicInfo
+        {
+            public int Mid { get; set; }
+            public string Mname { get; set; }
+            public decimal Bprice { get; set; }
+            public decimal Sprice { get; set; }
+            public int Quantity { get; set; }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
 
             try
             {
@@ -127,7 +190,7 @@ namespace OxSystem
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
             }
-           
+
 
             // Query to get admin users, excluding the logged-in user
             query = $"SELECT id, fullname FROM users_info WHERE  id <> '{CurrentUserId}'";
@@ -196,7 +259,7 @@ namespace OxSystem
                     Width = 400
                 };
 
-            
+
             }
 
             // Start the glow animation
@@ -254,7 +317,7 @@ namespace OxSystem
         public List<string> GetFromNames()
         {
             List<string> storageNames = new List<string>();
-            string query = "select from_ from bills";
+            string query = "SELECT DISTINCT from_\r\nFROM bills;\r\n";
 
             // Assuming you have a method in your connection class to get data
             DataSet ds = conn.getData(query);
@@ -272,7 +335,7 @@ namespace OxSystem
         public List<string> GetTooNames()
         {
             List<string> storageNames = new List<string>();
-            string query = "select too_ from bills";
+            string query = "SELECT DISTINCT too_\r\nFROM bills;\r\n";
 
             // Assuming you have a method in your connection class to get data
             DataSet ds = conn.getData(query);
@@ -296,7 +359,7 @@ namespace OxSystem
 
                 try
                 {
-                    query = "select * from bills where from_ like '" + f_ + "' AND too_ like'" + t_ + "'";
+                    query = "select * from bills where type = '"+type+"' and from_ like '" + f_ + "' AND too_ like'" + t_ + "'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -319,7 +382,7 @@ namespace OxSystem
             }
         }
 
-       
+
 
         private void sname_KeyUp1(object sender, KeyEventArgs e)
         {
@@ -351,7 +414,7 @@ namespace OxSystem
                 t_ = sname_Copy.SelectedItem.ToString();
                 try
                 {
-                    query = "select * from bills where from_ like '" + f_ + "' AND too_ like'" + t_ + "'";
+                    query = "select * from bills where type = '"+type+"' and from_ like '" + f_ + "' AND too_ like'" + t_ + "'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -374,44 +437,7 @@ namespace OxSystem
             }
         }
 
-        private void DateTimeEdit_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            DateTime? selectedDateNullable = date.DateTime;
-
-            if (selectedDateNullable.HasValue)
-            {
-                // If the selected date is not null, use its value
-                _selectedDate = selectedDateNullable.Value;
-
-                // Convert the DateTime to a string if needed
-                dateString = _selectedDate.ToString("yyyy-MM-dd");
-
-
-            }
-            else
-            {
-
-            }
-
-            try
-            {
-                query = "select * from bills where from_ like '" + f_ + "' AND too_ like'" + t_ + "' AND bdate like '" + dateString + "'";
-                ds = conn.getData(query);
-
-                if (ds != null && ds.Tables.Count > 0)
-                {
-                    DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
-                }
-                else
-                {
-                    MessageBox.Show("No data found or an error occurred.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred: {ex.Message}");
-            }
-        }
+        
         private DateTime GetEndOfWeekDate(string datehistroy)
         {
             DateTime selectedDate;
@@ -434,17 +460,7 @@ namespace OxSystem
 
 
 
-            if (date != null)
-            {
-                fOne.Content = datehistroy;
-                fMonth.Content = datehistroy;
-                fWeek.Content = datehistroy;
-                fYear.Content = datehistroy;
-                tOne.Content = datehistroy;
-                tWeek.Content = GetEndOfWeekDate(datehistroy).ToString("yyyy-MM-dd");
-                tMonth.Content = DateTime.Now.Date.ToString("yyyy-MM-dd");
-                tYear.Content = DateTime.Now.Date.ToString("yyyy-MM-dd");
-            }
+          
 
             Console.WriteLine(_daysDifference);
 
@@ -475,11 +491,7 @@ namespace OxSystem
                 {
                     totalPricesString = "N/A";
                 }
-                else
-                {
-                    aOne.Content = totalPricesString;
-                    fOne.Content = DateTime.Now.Date.ToString("yyyy-MM-dd");
-                }
+             
             }
             else
             {
@@ -509,43 +521,7 @@ namespace OxSystem
                 {
                     concatenatedPrices = "N/A";
                 }
-                else
-                {
-                    query = "SELECT Price FROM bills WHERE bdate LIKE '" + datehistroy + "' AND type LIKE '" + type1 + "'";
-                    ds = conn.getData(query);
-                    decimal totalPrices_ = 0;
-
-                    if (ds != null && ds.Tables.Count > 0)
-                    {
-                        DataTable dt = ds.Tables[0];
-
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            if (decimal.TryParse(row["Price"].ToString(), out decimal price))
-                            {
-                                totalPrices_ += price;
-                            }
-                        }
-                    }
-
-                    string totalPricesString = totalPrices_.ToString("0.00");
-
-                    if (totalPrices_ == 0)
-                    {
-                        totalPricesString = "N/A";
-                    }
-                    else
-                    {
-                        aOne.Content = totalPricesString;
-                        fOne.Content = datehistroy;
-                    }
-                }
-
-                if (aWeek != null)
-                {
-                    aWeek.Content = concatenatedPrices;
-                    fWeek.Content = datehistroy;
-                }
+             
             }
 
 
@@ -556,99 +532,11 @@ namespace OxSystem
 
             if (_daysDifference > 0)
             {
-                // Reset labels if the selected date is in a different month or year
-                if (fMonth != null && (selectedDate < startOfMonth || selectedDate > endOfMonth))
-                {
-                    fMonth.Content = "N/A";
-                    aMonth.Content = "N/A";
-                }
-                else
-                {
-                    // Calculate monthly total
-                    query = "SELECT Price FROM bills WHERE bdate BETWEEN '" + startOfMonth.ToString("yyyy-MM-dd") + "' AND '" + endOfMonth.ToString("yyyy-MM-dd") + "' AND type LIKE '" + type1 + "'";
-                    ds = conn.getData(query);
-                    decimal totalMonthPrices = 0;
-
-                    if (ds != null && ds.Tables.Count > 0)
-                    {
-                        DataTable dt = ds.Tables[0];
-
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            if (decimal.TryParse(row["Price"].ToString(), out decimal price))
-                            {
-                                totalMonthPrices += price;
-                            }
-                        }
-                    }
-
-                    string totalMonthPricesString = totalMonthPrices.ToString("0.00");
-
-                    if (totalMonthPrices == 0)
-                    {
-                        totalMonthPricesString = "N/A";
-                    }
-                    else
-                    {
-                        aMonth.Content = totalMonthPricesString;
-                        fMonth.Content = datehistroy;
-                    }
-                }
-
-                // Calculate yearly total
-                DateTime startOfYear = new DateTime(selectedDate.Year, 1, 1);
-                DateTime endOfYear = new DateTime(selectedDate.Year, 12, 31);
-
-                if (selectedDate < startOfYear || selectedDate > endOfYear)
-                {
-                    fYear.Content = "N/A";
-                    aYear.Content = "N/A";
-                }
-                else
-                {
-                    query = "SELECT Price FROM bills WHERE bdate BETWEEN '" + startOfYear.ToString("yyyy-MM-dd") + "' AND '" + endOfYear.ToString("yyyy-MM-dd") + "' AND type LIKE '" + type1 + "'";
-                    ds = conn.getData(query);
-                    decimal totalYearPrices = 0;
-
-                    if (ds != null && ds.Tables.Count > 0)
-                    {
-                        DataTable dt = ds.Tables[0];
-
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            if (decimal.TryParse(row["Price"].ToString(), out decimal price))
-                            {
-                                totalYearPrices += price;
-                            }
-                        }
-                    }
-
-                    string totalYearPricesString = totalYearPrices.ToString("0.00");
-
-                    if (totalYearPrices == 0)
-                    {
-                        totalYearPricesString = "N/A";
-                    }
-                    else
-                    {
-                        aYear.Content = totalYearPricesString;
-                        fYear.Content = datehistroy;
-                    }
-                }
             }
         }
 
         private void resetlabel()
         {
-            if (fOne != null)
-            {
-
-
-                aOne.Content = "N/A";
-                aWeek.Content = "N/A";
-                aMonth.Content = "N/A";
-                aYear.Content = "N/A";
-            }
         }
 
 
@@ -660,16 +548,11 @@ namespace OxSystem
 
         private void SwitchButton_Unchecked1(object sender, RoutedEventArgs e)
         {
-            histroy.Content = "Sell Bill";
-            type1 = "sell";
-            Border_Loaded(sender, e);
+           
         }
 
         private void SwitchButton_Checked1(object sender, RoutedEventArgs e)
         {
-            histroy.Content = "Buy Bill";
-            type1 = "buy";
-            Border_Loaded(sender, e);
         }
 
         private int _daysDifference;
@@ -677,27 +560,8 @@ namespace OxSystem
 
         public void DateTimeEdit_SelectionChanged_1(object sender, RoutedEventArgs e)
         {
-            DateTime? selectedDateNullable = history.DateTime;
+            
 
-            if (selectedDateNullable.HasValue)
-            {
-
-                _selectedDate = selectedDateNullable.Value;
-
-
-                datehistroy = _selectedDate.ToString("yyyy-MM-dd");
-
-
-                DateTime nowDate = DateTime.Now.Date;
-                _daysDifference = (nowDate - _selectedDate).Days;
-
-
-
-            }
-            else
-            {
-                MessageBox.Show("The selected date is null.");
-            }
 
             Border_Loaded(sender, e);
         }
@@ -775,9 +639,27 @@ namespace OxSystem
 
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
+           
+        }
+
+        private void mybutton_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+
+        private void admindash_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private async void Label_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Task.Delay(400);
             try
             {
-                query = "select * from bills";
+                query = "select * from bills where type like 'sell'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -795,26 +677,113 @@ namespace OxSystem
             }
         }
 
-        private void mybutton_LostFocus(object sender, RoutedEventArgs e)
+        private void date_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-
-
-        private void admindash_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void DateTimeEdit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            DateTime? selectedDateNullable = date.SelectedDate;
 
+            if (selectedDateNullable.HasValue)
+            {
+                // If the selected date is not null, use its value
+                _selectedDate = selectedDateNullable.Value;
+
+                // Convert the DateTime to a string if needed
+                dateString = _selectedDate.ToString("yyyy-MM-dd");
+
+
+            }
+            else
+            {
+
+            }
+
+            try
+            {
+                query = "select * from bills where type = '"+type+"' and from_ like '" + f_ + "' AND too_ like'" + t_ + "' AND bdate like '" + dateString + "'";
+                ds = conn.getData(query);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
+                }
+                else
+                {
+                    MessageBox.Show("No data found or an error occurred.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
         }
 
+        private void searchBox1_GotFocus(object sender, RoutedEventArgs e)
+        {
 
-        
+            if (searchBox1.Text == "🔍  Type to search ")
+            {
+                searchBox1.Text = "";
+                searchBox1.Foreground = new SolidColorBrush(Colors.Black);
+            }
+            else if (searchBox1.Text == "")
+            {
+                searchBox1.Text = "";
+                searchBox1.Foreground = new SolidColorBrush(Colors.Black);
+            }
+        }
 
-        
+        private void searchBox1_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (searchBox1.Text == "")
+            {
+                searchBox1.Text = "🔍  Type to search ";
+                searchBox1.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB7B7B7"));
+            }
+        }
+
+        private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (searchBox1.Text == "" || searchBox1.Text == "🔍  Type to search ")
+            {
+                query = "select * from bills where type like '"+type+"'";
+                ds = conn.getData(query);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
+                }
+                else
+                {
+                    MessageBox.Show("No data found or an error occurred.");
+                }
+            }
+            else
+            {
+                query = "select * from bills where type like '"+type+"' and from_ like '"+searchBox1.Text+"'";
+                ds = conn.getData(query);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
+                }
+                else
+                {
+                    MessageBox.Show("No data found or an error occurred.");
+                }
+            }
+        }
     }
 
-    
 
 
-   
+
+
 }
+
+
+
+
