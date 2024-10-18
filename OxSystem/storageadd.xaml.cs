@@ -782,6 +782,7 @@ FROM storageinfo;
 
         private async void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            UserControl_Loaded(sender, e);
             
         }
 

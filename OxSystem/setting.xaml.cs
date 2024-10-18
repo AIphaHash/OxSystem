@@ -42,7 +42,7 @@ namespace OxSystem
 
         private async void Label_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            await Task.Delay(200);
+            
             if (sender is Label label && label.Tag is string tag)
             {
                 // Hide all grids initially (fade out)
@@ -273,7 +273,7 @@ namespace OxSystem
             Storyboard.SetTargetName(fadeOutStoryboard.Children[0], "mainsetting");
             fadeOutStoryboard.Begin(this);
 
-            await Task.Delay(1100);
+            
 
             // Remove the animation
             mainsetting.BeginAnimation(UIElement.OpacityProperty, null);
@@ -343,12 +343,12 @@ namespace OxSystem
             editaccount.full.Text = ds.Tables[0].Rows[0][8].ToString();
             editaccount.role.Text = ds.Tables[0].Rows[0][2].ToString();
 
-            await Task.Delay(1000);
+           
             editaccount.editborder.Visibility = Visibility.Collapsed;
             editaccount.Visibility = Visibility.Visible;
             Storyboard fadeInStoryboard = (Storyboard)editaccount.FindResource("FadeInStoryboard");
             fadeInStoryboard.Begin();
-            await Task.Delay(300);
+          
             editaccount.editborder.Visibility = Visibility.Visible;
             Storyboard moveInStoryboard = (Storyboard)editaccount.FindResource("MoveDownStoryboard");
             moveInStoryboard.Begin();

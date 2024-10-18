@@ -194,9 +194,7 @@ namespace OxSystem
             var image1 = new BitmapImage(new Uri("pack://application:,,,/images/wired-outline-1414-circle-hover-pinch (1).gif"));
             ImageBehavior.SetAnimatedSource(avatar, image1);
             ImageBehavior.SetRepeatBehavior(avatar, System.Windows.Media.Animation.RepeatBehavior.Forever);
-            var image7 = new BitmapImage(new Uri("pack://application:,,,/images/system-regular-18-autorenew-hover-autorenew (2).gif"));
-            ImageBehavior.SetAnimatedSource(back, image7);
-            ImageBehavior.SetRepeatBehavior(back, System.Windows.Media.Animation.RepeatBehavior.Forever);
+           
         }
         private void Label_Loaded(object sender, RoutedEventArgs e)
         {

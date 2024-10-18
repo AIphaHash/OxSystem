@@ -132,6 +132,7 @@ ORDER BY upseen_count ASC;";
 
         private void header_Loaded(object sender, RoutedEventArgs e)
         {
+            starg();
             query = " select top 1 id from users_info";
             ds = conn.getData(query);
 
@@ -794,6 +795,18 @@ ORDER BY upseen_count ASC;";
             {
                 salaryamount.Text = "Salary Amount";
             }
+        }
+
+        private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            header_Loaded(sender, e);
+        }
+        private void starg()
+        {
+            var image5 = new BitmapImage(new Uri("pack://application:,,,/images/system-regular-18-autorenew-hover-autorenew (2).gif"));
+            ImageBehavior.SetAnimatedSource(back, image5);
+            ImageBehavior.SetRepeatBehavior(back, System.Windows.Media.Animation.RepeatBehavior.Forever);
+
         }
     }
 

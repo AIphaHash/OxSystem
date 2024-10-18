@@ -193,7 +193,7 @@ namespace OxSystem.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("$")]
         public string chart_currency {
             get {
                 return ((string)(this["chart_currency"]));
@@ -205,7 +205,7 @@ namespace OxSystem.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("$")]
         public string check_currency {
             get {
                 return ((string)(this["check_currency"]));
@@ -241,7 +241,7 @@ namespace OxSystem.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1300")]
         public decimal currency {
             get {
                 return ((decimal)(this["currency"]));

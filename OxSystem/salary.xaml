@@ -23,7 +23,7 @@
 
             <Border x:Name="Selectedaccount" CornerRadius="0" Background="#FFF1F1F1" Margin="0,510,2149,0" BorderBrush="#FFA5A5A5" BorderThickness="2,2,2,2">
                 <Grid>
-                    
+
                 </Grid>
             </Border>
             <Border x:Name="username" Background="#FFF1F1F1" Margin="0,87,2149,930" BorderBrush="#FF969696" BorderThickness="2,0,2,0">
@@ -174,7 +174,7 @@
             <Border x:Name="salaryadd" CornerRadius="0" Background="#FFF9F9F9" Margin="1828,705,0,0">
                 <Grid>
                     <Label Content="Add Salary" FontSize="30" FontWeight="Bold" Margin="41,20,525,648"></Label>
-                   
+
                     <DataGrid IsReadOnly="True" x:Name="DataGrid1"
           AutoGenerateColumns="False" 
           CanUserAddRows="False" 
@@ -264,11 +264,60 @@
 
 
             <Border Background="White" Margin="0,0,0,1350" BorderBrush="#FF1D8676" BorderThickness="0,0,0,10" Height="90">
-                <Label Content="Dashboard - Accountent -" HorizontalAlignment="Left" Margin="70,19,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Cambria Math"/>
+                <Label Content="Salary - Hours -" HorizontalAlignment="Left" Margin="70,19,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Cambria Math"/>
 
             </Border>
             <Border x:Name="notApproved" Background="#FF6D2323" HorizontalAlignment="Right" Margin="0,352,856,1072" Height="15" Width="1200"/>
             <Border x:Name="approved" Background="#FF39A296" HorizontalAlignment="Left" Margin="504,352,0,1072" Height="15" Width="0"/>
+            <Image x:Name="back"
+
+                RenderTransformOrigin="0.527,0.502"
+                Margin="370,4,0,1360"
+                Cursor="Hand"
+                MouseLeftButtonDown="back_MouseLeftButtonDown"
+                HorizontalAlignment="Left"
+                Width="92">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="scaleTransform"/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="359.992"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.6"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="359.992"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="359.992"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
 
 
         </Grid>

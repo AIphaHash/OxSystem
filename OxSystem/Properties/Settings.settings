@@ -45,10 +45,10 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="chart_currency" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">$</Value>
     </Setting>
     <Setting Name="check_currency" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">$</Value>
     </Setting>
     <Setting Name="setting_visible" Type="System.String" Scope="User">
       <Value Profile="(Default)">1</Value>
@@ -57,7 +57,7 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="currency" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">1300</Value>
     </Setting>
   </Settings>
 </SettingsFile>

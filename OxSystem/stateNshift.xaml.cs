@@ -471,7 +471,8 @@ namespace OxSystem
 
         private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            shifts_Loaded(sender,e);
+            
         }
 
         private void Button_Clicks(object sender, RoutedEventArgs e)
@@ -486,7 +487,7 @@ namespace OxSystem
 
         private void Border_Loaded(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -503,6 +504,7 @@ namespace OxSystem
 
         private void shifts_Loaded(object sender, RoutedEventArgs e)
         {
+            startgi();
             query = "SELECT DISTINCT user_name FROM users_info";
             ds = conn.getData(query);
             PopulateDropdownWithCheckBoxes();
@@ -927,6 +929,12 @@ namespace OxSystem
             }
         }
 
+        private void startgi()
+        {
+            var image5 = new BitmapImage(new Uri("pack://application:,,,/images/system-regular-18-autorenew-hover-autorenew (2).gif"));
+            ImageBehavior.SetAnimatedSource(back, image5);
+            ImageBehavior.SetRepeatBehavior(back, System.Windows.Media.Animation.RepeatBehavior.Forever);
 
+        }
     }
 }

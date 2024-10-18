@@ -644,7 +644,10 @@ namespace OxSystem
 
         private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            DataGrid_Loaded(sender, e);
+            Border_Loaded(sender, e);
+            UserControl_Loaded(sender, e);
+           
         }
     }
 }

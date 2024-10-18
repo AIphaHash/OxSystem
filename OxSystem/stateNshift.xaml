@@ -398,6 +398,55 @@ StaysOpen="False">
                     <Label Content="Employees                       ⏩" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="20" FontWeight="Bold" Foreground="#FF4C4C4C" BorderThickness="1,1,1,1"  />
                 </Grid>
             </Border>
+            <Image x:Name="back"
+
+                RenderTransformOrigin="0.527,0.502"
+                Margin="2344,81,0,1276"
+                Cursor="Hand"
+                MouseLeftButtonDown="back_MouseLeftButtonDown"
+                HorizontalAlignment="Left"
+                Width="81">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="scaleTransform"/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="359.992"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.6"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="359.992"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="359.992"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
 
         </Grid>
 

@@ -47,7 +47,7 @@
                     Background="White" 
                     BorderBrush="White" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
 
-                    
+
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID"
@@ -162,7 +162,7 @@ BorderBrush="White"
                 
 Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
 
-                        
+
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID"
@@ -329,9 +329,58 @@ Margin="0,60,0,80" BorderThickness="0,0,0,0" Loaded="DataGrid_Loaded">
                 </Border>
             </Grid>
             <Border Background="White" Margin="0,0,0,1350" BorderBrush="#FF1D8676" BorderThickness="0,0,0,10" Height="90">
-                <Label Content="Dashboard - Accountent -" HorizontalAlignment="Left" Margin="70,19,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Cambria Math"/>
+                <Label Content="Bills - Accountent -" HorizontalAlignment="Left" Margin="70,19,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Cambria Math"/>
 
             </Border>
+            <Image x:Name="back"
+
+                RenderTransformOrigin="0.527,0.502"
+                Margin="400,3,0,1364"
+                Cursor="Hand"
+                MouseLeftButtonDown="back_MouseLeftButtonDown"
+                HorizontalAlignment="Left"
+                Width="88">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="scaleTransform"/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="359.992"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.6"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="359.992"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="359.992"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
 
 
         </Grid>

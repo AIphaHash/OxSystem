@@ -94,13 +94,9 @@ xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
                            MouseDown="Label_MouseDown" Tag="Charts"/>
                         <Label Content="Currency" Style="{StaticResource HoverableLabelStyle}" Margin="59,204,0,0"
                            MouseDown="Label_MouseDown" Tag="Currency"/>
-                        <Label Content="Shortcuts" Style="{StaticResource HoverableLabelStyle}" Margin="59,234,0,0"
-                           MouseDown="Label_MouseDown" Tag="Shortcuts"/>
-                        <Label Content="Notifications" Style="{StaticResource HoverableLabelStyle}" Margin="59,264,0,0"
+                        <Label Content="Notifications" Style="{StaticResource HoverableLabelStyle}" Margin="59,234,0,0"
                            MouseDown="Label_MouseDown" Tag="Notifications"/>
-                        <Label Content="Chat" Style="{StaticResource HoverableLabelStyle}" Margin="59,294,0,0"
-                           MouseDown="Label_MouseDown" Tag="Chat"/>
-                        <Label Content="Account" Style="{StaticResource HoverableLabelStyle}" Margin="59,0,0,0" VerticalAlignment="Center"
+                        <Label Content="Account" Style="{StaticResource HoverableLabelStyle}" Margin="59,264,0,0"
                            MouseDown="Label_MouseDown" Tag="Personal"/>
                     </Grid>
                 </Border>
@@ -151,7 +147,7 @@ xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
                                 </TransformGroup>
                             </Border.RenderTransform>
                         </Border>
-                        <Button Content="Reset" Margin="569,5,123,491" Background="White">
+                        <Button Content="Reset" Margin="569,5,123,490" Background="White" Foreground="Black" BorderBrush="#FF9E9E9E">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="{TemplateBinding Background}" 
@@ -224,7 +220,7 @@ Checked="SwitchButton_Checked11" Unchecked="SwitchButton_Unchecked11">
                                 </Style>
                             </ToggleButton.Style>
                         </ToggleButton>
-                        <Button Content="Reset" Margin="569,5,123,491" Background="White">
+                        <Button Content="Reset" Margin="569,5,123,490" Background="White" Foreground="Black" BorderBrush="#FF9E9E9E">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="{TemplateBinding Background}" 
@@ -307,15 +303,18 @@ CornerRadius="5">
                                 </TransformGroup>
                             </TextBox.RenderTransform>
                         </TextBox>
-                        <Button Content="Reset" x:Name="setcurrecny" Margin="691,157,18,342" Click="Button_Clic" RenderTransformOrigin="0.5,0.5" >
-                            <Button.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleX="1"/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Button.RenderTransform>
+                        <Button Content="Reset" Margin="569,5,123,490" Background="White" Foreground="Black" BorderBrush="#FF9E9E9E">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+BorderBrush="{TemplateBinding BorderBrush}" 
+BorderThickness="{TemplateBinding BorderThickness}" 
+CornerRadius="5">
+                                        <!-- Set the CornerRadius here -->
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
                         </Button>
 
                         <ToggleButton x:Name="SwitchButton_Copy" Width="60" Height="30"
@@ -384,7 +383,7 @@ Checked="SwitchButton_Checked1" Unchecked="SwitchButton_Unchecked1">
                     </Grid>
 
                     <Grid x:Name="NotificationsGrid" Visibility="Collapsed">
-                        <Button Content="Reset" Margin="569,5,123,491" Background="White">
+                        <Button Content="Reset" Margin="569,5,123,490" Background="White" Foreground="Black" BorderBrush="#FF9E9E9E">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="{TemplateBinding Background}" 
@@ -712,7 +711,7 @@ CornerRadius="5">
                     </Grid>
                 </Grid>
             </Grid>
-            <Button Margin="1420,156,432,785" Click="Button_Click"/>
+            <Button Content="Exit" Margin="1369,156,432,768" Click="Button_Click" BorderBrush="#FFB59292" Background="#FF884545" Foreground="White" FontSize="18"/>
 
             <Grid Width="1926" Height="1084">
                 <local:editaccounts4 x:Name="editaccount" Visibility="Collapsed"/>

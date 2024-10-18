@@ -10,15 +10,17 @@ namespace OxSystem
         string _connectionString = Login_.finaldbname;
 
 
-        /*protected SqlConnection getConnection()
+        protected SqlConnection getConnection()
         {
             SqlConnection con = new SqlConnection();
-            con.ConnectionString = "data source = DESKTOP-O3PSP7Q ; database = localpharmaflow ; integrated security = True";
+            // Modify connection string to include username and password
+            con.ConnectionString = "data source = 192.168.1.30,49170; database = final_proj_db; User ID = test1; Password = test1";
             return con;
-        }*/
+        }
 
 
-        protected SqlConnection getConnection()
+
+        /*protected SqlConnection getConnection()
         {
             string machineName = Environment.MachineName; // Get the machine name dynamically
             SqlConnection con = new SqlConnection();
@@ -34,23 +36,35 @@ namespace OxSystem
             }
             catch (SqlException ex)
             {
-                // Check if the exception is a timeout (error number -2 indicates a timeout)
-               
+                // First fallback attempt with SQLEXPRESS
+                string connectionStringWithSqlExpress = $"data source = {machineName}\\SQLEXPRESS; database = final_proj_db; integrated security = True; Connect Timeout=1";
+                con.ConnectionString = connectionStringWithSqlExpress;
 
-                    // Attempt with SQLEXPRESS
-                    string connectionStringWithSqlExpress = $"data source = {machineName}\\SQLEXPRESS; database = final_proj_db; integrated security = True; Connect Timeout=1";
-                    con.ConnectionString = connectionStringWithSqlExpress;
+                try
+                {
+                    con.Open(); // Try opening the connection again with SQLEXPRESS
+                    return con;
+                }
+                catch (SqlException ex2)
+                {
+                    // If the second attempt fails, check if the machine name is AMEERPC and try that specific instance
+                    if (machineName == "AMEERPC")
+                    {
+                        // Attempt with machine name AMEERPC\\SQLEXPRESS
+                        string connectionStringWithAmeerPC = $"data source = AMEERPC\\SQLEXPRESS; database = final_proj_db; integrated security = True; Connect Timeout=1";
+                        con.ConnectionString = connectionStringWithAmeerPC;
 
-                    try
-                    {
-                        con.Open(); // Try opening the connection again
-                        return con;
+                        try
+                        {
+                            con.Open(); // Try opening the connection with the AMEERPC\SQLEXPRESS
+                            return con;
+                        }
+                        catch (SqlException ex3)
+                        {
+                            // Handle failure of third attempt (optional logging or actions)
+                        }
                     }
-                    catch (SqlException ex2)
-                    {
-                        // Handle failure of second attempt
-                    }
-                
+                }
             }
             finally
             {
@@ -61,8 +75,9 @@ namespace OxSystem
                 }
             }
 
-            return null; // Return null if both attempts fail
-        }
+            return null; // Return null if all attempts fail
+        }*/
+
 
         // Azure string connection
         /*public SqlConnection getConnection()

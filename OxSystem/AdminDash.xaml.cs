@@ -456,6 +456,7 @@ namespace OxSystem
         }
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
+            
             string message = MessageInput.Text;
             string receiverId = selectedUserId;
 

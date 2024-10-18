@@ -23,6 +23,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using WpfAnimatedGif;
 
 namespace OxSystem
 {
@@ -171,7 +172,7 @@ namespace OxSystem
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-
+            starg();
             try
             {
                 query = "select * from bills where type ='" + type + "'";
@@ -775,6 +776,21 @@ namespace OxSystem
                     MessageBox.Show("No data found or an error occurred.");
                 }
             }
+        }
+
+        private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DataGrid_Loaded(sender, e);
+            Grid_Loaded(sender, e);
+            Border_Loaded(sender, e);
+            Window_Loaded(sender, e);
+        }
+        private void starg()
+        {
+            var image5 = new BitmapImage(new Uri("pack://application:,,,/images/system-regular-18-autorenew-hover-autorenew (2).gif"));
+            ImageBehavior.SetAnimatedSource(back, image5);
+            ImageBehavior.SetRepeatBehavior(back, System.Windows.Media.Animation.RepeatBehavior.Forever);
+
         }
     }
 
