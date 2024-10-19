@@ -91,13 +91,18 @@ namespace OxSystem
                 if (username == "root" && password_ == "root")
                 {
                     usernameExists = true;
-                   
-                    await Task.Delay(200);
+
+                    // Create and show AdminDash window
                     AdminDash ad = new AdminDash();
+
                     ad.Show();
+                    loading l = new loading();
+                    l.Show();
                     this.Close();
-                    fullName = "root";
+                    await Task.Delay(5000);
+                    l.Close();
                 }
+
                 else if ( username != "root" && password_ == "root" )
                 {
                     var storyboard = (Storyboard)this.FindResource("ShakeAndRedBorder");
@@ -175,8 +180,14 @@ namespace OxSystem
                             conn_.setData(query);
 
                             pharmacist p = new pharmacist();
+
                             p.Show();
+                            loading l = new loading();
+                            l.Show();
                             this.Close();
+                            await Task.Delay(5000);
+                            l.Close();
+
                         }
                         else if (role == "Accountent")
                         {
@@ -218,8 +229,14 @@ namespace OxSystem
                             conn_.setData(query);
 
                             Accountent ac = new Accountent();
+
                             ac.Show();
+                            loading l = new loading();
+                            l.Show();
                             this.Close();
+                            await Task.Delay(5000);
+                            l.Close();
+
                         }
                     }
 
@@ -336,13 +353,16 @@ namespace OxSystem
                             fullName = ds.Tables[0].Rows[0][0].ToString();
                             iduser = ds.Tables[0].Rows[0][1].ToString();
                             AdminDash ad = new AdminDash();
-                            loading l = new loading();
+
                             ad.Show();
+                            await Task.Delay(200);
+                            loading l = new loading();
+                            l.Show();
                             this.Close();
-                            /* l.Show();
-                             await Task.Delay(4000);
-                             l.Close();*/
-                            // Console.WriteLine(fullName);
+                            await Task.Delay(5000);
+                            l.Close();
+
+
                         }
                         else if (role == "Pharm")
                         {
@@ -378,10 +398,16 @@ namespace OxSystem
                             }
                             query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in' ,'" + Properties.Settings.Default.dbid + "')";
                             conn_.setData(query);
-                            
+
                             pharmacist p = new pharmacist();
                             p.Show();
+
+                            loading l = new loading();
+                            l.Show();
                             this.Close();
+                            await Task.Delay(5000);
+                            l.Close();
+
                         }
                         else if (role == "Accountent")
                         {
@@ -425,7 +451,12 @@ namespace OxSystem
                             iduser = ds.Tables[0].Rows[0][1].ToString();
                             Accountent ac = new Accountent();
                             ac.Show();
+                            loading l = new loading();
+                            l.Show();
                             this.Close();
+                            await Task.Delay(5000);
+                            l.Close();
+                           
                         }
                     }
                 }

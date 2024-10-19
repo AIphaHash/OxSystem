@@ -700,18 +700,28 @@ namespace OxSystem
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            
             pharmacist p = new pharmacist();
             p.Show();
+            loading l = new loading();
+            l.Show();
+            this.Close();
+            await Task.Delay(5000);
+            l.Close();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            
             Accountent a = new Accountent();
             a.Show();
+            loading l = new loading();
+            l.Show();
+            this.Close();
+            await Task.Delay(5000);
+            l.Close();
         }
         private async void Button_Clickr(object sender, RoutedEventArgs e)
         {

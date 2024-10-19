@@ -473,7 +473,7 @@ namespace OxSystem
         {
             name.Content = selectedUserName;
 
-            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + CurrentUserId + "' AND perms = 'allpermmisions'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + CurrentUserId + "' AND perms = 'allpermmisions' and role = 'Admin'";
             ds = conn.getData(query);
 
             if (ds.Tables[0].Rows.Count == 0)

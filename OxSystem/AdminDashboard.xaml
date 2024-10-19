@@ -727,15 +727,6 @@ RenderTransformOrigin="0.527,0.502" Margin="1655,134,200,881" Cursor="Hand"/>
                     </TransformGroup>
                 </Border.RenderTransform>
             </Border>
-
-            <Grid Margin="-13,49,-13,-21">
-                <local:report x:Name="report" Visibility="Collapsed"/>
-            </Grid>
-
-            <Grid x:Name="gsetting" Margin="-13,-6,-13,-21">
-
-                <local:setting x:Name="setting" Visibility="Collapsed"/>
-            </Grid>
             <Image x:Name="salesgif" 
 RenderTransformOrigin="0.527,0.502" Margin="530,129,1317,876" Cursor="Hand"/>
             <Border x:Name="border1_Copy" CornerRadius="100" Margin="438,684,1265,363" RenderTransformOrigin="0.5,0.5">
@@ -807,6 +798,15 @@ RenderTransformOrigin="0.527,0.502" Margin="530,129,1317,876" Cursor="Hand"/>
             <Image Source="images/flowblack.png" Margin="-8,183,1788,755"/>
             <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Pharmacy Flow" Margin="63,223,1627,784" FontSize="24" FontWeight="Bold"/>
 
+            <Grid Margin="-13,49,-13,-21">
+                <local:report x:Name="report" Visibility="Collapsed"/>
+            </Grid>
+
+            <Grid x:Name="gsetting" Margin="-13,-6,-13,-21">
+
+                <local:setting x:Name="setting" Visibility="Collapsed"/>
+            </Grid>
+            
         </Grid>
     </Viewbox>
 </UserControl>

@@ -284,7 +284,7 @@ GROUP BY si.sname;"
         public List<MedicInfo> GetMedicData()
         {
             List<MedicInfo> medicList = new List<MedicInfo>();
-            query = "SELECT mname, nummedic FROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'"; // Filter in SQL query
+            query = "SELECT top 20 mname, nummedic FROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'"; // Filter in SQL query
             ds = conn.getData(query); // Assume getData returns a DataSet
             dt = ds.Tables[0]; // Getting the first DataTable from DataSet
 
@@ -1167,7 +1167,7 @@ s.supname,
         public List<MedicInfo> GetTop10LowestMedics()
         {
             List<MedicInfo> medicList = new List<MedicInfo>();
-            string query = "SELECT mname, nummedic FROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and nummedic <=15 ORDER BY nummedic ASC";
+            string query = "SELECT top 10 mname, nummedic FROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and nummedic <=15 ORDER BY nummedic ASC";
             DataSet ds = conn.getData(query);
             DataTable dt = ds.Tables[0];
 
