@@ -68,7 +68,7 @@ namespace OxSystem
 
         public async void passData(string fc)
         {
-            query = "select * from medicinfo where mid = '" + fc + "'";
+            query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and mid = '" + fc + "'";
             ds = conn.getData(query);
             medicn = ds.Tables[0].Rows[0][1].ToString();
 
@@ -119,7 +119,7 @@ namespace OxSystem
         {
             try
             {
-                query = "select * from medicinfo WHERE exdate > GETDATE();";
+                query = "select * from medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and exdate > GETDATE();";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -164,7 +164,7 @@ namespace OxSystem
         {
             if (searchBox1.Text == "" || searchBox1.Text == "🔍  Type to search ")
             {
-                query = "select * from medicinfo";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
@@ -172,56 +172,56 @@ namespace OxSystem
 
             else if (comboBoxText == "ID")
             {
-                query = "select * from medicinfo where mid like '" + searchBox1.Text + "%'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and mid like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if (comboBoxText == "Medic Name")
             {
-                query = "select * from medicinfo where mname like '" + searchBox1.Text + "%'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and mname like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if (comboBoxText == "Buy Price")
             {
-                query = "select * from medicinfo where bprice like '" + searchBox1.Text + "%'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and bprice like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if (comboBoxText == "Sell Price")
             {
-                query = "select * from medicinfo where email like '" + searchBox1.Text + "%'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and email like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if (comboBoxText == "Expire Date")
             {
-                query = "select * from medicinfo where exdate like '" + searchBox1.Text + "%'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and exdate like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if (comboBoxText == "Manufacture Date")
             {
-                query = "select * from medicinfo where madate like '" + searchBox1.Text + "%'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and madate like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if (comboBoxText == "Medic Num")
             {
-                query = "select * from medicinfo where nummedic like '" + searchBox1.Text + "%'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and nummedic like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if (comboBoxText == "Storage Name")
             {
-                query = "select * from medicinfo where sname like '" + searchBox1.Text + "%'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and sname like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
@@ -232,7 +232,7 @@ namespace OxSystem
             else
             {
 
-                query = "select * from medicinfo where mname like '" + searchBox1.Text + "%'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and mname like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
@@ -380,7 +380,7 @@ namespace OxSystem
             {
                 // Create a query to delete all selected rows
                 var idsString = string.Join(",", selectedIds);
-                string query = $"DELETE FROM medicinfo WHERE mid IN ({idsString})";
+                string query = $"DELETE FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and mid IN ({idsString})";
 
                 conn.setData(query);
 
@@ -434,9 +434,7 @@ SELECT TOP 1
     sname,
     size
 FROM 
-    storageinfo
-ORDER BY 
-    size DESC;";
+    storageinfo where dbid = '"+Properties.Settings.Default.dbid+"' ORDER BY  size DESC;";
 
             ds = conn.getData(query);
 
@@ -464,11 +462,7 @@ SELECT TOP 1
     FROM_ AS SupplierName,
     COUNT(*) AS SupplyCount
 FROM 
-    bills
-GROUP BY 
-    FROM_
-ORDER BY 
-    SupplyCount DESC;";
+    bills where dbid = '"+Properties.Settings.Default.dbid+"' GROUP BY  FROM_ ORDER BY  SupplyCount DESC;";
 
             ds = conn.getData(query);
 
@@ -495,7 +489,7 @@ ORDER BY
 SELECT 
     ISNULL(SUM(nummedic), 0) AS TotalMedics
 FROM 
-    medicinfo;";
+    medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
 
             ds = conn.getData(query);
 
@@ -524,7 +518,7 @@ FROM
 SELECT 
     ISNULL(MAX(sprice), 0) AS MostExpensivePrice
 FROM 
-    medicinfo;";
+    medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
 
                 ds = conn.getData(query);
 
@@ -554,7 +548,7 @@ FROM
 SELECT 
     ISNULL(MAX(sprice), 0) AS MostExpensivePrice
 FROM 
-    medicinfo;";
+    medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
 
                 ds = conn.getData(query);
 
@@ -579,7 +573,7 @@ FROM
 
             try
             {
-                query = "select * from medicinfo";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)

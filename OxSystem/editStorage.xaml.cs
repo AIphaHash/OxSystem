@@ -60,7 +60,7 @@ namespace OxSystem
             
             if (sname.Text != "" && slocation.Text != "" && size.Text != "" && sname.Text != "Storage Name..." && slocation.Text != "Storage Location..." && size.Text != "9999" && sname.Text != "insert the Storage Name!" && slocation.Text != "insert the Storage Location!")
             {
-                query = " update storageinfo set  sname = '" + storagen + "' , slocation = '" + storagel + "' , size = '" + ssize + "'   where sname like '" + sname.Text + "' ";
+                query = " update storageinfo set  sname = '" + storagen + "' , slocation = '" + storagel + "' , size = '" + ssize + "'   where dbid = '"+Properties.Settings.Default.dbid+"' and sname like '" + sname.Text + "' ";
                 conn.setData(query);
 
                 Storyboard moveInStoryboard = (Storyboard)FindResource("MoveUpStoryboard");

@@ -74,7 +74,7 @@ namespace OxSystem
 
             try
             {
-                query = "select * from medicinfo where exdate <= '"+shortDateString1+"'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and exdate <= '"+shortDateString1+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -141,7 +141,7 @@ namespace OxSystem
                     DateTime futureDate2 = DateTime.Now.AddDays(int.Parse(Properties.Settings.Default.ex1));
                     string shortDateString2 = futureDate2.ToString("yyyy-MM-dd");
 
-                    query = "select * from medicinfo where exdate <=  '"+shortDateString2+"' AND mname like '" + bprice.Text + "%'";
+                    query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and exdate <=  '"+shortDateString2+"' AND mname like '" + bprice.Text + "%'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -158,7 +158,7 @@ namespace OxSystem
                     DateTime futureDate3 = DateTime.Now.AddDays(int.Parse(Properties.Settings.Default.ex2));
                     string shortDateString3 = futureDate3.ToString("yyyy-MM-dd");
 
-                    query = "select * from medicinfo where exdate <=  '" + shortDateString3 + "' AND mname like '" + bprice.Text + "%'"; 
+                    query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and exdate <=  '" + shortDateString3 + "' AND mname like '" + bprice.Text + "%'"; 
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -175,7 +175,7 @@ namespace OxSystem
                     DateTime futureDate4 = DateTime.Now.AddDays(int.Parse(Properties.Settings.Default.ex3));
                     string shortDateString4 = futureDate4.ToString("yyyy-MM-dd");
 
-                    query = "select * from medicinfo where exdate <=  '" + shortDateString4 + "' AND mname like '" + bprice.Text + "%'";
+                    query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and exdate <=  '" + shortDateString4 + "' AND mname like '" + bprice.Text + "%'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -193,7 +193,7 @@ namespace OxSystem
                     string shortDateString5 = futureDate5.ToString("yyyy-MM-dd");
 
 
-                    query = "select * from medicinfo where exdate <=  '" + shortDateString5 + "' AND mname like '" + bprice.Text + "%'";
+                    query = "select * from medicinfo where  dbid = '" + Properties.Settings.Default.dbid + "' and exdate <=  '" + shortDateString5 + "' AND mname like '" + bprice.Text + "%'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -220,7 +220,7 @@ namespace OxSystem
             {
                 // Create a query to delete all selected rows
                 var idsString = string.Join(",", selectedIds);
-                string query = $"DELETE FROM medicinfo WHERE mid IN ({idsString})";
+                string query = $"DELETE FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and mid IN ({idsString})";
 
                 conn.setData(query);
 
@@ -287,7 +287,7 @@ namespace OxSystem
                 string shortDateString5 = futureDate5.ToString("yyyy-MM-dd");
 
 
-                query = "select * from medicinfo where exdate <=  '" + shortDateString5 + "'";
+                query = "select * from medicinfo where  dbid = '" + Properties.Settings.Default.dbid + "' and exdate <=  '" + shortDateString5 + "'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -306,7 +306,7 @@ namespace OxSystem
                 DateTime futureDate4 = DateTime.Now.AddDays(int.Parse(Properties.Settings.Default.ex3));
                 string shortDateString4 = futureDate4.ToString("yyyy-MM-dd");
 
-                query = "select * from medicinfo where exdate <=  '" + shortDateString4 + "'";
+                query = "select * from medicinfo where  dbid = '" + Properties.Settings.Default.dbid + "' and exdate <=  '" + shortDateString4 + "'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -325,7 +325,7 @@ namespace OxSystem
                 DateTime futureDate3 = DateTime.Now.AddDays(int.Parse(Properties.Settings.Default.ex2));
                 string shortDateString3 = futureDate3.ToString("yyyy-MM-dd");
 
-                query = "select * from medicinfo where exdate <=  '" + shortDateString3 + "'";
+                query = "select * from medicinfo where  dbid = '" + Properties.Settings.Default.dbid + "' and exdate <=  '" + shortDateString3 + "'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -344,7 +344,7 @@ namespace OxSystem
                 DateTime futureDate2 = DateTime.Now.AddDays(int.Parse(Properties.Settings.Default.ex1));
                 string shortDateString2 = futureDate2.ToString("yyyy-MM-dd");
 
-                query = "select * from medicinfo where exdate <=  '" + shortDateString2 + "'";
+                query = "select * from medicinfo where  dbid = '" + Properties.Settings.Default.dbid + "' and exdate <=  '" + shortDateString2 + "'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -367,7 +367,7 @@ namespace OxSystem
             startgifanimation();
          
                
-                query = "select * from medicinfo";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)

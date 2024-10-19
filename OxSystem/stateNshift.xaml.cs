@@ -64,7 +64,7 @@ namespace OxSystem
             dayGrid.Children.Clear();
 
             // Query to get the full names and user IDs from the users_info table
-            string query = "SELECT fullname, id FROM users_info";
+            string query = "SELECT fullname, id FROM users_info where dbid = '"+Properties.Settings.Default.dbid+"'";
             DataSet userData = conn.getData(query);
 
             int numberOfUsers = userData.Tables[0].Rows.Count;
@@ -114,7 +114,7 @@ namespace OxSystem
 
             List<StateHistory> stateHistoryList = new List<StateHistory>();
 
-            query = $"SELECT userid, statedate, state FROM statehistroy WHERE MONTH(statedate) = {month} AND YEAR(statedate) = {year}";
+            query = $"SELECT userid, statedate, state FROM statehistroy WHERE dbid = '"+Properties.Settings.Default.dbid+"' and MONTH(statedate) = '"+month+"' AND YEAR(statedate) = '"+year+"'";
             DataSet ds = conn.getData(query);
 
             foreach (DataRow row in ds.Tables[0].Rows)
@@ -198,7 +198,7 @@ namespace OxSystem
             usergrid.Children.Clear();
 
             // Query to get the full names from the users_info table
-            string query = "SELECT fullname FROM users_info";
+            string query = "SELECT fullname FROM users_info where dbid = '"+Properties.Settings.Default.dbid+"'";
             DataSet userData = conn.getData(query);
 
             // Check if the DataSet contains any tables and rows
@@ -435,7 +435,7 @@ namespace OxSystem
     SELECT u.fullname, s.state, sh.shift_start, sh.shfit_end 
     FROM state s 
     JOIN users_info u ON s.userid = u.id 
-    JOIN shifts sh ON s.shiftid = sh.shid";
+    JOIN shifts sh ON s.shiftid = sh.shid where s.dbid = '"+Properties.Settings.Default.dbid+"'";
 
             DataSet ds = conn.getData(query);
 
@@ -505,10 +505,10 @@ namespace OxSystem
         private void shifts_Loaded(object sender, RoutedEventArgs e)
         {
             startgi();
-            query = "SELECT DISTINCT user_name FROM users_info";
+            query = "SELECT DISTINCT user_name FROM users_info where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
             PopulateDropdownWithCheckBoxes();
-            query = "select * from shifts";
+            query = "select * from shifts where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
             DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
         }
@@ -662,19 +662,19 @@ namespace OxSystem
             double totalHours = CalculateTotalHours(shiftStart, shiftEnd);
 
             // Insert into shifts table, including totalHours
-            query = "INSERT INTO shifts (shift_name, shift_start, shfit_end, shift_too , shift_date , shift_hours) " +
-                    $"VALUES ('{shname}', '{shiftStart}', '{shiftEnd}', '{selectedRole}', '{currentDate}', {totalHours})";
+            query = "INSERT INTO shifts (shift_name, shift_start, shfit_end, shift_too , shift_date , shift_hours , dbid) " +
+                    $"VALUES ('{shname}', '{shiftStart}', '{shiftEnd}', '{selectedRole}', '{currentDate}', {totalHours} ,'"+Properties.Settings.Default.dbid+"')";
             conn.setData(query);
 
             // Retrieve the last inserted shift ID
-            query = "SELECT TOP 1 shid FROM shifts ORDER BY shid DESC;";
+            query = "SELECT TOP 1 shid FROM shifts where dbid = '"+Properties.Settings.Default.dbid+"' ORDER BY shid DESC;";
             ds = conn.getData(query);
             int shiftId = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
 
             // Function to check if a record already exists in the state table
             bool IsStateEntryExists(int userId, int currentShiftId)
             {
-                query = "SELECT COUNT(*) FROM state WHERE userid = " + userId + " AND shiftid = " + currentShiftId;
+                query = "SELECT COUNT(*) FROM state WHERE dbid = '" + Properties.Settings.Default.dbid + "' and userid = '" + userId + "' AND shiftid = '" + currentShiftId + "';";
                 DataSet result = conn.getData(query);
                 return Convert.ToInt32(result.Tables[0].Rows[0][0]) > 0; // Return true if record exists
             }
@@ -683,7 +683,7 @@ namespace OxSystem
             if (checkedItems.Contains("All"))
             {
                 // Fetch all users from users_info
-                query = "SELECT id FROM users_info";
+                query = "SELECT id FROM users_info where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
 
                 // Insert into state table for each user
@@ -694,7 +694,7 @@ namespace OxSystem
                     // Check if the entry already exists before inserting
                     if (!IsStateEntryExists(userId, shiftId))
                     {
-                        query = "INSERT INTO state (userid, shiftid, state) VALUES (" + userId + ", " + shiftId + ", 'unseen')";
+                        query = "INSERT INTO state (userid, shiftid, state ,dbid) VALUES (" + userId + ", " + shiftId + ", 'unseen' ,'"+Properties.Settings.Default.dbid+"')";
                         conn.setData(query);
                     }
                 }
@@ -710,7 +710,7 @@ namespace OxSystem
                     if (checkedItems.Contains(role))
                     {
                         // Fetch users with the specified role from users_info
-                        query = "SELECT id FROM users_info WHERE role = '" + role + "'";
+                        query = "SELECT id FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and role = '" + role + "'";
                         ds = conn.getData(query);
 
                         // Insert into state table for each user with that role
@@ -721,7 +721,7 @@ namespace OxSystem
                             // Check if the entry already exists before inserting
                             if (!IsStateEntryExists(userId, shiftId))
                             {
-                                query = "INSERT INTO state (userid, shiftid, state) VALUES (" + userId + ", " + shiftId + ", 'unseen')";
+                                query = "INSERT INTO state (userid, shiftid, state , dbid) VALUES (" + userId + ", " + shiftId + ", 'unseen' ,'"+Properties.Settings.Default.dbid+"')";
                                 conn.setData(query);
                             }
                         }
@@ -735,7 +735,7 @@ namespace OxSystem
                     if (rolesToCheck.Contains(userName)) continue;
 
                     // Get user ID based on username
-                    query = "SELECT id FROM users_info WHERE user_name = '" + userName + "'";
+                    query = "SELECT id FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + userName + "'";
                     ds = conn.getData(query);
 
                     if (ds.Tables[0].Rows.Count > 0)
@@ -745,7 +745,7 @@ namespace OxSystem
                         // Check if the entry already exists before inserting
                         if (!IsStateEntryExists(userId, shiftId))
                         {
-                            query = "INSERT INTO state (userid, shiftid, state) VALUES (" + userId + ", " + shiftId + ", 'unseen')";
+                            query = "INSERT INTO state (userid, shiftid, state , dbid) VALUES (" + userId + ", " + shiftId + ", 'unseen' ,'" + Properties.Settings.Default.dbid + "')";
                             conn.setData(query);
                         }
                     }
@@ -812,7 +812,7 @@ namespace OxSystem
             usergrid2.Children.Clear();
 
             // Query to get the full names from the users_info table
-            string query = "SELECT fullname FROM users_info";
+            string query = "SELECT fullname FROM users_info where dbid = '"+Properties.Settings.Default.dbid+"'";
             DataSet userData = conn.getData(query);
 
             if (userData.Tables.Count > 0 && userData.Tables[0].Rows.Count > 0)

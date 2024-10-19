@@ -42,7 +42,7 @@ namespace OxSystem
         public Addacount()
         {
             InitializeComponent();
-            query = "SELECT role FROM users_info WHERE id = '" + CurrentUserId + "'";
+            query = "SELECT role FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + CurrentUserId + "'";
             ds = conn.getData(query);
 
             // Check if the DataSet contains tables and if the first table has rows
@@ -119,13 +119,13 @@ namespace OxSystem
         }
         private void Grid_Loaded_1(object sender, RoutedEventArgs e)
         {
-            query = "select * from users_info where role = 'Admin'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role = 'Admin'";
             ds = conn.getData(query);
             adminnum.Text = ds.Tables[0].Rows.Count.ToString();
-            query = "select * from users_info where role = 'Pharm'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role = 'Pharm'";
             ds = conn.getData(query);
             pharmnum.Text = ds.Tables[0].Rows.Count.ToString();
-            query = "select * from users_info where role = 'Accountent'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role = 'Accountent'";
             ds = conn.getData(query);
             pharmnum1.Text = ds.Tables[0].Rows.Count.ToString();
         }

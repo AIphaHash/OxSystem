@@ -43,7 +43,7 @@ namespace OxSystem
             // Most Worked User
             string mostWorkedQuery = @"
     
-	   WITH WorkSessions AS (
+	  WITH WorkSessions AS (
     SELECT userid,
            MIN(date_time) AS in_time,
            MAX(date_time) AS out_time
@@ -54,8 +54,7 @@ namespace OxSystem
 SELECT TOP 1 ui.id, ui.fullname, SUM(DATEDIFF(HOUR, in_time, out_time)) AS total_hours
 FROM WorkSessions ws
 JOIN users_info ui ON ws.userid = ui.id
-GROUP BY ui.id, ui.fullname
-ORDER BY total_hours DESC;";
+WHERE ui.dbid = '" + Properties.Settings.Default.dbid +"' GROUP BY ui.id, ui.fullname ORDER BY total_hours DESC;";
 
             DataSet mostWorkedData = conn.getData(mostWorkedQuery);
             if (mostWorkedData.Tables.Count > 0 && mostWorkedData.Tables[0].Rows.Count > 0)
@@ -79,9 +78,12 @@ ORDER BY total_hours DESC;";
 SELECT TOP 1 ui.id, ui.fullname, SUM(DATEDIFF(HOUR, in_time, out_time)) AS total_hours
 FROM WorkSessions ws
 JOIN users_info ui ON ws.userid = ui.id
+WHERE ui.dbid = '" + Properties.Settings.Default.dbid + @"'
 GROUP BY ui.id, ui.fullname
 ORDER BY total_hours ASC;
 ";
+
+
 
             DataSet leastWorkedData = conn.getData(leastWorkedQuery);
             if (leastWorkedData.Tables.Count > 0 && leastWorkedData.Tables[0].Rows.Count > 0)
@@ -97,9 +99,7 @@ ORDER BY total_hours ASC;
     SELECT TOP 1 ui.id, ui.fullname, COUNT(*) AS upseen_count
 FROM statehistroy sh
 JOIN users_info ui ON sh.userid = ui.id
-WHERE state = 'upseen'
-GROUP BY ui.id, ui.fullname
-ORDER BY upseen_count DESC;";
+WHERE sh.dbid = '"+Properties.Settings.Default.dbid+"' and state = 'upseen'  GROUP BY ui.id, ui.fullname ORDER BY upseen_count DESC;";
 
             DataSet mostUpseenData = conn.getData(mostUpseenQuery);
             if (mostUpseenData.Tables.Count > 0 && mostUpseenData.Tables[0].Rows.Count > 0)
@@ -115,9 +115,7 @@ ORDER BY upseen_count DESC;";
     SELECT TOP 1 ui.id, ui.fullname, COUNT(*) AS upseen_count
 FROM statehistroy sh
 JOIN users_info ui ON sh.userid = ui.id
-WHERE state = 'upseen'
-GROUP BY ui.id, ui.fullname
-ORDER BY upseen_count ASC;";
+WHERE state = 'upseen' and sh.dbid = '"+Properties.Settings.Default.dbid+"' GROUP BY ui.id, ui.fullname ORDER BY upseen_count ASC;";
 
             DataSet leastUpseenData = conn.getData(leastUpseenQuery);
             if (leastUpseenData.Tables.Count > 0 && leastUpseenData.Tables[0].Rows.Count > 0)
@@ -133,7 +131,7 @@ ORDER BY upseen_count ASC;";
         private void header_Loaded(object sender, RoutedEventArgs e)
         {
             starg();
-            query = " select top 1 id from users_info";
+            query = " select top 1 id from users_info where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
 
             userid =int.Parse( ds.Tables[0].Rows[0][0].ToString());
@@ -144,7 +142,30 @@ ORDER BY upseen_count ASC;";
             }
             try
             {
-                query = "SELECT \r\n    ui.id, \r\n    ui.fullname, \r\n    ui.role, \r\n    s.salaryamount, s.transectiondate, \r\n    sh.shift_name, \r\n    sh.shift_hours\r\nFROM \r\n    users_info ui\r\nLEFT JOIN \r\n    salary s \r\n    ON s.usersid LIKE '%,' + CAST(ui.id AS VARCHAR) + ',%'  -- Match ID in the middle\r\n       OR s.usersid LIKE CAST(ui.id AS VARCHAR) + ',%'      -- Match ID at the start\r\n       OR s.usersid LIKE '%,' + CAST(ui.id AS VARCHAR)      -- Match ID at the end\r\n       OR s.usersid = CAST(ui.id AS VARCHAR)               -- Single ID match\r\nLEFT JOIN \r\n    shifts sh \r\n    ON sh.shift_too LIKE '%,' + ui.fullname + ',%'         -- Match fullname in the middle\r\n       OR sh.shift_too LIKE ui.fullname + ',%'             -- Match fullname at the start\r\n       OR sh.shift_too LIKE '%,' + ui.fullname             -- Match fullname at the end\r\n       OR sh.shift_too = ui.fullname                      -- Single fullname match;\r\n ";
+                query = @"SELECT 
+    ui.id, 
+    ui.fullname, 
+    ui.role, 
+    s.salaryamount, 
+    s.transectiondate, 
+    sh.shift_name, 
+    sh.shift_hours
+FROM 
+    users_info ui
+LEFT JOIN 
+    salary s 
+    ON s.usersid LIKE '%,' + CAST(ui.id AS VARCHAR) + '%'
+       OR s.usersid LIKE CAST(ui.id AS VARCHAR) + ',%'
+       OR s.usersid LIKE '%,' + CAST(ui.id AS VARCHAR)
+       OR s.usersid = CAST(ui.id AS VARCHAR)
+LEFT JOIN 
+    shifts sh 
+    ON sh.shift_too LIKE '%,' + ui.fullname + '%'
+       OR sh.shift_too LIKE ui.fullname + ',%'
+       OR sh.shift_too LIKE '%,' + ui.fullname
+       OR sh.shift_too = ui.fullname
+WHERE 
+    ui.dbid = '" + Properties.Settings.Default.dbid + "';";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -278,7 +299,7 @@ ORDER BY upseen_count ASC;";
             }
 
             saldate = salarydate.Text;
-            query = "insert into salary values('"+salamount+"', '"+idsString+"' , '" + saldate + "')";
+            query = "insert into salary values('"+salamount+"', '"+idsString+"' , '" + saldate + "' ,'"+Properties.Settings.Default.dbid+"')";
             conn.setData(query);
 
 
@@ -294,10 +315,7 @@ ORDER BY upseen_count ASC;";
         FROM shifts shift
         INNER JOIN users_info userInfo ON CHARINDEX(userInfo.user_name, shift.shift_too) > 0
         INNER JOIN statehistroy state ON state.userid = userInfo.id
-        WHERE userInfo.id = {userId}
-        AND MONTH(state.statedate) = {selectedMonth.Month}
-        AND YEAR(state.statedate) = {selectedMonth.Year}
-        AND state.state = 'upseen'";
+        WHERE shift.dbid = '"+Properties.Settings.Default.dbid+"' and userInfo.id = '"+userId+"' AND MONTH(state.statedate) = '"+selectedMonth.Month+"' AND YEAR(state.statedate) = '"+selectedMonth.Year+"' AND state.state = 'upseen'";
 
                 // Assuming conn is your database connection object and getData is a method to retrieve data
                 DataSet ds = conn.getData(query);
@@ -339,8 +357,7 @@ ORDER BY upseen_count ASC;";
                 string query = $@"
         SELECT shift.shift_hours, shift.shift_too
         FROM shifts shift
-        WHERE MONTH(shift.shift_start) = {selectedMonth.Month}
-        AND YEAR(shift.shift_start) = {selectedMonth.Year}";
+        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and MONTH(shift.shift_start) = '"+selectedMonth.Month+"' AND YEAR(shift.shift_start) = '"+selectedMonth.Year+"'";
 
                 // Assuming conn is your database connection object and getData is a method to retrieve data
                 DataSet ds = conn.getData(query);
@@ -357,7 +374,7 @@ ORDER BY upseen_count ASC;";
                         {
                             // SQL query to get the userId from users_info table based on the username
                             string userQuery = $@"
-                    SELECT id FROM users_info WHERE user_name = '{username.Trim()}'";
+                    SELECT id FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '"+username.Trim()+"'";
                             DataSet userDs = conn.getData(userQuery);
 
                             if (userDs != null && userDs.Tables.Count > 0 && userDs.Tables[0].Rows.Count > 0)
@@ -398,8 +415,7 @@ ORDER BY upseen_count ASC;";
                 string query = $@"
         SELECT shift.shift_start, shift.shfit_end, shift.shift_too
         FROM shifts shift
-        WHERE MONTH(shift.shift_start) = {selectedMonth.Month}
-        AND YEAR(shift.shift_start) = {selectedMonth.Year}";
+        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and MONTH(shift.shift_start) = '"+selectedMonth.Month+"' AND YEAR(shift.shift_start) = '"+selectedMonth.Year+"'";
 
                 // Assuming conn is your database connection object and getData is a method to retrieve data
                 DataSet ds = conn.getData(query);
@@ -416,7 +432,7 @@ ORDER BY upseen_count ASC;";
                         {
                             // SQL query to get the userId from users_info table based on the username
                             string userQuery = $@"
-                    SELECT id FROM users_info WHERE user_name = '{username.Trim()}'";
+                    SELECT id FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '"+username.Trim()+"'";
                             DataSet userDs = conn.getData(userQuery);
 
                             if (userDs != null && userDs.Tables.Count > 0 && userDs.Tables[0].Rows.Count > 0)
@@ -724,8 +740,7 @@ ORDER BY upseen_count ASC;";
             string query = $@"
                 SELECT date_time, state
                 FROM loginhistory
-                WHERE userid = {userId}
-                AND CAST(date_time AS DATE) = CAST(GETDATE() AS DATE)";
+                WHERE dbid = '"+Properties.Settings.Default.dbid+"' and userid = '"+userId+"' AND CAST(date_time AS DATE) = CAST(GETDATE() AS DATE)";
 
             DataSet ds = conn.getData(query);
 

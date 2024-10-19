@@ -73,7 +73,6 @@ namespace OxSystem
             // Begin the animation
             fadeInStoryboard.Begin();
             op.Visibility = Visibility.Collapsed;
-            medic_warning1.Opacity = 1;
             medic_num1.Opacity = 1;
             main_background.Opacity = 1;
             medic_add.Opacity = 1;
@@ -94,7 +93,6 @@ namespace OxSystem
             // Begin the animation
             fadeOutStoryboard.Begin();
             op.Visibility = Visibility.Visible;
-            medic_warning1.Opacity = 0.3;
             medic_num1.Opacity = 0.3;
             main_background.Opacity = 0.3;
             medic_add.Opacity = 0.3;
@@ -236,10 +234,10 @@ namespace OxSystem
 
         private void ListViewItem_Selected_1(object sender, RoutedEventArgs e)
         {
-            query = "UPDATE state\r\nSET state.state = 'unseen'\r\nFROM state\r\nINNER JOIN users_info ON state.userid = users_info.id\r\nWHERE users_info.id = '" + Login_.iduser + "' ";
+            query = "UPDATE state\r\nSET state.state = 'unseen'\r\nFROM state\r\nINNER JOIN users_info ON state.userid = users_info.id\r\nWHERE users_info.dbid = '"+Properties.Settings.Default.dbid+"' and users_info.id = '" + Login_.iduser + "' ";
             conn.setData(query);
             DateTime currentDateOnly = DateTime.Now;
-            query = "insert into loginhistory values ('" + Login_.iduser + "' , '" + currentDateOnly + "' , 'out')";
+            query = "insert into loginhistory values ('" + Login_.iduser + "' , '" + currentDateOnly + "' , 'out'  ,'"+Properties.Settings.Default.dbid+"')";
             conn.setData(query);
             Login_ l1 = new Login_();
             l1.Show();
@@ -269,7 +267,7 @@ namespace OxSystem
 
         public void background_Loaded(object sender, RoutedEventArgs e)
         {
-            query = "select * from users_info where id = '" + CurrentUserId + "' AND perms = 'allpermmisions'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + CurrentUserId + "' AND perms = 'allpermmisions'";
             ds = conn.getData(query);
 
             if (ds.Tables[0].Rows.Count == 0)
@@ -293,7 +291,7 @@ namespace OxSystem
 
 
 
-            query = "select perms from users_info where id = '" + CurrentUserId + "'";
+            query = "select perms from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + CurrentUserId + "'";
             ds = conn.getData(query);
             pharmperm = ds.Tables[0].Rows[0][0].ToString();
 
@@ -336,7 +334,7 @@ namespace OxSystem
             }
 
 
-            query = "SELECT *, DATEDIFF(day, GETDATE(), exdate) AS DaysLeft FROM medicinfo WHERE exdate IS NOT NULL;";
+            query = "SELECT *, DATEDIFF(day, GETDATE(), exdate) AS DaysLeft FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and exdate IS NOT NULL;";
             ds = conn.getData(query);
 
             // Variables to hold counts for different expiration periods
@@ -412,7 +410,7 @@ namespace OxSystem
 
 
 
-            query = "SELECT nummedic FROM medicinfo WHERE nummedic IS NOT NULL;";
+            query = "SELECT nummedic FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic IS NOT NULL;";
             ds = conn.getData(query);
 
             // Variables to hold counts for different quantity levels
@@ -584,7 +582,7 @@ namespace OxSystem
         private void Button_Click(object sender, RoutedEventArgs e)
         {
            
-            query = "select * from medicinfo WHERE exdate <= GETDATE();";
+            query = "select * from medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and exdate <= GETDATE();";
             ds = conn.getData(query);
             if (ds.Tables[0].Rows.Count != 0)
             {
@@ -665,14 +663,14 @@ namespace OxSystem
 
             
             ChatStackPanel.Children.Clear();
-            query = $"SELECT id, fullname, role FROM users_info WHERE id <> '{CurrentUserId}'";
+            query = $"SELECT id, fullname, role FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and id <> '"+CurrentUserId+"'";
             ds = new DbConnection().getData(query);
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 string userId = row["id"].ToString();
                 string fullName = row["fullname"].ToString();
                 string role = row["role"].ToString();
-                string lastMessageQuery = $"SELECT TOP 1 message FROM UserMessages WHERE sender_id = '{userId}' ORDER BY timestamp DESC";
+                string lastMessageQuery = $"SELECT TOP 1 message FROM UserMessages WHERE dbid = '"+Properties.Settings.Default.dbid+"' and sender_id = '"+userId+"' ORDER BY timestamp DESC";
                 DataSet lastMessageDs = new DbConnection().getData(lastMessageQuery);
                 string lastMessage = lastMessageDs.Tables[0].Rows.Count > 0 ? lastMessageDs.Tables[0].Rows[0]["message"].ToString() : "No messages yet";
 
@@ -801,7 +799,7 @@ namespace OxSystem
             ChatDisplay.Children.Clear();
 
             // Query to get chat history
-            string query = $"SELECT sender_id, message, timestamp FROM UserMessages WHERE (sender_id = '{userId}' AND receiver_id = '{CurrentUserId}') OR (sender_id = '{CurrentUserId}' AND receiver_id = '{userId}') ORDER BY timestamp";
+            string query = $"SELECT sender_id, message, timestamp FROM UserMessages WHERE dbid = '"+Properties.Settings.Default.dbid+"' and (sender_id = '"+userId+"' AND receiver_id = '"+CurrentUserId+"') OR (sender_id = '"+CurrentUserId+"' AND receiver_id = '"+userId+"') ORDER BY timestamp";
             DataSet ds = new DbConnection().getData(query);
 
             DateTime? lastDate = null;
@@ -876,7 +874,7 @@ namespace OxSystem
             }
 
             // Update selectedUserName
-            query = "select fullname from users_info where id = '" + selectedUserId + "'";
+            query = "select fullname from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + selectedUserId + "'";
             ds = conn.getData(query);
             selectedUserName = ds.Tables[0].Rows[0][0].ToString();
 
@@ -898,7 +896,7 @@ namespace OxSystem
             if (!string.IsNullOrEmpty(message) && !string.IsNullOrEmpty(receiverId))
             {
                 // Insert new message into the database
-                string query = $"INSERT INTO UserMessages (sender_id, receiver_id, message, timestamp) VALUES ('{CurrentUserId}', '{receiverId}', '{message}', GETDATE())";
+                string query = $"INSERT INTO UserMessages (sender_id, receiver_id, message, timestamp , dbid ) VALUES ('{CurrentUserId}', '{receiverId}', '{message}', GETDATE() ,'"+Properties.Settings.Default.dbid+"')";
                 new DbConnection().setData(query);
 
                 // Clear input and update chat display
@@ -963,7 +961,7 @@ namespace OxSystem
             if (!string.IsNullOrEmpty(message) && !string.IsNullOrEmpty(receiverId))
             {
                 // Insert new message into the database
-                string query = $"INSERT INTO UserMessages (sender_id, receiver_id, message, timestamp) VALUES ('{CurrentUserId}', '{receiverId}', '{message}', GETDATE())";
+                string query = $"INSERT INTO UserMessages (sender_id, receiver_id, message, timestamp , dbid) VALUES ('{CurrentUserId}', '{receiverId}', '{message}', GETDATE() ,'"+Properties.Settings.Default.dbid+"')";
                 new DbConnection().setData(query);
 
                 // Clear input and update chat display
@@ -1003,7 +1001,7 @@ namespace OxSystem
             {
                 ChatStackPanel.Children.Clear();
 
-                string query = $"SELECT id, role, fullname FROM users_info WHERE  id <> '{CurrentUserId}' and fullname like '{fulln}'";
+                string query = $"SELECT id, role, fullname FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and  id <> '"+CurrentUserId+"' and fullname like '"+fulln+"'";
                 DataSet ds = new DbConnection().getData(query);
 
                 foreach (DataRow row in ds.Tables[0].Rows)
@@ -1011,7 +1009,7 @@ namespace OxSystem
                     string userId = row["id"].ToString();
                     string fullName = row["fullname"].ToString();
                     string role = row["role"].ToString();
-                    string lastMessageQuery = $"SELECT TOP 1 message FROM UserMessages WHERE sender_id = '{userId}' ORDER BY timestamp DESC";
+                    string lastMessageQuery = $"SELECT TOP 1 message FROM UserMessages WHERE dbid = '"+Properties.Settings.Default.dbid+"' and sender_id = '"+userId+"' ORDER BY timestamp DESC";
                     DataSet lastMessageDs = new DbConnection().getData(lastMessageQuery);
                     string lastMessage = lastMessageDs.Tables[0].Rows.Count > 0 ? lastMessageDs.Tables[0].Rows[0]["message"].ToString() : "No messages yet";
 
@@ -1121,7 +1119,7 @@ namespace OxSystem
             if (!string.IsNullOrEmpty(message) && !string.IsNullOrEmpty(receiverId))
             {
                 // Insert new message into the database
-                string query = $"INSERT INTO UserMessages (sender_id, receiver_id, message, timestamp) VALUES ('{CurrentUserId}', '{receiverId}', '{message}', GETDATE())";
+                string query = $"INSERT INTO UserMessages (sender_id, receiver_id, message, timestamp , dbid) VALUES ('{CurrentUserId}', '{receiverId}', '{message}', GETDATE() ,'" + Properties.Settings.Default.dbid + "')";
                 new DbConnection().setData(query);
 
                 // Clear input and update chat display

@@ -71,7 +71,7 @@ namespace OxSystem
         {
             InitializeComponent();
 
-            query = "SELECT role FROM users_info WHERE id = '" + CurrentUserId + "'";
+            query = "SELECT role FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + CurrentUserId + "'";
             ds = conn.getData(query);
 
             // Check if the DataSet contains tables and if the first table has rows
@@ -130,7 +130,7 @@ namespace OxSystem
             {
                 // Create a query to delete all selected rows
                 var idsString = string.Join(",", selectedIds);
-                string query = $"DELETE FROM users_info WHERE id IN ({idsString})";
+                string query = $"DELETE FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and id IN ({idsString})";
 
                 conn.setData(query);
 
@@ -163,24 +163,24 @@ namespace OxSystem
             StartGifAnimation();
             Storyboard glowStoryboard = (Storyboard)this.Resources["GlowAnimation"];
             glowStoryboard.Begin();
-            query = "select * from users_info";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
             usernum.Content = ds.Tables[0].Rows.Count.ToString();
 
-            query = "select * from users_info where role = 'Admin'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role = 'Admin'";
             ds = conn.getData(query);
             adminnum.Content = ds.Tables[0].Rows.Count.ToString();
 
-            query = "select * from users_info where role ='Pharm'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role ='Pharm'";
             ds = conn.getData(query);
             pharmnum.Content = ds.Tables[0].Rows.Count.ToString(); 
-            query = "select * from users_info where role ='Accountent'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role ='Accountent'";
             ds = conn.getData(query);
             accountentnum.Content = ds.Tables[0].Rows.Count.ToString();
 
             try
             {
-                query = "select * from users_info";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -237,7 +237,7 @@ namespace OxSystem
         }
         public async void passData(string fc)
         {
-            query = "select * from users_info where id = '" + fc + "'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + fc + "'";
             ds = conn.getData(query);
             un= ds.Tables[0].Rows[0][0].ToString();
           
@@ -312,7 +312,7 @@ namespace OxSystem
         {
             if (searchBox1.Text == "" || searchBox1.Text == "🔍  Type to search ")
             {
-                query = "select * from users_info";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
@@ -320,42 +320,42 @@ namespace OxSystem
 
             else if ( comboBoxText == "ID")
             {
-                query = "select * from users_info where id like '" + searchBox1.Text + "%'";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and id like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if ( comboBoxText == "Full Name")
             {
-                query = "select * from users_info where fullname like '" + searchBox1.Text + "%'";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and fullname like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if ( comboBoxText == "Role")
             {
-                query = "select * from users_info where role like '" + searchBox1.Text + "%'";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if ( comboBoxText == "Email")
             {
-                query = "select * from users_info where email like '" + searchBox1.Text + "%'";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and email like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if ( comboBoxText == "Address")
             {
-                query = "select * from users_info where address like '" + searchBox1.Text + "%'";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and address like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else if ( comboBoxText == "Phone Number")
             {
-                query = "select * from users_info where phone_num like '" + searchBox1.Text + "%'";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and phone_num like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
@@ -366,7 +366,7 @@ namespace OxSystem
             else 
             {
               
-                query = "select * from users_info where user_name like '" + searchBox1.Text + "%'";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and user_name like '" + searchBox1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;

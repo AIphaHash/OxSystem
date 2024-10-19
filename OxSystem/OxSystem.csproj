@@ -393,9 +393,6 @@
     <Compile Include="medic_num.xaml.cs">
       <DependentUpon>medic_num.xaml</DependentUpon>
     </Compile>
-    <Compile Include="medic_warning.xaml.cs">
-      <DependentUpon>medic_warning.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AdminDashboard.xaml.cs">
       <DependentUpon>AdminDashboard.xaml</DependentUpon>
     </Compile>
@@ -435,9 +432,6 @@
     <Compile Include="showreport.xaml.cs">
       <DependentUpon>showreport.xaml</DependentUpon>
     </Compile>
-    <Compile Include="splashscreen.xaml.cs">
-      <DependentUpon>splashscreen.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -450,9 +444,6 @@
     </Compile>
     <Compile Include="supplieradd.xaml.cs">
       <DependentUpon>supplieradd.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="test.xaml.cs">
-      <DependentUpon>test.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserInfo.cs" />
     <Page Include="Accountent.xaml">
@@ -527,10 +518,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="medic_warning.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AdminDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -587,10 +574,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="splashscreen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="stateNshift.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -600,10 +583,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="supplieradd.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="test.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

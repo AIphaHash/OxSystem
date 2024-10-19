@@ -59,7 +59,7 @@ namespace OxSystem
                 Address.Text != "" && full.Text != "" &&
                 Address.Text != "9999" && full.Text != "9999")
             {
-                query = "update medicinfo set nummedic = '" + Password.Text + "', bprice = '" + full.Text + "', sprice = '" + Address.Text + "' where mname = '" + Username.Text + "'";
+                query = "update medicinfo set nummedic = '" + Password.Text + "', bprice = '" + full.Text + "', sprice = '" + Address.Text + "' where dbid = '"+Properties.Settings.Default.dbid+"' and mname = '" + Username.Text + "'";
                 conn.setData(query);
 
                 // Call the method on the parent UserControl
@@ -280,7 +280,7 @@ namespace OxSystem
         public List<string> GetStorageNames()
         {
             List<string> storageNames = new List<string>();
-            string query = "select sname from storageinfo";
+            string query = "select sname from storageinfo dbid = '"+Properties.Settings.Default.dbid+"'";
             DataSet ds = conn.getData(query);
 
             if (ds.Tables.Count > 0)

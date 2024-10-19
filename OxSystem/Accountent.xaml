@@ -103,7 +103,7 @@ Duration="0:0:1" >
                             <Grid x:Name="nav" Background="#FFC8ACAC" Height="0" >
                                 <Border CornerRadius="0,0,0,0" BorderBrush="#FFC1C1C1" BorderThickness="0,0,0,2" Background="White" Height="85"/>
 
-                                <Border BorderThickness="1" CornerRadius="20" Margin="846,18,1520,-18" Background="White" BorderBrush="#FF888888">
+                                <Border BorderThickness="1" CornerRadius="20" Margin="846,14,1520,10" Background="White" BorderBrush="#FF888888">
 
                                     <Label HorizontalContentAlignment="Center" Padding="0,0,0,0" VerticalContentAlignment="Center" Content="Dashboard"
                                      MouseLeftButtonDown="Dashboard1_MouseLeftButtonDown" FontSize="24" FontWeight="Bold"/>
@@ -167,14 +167,14 @@ Duration="0:0:1" >
             Direction="270" 
             ShadowDepth="5" 
             BlurRadius="10" 
-            Opacity="0.1"/>
+            Opacity="0"/>
                                     </Border.Effect>
                                 </Border>
 
 
                                 <Border Height="45" CornerRadius="20,20,0,0" Background="White" Margin="-5,-6,0,0" VerticalAlignment="Top" ></Border>
-                                <Label HorizontalContentAlignment="Center" Content="Chat" Margin="10,-6,409,0" FontSize="30" FontWeight="Bold" Height="52" VerticalAlignment="Top"></Label>
-                                <TextBox IsReadOnly="False" x:Name="searchBox1" Padding="5,10,0,0" BorderThickness="1" Text="🔍  Search"  Margin="22,58,18,0" BorderBrush="#FF6B6B6B" Background="#FFE3EBF3" TextChanged="searchBox_TextChanged1" GotFocus="searchBox1_GotFocus" LostFocus="searchBox1_LostFocus" Height="38" VerticalAlignment="Top" FontSize="20" >
+                                <Label HorizontalContentAlignment="Center" Content="Chat" Margin="10,-2,409,0" FontSize="30" FontWeight="Bold" Height="52" VerticalAlignment="Top"></Label>
+                                <TextBox IsReadOnly="False" x:Name="searchBox1" Padding="5,10,0,0" BorderThickness="1" Text="🔍  Search"  Margin="22,58,18,0" BorderBrush="#FF6B6B6B" Background="#FFE3EBF3" TextChanged="searchBox_TextChanged1" GotFocus="searchBox1_GotFocus" LostFocus="searchBox1_LostFocus" Height="47" VerticalAlignment="Top" FontSize="20" >
                                     <TextBox.Resources>
                                         <Style TargetType="{x:Type Border}">
                                             <Setter Property="CornerRadius" Value="10"/>
@@ -184,7 +184,7 @@ Duration="0:0:1" >
                                         <SolidColorBrush Color="#FFB7B7B7" Opacity="1"/>
                                     </TextBox.Foreground>
                                 </TextBox>
-                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="22,125,24,0" FontSize="20">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,125,2,0" FontSize="20">
                                     <StackPanel x:Name="ChatStackPanel" VerticalAlignment="Top">
                                         <!-- Dynamically load admin cards here -->
                                     </StackPanel>
@@ -200,25 +200,25 @@ Duration="0:0:1" >
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <Border Margin="3,2,2,305" Padding="10" Background="White" CornerRadius="0" RenderTransformOrigin="0.5,0.5">
+                                    <Border Margin="3,2,2,305" Padding="10" Background="White" CornerRadius="20,20,0,0" RenderTransformOrigin="0.5,0.5">
                                         <Border.RenderTransform>
                                             <TransformGroup>
                                                 <ScaleTransform/>
                                                 <SkewTransform/>
-                                                <RotateTransform Angle="179.998"/>
+                                                <RotateTransform Angle="180"/>
                                                 <TranslateTransform/>
                                             </TransformGroup>
                                         </Border.RenderTransform>
 
                                     </Border>
-                                    <Border CornerRadius="20,0,0,0" Background="#FF4F9A95" Margin="-5,-6,0,302"/>
+                                    <Border CornerRadius="20,20,0,0" Background="#FF4F9A95" Margin="-5,-6,0,315"/>
                                     <TextBlock x:Name="ChatTitle" 
                FontSize="16" 
                FontWeight="Bold" 
                Margin="10,10,10,0" 
                VerticalAlignment="Top" 
                HorizontalAlignment="Center" />
-                                    <Label x:Name="ToggleLabel_Copy" HorizontalContentAlignment="Center" Padding="0,0,0,0" Content="▲" Margin="0,8,408,0" 
+                                    <Label x:Name="ToggleLabel_Copy" HorizontalContentAlignment="Center" Padding="0,0,0,0" Content="▲" Margin="0,13,491,0" 
     MouseLeftButtonDown="ToggleLabel_MouseLeftButtonDown1" 
     HorizontalAlignment="Right" Width="27" Height="19" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
                                         <Label.RenderTransform>
@@ -230,11 +230,11 @@ Duration="0:0:1" >
                                             </TransformGroup>
                                         </Label.RenderTransform>
                                     </Label>
-                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="White" Margin="0,44,5,47">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="White" Margin="-5,44,0,52">
                                         <StackPanel x:Name="ChatDisplay"/>
                                     </ScrollViewer>
 
-                                    <Border Margin="0,297,5,10" Padding="10" Background="White" CornerRadius="0">
+                                    <Border Margin="-5,0,0,0" CornerRadius="20,20,0,0" Padding="10" Background="White"  Height="47" VerticalAlignment="Bottom">
                                         <Border.Effect>
                                             <DropShadowEffect 
             Color="Black" 
@@ -245,9 +245,9 @@ Duration="0:0:1" >
                                         </Border.Effect>
                                     </Border>
 
-                                    <TextBox IsReadOnly="False" x:Name="MessageInput" Padding="10,13,0,0" BorderThickness="0" Text="Type a message" Margin="-5,297,0,0" 
+                                    <TextBox IsReadOnly="False" x:Name="MessageInput" Padding="10,13,0,0" BorderThickness="0" Text="Type a message" Margin="-5,307,0,0" 
          BorderBrush="{x:Null}" Background="White" TextChanged="searchBox_TextChanged11" GotFocus="searchBox1_GotFocus1" 
-         LostFocus="searchBox1_LostFocus1" KeyDown="MessageInput_KeyDown">
+         LostFocus="searchBox1_LostFocus1" KeyDown="MessageInput_KeyDown" FontSize="20" Height="10">
 
                                         <!-- Add a DropShadowEffect for the shadow -->
                                         <TextBox.Effect>
@@ -265,7 +265,7 @@ Duration="0:0:1" >
                                         </TextBox.Foreground>
                                     </TextBox>
 
-                                    <Image Source="images/send.gif" Margin="399,297,0,0" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+                                    <Image Source="images/send.gif" Margin="470,0,0,-11" MouseLeftButtonDown="Image_MouseLeftButtonDown" Grid.RowSpan="2" Height="73" VerticalAlignment="Bottom"/>
 
                                 </Grid>
                             </Grid>

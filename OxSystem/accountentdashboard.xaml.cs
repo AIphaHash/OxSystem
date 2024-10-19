@@ -124,7 +124,7 @@ namespace OxSystem
                 FROM bills b
                 JOIN medicinfo m ON b.billId = m.billId
                 JOIN medichistory h ON b.billId = h.billId AND m.mid = h.mid
-                WHERE b.billId = {billId} AND b.type = '"+type+"';";
+                WHERE b.dbid = '"+Properties.Settings.Default.dbid+"' and b.billId = '"+billId+"' AND b.type = '"+type+"';";
 
                     // Fetch data using your existing getData method
                     DataSet ds = conn.getData(query);
@@ -175,7 +175,7 @@ namespace OxSystem
             starg();
             try
             {
-                query = "select * from bills where type ='" + type + "'";
+                query = "select * from bills where dbid = '"+Properties.Settings.Default.dbid+"' and type ='" + type + "'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -194,7 +194,7 @@ namespace OxSystem
 
 
             // Query to get admin users, excluding the logged-in user
-            query = $"SELECT id, fullname FROM users_info WHERE  id <> '{CurrentUserId}'";
+            query = $"SELECT id, fullname FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and id <> '"+CurrentUserId+"'";
             ds = new DbConnection().getData(query);
 
             foreach (DataRow row in ds.Tables[0].Rows)
@@ -203,7 +203,7 @@ namespace OxSystem
                 string fullName = row["fullname"].ToString();
 
                 // Query to get the last message for each user
-                string lastMessageQuery = $"SELECT TOP 1 message FROM UserMessages WHERE sender_id = '{userId}' ORDER BY timestamp DESC";
+                string lastMessageQuery = $"SELECT TOP 1 message FROM UserMessages WHERE dbid = '" + Properties.Settings.Default.dbid + "' and sender_id = '"+userId+"' ORDER BY timestamp DESC";
                 DataSet lastMessageDs = new DbConnection().getData(lastMessageQuery);
                 string lastMessage = lastMessageDs.Tables[0].Rows.Count > 0 ? lastMessageDs.Tables[0].Rows[0]["message"].ToString() : "No messages yet";
 
@@ -275,7 +275,7 @@ namespace OxSystem
         {
             try
             {
-                query = "select * from bills";
+                query = "select * from bills where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -318,7 +318,7 @@ namespace OxSystem
         public List<string> GetFromNames()
         {
             List<string> storageNames = new List<string>();
-            string query = "SELECT DISTINCT from_\r\nFROM bills;\r\n";
+            string query = "SELECT DISTINCT from_\r\nFROM bills where dbid = '"+Properties.Settings.Default.dbid+"';\r\n";
 
             // Assuming you have a method in your connection class to get data
             DataSet ds = conn.getData(query);
@@ -336,7 +336,7 @@ namespace OxSystem
         public List<string> GetTooNames()
         {
             List<string> storageNames = new List<string>();
-            string query = "SELECT DISTINCT too_\r\nFROM bills;\r\n";
+            string query = "SELECT DISTINCT too_\r\nFROM bills where dbid = '"+Properties.Settings.Default.dbid+"' ;\r\n";
 
             // Assuming you have a method in your connection class to get data
             DataSet ds = conn.getData(query);
@@ -360,7 +360,7 @@ namespace OxSystem
 
                 try
                 {
-                    query = "select * from bills where type = '"+type+"' and from_ like '" + f_ + "' AND too_ like'" + t_ + "'";
+                    query = "select * from bills where dbid = '"+Properties.Settings.Default.dbid+"' and type = '"+type+"' and from_ like '" + f_ + "' AND too_ like'" + t_ + "'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -415,7 +415,7 @@ namespace OxSystem
                 t_ = sname_Copy.SelectedItem.ToString();
                 try
                 {
-                    query = "select * from bills where type = '"+type+"' and from_ like '" + f_ + "' AND too_ like'" + t_ + "'";
+                    query = "select * from bills where dbid = '"+Properties.Settings.Default.dbid+"' and type = '"+type+"' and from_ like '" + f_ + "' AND too_ like'" + t_ + "'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -469,7 +469,7 @@ namespace OxSystem
             {
                 resetlabel();
 
-                query = "SELECT Price FROM bills WHERE bdate LIKE '" + datehistroy + "' AND type LIKE '" + type1 + "'";
+                query = "SELECT Price FROM bills WHERE dbid = '"+Properties.Settings.Default.dbid+"' and bdate LIKE '" + datehistroy + "' AND type LIKE '" + type1 + "'";
                 ds = conn.getData(query);
                 decimal totalPrices = 0;
 
@@ -500,7 +500,7 @@ namespace OxSystem
             }
             if (_daysDifference <= 7 && _daysDifference > 0)
             {
-                query = "SELECT Price FROM bills WHERE bdate BETWEEN '" + datehistroy + "' AND '" + DateTime.Now.Date.ToString("yyyy-MM-dd") + "' AND type LIKE '" + type1 + "'";
+                query = "SELECT Price FROM bills  WHERE dbid = '"+Properties.Settings.Default.dbid+"' and bdate BETWEEN '" + datehistroy + "' AND '" + DateTime.Now.Date.ToString("yyyy-MM-dd") + "' AND type LIKE '" + type1 + "'";
                 ds = conn.getData(query);
                 decimal totalPrices = 0;
 
@@ -572,7 +572,7 @@ namespace OxSystem
 
             BillsData = new ObservableCollection<Bill>();
 
-            string query = "SELECT bdate, Price FROM bills";
+            string query = "SELECT bdate, Price FROM bills where dbid = '"+Properties.Settings.Default.dbid+"'";
             DataSet ds = conn.getData(query);
 
             if (ds != null && ds.Tables.Count > 0)
@@ -604,7 +604,7 @@ namespace OxSystem
             ObservableCollection<Bill1> billsData = new ObservableCollection<Bill1>();
 
             // Query database for counts of buy and sell bills
-            string query = "SELECT Type, COUNT(*) AS Count FROM bills GROUP BY Type";
+            string query = "SELECT Type, COUNT(*) AS Count FROM bills where dbid = '"+Properties.Settings.Default.dbid+"' GROUP BY Type ";
             DataSet ds = conn.getData(query);
 
             if (ds != null && ds.Tables.Count > 0)
@@ -660,7 +660,7 @@ namespace OxSystem
             await Task.Delay(400);
             try
             {
-                query = "select * from bills where type like 'sell'";
+                query = "select * from bills where dbid = '"+Properties.Settings.Default.dbid+"' and type like 'sell' ";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -704,7 +704,7 @@ namespace OxSystem
 
             try
             {
-                query = "select * from bills where type = '"+type+"' and from_ like '" + f_ + "' AND too_ like'" + t_ + "' AND bdate like '" + dateString + "'";
+                query = "select * from bills where dbid = '"+Properties.Settings.Default.dbid+"' and type = '"+type+"' and from_ like '" + f_ + "' AND too_ like'" + t_ + "' AND bdate like '" + dateString + "'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -750,7 +750,7 @@ namespace OxSystem
         {
             if (searchBox1.Text == "" || searchBox1.Text == "🔍  Type to search ")
             {
-                query = "select * from bills where type like '"+type+"'";
+                query = "select * from bills where dbid = '"+Properties.Settings.Default.dbid+"' and type like '"+type+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -764,7 +764,7 @@ namespace OxSystem
             }
             else
             {
-                query = "select * from bills where type like '"+type+"' and from_ like '"+searchBox1.Text+"'";
+                query = "select * from bills where dbid = '"+Properties.Settings.Default.dbid+"' and type like '"+type+"' and from_ like '"+searchBox1.Text+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)

@@ -44,7 +44,7 @@ namespace OxSystem
 
             try
             {
-                query = "select * from medicinfo where nummedic = 0";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and nummedic = 0";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -96,7 +96,7 @@ namespace OxSystem
             if (sender == label1)
             {
                 blueFill.Begin(border1);
-                query = "select * from medicinfo";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -111,7 +111,7 @@ namespace OxSystem
             else if (sender == label2)
             {
                 blueFill.Begin(border2);
-                query = "SELECT *\r\nFROM medicinfo\r\nWHERE nummedic <= '"+int.Parse(Properties.Settings.Default.st2)+"'";
+                query = "SELECT *\r\nFROM medicinfo\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic <= '"+int.Parse(Properties.Settings.Default.st2)+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -126,7 +126,7 @@ namespace OxSystem
             else if (sender == label3)
             {
                 blueFill.Begin(border3);
-                query = "SELECT *\r\nFROM medicinfo\r\nWHERE nummedic <= '"+ int.Parse(Properties.Settings.Default.st3)+"'\r\n";
+                query = "SELECT *\r\nFROM medicinfo\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic <= '"+ int.Parse(Properties.Settings.Default.st3)+"'\r\n";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -141,7 +141,7 @@ namespace OxSystem
             else if (sender == label4)
             {
                 blueFill.Begin(border4);
-                query = "SELECT *\r\nFROM medicinfo\r\nWHERE nummedic < 1\r\n   OR nummedic IS NULL;\r\n";
+                query = "SELECT *\r\nFROM medicinfo\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic < 1\r\n   OR nummedic IS NULL;\r\n";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -156,7 +156,7 @@ namespace OxSystem
             else if (sender == label5)
             {
                 blueFill.Begin(border5);
-                query = "SELECT *\r\nFROM medicinfo\r\nWHERE nummedic <= '"+ int.Parse(Properties.Settings.Default.st4)+"'";
+                query = "SELECT *\r\nFROM medicinfo\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic <= '"+ int.Parse(Properties.Settings.Default.st4)+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -187,7 +187,7 @@ namespace OxSystem
             {
                 // Create a query to delete all selected rows
                 var idsString = string.Join(",", selectedIds);
-                string query = $"DELETE FROM medicinfo WHERE mid IN ({idsString})";
+                string query = $"DELETE FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and mid IN ({idsString})";
 
                 conn.setData(query);
 
@@ -244,7 +244,7 @@ namespace OxSystem
                 {
 
 
-                    query = "select * from medicinfo where mname like '" + bprice.Text + "%'";
+                    query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and mname like '" + bprice.Text + "%'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -260,7 +260,7 @@ namespace OxSystem
                 {
 
 
-                    query = "SELECT *\r\nFROM medicinfo\r\nWHERE nummedic <= '"+int.Parse(Properties.Settings.Default.st2)+"' \r\n   AND mname like '" + bprice.Text + "%'";
+                    query = "SELECT *\r\nFROM medicinfo\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic <= '"+int.Parse(Properties.Settings.Default.st2)+"' \r\n   AND mname like '" + bprice.Text + "%'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -276,7 +276,7 @@ namespace OxSystem
                 {
 
 
-                    query = "SELECT *\r\nFROM medicinfo\r\nWHERE nummedic <= '"+ int.Parse(Properties.Settings.Default.st3)+"'\r\n AND mname like '" + bprice.Text + "%'" ;
+                    query = "SELECT *\r\nFROM medicinfo\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic <= '"+ int.Parse(Properties.Settings.Default.st3)+"'\r\n AND mname like '" + bprice.Text + "%'" ;
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -292,7 +292,7 @@ namespace OxSystem
                 {
 
 
-                    query = "SELECT *\r\nFROM medicinfo\r\nWHERE nummedic <= 1\r\n   OR nummedic IS NULL;\r\n AND mname like '" + bprice.Text + "%'";
+                    query = "SELECT *\r\nFROM medicinfo\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic <= 1\r\n   OR nummedic IS NULL;\r\n AND mname like '" + bprice.Text + "%'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -308,7 +308,7 @@ namespace OxSystem
                 {
 
 
-                    query = "SELECT *\r\nFROM medicinfo\r\nWHERE nummedic <= '"+ int.Parse(Properties.Settings.Default.st4)+"'  AND mname like '" + bprice.Text + "%'";
+                    query = "SELECT *\r\nFROM medicinfo\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic <= '"+ int.Parse(Properties.Settings.Default.st4)+"'  AND mname like '" + bprice.Text + "%'";
                     ds = conn.getData(query);
 
                     if (ds != null && ds.Tables.Count > 0)
@@ -329,7 +329,7 @@ namespace OxSystem
             startgifanimation();
 
 
-                query = "select * from medicinfo ";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)

@@ -137,11 +137,11 @@ namespace OxSystem
                 int reportId = Convert.ToInt32(clickedCard.Tag); // Retrieve the report ID stored in the Tag
 
                 // Update the state of the report to 'read'
-                string updateQuery = $"UPDATE report_state SET state = 'read' WHERE rid = {reportId}";
+                string updateQuery = $"UPDATE report_state SET state = 'read' WHERE dbid = '"+Properties.Settings.Default.dbid+"' and rid = '"+reportId+"'";
                 conn.setData(updateQuery); // Assuming setData executes the query
 
                 // Query to get the full header and body of the selected report
-                string query = $"SELECT report_header, report_body, report_from FROM report WHERE rid = {reportId}";
+                string query = $"SELECT report_header, report_body, report_from FROM report WHERE dbid = '"+Properties.Settings.Default.dbid+"' and rid = '"+reportId+"'";
                 DataSet ds = conn.getData(query);
 
                 if (ds.Tables[0].Rows.Count > 0)
@@ -204,14 +204,14 @@ namespace OxSystem
         private void reprots1_Loaded(object sender, RoutedEventArgs e)
         {
             // Query to get distinct user names
-            query = "SELECT DISTINCT user_name FROM users_info";
+            query = "SELECT DISTINCT user_name FROM users_info where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query); // Assuming getData returns a DataSet
 
             // Populate the popup with checkboxes from the query result
             PopulateDropdownWithCheckBoxes();
 
             // Retrieve the user's role from the database
-            query = "SELECT role, user_name FROM users_info WHERE id = '" + Login_.iduser + "'";
+            query = "SELECT role, user_name FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + Login_.iduser + "'";
             ds = conn.getData(query);
 
             // Check if the DataSet contains tables and if the first table has rows
@@ -230,7 +230,7 @@ namespace OxSystem
 
 
             // Query to get the reports
-            query = "SELECT rid, report_header, report_body, report_from, report_date, report_to_role FROM report";
+            query = "SELECT rid, report_header, report_body, report_from, report_date, report_to_role FROM report where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
 
             // Create a list to store the filtered reports
@@ -425,7 +425,7 @@ namespace OxSystem
 
                 // Handle state (same as before)
                 string rid = row["rid"].ToString();
-                string stateQuery = $"SELECT state FROM report_state WHERE rid = '{rid}'";
+                string stateQuery = $"SELECT state FROM report_state WHERE dbid = '"+Properties.Settings.Default.dbid+"' and rid = '"+rid+"'";
                 DataSet stateDataSet = conn.getData(stateQuery);
                 string reportState = stateDataSet.Tables[0].Rows.Count > 0 ? stateDataSet.Tables[0].Rows[0]["state"].ToString() : "";
 
@@ -778,7 +778,7 @@ namespace OxSystem
         private void Image_MouseLeftButtonDown3(object sender, MouseButtonEventArgs e)
         {
             // Query to get the full name of the current user
-            query = "SELECT fullname FROM users_info WHERE id = '" + Login_.iduser + "'";
+            query = "SELECT fullname FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + Login_.iduser + "'";
             ds = conn.getData(query);
 
             if (ds.Tables[0].Rows.Count > 0 && !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]))
@@ -793,12 +793,12 @@ namespace OxSystem
                 Console.WriteLine(selectedRole);
 
                 // Insert the report data into the 'report' table
-                query = "INSERT INTO report(report_header, report_body, report_from, report_to_role, report_date) " +
-                        "VALUES ('" + header.Text + "', '" + body.Text + "', '" + fulln + "', '" + selectedRole + "', '" + currentDate + "')";
+                query = "INSERT INTO report(report_header, report_body, report_from, report_to_role, report_date , dbid) " +
+                        "VALUES ('" + header.Text + "', '" + body.Text + "', '" + fulln + "', '" + selectedRole + "', '" + currentDate + "' ,'"+Properties.Settings.Default.dbid+"')";
                 conn.setData(query);
 
                 // Retrieve the last inserted report ID
-                query = "SELECT TOP 1 rid FROM report ORDER BY rid DESC"; // Get the latest report ID
+                query = "SELECT TOP 1 rid FROM report where dbid = '"+Properties.Settings.Default.dbid+"' ORDER BY rid DESC"; // Get the latest report ID
                 ds = conn.getData(query);
                 string rid = ds.Tables[0].Rows[0][0].ToString();
 
@@ -811,7 +811,7 @@ namespace OxSystem
                     if (role == "Pharm" || role == "Admin" || role == "Accountant")
                     {
                         // Query to get all users with the specified role
-                        query = "SELECT user_name FROM users_info WHERE role = '" + role + "'";
+                        query = "SELECT user_name FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and role = '" + role + "'";
                         ds = conn.getData(query);
 
                         foreach (DataRow userRow in ds.Tables[0].Rows)
@@ -821,8 +821,8 @@ namespace OxSystem
                                 string userName = userRow["user_name"].ToString();
 
                                 // Insert each user with the role into the report_state table
-                                query = "INSERT INTO report_state(rid, permname, state) " +
-                                        "VALUES ('" + rid + "', '" + userName + "', 'unread')";
+                                query = "INSERT INTO report_state(rid, permname, state , dbid) " +
+                                        "VALUES ('" + rid + "', '" + userName + "', 'unread' ,'"+Properties.Settings.Default.dbid+"')";
                                 conn.setData(query);
                             }
                         }
@@ -830,8 +830,8 @@ namespace OxSystem
                     else
                     {
                         // For specific individual usernames (not roles), insert them directly into report_state
-                        query = "INSERT INTO report_state(rid, permname, state) " +
-                                "VALUES ('" + rid + "', '" + role + "', 'unread')";
+                        query = "INSERT INTO report_state(rid, permname, state , dbid) " +
+                                "VALUES ('" + rid + "', '" + role + "', 'unread' ,'"+Properties.Settings.Default.dbid+"')";
                         conn.setData(query);
                     }
                 }

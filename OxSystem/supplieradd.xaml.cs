@@ -186,7 +186,7 @@ namespace OxSystem
             try
             {
                 // Insert query for Suppliers table
-                query = "INSERT INTO Suppliers (supname, supnum, suplocation) VALUES ('" + namesup + "','" + numsup + "','" + locationsup + "')";
+                query = "INSERT INTO Suppliers (supname, supnum, suplocation ,dbid) VALUES ('" + namesup + "','" + numsup + "','" + locationsup + "' ,'"+Properties.Settings.Default.dbid+"')";
                 conn.setData(query);
 
                 // Show success message if query execution is successful

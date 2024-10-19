@@ -537,7 +537,7 @@ namespace OxSystem
                         query = $@"
         SELECT mname, bprice, sprice, exdate, nummedic 
         FROM medicinfo 
-        WHERE nummedic > 0 AND mname LIKE '{filterText}%';";
+        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic > 0 AND mname LIKE '{filterText}%';";
 
                         ds = conn.getData(query); // Fetch the filtered data from the database
 
@@ -753,7 +753,7 @@ namespace OxSystem
                         query = $@"
         SELECT mname, bprice, sprice, exdate, nummedic 
         FROM medicinfo 
-        WHERE nummedic > 0 AND {mfilter.Content.ToString()} LIKE '{filterText}%' AND sname like '" + storage.Content.ToString() + "';";
+        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic > 0 AND {mfilter.Content.ToString()} LIKE '{filterText}%' AND sname like '" + storage.Content.ToString() + "';";
 
                         ds = conn.getData(query); // Fetch the filtered data from the database
 
@@ -1040,7 +1040,7 @@ namespace OxSystem
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             // Retrieve the maximum billId from the database
-            query = "SELECT MAX(billId) AS MaxBillId FROM bills";
+            query = "SELECT MAX(billId) AS MaxBillId FROM bills where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
             maxid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
 
@@ -1057,11 +1057,11 @@ namespace OxSystem
                 {
                     
                     // Construct query to update the database
-                    query = $"UPDATE medicinfo SET nummedic = nummedic - {medic.Quantity} WHERE mname = '{medic.Mname}'";
+                    query = $"UPDATE medicinfo SET nummedic = nummedic - {medic.Quantity} WHERE dbid = '"+Properties.Settings.Default.dbid+"' and mname = '{medic.Mname}'";
                     conn.setData(query);
                     int medicq = medic.Quantity;
                     // Execute the query
-                    query = "select mid from medicinfo where mname = '"+medic.Mname+"'";
+                    query = "select mid from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and mname = '"+medic.Mname+"'";
                     ds = conn.getData(query);
                     int mid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
                     try
@@ -1073,7 +1073,7 @@ namespace OxSystem
                         MessageBox.Show($"An error occurred while updating medic: {ex.Message}");
                     }
                    
-                    query = "insert into medichistory values( '" + medic.Quantity + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "')";
+                    query = "insert into medichistory values( '" + medic.Quantity + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "' ,'"+Properties.Settings.Default.dbid+"')";
                     conn.setData(query);
                     // Update the quantity on the card item
 
@@ -1135,8 +1135,8 @@ namespace OxSystem
                
                 string by_ = Login_.username;
                 Console.WriteLine("the price is : '" + priceValue + "'");
-                query = "INSERT INTO bills (from_, too_, Price, bdate, billId, type, by_, currency) " +
-                        $"VALUES ('Pharmacy', 'Customer', '{pricet.Content}', '{currentDate}', '{bid}', 'sell', '{by_}', '{pharmacist.currencyies}')";
+                query = "INSERT INTO bills (from_, too_, Price, bdate, billId, type, by_, currency , dbid) " +
+                        $"VALUES ('Pharmacy', 'Customer', '{pricet.Content}', '{currentDate}', '{bid}', 'sell', '{by_}', '{pharmacist.currencyies}' ,'"+Properties.Settings.Default.dbid+"')";
 
                 // Execute the query
                 try
@@ -1290,7 +1290,7 @@ namespace OxSystem
             {
                 try
                 {
-                    query = $"SELECT * FROM medicinfo WHERE codeid = '{brcode}'";
+                    query = $"SELECT * FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and codeid = '{brcode}'";
                     ds = conn.getData(query);
 
                     if (ds.Tables[0].Rows.Count > 0)
@@ -1381,7 +1381,7 @@ namespace OxSystem
             query = @"
 SELECT mname, bprice, sprice, exdate, nummedic 
 FROM medicinfo 
-WHERE nummedic > 0;";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic > 0;";
 
             ds = conn.getData(query); // Fetch the data from the database
 
@@ -1790,14 +1790,14 @@ WHERE nummedic > 0;";
         {
             if (bprice_Copy1.Text == "" || bprice_Copy1.Text == "Search Medic Name...")
             {
-                query = "SELECT * FROM medicinfo";
+                query = "SELECT * FROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid1.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else
             {
-                query = "SELECT * FROM medicinfo WHERE mname LIKE '" + bprice_Copy1.Text + "%'";
+                query = "SELECT * FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and mname LIKE '" + bprice_Copy1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid1.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;

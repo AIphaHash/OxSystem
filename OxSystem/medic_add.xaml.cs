@@ -158,7 +158,7 @@ namespace OxSystem
         public List<string> GetStorageNames()
         {
             List<string> storageNames = new List<string>();
-            string query = "select sname from storageinfo";
+            string query = "select sname from storageinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
 
             // Assuming you have a method in your connection class to get data
             DataSet ds = conn.getData(query);
@@ -222,7 +222,7 @@ namespace OxSystem
             else
             {
                 // Check if the barcode already exists in the database
-                string queryCheckBarcode = $"SELECT nummedic FROM medicinfo WHERE Codeid = '{brcode}'";
+                string queryCheckBarcode = $"SELECT nummedic FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and Codeid = '{brcode}'";
 
                 // Use DataSet to fetch data
                 DataSet ds = conn.getData(queryCheckBarcode); // Assuming conn.getDataSet returns a DataSet
@@ -241,14 +241,14 @@ namespace OxSystem
                             int updatedQuantity = existingNum + newQuantity;
 
                             // Update quantity in the database
-                            string updateQuery = $"UPDATE medicinfo SET nummedic = {updatedQuantity} WHERE Codeid = '{brcode}'";
+                            string updateQuery = $"UPDATE medicinfo SET nummedic = {updatedQuantity} WHERE dbid = '"+Properties.Settings.Default.dbid+"' and Codeid = '{brcode}'";
                             conn.setData(updateQuery);
-                            query = "SELECT TOP 1 mid\r\nFROM medicinfo\r\nORDER BY mid DESC;\r\n";
+                            query = "SELECT TOP 1 mid\r\nFROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'\r\nORDER BY mid DESC;\r\n";
                             ds = conn.getData(query);
                             int mid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
                             string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
                            
-                            query = "insert into medichistory values( '" + newQuantity + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "')";
+                            query = "insert into medichistory values( '" + newQuantity + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "' ,'"+Properties.Settings.Default.dbid+"')";
                             conn.setData(query);
                             // Update the DataGrid
                             AddDataToDataGrid();  // Add the item to DataGrid after updating the quantity
@@ -474,7 +474,7 @@ namespace OxSystem
         public List<string> GetFromNames()
         {
             List<string> storageNames = new List<string>();
-            string query = "select DISTINCT  supname from Suppliers";
+            string query = "select DISTINCT  supname from Suppliers where dbid = '"+Properties.Settings.Default.dbid+"'";
 
             // Assuming you have a method in your connection class to get data
             DataSet ds = conn.getData(query);
@@ -491,7 +491,7 @@ namespace OxSystem
         }
         public void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            query = "select sname from storageinfo";
+            query = "select sname from storageinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
             List<string> storagenames = new List<string>();
             try
@@ -848,7 +848,7 @@ namespace OxSystem
 
         private void bidcreate()
         {
-        query = "SELECT MAX(billId) AS MaxBillId FROM bills where type = 'buy'";
+        query = "SELECT MAX(billId) AS MaxBillId FROM bills where dbid = '"+Properties.Settings.Default.dbid+"' and type = 'buy'";
                 ds = conn.getData(query);
 
                 int maxid = 0;
@@ -939,7 +939,7 @@ namespace OxSystem
                     string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
 
                     // Check if the record already exists based on the barcode (codeid)
-                    query = $"SELECT * FROM medicinfo WHERE codeid = '{cid}'";
+                    query = $"SELECT * FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and codeid = '{cid}'";
                     ds = conn.getData(query);
                     if (cid == "")
                     {
@@ -949,15 +949,15 @@ namespace OxSystem
                     if (cid == "0")
                     {
                         // Insert new record for items without a barcode
-                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid , ScintficName , medictype) " +
-                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}' , '{scififcename.Text}' , '{type.Text}')";
+                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid , ScintficName , medictype ,dbid) " +
+                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}' , '{scififcename.Text}' , '{type.Text}' ,'"+Properties.Settings.Default.dbid+"')";
                         conn.setData(query);
-                        query = $"UPDATE storageinfo SET size = size - {quantity} WHERE sname = '{sn}'";
+                        query = $"UPDATE storageinfo SET size = size - {quantity} WHERE dbid = '"+Properties.Settings.Default.dbid+"' and sname = '{sn}'";
                         conn.setData(query);
-                        query = "SELECT TOP 1 mid\r\nFROM medicinfo\r\nORDER BY mid DESC;\r\n";
+                        query = "SELECT TOP 1 mid\r\nFROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' \r\nORDER BY mid DESC;\r\n";
                         ds = conn.getData(query);
                         int mid = int.Parse( ds.Tables[0].Rows[0][0].ToString());
-                        query = "insert into medichistory values( '" + numberMedic+"' , '"+bid+"' , '"+currentDate+"' , '"+mid+"')";
+                        query = "insert into medichistory values( '" + numberMedic+"' , '"+bid+"' , '"+currentDate+"' , '"+mid+"' ,'"+Properties.Settings.Default.dbid+"')";
                         conn.setData(query);
 
                         // Update storage size based on the quantity of the medic added
@@ -965,14 +965,14 @@ namespace OxSystem
                     else if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 0)
                     {
                         // Ensure that codeid is unique for real barcodes (codeid != 0)
-                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid , ScintficName , medictype) " +
-                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}' , '{scififcename.Text}' , '{type.Text}')";
+                        query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname, from_, too_, billId, codeid , ScintficName , medictype ,dbid) " +
+                                $"VALUES ('{medicName}', '{buyPrice:F2}', '{sellPrice:F2}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}', '{supn}', '{mname_Copy.Text}', '{bid}', '{cid}' , '{scififcename.Text}' , '{type.Text}' ,'"+Properties.Settings.Default.dbid+"')";
                         conn.setData(query);
 
-                        query = "SELECT TOP 1 mid\r\nFROM medicinfo\r\nORDER BY mid DESC;\r\n";
+                        query = "SELECT TOP 1 mid\r\nFROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'\r\nORDER BY mid DESC;\r\n";
                         ds = conn.getData(query);
                         int mid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
-                        query = "insert into medichistory values( '" + numberMedic + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "')";
+                        query = "insert into medichistory values( '" + numberMedic + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "' ,'"+Properties.Settings.Default.dbid+"')";
                         conn.setData(query);
                         // Update storage size based on the quantity of the medic added
                     }
@@ -995,8 +995,8 @@ namespace OxSystem
                 string currentDate1 = DateTime.Now.ToString("yyyy-MM-dd");
                 string by_ = Login_.username;
 
-                query = "INSERT INTO bills (from_, too_, Price, bdate, billId, type, by_, currency) " +
-                        $"VALUES ('{from_}', '{too_}', {price:F2}, '{currentDate1}', '{bid}', 'buy', '{by_}', '{setting.currencyies}')";
+                query = "INSERT INTO bills (from_, too_, Price, bdate, billId, type, by_, currency , dbid) " +
+                        $"VALUES ('{from_}', '{too_}', {price:F2}, '{currentDate1}', '{bid}', 'buy', '{by_}', '{setting.currencyies}' ,'"+Properties.Settings.Default.dbid+"')";
                 conn.setData(query);
 
                 totalBuyPrice = 0;
@@ -1240,7 +1240,7 @@ namespace OxSystem
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             supname.IsEnabled = true;
-            query = "SELECT MAX(billId) AS MaxBillId FROM medicinfo";
+            query = "SELECT MAX(billId) AS MaxBillId FROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
             maxid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
             var medicList = DataGrid1.ItemsSource as ObservableCollection<MedicInfo>;
@@ -1277,18 +1277,18 @@ namespace OxSystem
                 sb = SqlEscape(sb);
                 bb = SqlEscape(bb);
 
-                query = "select * from medicinfo where mname like '" + medicName + "' AND bprice like '" + buyPrice + "' AND sprice like '" + sellPrice + "' AND exdate like '" + expiryDate + "' AND madate like '" + manufactureDate + "' AND nummedic like '" + numberMedic + "' AND sname like '" + sname + "' AND from_ like '" + supn + "' AND too_ like '" + mname_Copy.Text + "' AND  billId like '" + bid + "' AND codeid like '" + cid + "'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and mname like '" + medicName + "' AND bprice like '" + buyPrice + "' AND sprice like '" + sellPrice + "' AND exdate like '" + expiryDate + "' AND madate like '" + manufactureDate + "' AND nummedic like '" + numberMedic + "' AND sname like '" + sname + "' AND from_ like '" + supn + "' AND too_ like '" + mname_Copy.Text + "' AND  billId like '" + bid + "' AND codeid like '" + cid + "'";
                 ds = conn.getData(query);
                 if (ds.Tables[0].Rows.Count != 0)
                 {
-                    query = "update medicinfo set nummedic = nummedic + '" + numberMedic + "'  where mname like '" + medicName + "' AND bprice like '" + buyPrice + "' AND sprice like '" + sellPrice + "' AND exdate like '" + expiryDate + "' AND madate like '" + manufactureDate + "' AND nummedic like '" + numberMedic + "' AND sname like '" + sname + "' AND from_ like '" + supn + "' AND too_ like '" + mname_Copy.Text + "' AND billId like '" + bid + "' AND codeid like '" + cid + "'";
+                    query = "update medicinfo set nummedic = nummedic + '" + numberMedic + "'  where dbid = '"+Properties.Settings.Default.dbid+"' and mname like '" + medicName + "' AND bprice like '" + buyPrice + "' AND sprice like '" + sellPrice + "' AND exdate like '" + expiryDate + "' AND madate like '" + manufactureDate + "' AND nummedic like '" + numberMedic + "' AND sname like '" + sname + "' AND from_ like '" + supn + "' AND too_ like '" + mname_Copy.Text + "' AND billId like '" + bid + "' AND codeid like '" + cid + "'";
                     conn.setData(query);
 
                 }
                 else
                 {
-                    query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname,from_,too_,billId,codeid) " +
-                                  $"VALUES ('{medicName}', '{buyPrice}', '{sellPrice}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}','{supn}','{mname_Copy.Text}','{bid}','{cid}')";
+                    query = "INSERT INTO medicinfo (mname, bprice, sprice, exdate, madate, nummedic, sname,from_,too_,billId,codeid , dbid) " +
+                                  $"VALUES ('{medicName}', '{buyPrice}', '{sellPrice}', '{expiryDate}', '{manufactureDate}', '{numberMedic}', '{sname}','{supn}','{mname_Copy.Text}','{bid}','{cid}','"+Properties.Settings.Default.dbid+"')";
 
                     // Execute the query
                     conn.setData(query);
@@ -1312,8 +1312,8 @@ namespace OxSystem
             decimal price = totalBuyPrice;
             string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
 
-            query = "insert into bills (from_,too_,Price,bdate,billId,type)" +
-                               $"VALUES ('{from_}', '{too_}', '{price}','{currentDate}', '{bid}','{"buy"}')";
+            query = "insert into bills (from_,too_,Price,bdate,billId,type ,dbid)" +
+                               $"VALUES ('{from_}', '{too_}', '{price}','{currentDate}', '{bid}','{"buy"}' ,'"+Properties.Settings.Default.dbid+"')";
             conn.setData(query);
         }
 
@@ -1342,7 +1342,7 @@ namespace OxSystem
         public List<string> GetTooNames()
         {
             List<string> storageNames = new List<string>();
-            string query = "select DISTINCT too_ from bills";
+            string query = "select DISTINCT too_ from bills where dbid = '"+Properties.Settings.Default.dbid+"'";
 
             // Assuming you have a method in your connection class to get data
             DataSet ds = conn.getData(query);

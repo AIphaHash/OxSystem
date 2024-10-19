@@ -126,8 +126,7 @@ namespace OxSystem
                 string query = $@"
                     SELECT type, SUM(Price) AS TotalAmount
                     FROM bills
-                    WHERE bdate = '{todayDate}'
-                    GROUP BY type";
+                    WHERE dbid = '"+Properties.Settings.Default.dbid+"' and bdate = '"+todayDate+"' GROUP BY type";
 
                 DataSet ds = db.getData(query);
 
@@ -175,11 +174,7 @@ namespace OxSystem
                 bills 
             INNER JOIN 
                 medicinfo ON bills.billId = medicinfo.billId 
-            WHERE 
-                bills.by_ = '{currentUsername}' 
-                AND bills.bdate = CAST(GETDATE() AS DATE)
-            GROUP BY 
-                type";
+            WHERE bills.dbid = '"+Properties.Settings.Default.dbid+"' and bills.by_ = '"+currentUsername+"'   AND bills.bdate = CAST(GETDATE() AS DATE) GROUP BY type";
 
                 // Retrieve the data using the getData method from DbConnection
                 DbConnection db = new DbConnection();
@@ -229,14 +224,7 @@ namespace OxSystem
     END AS ExpirationPeriod,
     COUNT(*) AS Count
 FROM medicinfo
-GROUP BY 
-    CASE 
-        WHEN DATEDIFF(day, GETDATE(), exdate) <= 3 THEN 'Less than 3 days'
-        WHEN DATEDIFF(day, GETDATE(), exdate) > 3 AND DATEDIFF(day, GETDATE(), exdate) <= 7 THEN 'More than 3 days and less than 1 week'
-        WHEN DATEDIFF(day, GETDATE(), exdate) > 7 AND DATEDIFF(day, GETDATE(), exdate) <= 30 THEN 'More than 1 week and less than 1 month'
-        ELSE 'More than 1 month'
-    END;
-";
+WHERE dbid = '" + Properties.Settings.Default.dbid + "' GROUP BY  CASE  WHEN DATEDIFF(day, GETDATE(), exdate) <= 3 THEN 'Less than 3 days' WHEN DATEDIFF(day, GETDATE(), exdate) > 3 AND DATEDIFF(day, GETDATE(), exdate) <= 7 THEN 'More than 3 days and less than 1 week' WHEN DATEDIFF(day, GETDATE(), exdate) > 7 AND DATEDIFF(day, GETDATE(), exdate) <= 30 THEN 'More than 1 week and less than 1 month' ELSE 'More than 1 month' END;";
 
             DataSet ds = conn.getData(query); // Assume getData returns a DataSet
             DataTable dt = ds.Tables[0]; // Getting the first DataTable from DataSet
@@ -266,9 +254,11 @@ GROUP BY
             List<StorageMedicData> dataList = new List<StorageMedicData>();
             string query = @"
         SELECT si.sname, SUM(mi.nummedic) AS MedicCount
-        FROM storageinfo si
-        INNER JOIN medicinfo mi ON si.sname = mi.sname
-        GROUP BY si.sname";
+FROM storageinfo si
+INNER JOIN medicinfo mi ON si.sname = mi.sname
+WHERE mi.dbid = '" + Properties.Settings.Default.dbid + @"'
+GROUP BY si.sname;"
+;
 
             DataSet ds = conn.getData(query); // Assume getData returns a DataSet
             DataTable dt = ds.Tables[0]; // Getting the first DataTable from DataSet
@@ -294,7 +284,7 @@ GROUP BY
         public List<MedicInfo> GetMedicData()
         {
             List<MedicInfo> medicList = new List<MedicInfo>();
-            query = "SELECT mname, nummedic FROM medicinfo "; // Filter in SQL query
+            query = "SELECT mname, nummedic FROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'"; // Filter in SQL query
             ds = conn.getData(query); // Assume getData returns a DataSet
             dt = ds.Tables[0]; // Getting the first DataTable from DataSet
 
@@ -422,9 +412,7 @@ FROM
     bills b
 INNER JOIN 
     medichistory mh ON b.billId = mh.billId
-WHERE 
-    b.type = 'buy'
-    AND CONVERT(DATE, b.bdate) = CONVERT(DATE, GETDATE());";
+WHERE b.dbid = '"+Properties.Settings.Default.dbid+"' and b.type = 'buy' AND CONVERT(DATE, b.bdate) = CONVERT(DATE, GETDATE());";
 
                 ds = conn.getData(query);
 
@@ -454,9 +442,7 @@ SELECT
             ISNULL(SUM(Price), 0) AS TotalSellPrice
         FROM 
             bills
-        WHERE 
-            type = 'buy'
-            AND bdate = CAST(GETDATE() AS DATE);";
+        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and type = 'buy' AND bdate = CAST(GETDATE() AS DATE);";
 
                 ds = conn.getData(query);
 
@@ -487,9 +473,7 @@ SELECT
             ISNULL(SUM(Price), 0) AS TotalSellPrice
         FROM 
             bills
-        WHERE 
-            type = 'sell'
-            AND bdate = CAST(GETDATE() AS DATE);";
+        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and type = 'sell' AND bdate = CAST(GETDATE() AS DATE);";
 
                 ds = conn.getData(query);
 
@@ -523,9 +507,7 @@ FROM
     bills b
 INNER JOIN 
     medichistory mh ON b.billId = mh.billId
-WHERE 
-    b.type = 'sell'
-    AND CONVERT(DATE, b.bdate) = CONVERT(DATE, GETDATE());";
+WHERE b.dbid = '"+Properties.Settings.Default.dbid+"' and b.type = 'sell' AND CONVERT(DATE, b.bdate) = CONVERT(DATE, GETDATE());";
 
                 ds = conn.getData(query);
 
@@ -553,10 +535,7 @@ WHERE
         SELECT m.mname, SUM(b.Price) AS TotalSales
         FROM medicinfo m
         INNER JOIN bills b ON m.billId = b.billId
-        WHERE b.type = 'sell' AND b.bdate = CAST(GETDATE() AS DATE)
-        GROUP BY m.mname
-        ORDER BY TotalSales DESC
-    ";
+        WHERE b.dbid = '"+Properties.Settings.Default.dbid+"' and b.type = 'sell' AND b.bdate = CAST(GETDATE() AS DATE) GROUP BY m.mname ORDER BY TotalSales DESC";
 
                 // Fetch data from the database
                 ds = conn.getData(query);
@@ -587,7 +566,7 @@ WHERE
            
             (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
         FROM 
-            Suppliers s";
+            Suppliers s where dbid = '"+Properties.Settings.Default.dbid+"'";
 
                 ds = conn.getData(query);
 
@@ -605,9 +584,7 @@ FROM
     bills b
 INNER JOIN 
     medichistory mh ON b.billId = mh.billId
-WHERE 
-    b.type = 'buy'
-    AND CONVERT(DATE, b.bdate) = CONVERT(DATE, GETDATE());";
+WHERE b.dbid = '"+Properties.Settings.Default.dbid+"' and b.type = 'buy' AND CONVERT(DATE, b.bdate) = CONVERT(DATE, GETDATE());";
 
                 ds = conn.getData(query);
 
@@ -637,9 +614,7 @@ SELECT
             ISNULL(SUM(Price), 0) AS TotalSellPrice
         FROM 
             bills
-        WHERE 
-            type = 'buy'
-            AND bdate = CAST(GETDATE() AS DATE);";
+        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and type = 'buy' AND bdate = CAST(GETDATE() AS DATE);";
 
                 ds = conn.getData(query);
 
@@ -674,9 +649,7 @@ SELECT
             ISNULL(SUM(Price), 0) AS TotalSellPrice
         FROM 
             bills
-        WHERE 
-            type = 'sell'
-            AND bdate = CAST(GETDATE() AS DATE);";
+        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and type = 'sell' AND bdate = CAST(GETDATE() AS DATE);";
 
                 ds = conn.getData(query);
 
@@ -713,9 +686,7 @@ FROM
     bills b
 INNER JOIN 
     medichistory mh ON b.billId = mh.billId
-WHERE 
-    b.type = 'sell'
-    AND CONVERT(DATE, b.bdate) = CONVERT(DATE, GETDATE());";
+WHERE b.dbid = '"+Properties.Settings.Default.dbid+"' and b.type = 'sell' AND CONVERT(DATE, b.bdate) = CONVERT(DATE, GETDATE());";
 
                 ds = conn.getData(query);
 
@@ -747,7 +718,7 @@ WHERE
            
             (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
         FROM 
-            Suppliers s";
+            Suppliers s where dbid = '"+Properties.Settings.Default.dbid+"'";
 
                 ds = conn.getData(query);
 
@@ -764,10 +735,7 @@ WHERE
         SELECT m.mname, SUM(b.Price) AS TotalSales
         FROM medicinfo m
         INNER JOIN bills b ON m.billId = b.billId
-        WHERE b.type = 'sell' AND b.bdate = CAST(GETDATE() AS DATE)
-        GROUP BY m.mname
-        ORDER BY TotalSales DESC
-    ";
+        WHERE b.dbid = '"+Properties.Settings.Default.dbid+"' and b.type = 'sell' AND b.bdate = CAST(GETDATE() AS DATE) GROUP BY m.mname ORDER BY TotalSales DESC ";
 
                 // Fetch data from the database
                 ds = conn.getData(query);
@@ -945,7 +913,7 @@ WHERE
             s.supnum,
             (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
         FROM 
-            Suppliers s";
+            Suppliers s where dbid = '"+Properties.Settings.Default.dbid+"'";
 
                     ds = conn.getData(query);
                     if (ds != null && ds.Tables.Count > 0)
@@ -966,8 +934,7 @@ WHERE
         (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
     FROM 
         Suppliers s
-    WHERE 
-        s.supname LIKE '%{searchText}%'";
+    WHERE dbid = '"+Properties.Settings.Default.dbid+"' and s.supname LIKE '%"+searchText+"%'";
 
                     ds = conn.getData(query);
 
@@ -988,11 +955,7 @@ s.supname,
     s.supnum,
     (SELECT COUNT(*) 
      FROM bills b 
-     WHERE b.from_ = s.supnum  
-     AND b.type = 'buy') AS SupplierBills
-FROM 
-    Suppliers s;
-";
+     WHERE b.from_ = s.supnum dbid = '"+Properties.Settings.Default.dbid+"' AND b.type = 'buy') AS SupplierBills FROM  Suppliers s;";
 
                     ds = conn.getData(query);
 
@@ -1015,8 +978,7 @@ FROM
         (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname  AND b.type = 'buy') AS SupplierBills
     FROM 
         Suppliers s
-    WHERE 
-        s.supnum LIKE '%{searchText}%'";
+    WHERE dbid = '"+Properties.Settings.Default.dbid+"' and s.supnum LIKE '%{searchText}%'";
 
                     ds = conn.getData(query);
 
@@ -1038,7 +1000,7 @@ FROM
            
             (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
         FROM 
-            Suppliers s";
+            Suppliers s where dbid = '"+Properties.Settings.Default.dbid+"'";
 
                     ds = conn.getData(query);
 
@@ -1062,7 +1024,7 @@ FROM
     FROM 
         Suppliers s
     WHERE 
-        s.suplocation LIKE '%{searchText}%'";
+        s.suplocation LIKE '%{searchText}%' dbid = '"+Properties.Settings.Default.dbid+"'";
 
                     ds = conn.getData(query);
 
@@ -1155,7 +1117,7 @@ FROM
         public List<MedicInfo> GetTop10HighestMedics()
         {
             List<MedicInfo> medicList = new List<MedicInfo>();
-            string query = "SELECT TOP 10 mname, nummedic FROM medicinfo ORDER BY nummedic DESC"; // Top 10 highest
+            string query = "SELECT TOP 10 mname, nummedic FROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' ORDER BY nummedic DESC"; // Top 10 highest
             DataSet ds = conn.getData(query);
             DataTable dt = ds.Tables[0];
 
@@ -1205,7 +1167,7 @@ FROM
         public List<MedicInfo> GetTop10LowestMedics()
         {
             List<MedicInfo> medicList = new List<MedicInfo>();
-            string query = "SELECT mname, nummedic FROM medicinfo where nummedic <=15 ORDER BY nummedic ASC";
+            string query = "SELECT mname, nummedic FROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and nummedic <=15 ORDER BY nummedic ASC";
             DataSet ds = conn.getData(query);
             DataTable dt = ds.Tables[0];
 

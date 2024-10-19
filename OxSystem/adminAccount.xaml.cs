@@ -53,7 +53,7 @@ namespace OxSystem
             InitializeComponent();
 
 
-            query = "SELECT role FROM users_info WHERE id = '" + CurrentUserId + "'";
+            query = "SELECT role FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + CurrentUserId + "'";
             ds = conn.getData(query);
 
             // Check if the DataSet contains tables and if the first table has rows
@@ -115,7 +115,7 @@ namespace OxSystem
         public void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             fullnameLabel.Content = full;
-            query = "select * from users_info where user_name = '" + user_name + "'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + user_name + "'";
             DataSet ds = conn.getData(query);
 
             if (ds.Tables[0].Rows.Count != 0)

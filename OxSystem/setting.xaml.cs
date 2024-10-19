@@ -332,7 +332,7 @@ namespace OxSystem
         private async void Button_Click_3(object sender, RoutedEventArgs e)
         {
 
-            query = "select * from users_info where id = '" + Login_.iduser + "'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + Login_.iduser + "'";
             ds = conn.getData(query);
             editaccount.Username.Text = ds.Tables[0].Rows[0][0].ToString();
             Console.WriteLine(editaccount.Username.Text);

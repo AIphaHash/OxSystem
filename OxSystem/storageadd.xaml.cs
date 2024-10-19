@@ -94,8 +94,7 @@ namespace OxSystem
             List<StorageMedicData> dataList = new List<StorageMedicData>();
             string query = @"
             SELECT sname, size
-FROM storageinfo;
-";
+FROM storageinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
 
             DataSet ds = conn.getData(query); // Assuming getData returns a DataSet
             DataTable dt = ds.Tables[0]; // Getting the first DataTable from DataSet
@@ -117,8 +116,7 @@ FROM storageinfo;
             string query = @"
         SELECT si.sname, SUM(mi.nummedic) AS MedicCount
         FROM storageinfo si
-        INNER JOIN medicinfo mi ON si.sname = mi.sname
-        GROUP BY si.sname";
+        INNER JOIN medicinfo mi ON si.sname = mi.sname where si.dbid = '"+Properties.Settings.Default.dbid+"'  GROUP BY si.sname";
 
             DataSet ds = conn.getData(query); // Assume getData returns a DataSet
             DataTable dt = ds.Tables[0]; // Getting the first DataTable from DataSet
@@ -148,7 +146,7 @@ FROM storageinfo;
             if (sname.Text != "" & slocation.Text != "" & size.Text != "" & sname.Text != "Storage Name..." & sname.Text != "insert the Storage Name!" & slocation.Text != "Storage Location..." & slocation.Text != "insert the Storage Location!" & size.Text != "9999")
             {
 
-                query = "insert into storageinfo values('" + sn + "' , '" + sl + "' , '" + ss + "');";
+                query = "insert into storageinfo values('" + sn + "' , '" + sl + "' , '" + ss + "' ,'"+Properties.Settings.Default.dbid+"');";
                 conn.setData(query);
 
                
@@ -218,7 +216,7 @@ FROM storageinfo;
 
         private async void searchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            query = "select * from storageinfo where sname like '" + searchBox1.Text + "%'";
+            query = "select * from storageinfo where dbid = '"+Properties.Settings.Default.dbid+"' and sname like '" + searchBox1.Text + "%'";
             ds = conn.getData(query);
             await Task.Delay(500);
             DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
@@ -259,7 +257,7 @@ FROM storageinfo;
         }
         public async void passData(string fc)
         {
-            query = "select * from storageinfo where sid = '" + fc + "'";
+            query = "select * from storageinfo where dbid = '"+Properties.Settings.Default.dbid+"' and sid = '" + fc + "'";
             ds = conn.getData(query);
             sn = ds.Tables[0].Rows[0][1].ToString();
 
@@ -288,17 +286,17 @@ FROM storageinfo;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             LoadStorageChartData();
-            query = "select * from storageinfo";
+            query = "select * from storageinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
             snum.Content = ds.Tables[0].Rows.Count;
-             query = "select * from medicinfo";
+             query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
             mnum.Content = ds.Tables[0].Rows.Count;
 
-            query = "SELECT MAX(size) AS LargestSize FROM storageinfo;\r\n";
+            query = "SELECT MAX(size) AS LargestSize FROM storageinfo where dbid = '"+Properties.Settings.Default.dbid+"';\r\n";
             ds = conn.getData(query);
             larges.Content = ds.Tables[0].Rows[0][0];
-            query = "SELECT MIN(size) AS SmallestSize FROM storageinfo;\r\n";
+            query = "SELECT MIN(size) AS SmallestSize FROM storageinfo where dbid = '"+Properties.Settings.Default.dbid+"';\r\n";
             ds = conn.getData(query);
             smalls.Content = ds.Tables[0].Rows[0][0];
 
@@ -316,7 +314,7 @@ FROM storageinfo;
             glowStoryboard.Begin();
             try
             {
-                query = "select * from storageinfo";
+                query = "select * from storageinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -346,7 +344,7 @@ FROM storageinfo;
             {
                 // Create a query to delete all selected rows
                 var idsString = string.Join(",", selectedIds);
-                string query = $"DELETE FROM storageinfo WHERE sid IN ({idsString})";
+                string query = $"DELETE FROM storageinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and sid IN ({idsString})";
 
                 conn.setData(query);
 
@@ -849,7 +847,7 @@ FROM storageinfo;
                     await Task.Delay(300);
                     string searchText = bprice_Copy1.Text.Trim(); // Get the text from the search box and trim any extra spaces
 
-                   query = "select * from storageinfo where sname like '%"+bprice_Copy1.Text+"%'";
+                   query = "select * from storageinfo where dbid = '"+Properties.Settings.Default.dbid+"' and sname like '%"+bprice_Copy1.Text+"%'";
                
 
                     ds = conn.getData(query);
@@ -864,7 +862,7 @@ FROM storageinfo;
 
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            query = "select * from storageinfo";
+            query = "select * from storageinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
             ds = conn.getData(query);
             if (ds != null && ds.Tables.Count > 0)
             {
@@ -885,7 +883,7 @@ FROM storageinfo;
             {
                 // Create a query to delete all selected rows
                 var idsString = string.Join(",", selectedIds);
-                string query = $"DELETE FROM storageinfo WHERE sid IN ({idsString})";
+                string query = $"DELETE FROM storageinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and sid IN '"+idsString+"'";
 
                 conn.setData(query);
 

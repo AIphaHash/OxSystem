@@ -81,7 +81,7 @@ namespace OxSystem
             bool usernameExists = false;
             bool passwordCorrect = false;
 
-            query = "select * from users_info where role = 'Admin'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role = 'Admin'";
 
             ds = conn_.getData(query);
 
@@ -128,7 +128,7 @@ namespace OxSystem
                 {
 
 
-                    query = "select * from users_info where user_name = '" + username + "' AND password = '" + Password.Text + "' ";
+                    query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + username + "' AND password = '" + Password.Text + "' ";
                     ds = conn_.getData(query);
                     if (ds.Tables[0].Rows.Count != 0)
                     {
@@ -136,7 +136,7 @@ namespace OxSystem
                         string role = ds.Tables[0].Rows[0][2].ToString();
                         if (role == "Pharm")
                         {
-                            query = "select fullname,id from users_info where user_name = '" + Username.Text + "' AND password = '" + Password.Text + "'";
+                            query = "select fullname,id from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + Username.Text + "' AND password = '" + Password.Text + "'";
                             ds = conn_.getData(query);
                             fullName = ds.Tables[0].Rows[0][0].ToString();
                             iduser = ds.Tables[0].Rows[0][1].ToString();
@@ -159,19 +159,19 @@ namespace OxSystem
                 AND shifts.shid = (
                     SELECT TOP 1 shiftid 
                     FROM shifts 
-                    WHERE userid = '" + iduser + @"'
+                    WHERE state.dbid = '"+Properties.Settings.Default.dbid+"' and userid = '" + iduser + @"'
                 )";
                             conn_.setData(query);
 
-                            query = "select * from statehistroy where userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
+                            query = "select * from statehistroy where dbid = '"+Properties.Settings.Default.dbid+"' and userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
                             ds = conn_.getData(query);
                             if (ds.Tables[0].Rows.Count == 0)
                             {
-                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
+                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen' ,'"+Properties.Settings.Default.dbid+"')";
                                 conn_.setData(query);
                             }
 
-                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in' ,'"+Properties.Settings.Default.dbid+"')";
                             conn_.setData(query);
 
                             pharmacist p = new pharmacist();
@@ -180,7 +180,7 @@ namespace OxSystem
                         }
                         else if (role == "Accountent")
                         {
-                            query = "select fullname,id from users_info where user_name = '" + Username.Text + "'";
+                            query = "select fullname,id from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + Username.Text + "'";
                             ds = conn_.getData(query);
                             fullName = ds.Tables[0].Rows[0][0].ToString();
                             iduser = ds.Tables[0].Rows[0][1].ToString();
@@ -203,18 +203,18 @@ namespace OxSystem
                 AND shifts.shid = (
                     SELECT TOP 1 shiftid 
                     FROM shifts 
-                    WHERE userid = '" + iduser + @"'
+                    WHERE state.dbid = '"+Properties.Settings.Default.dbid+"' and userid = '" + iduser + @"'
                 )";
                             conn_.setData(query);
 
-                            query = "select * from statehistroy where userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
+                            query = "select * from statehistroy where dbid = '"+Properties.Settings.Default.dbid+"' and userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
                             ds = conn_.getData(query);
                             if (ds.Tables[0].Rows.Count == 0)
                             {
-                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
+                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen' ,'"+Properties.Settings.Default.dbid+"')";
                                 conn_.setData(query);
                             }
-                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in' ,'"+Properties.Settings.Default.dbid+"')";
                             conn_.setData(query);
 
                             Accountent ac = new Accountent();
@@ -278,19 +278,19 @@ namespace OxSystem
                  passwordCorrect = false;
 
 
-                query = "SELECT * FROM users_info WHERE user_name = '" + Username.Text + "'";
+                query = "SELECT * FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + Username.Text + "'";
                 ds = conn_.getData(query);
 
                 if (ds.Tables[0].Rows.Count != 0)
                 {
-                    query = "select fullname,id from users_info where user_name = '" + Username.Text + "'";
+                    query = "select fullname,id from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + Username.Text + "'";
                     ds = conn_.getData(query);
                     fullName = ds.Tables[0].Rows[0][0].ToString();
                     iduser = ds.Tables[0].Rows[0][1].ToString();
                     usernameExists = true;
 
 
-                    query = "SELECT * FROM users_info WHERE user_name = '" + Username.Text + "' AND password = '" + Password.Text + "'";
+                    query = "SELECT * FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + Username.Text + "' AND password = '" + Password.Text + "'";
                     ds = conn_.getData(query);
 
                     if (ds.Tables[0].Rows.Count != 0)
@@ -317,21 +317,21 @@ namespace OxSystem
                 AND shifts.shid = (
                     SELECT TOP 1 shiftid 
                     FROM shifts 
-                    WHERE userid = '" + iduser + @"'
+                    WHERE state.dbid = '"+Properties.Settings.Default.dbid+"' and userid = '" + iduser + @"'
                 )";
                             conn_.setData(query);
 
-                            query = "select * from statehistroy where userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
+                            query = "select * from statehistroy where dbid = '"+Properties.Settings.Default.dbid+"' and userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
                             ds = conn_.getData(query);
                             if (ds.Tables[0].Rows.Count == 0)
                             {
-                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
+                                query = "insert into statehistroy  values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen' ,'" + Properties.Settings.Default.dbid + "')";
                                 conn_.setData(query);
                             }
-                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in' ,'" + Properties.Settings.Default.dbid + "')";
                             conn_.setData(query);
 
-                            query = "select fullname,id from users_info where user_name = '" + Username.Text + "'";
+                            query = "select fullname,id from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + Username.Text + "'";
                             ds = conn_.getData(query);
                             fullName = ds.Tables[0].Rows[0][0].ToString();
                             iduser = ds.Tables[0].Rows[0][1].ToString();
@@ -364,19 +364,19 @@ namespace OxSystem
                 AND shifts.shid = (
                     SELECT TOP 1 shiftid 
                     FROM shifts 
-                    WHERE userid = '" + iduser + @"'
+                    WHERE state.dbid = '"+Properties.Settings.Default.dbid+"' and userid = '" + iduser + @"'
                 )";
                             conn_.setData(query);
 
                             
-                            query = "select * from statehistroy where userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
+                            query = "select * from statehistroy where dbid = '"+Properties.Settings.Default.dbid+"' and userid = '" + iduser + "' and statedate = '" + currentDateOnly + "'";
                             ds = conn_.getData(query);
                             if (ds.Tables[0].Rows.Count == 0)
                             {
-                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
+                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen' ,'" + Properties.Settings.Default.dbid + "')";
                                 conn_.setData(query);
                             }
-                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in' ,'" + Properties.Settings.Default.dbid + "')";
                             conn_.setData(query);
                             
                             pharmacist p = new pharmacist();
@@ -404,22 +404,22 @@ namespace OxSystem
                 AND shifts.shid = (
                     SELECT TOP 1 shiftid 
                     FROM shifts 
-                    WHERE userid = '" + iduser + @"'
+                    WHERE state.dbid = '"+Properties.Settings.Default.dbid+"' and userid = '" + iduser + @"'
                 )";
                             conn_.setData(query);
 
 
-                            query = "select * from statehistroy where userid = '"+iduser+"' and statedate = '"+currentDateOnly+"'";
+                            query = "select * from statehistroy where dbid = '"+Properties.Settings.Default.dbid+"' and userid = '"+iduser+"' and statedate = '"+currentDateOnly+"'";
                             ds = conn_.getData(query) ;
                             if (ds.Tables[0].Rows.Count == 0) {
-                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen')";
+                                query = "insert into statehistroy values ('" + iduser + "' , '" + currentDateOnly + "' , 'upseen' ,'" + Properties.Settings.Default.dbid + "')";
                                 conn_.setData(query);
                             }
 
-                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in')";
+                            query = "insert into loginhistory values ('" + iduser + "' , '" + currentDateOnly + "' , 'in' ,'" + Properties.Settings.Default.dbid + "')";
                             conn_.setData(query);
 
-                            query = "select fullname,id from users_info where user_name = '" + Username.Text + "'";
+                            query = "select fullname,id from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + Username.Text + "'";
                             ds = conn_.getData(query);
                             fullName = ds.Tables[0].Rows[0][0].ToString();
                             iduser = ds.Tables[0].Rows[0][1].ToString();

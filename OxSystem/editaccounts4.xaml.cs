@@ -72,7 +72,7 @@ namespace OxSystem
             password = Password.Text;
             if (Password.Text != "" && Address.Text != "" && Email.Text != "" && PhoneNum.Text != "" && full.Text != "" && Password.Text != "Password..." && Address.Text != "Address..." && Email.Text != "Email..." && PhoneNum.Text != "7810000000" && full.Text != "Fullname..." && Password.Text != "insert the Password!" && Address.Text != "insert the Address!" && Email.Text != "insert the Email!" && full.Text != "insert the Fullname!")
             {
-                query = " update users_info set  phone_num = '" + phonenum + "' , email = '" + email + "' , address = '" + addres + "' , fullname = '" + fullname + "' , password = '" + Password.Text + "' where user_name = '" + Username.Text + "' ";
+                query = " update users_info set  phone_num = '" + phonenum + "' , email = '" + email + "' , address = '" + addres + "' , fullname = '" + fullname + "' , password = '" + Password.Text + "' where dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '" + Username.Text + "' ";
                 conn.setData(query);
                 Storyboard moveInStoryboard = (Storyboard)FindResource("MoveUpStoryboard");
                 moveInStoryboard.Begin();

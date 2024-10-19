@@ -40,7 +40,7 @@ namespace OxSystem
         public List<string> GetStorageNames()
         {
             List<string> storageNames = new List<string>();
-             query = "select sname from storageinfo";
+             query = "select sname from storageinfo where dbid = '"+Properties.Settings.Default.dbid+"' ";
              ds = conn.getData(query);
 
             if (ds.Tables.Count > 0)
@@ -56,7 +56,7 @@ namespace OxSystem
         public List<string> getmedicfilters()
         {
             List<string> medicfilters = new List<string>();
-             query = "SELECT COLUMN_NAME \r\nFROM INFORMATION_SCHEMA.COLUMNS\r\nWHERE TABLE_NAME = 'medicinfo';\r\n";
+             query = "SELECT COLUMN_NAME \r\nFROM INFORMATION_SCHEMA.COLUMNS\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and TABLE_NAME = 'medicinfo';\r\n";
              ds = conn.getData(query);
 
             if (ds.Tables.Count > 0)

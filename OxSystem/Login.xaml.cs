@@ -200,5 +200,11 @@ namespace OxSystem
         {
 
         }
+
+        private void mybutton_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.dbid = pharmName_Copy1.Text;
+            Properties.Settings.Default.Save();
+        }
     }
 }

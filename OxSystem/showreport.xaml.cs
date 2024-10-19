@@ -38,7 +38,7 @@ namespace OxSystem
             await Task.Delay(500);
 
             // Retrieve the user's role from the database
-            query = "select role from users_info where id = '" + Login_.iduser + "'";
+            query = "select role from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + Login_.iduser + "'";
             ds = conn.getData(query);
             string userrole = ds.Tables[0].Rows[0][0].ToString();
 
@@ -46,7 +46,7 @@ namespace OxSystem
 
             // Query the report table to filter based on report_to_role
             query = "select rid, report_header, report_from, report_date from report " +
-                    "where report_to_role = 'All' or report_to_role = '" + userrole + "' AND report_header like '" + reportfilter.Text + "'";
+                    "where dbid = '"+Properties.Settings.Default.dbid+"' and report_to_role = 'All' or report_to_role = '" + userrole + "' AND report_header like '" + reportfilter.Text + "'";
             ds = conn.getData(query);
 
             // Bind the filtered data to the DataGrid
@@ -63,7 +63,7 @@ namespace OxSystem
                 int reportId = Convert.ToInt32(selectedRow["rid"]);
 
                 // Query to get the full header and body of the selected report
-                query = $"select report_header, report_body ,report_from  from report where rid = {reportId}";
+                query = $"select report_header, report_body ,report_from  from report where dbid = '"+Properties.Settings.Default.dbid+"' and rid = {reportId}";
                 ds = conn.getData(query);
 
                 if (ds.Tables[0].Rows.Count > 0)
@@ -88,7 +88,7 @@ namespace OxSystem
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             // Retrieve the user's role from the database
-            query = "select role from users_info where id = '" + Login_.iduser + "'";
+            query = "select role from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + Login_.iduser + "'";
             ds = conn.getData(query);
             string userrole = ds.Tables[0].Rows[0][0].ToString();
 
@@ -97,7 +97,7 @@ namespace OxSystem
 
             // Query the report table to filter based on report_to_role
             query = "select rid, report_header, report_from, report_date from report " +
-                    "where report_to_role = 'All' or report_to_role = '"+userrole+"'";
+                    "where dbid = '"+Properties.Settings.Default.dbid+"' and report_to_role = 'All' or report_to_role = '"+userrole+"'";
             ds = conn.getData(query);
 
             // Bind the filtered data to the DataGrid

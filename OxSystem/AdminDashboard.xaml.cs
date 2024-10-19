@@ -83,7 +83,7 @@ namespace OxSystem
         }
         private DispatcherTimer _timer;
         string chartquery;
-        string chartquerylabel = "select bdate,Price from bills";
+        string chartquerylabel = "select bdate,Price from bills where dbid = '"+Properties.Settings.Default.dbid+"'";
         string query;
         DbConnection conn = new DbConnection();
         DataSet ds;
@@ -93,7 +93,7 @@ namespace OxSystem
         {
             InitializeComponent();
 
-            query = "SELECT role FROM users_info WHERE id = '" + CurrentUserId + "'";
+            query = "SELECT role FROM users_info WHERE dbid = '"+Properties.Settings.Default.dbid+"' and id = '" + CurrentUserId + "'";
             ds = conn.getData(query);
 
             // Check if the DataSet contains tables and if the first table has rows
@@ -131,7 +131,7 @@ namespace OxSystem
             {
                 BillsData = new ObservableCollection<Bill>();
 
-                chartquery = "SELECT \r\n    bdate, \r\n    Price \r\nFROM \r\n    bills \r\nORDER BY \r\n    bdate ASC;\r\n";
+                chartquery = "SELECT \r\n    bdate, \r\n    Price \r\nFROM \r\n    bills where dbid = '"+Properties.Settings.Default.dbid+"' \r\nORDER BY \r\n    bdate ASC  ;\r\n";
                 DataSet ds = conn.getData(chartquery);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -158,7 +158,7 @@ namespace OxSystem
             else
             {
                 BillsData = new ObservableCollection<Bill>();
-                chartquery = "SELECT \r\n    bdate, \r\n    Price \r\nFROM \r\n    bills \r\nORDER BY \r\n    bdate ASC;\r\n";
+                chartquery = "SELECT \r\n    bdate, \r\n    Price \r\nFROM \r\n    bills where dbid = '"+Properties.Settings.Default.dbid+"' \r\nORDER BY \r\n    bdate ASC ;\r\n";
                 DataSet ds = conn.getData(chartquery);
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -224,7 +224,7 @@ namespace OxSystem
 SELECT 
     COUNT(*) AS TotalBills
 FROM 
-    bills;";
+    bills where dbid = '"+Properties.Settings.Default.dbid+"' ;";
                 ds = conn.getData(query);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -249,9 +249,7 @@ SELECT
     ISNULL(SUM(CASE WHEN type = 'sell' THEN Price ELSE 0 END), 0) AS Loss
 FROM 
     bills
-WHERE 
-    bdate >= DATEADD(month, -1, GETDATE())
-    AND bdate < GETDATE();";
+WHERE  dbid = '"+Properties.Settings.Default.dbid+"' and bdate >= DATEADD(month, -1, GETDATE()) AND bdate < GETDATE();";
                 ds = conn.getData(query);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -278,9 +276,7 @@ SELECT
     ISNULL(SUM(CASE WHEN type = 'buy' THEN Price ELSE 0 END), 0) AS Profit
 FROM 
     bills
-WHERE 
-    bdate >= DATEADD(month, -1, GETDATE())
-    AND bdate < GETDATE();";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and bdate >= DATEADD(month, -1, GETDATE()) AND bdate < GETDATE();";
 
                 ds = conn.getData(query);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -307,10 +303,7 @@ SELECT
     SUM(Price) AS TotalSpends
 FROM 
     bills
-WHERE 
-    type = 'buy' 
-    AND bdate >= DATEADD(month, -1, GETDATE())
-    AND bdate < GETDATE();";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and type = 'buy'  AND bdate >= DATEADD(month, -1, GETDATE()) AND bdate < GETDATE();";
 
                 ds = conn.getData(query);
 
@@ -336,10 +329,7 @@ SELECT
     SUM(Price) AS TotalSales
 FROM 
     bills
-WHERE 
-    type = 'sell' 
-    AND bdate >= DATEADD(month, -1, GETDATE())
-    AND bdate < GETDATE();";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and type = 'sell' AND bdate >= DATEADD(month, -1, GETDATE()) AND bdate < GETDATE();";
 
                 ds = conn.getData(query);
 
@@ -368,7 +358,7 @@ WHERE
            
             (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
         FROM 
-            Suppliers s";
+            Suppliers s where s.dbid = '"+Properties.Settings.Default.dbid+"' ";
 
                 ds = conn.getData(query);
 
@@ -385,9 +375,7 @@ SELECT
     ISNULL(SUM(CASE WHEN type = 'sell' THEN Price ELSE 0 END), 0) AS Loss
 FROM 
     bills
-WHERE 
-    bdate >= DATEADD(month, -1, GETDATE())
-    AND bdate < GETDATE();";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and bdate >= DATEADD(month, -1, GETDATE()) AND bdate < GETDATE();";
                 ds = conn.getData(query);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -416,9 +404,7 @@ SELECT
     ISNULL(SUM(CASE WHEN type = 'buy' THEN Price ELSE 0 END), 0) AS Profit
 FROM 
     bills
-WHERE 
-    bdate >= DATEADD(month, -1, GETDATE())
-    AND bdate < GETDATE();";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and bdate >= DATEADD(month, -1, GETDATE()) AND bdate < GETDATE();";
 
                 ds = conn.getData(query);
 
@@ -447,10 +433,7 @@ SELECT
     SUM(Price) AS TotalSpends
 FROM 
     bills
-WHERE 
-    type = 'buy' 
-    AND bdate >= DATEADD(month, -1, GETDATE())
-    AND bdate < GETDATE();";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and type = 'buy'  AND bdate >= DATEADD(month, -1, GETDATE()) AND bdate < GETDATE();";
 
                 ds = conn.getData(query);
 
@@ -481,7 +464,7 @@ WHERE
            
             (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
         FROM 
-            Suppliers s";
+            Suppliers s where s.dbid = '"+Properties.Settings.Default.dbid+"' ";
 
                 ds = conn.getData(query);
 
@@ -494,10 +477,7 @@ SELECT
     SUM(Price) AS TotalSales
 FROM 
     bills
-WHERE 
-    type = 'sell' 
-    AND bdate >= DATEADD(month, -1, GETDATE())
-    AND bdate < GETDATE();";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and type = 'sell'  AND bdate >= DATEADD(month, -1, GETDATE()) AND bdate < GETDATE();";
 
                 ds = conn.getData(query);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -521,14 +501,13 @@ WHERE
             }
             Storyboard glowStoryboard = (Storyboard)this.Resources["GlowAnimation"];
             glowStoryboard.Begin();
-            query = "select * from bills";
+            query = "select * from bills where dbid = '"+Properties.Settings.Default.dbid+"' ";
             ds = conn.getData(query);
             totalbills.Content = ds.Tables[0].Rows.Count;
             query = @"
         SELECT type, COUNT(*) as BillCount 
         FROM bills 
-        WHERE type IN ('buy', 'sell') 
-        GROUP BY type";
+        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and type IN ('buy', 'sell')  GROUP BY type";
             ds = conn.getData(query);
             if (ds != null && ds.Tables.Count > 0)
             {
@@ -553,15 +532,15 @@ WHERE
             try
             {
                 var roleCounts = new List<RoleCount>();
-                query = "select * from users_info where role = 'Admin'";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role = 'Admin'";
                 ds = conn.getData(query);
                 int adminCount = ds.Tables[0].Rows.Count;
                 roleCounts.Add(new RoleCount { Role = "Admin", Count = adminCount });
-                query = "select * from users_info where role = 'Pharm'";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role = 'Pharm'";
                 ds = conn.getData(query);
                 int pharmCount = ds.Tables[0].Rows.Count;
                 roleCounts.Add(new RoleCount { Role = "Pharm", Count = pharmCount });
-                query = "select * from users_info where role = 'Accountent'";
+                query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and role = 'Accountent'";
                 ds = conn.getData(query);
                 int accountentCount = ds.Tables[0].Rows.Count;
                 roleCounts.Add(new RoleCount { Role = "Accountent", Count = accountentCount });
@@ -577,8 +556,7 @@ WHERE
         SELECT ui.fullname AS PharmacistName, COUNT(b.bid) AS BillCount
         FROM users_info ui
         LEFT JOIN bills b ON ui.fullname = b.by_
-        WHERE ui.role = 'Pharm'
-        GROUP BY ui.fullname";
+        WHERE ui.dbid = '"+Properties.Settings.Default.dbid+"' and ui.role = 'Pharm' GROUP BY ui.fullname";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -665,7 +643,7 @@ WHERE
         }
         private void Button_Clicka(object sender, RoutedEventArgs e)
         {
-            chartquerylabel = "SELECT bdate, Price\r\nFROM bills\r\nWHERE bdate >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) - 1, 0)\r\n  AND bdate < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0);\r\n";
+            chartquerylabel = "SELECT bdate, Price\r\nFROM bills\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and bdate >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) - 1, 0)\r\n  AND bdate < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0);\r\n";
             UserControl_Loaded(sender, e);
         }
         private void SplineSeries_Loaded3(object sender, RoutedEventArgs e)
@@ -674,7 +652,7 @@ WHERE
             {
                 BillsData3 = new ObservableCollection<Bill3>();
 
-                chartquery = "SELECT \r\n    bdate, \r\n    Price \r\nFROM \r\n    bills \r\nWHERE \r\n    bdate >= DATEFROMPARTS(YEAR(GETDATE()), 1, 1)\r\n    AND bdate < DATEADD(YEAR, 1, DATEFROMPARTS(YEAR(GETDATE()), 1, 1))\r\nORDER BY \r\n    bdate ASC;\r\n";
+                chartquery = "SELECT \r\n    bdate, \r\n    Price \r\nFROM \r\n    bills \r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and \r\n    bdate >= DATEFROMPARTS(YEAR(GETDATE()), 1, 1)\r\n    AND bdate < DATEADD(YEAR, 1, DATEFROMPARTS(YEAR(GETDATE()), 1, 1))\r\nORDER BY \r\n    bdate ASC;\r\n";
                 DataSet ds = conn.getData(chartquery);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -707,12 +685,7 @@ WHERE
     Price 
 FROM 
     bills 
-WHERE 
-    bdate >= DATEFROMPARTS(YEAR(GETDATE()), 1, 1)
-    AND bdate < DATEADD(YEAR, 1, DATEFROMPARTS(YEAR(GETDATE()), 1, 1))
-ORDER BY 
-    bdate ASC;
-";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and bdate >= DATEFROMPARTS(YEAR(GETDATE()), 1, 1) AND bdate < DATEADD(YEAR, 1, DATEFROMPARTS(YEAR(GETDATE()), 1, 1)) ORDER BY bdate ASC;";
                 DataSet ds = conn.getData(chartquery);
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -748,7 +721,7 @@ ORDER BY
             {
                 BillsData2 = new ObservableCollection<Bill2>();
 
-                chartquery = "SELECT \r\n    bdate, \r\n    Price \r\nFROM \r\n    bills \r\nWHERE \r\n    bdate >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) - 1, 0)\r\n    AND bdate < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)\r\nORDER BY \r\n    bdate ASC;\r\n";
+                chartquery = "SELECT \r\n    bdate, \r\n    Price \r\nFROM \r\n    bills \r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and\r\n    bdate >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) - 1, 0)\r\n    AND bdate < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)\r\nORDER BY \r\n    bdate ASC;\r\n";
                 DataSet ds = conn.getData(chartquery);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -781,12 +754,7 @@ ORDER BY
     Price 
 FROM 
     bills 
-WHERE 
-    bdate >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) - 1, 0)
-    AND bdate < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)
-ORDER BY 
-    bdate ASC;
-";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and bdate >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) - 1, 0) AND bdate < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0) ORDER BY  bdate ASC;";
                 DataSet ds = conn.getData(chartquery);
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -819,7 +787,7 @@ ORDER BY
             {
                 BillsData1 = new ObservableCollection<Bill11>();
 
-                chartquery = "SELECT \r\n    bdate, \r\n    Price \r\nFROM \r\n    bills \r\nWHERE \r\n    bdate >= CAST(GETDATE() AS DATE)\r\n    AND bdate < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))\r\nORDER BY \r\n    bdate ASC;\r\n";
+                chartquery = "SELECT \r\n    bdate, \r\n    Price \r\nFROM \r\n    bills \r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and \r\n    bdate >= CAST(GETDATE() AS DATE)\r\n    AND bdate < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))\r\nORDER BY \r\n    bdate ASC;\r\n";
                 DataSet ds = conn.getData(chartquery);
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -850,12 +818,7 @@ ORDER BY
     Price 
 FROM 
     bills 
-WHERE 
-    bdate >= CAST(GETDATE() AS DATE)
-    AND bdate < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
-ORDER BY 
-    bdate ASC;
-";
+WHERE dbid = '"+Properties.Settings.Default.dbid+"' and bdate >= CAST(GETDATE() AS DATE) AND bdate < DATEADD(DAY, 1, CAST(GETDATE() AS DATE)) ORDER BY  bdate ASC;";
                 DataSet ds = conn.getData(chartquery);
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -899,7 +862,7 @@ ORDER BY
            
             (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
         FROM 
-            Suppliers s";
+            Suppliers s where s.dbid = '"+Properties.Settings.Default.dbid+"' ";
             ds = conn.getData(query);
             if (ds != null && ds.Tables.Count > 0)
             {
@@ -952,7 +915,7 @@ ORDER BY
             s.supnum,
             (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
         FROM 
-            Suppliers s";
+            Suppliers s where s.dbid = '"+Properties.Settings.Default.dbid+"' ";
 
                     ds = conn.getData(query);
                     if (ds != null && ds.Tables.Count > 0)
@@ -973,8 +936,7 @@ ORDER BY
         (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
     FROM 
         Suppliers s
-    WHERE 
-        s.supname LIKE '%{searchText}%'";
+    WHERE s.dbid = '"+Properties.Settings.Default.dbid+"' and s.supname LIKE '"+searchText+"%'";
 
                     ds = conn.getData(query);
 
@@ -995,11 +957,7 @@ s.supname,
     s.supnum,
     (SELECT COUNT(*) 
      FROM bills b 
-     WHERE b.from_ = s.supnum  
-     AND b.type = 'buy') AS SupplierBills
-FROM 
-    Suppliers s;
-";
+       b.from_ = s.supnum   AND b.type = 'buy') AS SupplierBills FROM  Suppliers s WHERE s.dbid = '"+Properties.Settings.Default.dbid+"';";
 
                     ds = conn.getData(query);
 
@@ -1022,8 +980,7 @@ FROM
         (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname  AND b.type = 'buy') AS SupplierBills
     FROM 
         Suppliers s
-    WHERE 
-        s.supnum LIKE '%{searchText}%'";
+    WHERE s.dbid = '"+Properties.Settings.Default.dbid+"' and  s.supnum LIKE '"+searchText+"%'";
 
                     ds = conn.getData(query);
 
@@ -1045,7 +1002,7 @@ FROM
            
             (SELECT COUNT(*) FROM bills b WHERE b.from_ = s.supname AND b.type = 'buy') AS SupplierBills
         FROM 
-            Suppliers s";
+            Suppliers s where s.dbid = '"+Properties.Settings.Default.dbid+"'" ;
 
                     ds = conn.getData(query);
 
@@ -1069,7 +1026,7 @@ FROM
     FROM 
         Suppliers s
     WHERE 
-        s.suplocation LIKE '%{searchText}%'";
+      s.dbid = '"+Properties.Settings.Default.dbid+"' and   s.suplocation LIKE '"+searchText+"%'";
 
                     ds = conn.getData(query);
 

@@ -254,7 +254,6 @@ Duration="0:0:1" ></DoubleAnimation>
 
                         <Grid x:Name="BG" PreviewMouseLeftButtonDown="BG_PreviewMouseLeftButtonDown" Width="1900">
                             <local:medic_num x:Name="medic_num1" Visibility="Collapsed" Margin="0,0,-1,0"/>
-                            <local:medic_warning x:Name="medic_warning1" Visibility="Collapsed" Margin="0,0,-1,-6"/>
                             <local:main_background x:Name="main_background" Visibility="Collapsed" Margin="0,0,-1,-6"/>
                             <local:medic_add x:Name="medic_add" Visibility="Collapsed" Margin="0,0,-1,-6"/>
                             <local:noteficatinoP x:Name="noteficatinoP" Visibility="Collapsed" Margin="0,0,-1,-6"/>

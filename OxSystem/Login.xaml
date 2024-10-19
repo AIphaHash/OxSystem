@@ -175,7 +175,7 @@ Duration="0:0:0.5" />
                 </TextBox.Style>
             </TextBox>
 
-            <Button x:Name="mybutton" Content="Activate" Foreground="White" BorderBrush="Black" BorderThickness="2,2,2,2" FontWeight="UltraBold" Margin="0,280,0,35" FontSize="14" Cursor="Hand" HorizontalAlignment="Center" Width="150">
+            <Button x:Name="mybutton" Content="Activate" Foreground="White" BorderBrush="Black" BorderThickness="2,2,2,2" FontWeight="UltraBold" Margin="0,280,0,35" FontSize="14" Cursor="Hand" HorizontalAlignment="Center" Width="150" Click="mybutton_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="buttonBorder" BorderBrush="Transparent" BorderThickness="2" CornerRadius="10">
@@ -216,6 +216,48 @@ Duration="0:0:0.5" />
                 <local:passwordreset x:Name="passwordreset" Visibility="Collapsed"/>
 
             </Grid>
+            <TextBox Padding="10,7,0,0" Text="" x:Name="pharmName_Copy1" Background="White" Margin="487,180,0,128" HorizontalAlignment="Left" Width="125" Foreground="#FFC5C5C5" FontSize="16" GotFocus="pharmName_Copy_GotFocus" LostFocus="pharmName_Copy_LostFocus" MouseEnter="pharmName_Copy_MouseEnter" MouseLeave="pharmName_Copy_MouseLeave">
+                <TextBox.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="1,0">
+                        <GradientStop Color="#FF44ABAE"/>
+                        <GradientStop Color="#FF1EA797" Offset="1"/>
+                    </LinearGradientBrush>
+                </TextBox.BorderBrush>
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="BorderBrush">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFC0FEFF"/>
+                                    <GradientStop Color="#FFA2FDB5" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border 
+                                        Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" 
+                                        BorderThickness="{TemplateBinding BorderThickness}" 
+                                        CornerRadius="7">
+                                        <Border.Effect>
+                                            <DropShadowEffect
+                                                Color="Black"
+                                                Direction="330"
+                                                ShadowDepth="5"
+                                                Opacity="0"
+                                                BlurRadius="5"/>
+                                        </Border.Effect>
+                                        <ScrollViewer x:Name="PART_ContentHost"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
 
         </Grid>
 

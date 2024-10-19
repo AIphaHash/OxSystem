@@ -380,7 +380,7 @@ namespace OxSystem
         }
         private void Username_TextChanged(object sender, TextChangedEventArgs e)
         {
-            query = "select * from users_info where user_name = '"+Username.Text+"'";
+            query = "select * from users_info where dbid = '"+Properties.Settings.Default.dbid+"' and user_name = '"+Username.Text+"'";
             ds = conn_.getData(query);
             if (ds.Tables[0].Rows.Count == 0)
             {
@@ -520,8 +520,8 @@ namespace OxSystem
                 int day = (int)DayComboBox.SelectedItem;
                 string birthdate = new DateTime(year, month, day).ToString("yyyy-MM-dd");
 
-                string query = "INSERT INTO users_info (user_name, password, role, email, phone_num, address, dob, fullname, perms) " +
-                               $"VALUES ('{username}', '{password}', '{userrole}', '{email}', '{phonenum}', '{address}', '{birthdate}', '{fullname}','{perms}');";
+                string query = "INSERT INTO users_info (user_name, password, role, email, phone_num, address, dob, fullname, perms, dbid) " +
+                               $"VALUES ('{username}', '{password}', '{userrole}', '{email}', '{phonenum}', '{address}', '{birthdate}', '{fullname}','{perms}' ,'"+Properties.Settings.Default.dbid+"');";
 
                 conn_.setData(query);
                 MessageBox.Show("Created Succesfuly");

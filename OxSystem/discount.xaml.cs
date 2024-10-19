@@ -44,7 +44,7 @@ namespace OxSystem
         {
             try
             {
-                query = "select * from medicinfo WHERE exdate > GETDATE();";
+                query = "select * from medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and exdate > GETDATE();";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -89,7 +89,7 @@ namespace OxSystem
         {
             if (searchBox1.Text == "" || searchBox1.Text == "🔍  Type to search ")
             {
-                query = "select * from medicinfo";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' ";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
@@ -272,14 +272,14 @@ namespace OxSystem
             discountE = discend.Text;
             discountA = discamount.Text;    
 
-            query = "insert into discount values('"+idsString+"', '"+discountN+"' , '"+discountS+"' , '"+discountE+"' ,'"+discountA+"')";
+            query = "insert into discount values('"+idsString+"', '"+discountN+"' , '"+discountS+"' , '"+discountE+"' ,'"+discountA+"' ,'"+Properties.Settings.Default.dbid+"')";
             conn.setData(query);
 
         }
 
         private void DataGrid1_Loaded(object sender, RoutedEventArgs e)
         {
-            query = "select * from discount";
+            query = "select * from discount where dbid = '"+Properties.Settings.Default.dbid+"' ";
             ds = conn.getData(query);
             
             DataGrid1.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
