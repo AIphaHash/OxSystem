@@ -90,32 +90,6 @@ namespace OxSystem
         {
 
 
-            if (reme == "1")
-            {
-                Properties.Settings.Default.rememberme = "1";
-
-            }
-            else
-            {
-                Properties.Settings.Default.rememberme = "0";
-            }
-
-
-            if (Properties.Settings.Default.rememberme == "1")
-            {
-                pharmName_Copy.Text = Properties.Settings.Default.databasepassword;
-            }
-            if (Properties.Settings.Default.firstlogin == "1")
-            {
-                pharmName_Copy.IsEnabled = true;
-                mybutton.IsEnabled = true;
-            }
-            else
-            {
-                pharmName_Copy.IsEnabled = false;
-                mybutton.IsEnabled = false;
-            }
-
         }
 
         private void pharmName_GotFocus(object sender, RoutedEventArgs e)
@@ -203,8 +177,26 @@ namespace OxSystem
 
         private void mybutton_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.dbid = pharmName_Copy1.Text;
-            Properties.Settings.Default.Save();
+            if (pharmName_Copy.Text == "helsv432kecke49f(@!uj2*2jdj2l@fekipqlxncwe32")
+            {
+                Properties.Settings.Default.actkey = "1";
+                Properties.Settings.Default.Save();
+                Properties.Settings.Default.dbid = pharmName_Copy1.Text;
+                Properties.Settings.Default.Save();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Wrong Activate Key!");
+                pharmName_Copy.Clear();
+                pharmName_Copy1.Clear();
+            }
+
+        }
+
+        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
         }
     }
 }

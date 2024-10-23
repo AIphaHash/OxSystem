@@ -65,14 +65,6 @@ Duration="0:0:0.5" />
                 </Border.Effect>
                 <!-- Add your Image here -->
             </Border>
-            <Image Source="images/flow.png" RenderTransformOrigin="0.527,0.492" Margin="48,-54,48,-164" Grid.RowSpan="2">
-                <Image.OpacityMask>
-                    <SolidColorBrush Color="Black" Opacity="0.1"/>
-                </Image.OpacityMask>
-                <Image.Effect>
-                    <DropShadowEffect Color="Black" Direction="270" ShadowDepth="7" Opacity="0.3"/>
-                </Image.Effect>
-            </Image>
             <Image gif:ImageBehavior.RepeatBehavior="Forever" gif:ImageBehavior.AnimatedSource="images/exit.gif"
        RenderTransformOrigin="0.527,0.502" Margin="1083,5,-423,317" Cursor="Hand">
                 <Image.Style>
@@ -102,7 +94,7 @@ Duration="0:0:0.5" />
                 </Image.Effect>
             </Image>
 
-            <Label Content="Exit" HorizontalAlignment="Left" Margin="570,8,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White" Height="40" Width="42">
+            <Label Content="Exit" HorizontalAlignment="Left" Margin="586,10,0,0" VerticalAlignment="Top" FontSize="24" Foreground="White" Height="40" Width="49" MouseLeftButtonDown="Label_MouseLeftButtonDown">
                 <Label.Effect>
                     <DropShadowEffect Color="Black" Direction="0" ShadowDepth="0" Opacity="1"/>
                 </Label.Effect>
@@ -216,7 +208,7 @@ Duration="0:0:0.5" />
                 <local:passwordreset x:Name="passwordreset" Visibility="Collapsed"/>
 
             </Grid>
-            <TextBox Padding="10,7,0,0" Text="" x:Name="pharmName_Copy1" Background="White" Margin="487,180,0,128" HorizontalAlignment="Left" Width="125" Foreground="#FFC5C5C5" FontSize="16" GotFocus="pharmName_Copy_GotFocus" LostFocus="pharmName_Copy_LostFocus" MouseEnter="pharmName_Copy_MouseEnter" MouseLeave="pharmName_Copy_MouseLeave">
+            <TextBox Padding="10,7,0,0" Text="" x:Name="pharmName_Copy1" Background="White" Margin="487,180,0,128" HorizontalAlignment="Left" Width="125" Foreground="Black" FontSize="16">
                 <TextBox.BorderBrush>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="1,0">
                         <GradientStop Color="#FF44ABAE"/>

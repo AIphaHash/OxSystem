@@ -262,5 +262,17 @@ namespace OxSystem.Properties {
                 this["dbid"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string actkey {
+            get {
+                return ((string)(this["actkey"]));
+            }
+            set {
+                this["actkey"] = value;
+            }
+        }
     }
 }
