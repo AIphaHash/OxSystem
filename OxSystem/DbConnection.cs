@@ -10,18 +10,28 @@ namespace OxSystem
         string _connectionString = Login_.finaldbname;
 
 
-        protected SqlConnection getConnection()
+        /*protected SqlConnection getConnection()
         {
             SqlConnection con = new SqlConnection();
             // Modify connection string to include username and password
             con.ConnectionString = "data source = mssql-185157-0.cloudclusters.net,10137; database = final_version_proj_db; User ID = cactustom; Password = Ctcotmus3";
             return con;
+        }*/
+        protected SqlConnection getConnection()
+        {
+            SqlConnection con = new SqlConnection();
+            // Modify connection string to include username and password
+            con.ConnectionString = "data source = AMEERPC\\SQLEXPRESS; database = final_proj_db; integrated security = True;";
+
+
+            return con;
         }
+
         /*protected SqlConnection getConnection()
         {
             SqlConnection con = new SqlConnection();
             // Modify connection string to include username and password
-            con.ConnectionString = "data source = AMEERPC\\SQLEXPRESS; database = final_proj_db; User ID = test1; Password = test1";
+            con.ConnectionString = "data source = DESKTOP-O3PSP7Q; database = final_proj_db; integrated security = True;";
             return con;
         }*/
 

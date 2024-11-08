@@ -501,12 +501,13 @@ namespace OxSystem
 
         private async void searchBox_TextChanged1(object sender, TextChangedEventArgs e)
         {
+            await Task.Delay(3000);
             try
             {
 
                 if (mfilter.Content.ToString() == "No Medic Filter")
                 {
-                    mfilter.Content = "mname";
+                    mfilter.Content = "No Medic Filter";
                 }
                 if (storage.Content.ToString() == "No Storage Filter")
                 {
@@ -522,7 +523,7 @@ namespace OxSystem
                 CardContainer.Children.Clear();
                 cardBorders.Clear();
                 cardQuantities.Clear();
-                if (mfilter.Content.ToString() == "No Medic Filter" && storage.Content.ToString() == "No Storage Filter")
+                if (mfilter.Content.ToString() == "No Medic Filter" && (storage.Content.ToString() == "%" ))
                 {
 
 
@@ -537,9 +538,10 @@ namespace OxSystem
                         query = $@"
         SELECT mname, bprice, sprice, exdate, nummedic 
         FROM medicinfo 
-        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic > 0 AND mname LIKE '{filterText}%';";
+        WHERE nummedic > 0 AND mname LIKE '{filterText}%';";
 
-                        ds = conn.getData(query); // Fetch the filtered data from the database
+
+                        ds = conn.getData(query); // Fetch the data from the database
 
                         if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                         {
@@ -550,7 +552,6 @@ namespace OxSystem
                                 string itemName = row["mname"].ToString();
 
                                 // Determine color for the number of medics border based on nummedic value
-                                Brush numMedicBackground;
                                 if (nummedic > 10)
                                 {
                                     numMedicBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF39A08B")); // More than 10
@@ -602,37 +603,16 @@ namespace OxSystem
                                     int quantity;
                                     bool isQuantityValid = int.TryParse(quantityTextBox.Text, out quantity);
 
-                                    if (!isQuantityValid || quantity <= 0)
+                                    if (isQuantityValid)
+                                    {
+                                        HandleItemClick(row, quantity);
+                                    }
+                                    else
                                     {
                                         MessageBox.Show("Please enter a valid quantity.");
-                                        return;
                                     }
-
-                                    // Check if the quantity is sufficient
-                                    int currentQuantity = int.Parse(cardQuantities[itemName].Text);
-                                    if (quantity > currentQuantity)
-                                    {
-                                        MessageBox.Show("Not enough quantity available.");
-                                        return;
-                                    }
-
-                                    // Create a new object for DataGrid item
-                                    var dataItem = new MedicItem
-                                    {
-                                        Mname = row["mname"].ToString(),
-                                        Bprice = row["bprice"].ToString(),
-                                        Sprice = row["sprice"].ToString(),
-                                        Quantity = quantity
-                                    };
-
-                                    // Update the DataGrid
-                                    UpdateDataGrid(row, quantity);
-
-                                    // Update the card quantity
-                                    currentQuantity -= quantity;
-                                    cardQuantities[itemName].Text = currentQuantity.ToString();
-                                    UpdateTotalSellPrice();
                                 };
+
 
                                 // Create a StackPanel to hold the card content
                                 StackPanel stackPanel = new StackPanel
@@ -753,9 +733,10 @@ namespace OxSystem
                         query = $@"
         SELECT mname, bprice, sprice, exdate, nummedic 
         FROM medicinfo 
-        WHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic > 0 AND {mfilter.Content.ToString()} LIKE '{filterText}%' AND sname like '" + storage.Content.ToString() + "';";
+        WHERE nummedic > 0 AND medictype like '"+mfilter.Content.ToString() +"'  AND sname like '" + storage.Content.ToString() + "';";
 
-                        ds = conn.getData(query); // Fetch the filtered data from the database
+
+                        ds = conn.getData(query); // Fetch the data from the database
 
                         if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                         {
@@ -766,7 +747,6 @@ namespace OxSystem
                                 string itemName = row["mname"].ToString();
 
                                 // Determine color for the number of medics border based on nummedic value
-                                Brush numMedicBackground;
                                 if (nummedic > 10)
                                 {
                                     numMedicBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF39A08B")); // More than 10
@@ -818,37 +798,16 @@ namespace OxSystem
                                     int quantity;
                                     bool isQuantityValid = int.TryParse(quantityTextBox.Text, out quantity);
 
-                                    if (!isQuantityValid || quantity <= 0)
+                                    if (isQuantityValid)
+                                    {
+                                        HandleItemClick(row, quantity);
+                                    }
+                                    else
                                     {
                                         MessageBox.Show("Please enter a valid quantity.");
-                                        return;
                                     }
-
-                                    // Check if the quantity is sufficient
-                                    int currentQuantity = int.Parse(cardQuantities[itemName].Text);
-                                    if (quantity > currentQuantity)
-                                    {
-                                        MessageBox.Show("Not enough quantity available.");
-                                        return;
-                                    }
-
-                                    // Create a new object for DataGrid item
-                                    var dataItem = new MedicItem
-                                    {
-                                        Mname = row["mname"].ToString(),
-                                        Bprice = row["bprice"].ToString(),
-                                        Sprice = row["sprice"].ToString(),
-                                        Quantity = quantity
-                                    };
-
-                                    // Update the DataGrid
-                                    UpdateDataGrid(row, quantity);
-
-                                    // Update the card quantity
-                                    currentQuantity -= quantity;
-                                    cardQuantities[itemName].Text = currentQuantity.ToString();
-                                    UpdateTotalSellPrice();
                                 };
+
 
                                 // Create a StackPanel to hold the card content
                                 StackPanel stackPanel = new StackPanel
@@ -1040,7 +999,7 @@ namespace OxSystem
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             // Retrieve the maximum billId from the database
-            query = "SELECT MAX(billId) AS MaxBillId FROM bills where dbid = '"+Properties.Settings.Default.dbid+"'";
+            query = "SELECT MAX(billId) AS MaxBillId FROM bills";
             ds = conn.getData(query);
             maxid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
 
@@ -1055,13 +1014,13 @@ namespace OxSystem
                 // Update the quantities in the database and on the cards
                 foreach (var medic in medicList)
                 {
-                    
+
                     // Construct query to update the database
-                    query = $"UPDATE medicinfo SET nummedic = nummedic - {medic.Quantity} WHERE dbid = '"+Properties.Settings.Default.dbid+"' and mname = '{medic.Mname}'";
+                    query = $"UPDATE medicinfo SET nummedic = nummedic - {medic.Quantity} WHERE mname = '{medic.Mname}'";
                     conn.setData(query);
                     int medicq = medic.Quantity;
                     // Execute the query
-                    query = "select mid from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and mname = '"+medic.Mname+"'";
+                    query = "select mid from medicinfo where mname = '" + medic.Mname + "'";
                     ds = conn.getData(query);
                     int mid = int.Parse(ds.Tables[0].Rows[0][0].ToString());
                     try
@@ -1072,14 +1031,14 @@ namespace OxSystem
                     {
                         MessageBox.Show($"An error occurred while updating medic: {ex.Message}");
                     }
-                   
-                    query = "insert into medichistory values( '" + medic.Quantity + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "' ,'"+Properties.Settings.Default.dbid+"')";
+
+                    query = "insert into medichistory values( '" + medic.Quantity + "' , '" + bid + "' , '" + currentDate + "' , '" + mid + "' , '"+Properties.Settings.Default.dbid+"')";
                     conn.setData(query);
                     // Update the quantity on the card item
 
 
                 }
-                
+
                 // Convert price to correct currency value
                 decimal priceValue;
                 string priceText = pricet.Content?.ToString() ?? string.Empty;
@@ -1132,11 +1091,11 @@ namespace OxSystem
                 }
 
                 // Prepare SQL query to insert a new bill
-               
+
                 string by_ = Login_.username;
                 Console.WriteLine("the price is : '" + priceValue + "'");
                 query = "INSERT INTO bills (from_, too_, Price, bdate, billId, type, by_, currency , dbid) " +
-                        $"VALUES ('Pharmacy', 'Customer', '{pricet.Content}', '{currentDate}', '{bid}', 'sell', '{by_}', '{pharmacist.currencyies}' ,'"+Properties.Settings.Default.dbid+"')";
+                        $"VALUES ('Pharmacy', 'Customer', '{pricet.Content}', '{currentDate}', '{bid}', 'sell', '{by_}', '{pharmacist.currencyies}', '"+Properties.Settings.Default.dbid+"')";
 
                 // Execute the query
                 try
@@ -1290,7 +1249,7 @@ namespace OxSystem
             {
                 try
                 {
-                    query = $"SELECT * FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and codeid = '{brcode}'";
+                    query = $"SELECT * FROM medicinfo WHERE codeid = '{brcode}'";
                     ds = conn.getData(query);
 
                     if (ds.Tables[0].Rows.Count > 0)
@@ -1302,7 +1261,7 @@ namespace OxSystem
                         // Check if the available quantity is 0
                         if (availableQuantity == 0)
                         {
-                           // MessageBox.Show("This item is out of stock.");
+                            // MessageBox.Show("This item is out of stock.");
                         }
                         else
                         {
@@ -1312,7 +1271,7 @@ namespace OxSystem
                     }
                     else
                     {
-                        
+
                     }
                 }
                 catch (Exception ex)
@@ -1381,7 +1340,7 @@ namespace OxSystem
             query = @"
 SELECT mname, bprice, sprice, exdate, nummedic 
 FROM medicinfo 
-WHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic > 0;";
+WHERE nummedic > 0;";
 
             ds = conn.getData(query); // Fetch the data from the database
 
@@ -1790,14 +1749,14 @@ WHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic > 0;";
         {
             if (bprice_Copy1.Text == "" || bprice_Copy1.Text == "Search Medic Name...")
             {
-                query = "SELECT * FROM medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
+                query = "SELECT * FROM medicinfo";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid1.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
             }
             else
             {
-                query = "SELECT * FROM medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"' and mname LIKE '" + bprice_Copy1.Text + "%'";
+                query = "SELECT * FROM medicinfo WHERE mname LIKE '" + bprice_Copy1.Text + "%'";
                 ds = conn.getData(query);
                 await Task.Delay(500);
                 DataGrid1.ItemsSource = (System.Collections.IEnumerable)ds.Tables[0].DefaultView;
@@ -2061,7 +2020,7 @@ WHERE dbid = '"+Properties.Settings.Default.dbid+"' and nummedic > 0;";
 
         private void back_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ItemsCards_Loaded(sender,e);
+            ItemsCards_Loaded(sender, e);
         }
     }
 

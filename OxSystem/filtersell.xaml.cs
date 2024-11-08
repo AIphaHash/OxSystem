@@ -56,14 +56,14 @@ namespace OxSystem
         public List<string> getmedicfilters()
         {
             List<string> medicfilters = new List<string>();
-             query = "SELECT COLUMN_NAME \r\nFROM INFORMATION_SCHEMA.COLUMNS\r\nWHERE dbid = '"+Properties.Settings.Default.dbid+"' and TABLE_NAME = 'medicinfo';\r\n";
+             query = "SELECT * from medicinfo WHERE dbid = '"+Properties.Settings.Default.dbid+"'";
              ds = conn.getData(query);
 
             if (ds.Tables.Count > 0)
             {
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    medicfilters.Add(row["COLUMN_NAME"].ToString());
+                    medicfilters.Add(row["medictype"].ToString());
                 }
             }
 

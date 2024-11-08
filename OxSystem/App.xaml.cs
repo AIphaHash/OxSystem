@@ -21,6 +21,7 @@ namespace OxSystem
             {
                 Login_ mainWindow = new Login_();
                 mainWindow.Show();
+                
             }
             else
             {

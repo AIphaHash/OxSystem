@@ -365,9 +365,10 @@ namespace OxSystem
             Console.WriteLine(Properties.Settings.Default.ex3);
             Console.WriteLine(Properties.Settings.Default.ex4);
             startgifanimation();
-         
-               
-                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
+
+            DateTime futureDate2 = DateTime.Now.AddDays(int.Parse(Properties.Settings.Default.ex1));
+            string shortDateString2 = futureDate2.ToString("yyyy-MM-dd");
+            query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and exdate <=  '" + shortDateString2 + "'";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)

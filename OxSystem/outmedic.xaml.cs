@@ -329,7 +329,7 @@ namespace OxSystem
             startgifanimation();
 
 
-                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"'";
+                query = "select * from medicinfo where dbid = '"+Properties.Settings.Default.dbid+"' and nummedic = 0";
                 ds = conn.getData(query);
 
                 if (ds != null && ds.Tables.Count > 0)
